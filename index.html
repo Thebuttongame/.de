@@ -1,6750 +1,781 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>n: – Nachrichten</title>
-
-<style>
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f5f7;
-    color:#111;
-}
-
-header{
-    height:72px;
-    padding:0 28px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:rgba(255,255,255,.96);
-    border-bottom:1px solid #ddd;
-    position:sticky;
-    top:0;
-    z-index:100;
-}
-
-.logo{
-    font-size:40px;
-    font-weight:900;
-    letter-spacing:-4px;
-    cursor:pointer;
-}
-
-.header-actions{
-    display:flex;
-    gap:8px;
-}
-
-.header-btn{
-    border:0;
-    background:transparent;
-    font-size:20px;
-    padding:10px;
-    border-radius:10px;
-    cursor:pointer;
-}
-
-.header-btn:hover{
-    background:#eee;
-}
-
-main{
-    max-width:1200px;
-    margin:auto;
-    padding:45px 20px 80px;
-}
-
-.start-page{
-    min-height:70vh;
-}
-
-.start-hero{
-    text-align:center;
-    padding:35px 0 45px;
-}
-
-.start-label{
-    font-size:13px;
-    font-weight:900;
-    color:#777;
-    text-transform:uppercase;
-    letter-spacing:2px;
-}
-
-.start-hero h1{
-    font-size:clamp(45px,8vw,80px);
-    line-height:.9;
-    letter-spacing:-5px;
-    margin:12px 0;
-}
-
-.start-hero p{
-    color:#777;
-    font-size:19px;
-    margin:0;
-}
-
-.area-grid{
-    display:grid;
-    grid-template-columns:repeat(5,minmax(0,1fr));
-    gap:12px;
-}
-
-.area-card{
-    background:white;
-    border:1px solid #ddd;
-    border-radius:18px;
-    padding:18px;
-    min-height:150px;
-    cursor:pointer;
-    transition:.2s;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-}
-
-.area-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 15px 35px rgba(0,0,0,.1);
-}
-
-.area-card h2{
-    font-size:19px;
-    margin:14px 0 7px;
-    letter-spacing:-1px;
-}
-
-.area-card p{
-    color:#777;
-    font-size:14px;
-    line-height:1.45;
-    margin:0;
-}
-
-.area-arrow{
-    margin-top:18px;
-    font-size:18px;
-    font-weight:900;
-}
-
-/* NEWS */
-
-.hero{
-    margin-bottom:25px;
-}
-
-.hero-label{
-    font-size:12px;
-    font-weight:800;
-    color:#777;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
-}
-
-.hero h1{
-    font-size:clamp(42px,7vw,72px);
-    line-height:.95;
-    letter-spacing:-4px;
-    margin:8px 0;
-}
-
-.hero p{
-    color:#777;
-    font-size:18px;
-}
-
-.search{
-    display:none;
-    margin-bottom:20px;
-}
-
-.search input{
-    width:100%;
-    padding:15px;
-    border:1px solid #ddd;
-    border-radius:13px;
-    outline:none;
-    font-size:16px;
-}
-
-.filters{
-    display:flex;
-    gap:8px;
-    overflow-x:auto;
-    padding-bottom:20px;
-}
-
-.filter{
-    flex-shrink:0;
-    padding:10px 16px;
-    border:1px solid #ddd;
-    border-radius:999px;
-    background:white;
-    font-weight:700;
-    cursor:pointer;
-}
-
-.filter.active{
-    background:#111;
-    color:white;
-    border-color:#111;
-}
-
-.news-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
-}
-
-.news-card{
-    background:white;
-    border:1px solid #ddd;
-    border-radius:20px;
-    overflow:hidden;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.news-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 12px 30px rgba(0,0,0,.08);
-}
-
-.news-image{
-    width:100%;
-    height:190px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#ddd,#fafafa);
-    color:#999;
-    font-size:38px;
-    font-weight:900;
-    overflow:hidden;
-}
-
-.news-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-}
-
-.media-error-label{
-    color:#777;
-    font-size:15px;
-    font-weight:700;
-    text-align:center;
-    padding:20px;
-}
-
-.news-card-content{
-    padding:20px;
-}
-
-.news-meta{
-    font-size:13px;
-    color:#777;
-    margin-bottom:8px;
-}
-
-.news-card h2{
-    margin:0 0 10px;
-    font-size:22px;
-}
-
-.news-card p{
-    color:#777;
-    line-height:1.5;
-    margin:0;
-}
-
-.featured{
-    grid-column:1/-1;
-    background:white;
-    border:1px solid #ddd;
-    border-left:5px solid #111;
-    border-radius:20px;
-    overflow:hidden;
-    cursor:pointer;
-}
-
-.featured-image{
-    width:100%;
-    height:280px;
-    background:linear-gradient(135deg,#ddd,#fafafa);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:#999;
-    font-size:45px;
-    font-weight:900;
-    overflow:hidden;
-}
-
-.featured-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.featured-content{
-    padding:25px;
-}
-
-.featured-label{
-    font-size:12px;
-    font-weight:900;
-    margin-bottom:8px;
-}
-
-.featured h2{
-    margin:0;
-    font-size:clamp(28px,4vw,40px);
-}
-
-.status-box{
-    grid-column:1/-1;
-    background:white;
-    border:1px solid #ddd;
-    border-radius:20px;
-    padding:35px;
-    text-align:center;
-    color:#777;
-}
-
-/* ARTICLE */
-
-.article{
-    display:none;
-    max-width:850px;
-    margin:auto;
-}
-
-.back{
-    padding:10px 15px;
-    border:1px solid #ddd;
-    background:white;
-    border-radius:12px;
-    cursor:pointer;
-    font-weight:700;
-    margin-bottom:25px;
-}
-
-.article-meta{
-    color:#777;
-    margin-bottom:12px;
-}
-
-.article h1{
-    font-size:clamp(40px,7vw,70px);
-    line-height:.98;
-    letter-spacing:-4px;
-    margin:0 0 25px;
-}
-
-.article-image{
-    width:100%;
-    min-height:340px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#ddd,#fafafa);
-    border-radius:22px;
-    color:#999;
-    font-size:40px;
-    font-weight:900;
-    margin-bottom:15px;
-    overflow:hidden;
-    cursor:pointer;
-}
-
-.article-image img{
-    width:100%;
-    max-height:550px;
-    object-fit:cover;
-    display:block;
-}
-
-.article-image .media-error-label{
-    font-size:18px;
-}
-
-/* GALERIE */
-
-.article-gallery{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin:0 0 35px;
-}
-
-.gallery-thumb{
-    width:100%;
-    height:180px;
-    object-fit:cover;
-    border-radius:15px;
-    border:1px solid #ddd;
-    cursor:pointer;
-    transition:.2s;
-    display:block;
-}
-
-.gallery-thumb:hover{
-    transform:scale(1.015);
-    box-shadow:0 10px 25px rgba(0,0,0,.12);
-}
-
-/* LIGHTBOX */
-
-.lightbox{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.94);
-    z-index:1000;
-    align-items:center;
-    justify-content:center;
-    padding:30px;
-}
-
-.lightbox.active{
-    display:flex;
-}
-
-.lightbox-image{
-    max-width:90vw;
-    max-height:85vh;
-    object-fit:contain;
-    border-radius:8px;
-}
-
-.lightbox-close{
-    position:absolute;
-    top:20px;
-    right:25px;
-    border:0;
-    background:rgba(255,255,255,.12);
-    color:white;
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    font-size:28px;
-    cursor:pointer;
-}
-
-.lightbox-prev,
-.lightbox-next{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    border:0;
-    background:rgba(255,255,255,.12);
-    color:white;
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    font-size:28px;
-    cursor:pointer;
-}
-
-.lightbox-prev{
-    left:25px;
-}
-
-.lightbox-next{
-    right:25px;
-}
-
-.lightbox-counter{
-    position:absolute;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    color:white;
-    background:rgba(0,0,0,.45);
-    padding:8px 14px;
-    border-radius:999px;
-    font-size:13px;
-}
-
-/* VIDEO */
-
-.article-video{
-    margin:0 0 35px;
-}
-
-.article-video h2{
-    margin:0 0 12px;
-}
-
-.article-video video{
-    width:100%;
-    max-height:550px;
-    display:block;
-    background:#000;
-    border-radius:20px;
-}
-
-/* SPECIAL */
-
-.special-page{
-    display:none;
-    max-width:1000px;
-    margin:auto;
-}
-
-.special-header{
-    margin-bottom:30px;
-}
-
-.special-label{
-    font-size:12px;
-    font-weight:900;
-    color:#777;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
-}
-
-.special-header h1{
-    font-size:clamp(42px,7vw,70px);
-    letter-spacing:-4px;
-    margin:8px 0;
-}
-
-.special-header p{
-    color:#777;
-    font-size:18px;
-}
-
-.special-box{
-    background:white;
-    border:1px solid #ddd;
-    border-radius:22px;
-    padding:30px;
-    margin-bottom:15px;
-}
-
-.special-box h2{
-    margin-top:0;
-}
-
-/* ROUTE */
-
-.route-form{
-    display:grid;
-    grid-template-columns:1fr 1fr auto;
-    gap:10px;
-}
-
-.route-input{
-    width:100%;
-    padding:15px;
-    border:1px solid #ddd;
-    border-radius:13px;
-    font-size:16px;
-    outline:none;
-}
-
-.route-button{
-    border:0;
-    background:#111;
-    color:white;
-    padding:15px 20px;
-    border-radius:13px;
-    font-weight:800;
-    cursor:pointer;
-}
-
-.route-result{
-    display:none;
-    margin-top:20px;
-}
-
-.route-summary{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-bottom:15px;
-}
-
-.route-stat{
-    background:#f5f5f5;
-    border-radius:15px;
-    padding:20px;
-}
-
-.route-stat small{
-    color:#777;
-    display:block;
-    margin-bottom:5px;
-}
-
-.route-stat strong{
-    font-size:24px;
-}
-
-.map-box{
-    height:350px;
-    border-radius:20px;
-    overflow:hidden;
-    background:#eee;
-    border:1px solid #ddd;
-}
-
-.map-box iframe{
-    width:100%;
-    height:100%;
-    border:0;
-}
-
-/* TRAFFIC */
-
-.traffic-controls{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-.road-input{
-    flex:1;
-    min-width:200px;
-    padding:14px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    font-size:16px;
-}
-
-.traffic-button{
-    border:0;
-    background:#111;
-    color:white;
-    padding:14px 18px;
-    border-radius:12px;
-    font-weight:800;
-    cursor:pointer;
-}
-
-.traffic-button.secondary{
-    background:#eee;
-    color:#111;
-}
-
-.traffic-list{
-    display:grid;
-    gap:12px;
-    margin-top:20px;
-}
-
-.traffic-item{
-    background:white;
-    border:1px solid #ddd;
-    border-radius:18px;
-    padding:20px;
-}
-
-.traffic-item.warning{
-    border-left:5px solid #f59e0b;
-}
-
-.traffic-item.closure{
-    border-left:5px solid #dc2626;
-}
-
-.traffic-item.roadwork{
-    border-left:5px solid #2563eb;
-}
-
-.traffic-item h3{
-    margin:0 0 8px;
-}
-
-.traffic-item p{
-    color:#666;
-    line-height:1.5;
-}
-
-.traffic-badge{
-    display:inline-block;
-    font-size:12px;
-    font-weight:900;
-    background:#eee;
-    padding:6px 9px;
-    border-radius:999px;
-    margin-bottom:10px;
-}
-
-.source-note{
-    font-size:12px;
-    color:#888;
-    margin-top:15px;
-}
-
-/* AREA */
-
-.area-location{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:20px;
-    flex-wrap:wrap;
-}
-
-.location-main{
-    display:flex;
-    align-items:center;
-    gap:18px;
-}
-
-.location-icon{
-    width:65px;
-    height:65px;
-    border-radius:18px;
-    background:#111;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:30px;
-}
-
-.location-name{
-    font-size:28px;
-    font-weight:900;
-    letter-spacing:-1px;
-}
-
-.location-sub{
-    color:#777;
-    margin-top:4px;
-}
-
-.location-button{
-    border:0;
-    background:#111;
-    color:white;
-    padding:13px 17px;
-    border-radius:12px;
-    font-weight:800;
-    cursor:pointer;
-}
-
-.location-button.secondary{
-    background:#eee;
-    color:#111;
-}
-
-.area-grid-inner{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
-
-.area-weather{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.weather-main{
-    grid-column:1/-1;
-    background:#f5f5f5;
-    border-radius:18px;
-    padding:25px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
-
-.weather-temp{
-    font-size:60px;
-    font-weight:900;
-    letter-spacing:-5px;
-}
-
-.weather-icon{
-    font-size:58px;
-}
-
-.weather-description{
-    color:#777;
-    font-size:16px;
-}
-
-.weather-stat{
-    background:#f5f5f5;
-    padding:18px;
-    border-radius:15px;
-}
-
-.weather-stat small{
-    display:block;
-    color:#777;
-    margin-bottom:5px;
-}
-
-.weather-stat strong{
-    font-size:20px;
-}
-
-.local-news-list,
-.events-list{
-    display:grid;
-    gap:10px;
-}
-
-.local-news{
-    padding:17px;
-    border:1px solid #ddd;
-    border-radius:15px;
-    cursor:pointer;
-}
-
-.local-news:hover{
-    background:#f7f7f7;
-}
-
-.local-news-meta{
-    font-size:12px;
-    color:#777;
-    margin-bottom:6px;
-}
-
-.local-news-title{
-    font-size:18px;
-    font-weight:800;
-}
-
-.event-card{
-    border:1px solid #ddd;
-    border-radius:16px;
-    padding:17px;
-}
-
-.event-date{
-    font-size:12px;
-    color:#777;
-    font-weight:800;
-    margin-bottom:6px;
-}
-
-.event-title{
-    font-size:18px;
-    font-weight:900;
-}
-
-.event-location{
-    color:#777;
-    margin-top:5px;
-    font-size:14px;
-}
-
-.area-loading{
-    color:#777;
-    text-align:center;
-    padding:20px;
-}
-
-.area-error{
-    color:#dc2626;
-    background:#fff5f5;
-    border:1px solid #fecaca;
-    padding:18px;
-    border-radius:15px;
-}
-
-.area-private-note{
-    font-size:12px;
-    color:#888;
-    margin-top:15px;
-}
-
-/* ADMIN */
-
-.admin{
-    display:none;
-    max-width:900px;
-    margin:auto;
-}
-
-.login{
-    max-width:430px;
-    margin:60px auto;
-    padding:30px;
-    background:white;
-    border:1px solid #ddd;
-    border-radius:22px;
-}
-
-.login input,
-.form-box input,
-.form-box textarea,
-.form-box select{
-    width:100%;
-    padding:13px 14px;
-    margin:7px 0 17px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    background:white;
-    outline:none;
-    font-size:16px;
-}
-
-.form-box textarea{
-    min-height:230px;
-    resize:vertical;
-}
-
-.form-box{
-    padding:25px;
-    background:white;
-    border:1px solid #ddd;
-    border-radius:20px;
-}
-
-.form-box label{
-    display:block;
-    font-weight:700;
-}
-
-/* MEDIA ADMIN */
-
-.image-upload-box{
-    margin:5px 0 20px;
-    padding:18px;
-    border:1px dashed #bbb;
-    border-radius:15px;
-    background:#fafafa;
-}
-
-.image-upload-box input[type="file"]{
-    margin:5px 0 0;
-    padding:0;
-    border:0;
-    background:transparent;
-}
-
-.image-admin-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-top:15px;
-}
-
-.admin-image-item{
-    position:relative;
-    background:white;
-    border:1px solid #ddd;
-    border-radius:14px;
-    overflow:hidden;
-}
-
-.admin-image-item img{
-    width:100%;
-    height:150px;
-    object-fit:cover;
-    display:block;
-}
-
-.admin-image-info{
-    padding:9px;
-    font-size:12px;
-    color:#777;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:8px;
-}
-
-.admin-image-main{
-    font-weight:900;
-    color:#111;
-}
-
-.media-remove{
-    border:0;
-    background:#fee2e2;
-    color:#b91c1c;
-    border-radius:8px;
-    padding:6px 8px;
-    font-size:12px;
-    font-weight:800;
-    cursor:pointer;
-}
-
-.media-remove:hover{
-    background:#fecaca;
-}
-
-.new-image-item{
-    border:2px dashed #aaa;
-}
-
-.new-image-label{
-    padding:9px;
-    font-size:12px;
-    font-weight:800;
-}
-
-.video-upload-box{
-    margin:5px 0 20px;
-    padding:18px;
-    border:1px dashed #bbb;
-    border-radius:15px;
-    background:#fafafa;
-}
-
-.video-upload-box input[type="file"]{
-    margin:5px 0 0;
-    padding:0;
-    border:0;
-    background:transparent;
-}
-
-.video-preview{
-    display:none;
-    width:100%;
-    max-height:300px;
-    margin-top:15px;
-    border-radius:14px;
-    background:#000;
-}
-
-.current-video-box{
-    display:none;
-    margin-top:15px;
-    padding:15px;
-    background:white;
-    border:1px solid #ddd;
-    border-radius:13px;
-}
-
-.current-video-box video{
-    width:100%;
-    max-height:250px;
-    border-radius:10px;
-    background:#000;
-}
-
-.video-actions{
-    display:flex;
-    gap:8px;
-    margin-top:10px;
-}
-
-.media-note{
-    color:#777;
-    font-size:13px;
-    line-height:1.5;
-    margin-top:5px;
-}
-
-.admin-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.admin-list{
-    display:grid;
-    gap:10px;
-    margin-top:15px;
-}
-
-.admin-item{
-    background:white;
-    border:1px solid #ddd;
-    border-radius:15px;
-    padding:17px;
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-}
-
-.admin-item-title{
-    font-weight:800;
-}
-
-.admin-item small{
-    color:#777;
-}
-
-.admin-actions{
-    display:flex;
-    gap:7px;
-    flex-wrap:wrap;
-}
-
-.edit{
-    background:#e0e7ff;
-}
-
-.delete{
-    background:#fee2e2;
-    color:#b91c1c;
-}
-
-.error{
-    color:#dc2626;
-    margin-top:12px;
-}
-
-.success{
-    color:#15803d;
-    margin-top:12px;
-}
-
-.primary,
-.secondary,
-.small{
-    border:0;
-    border-radius:10px;
-    padding:11px 16px;
-    font-weight:800;
-    cursor:pointer;
-}
-
-.primary{
-    background:#111;
-    color:white;
-}
-
-.secondary{
-    background:#eee;
-}
-
-.primary:disabled{
-    opacity:.6;
-    cursor:wait;
-}
-
-footer{
-    text-align:center;
-    padding:30px;
-    color:#777;
-    border-top:1px solid #ddd;
-}
-
-@media(max-width:850px){
-
-    .news-grid{
-        grid-template-columns:repeat(2,1fr);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MEIN SENDER</title>
+  <meta name="description" content="MEIN SENDER – Entertainment, Shows und Live.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .area-grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
+    :root {
+      --bg: #f6f7fb;
+      --text: #171820;
+      --muted: #737784;
+      --card: #ffffff;
+      --dark: #171820;
+      --accent: #ffcf32;
+      --border: #e8e9ee;
     }
 
-    .route-form{
-        grid-template-columns:1fr;
+    html {
+      scroll-behavior: smooth;
     }
 
-    .area-grid-inner{
-        grid-template-columns:1fr;
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
     }
 
-    .article-gallery{
-        grid-template-columns:repeat(2,1fr);
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .image-admin-grid{
-        grid-template-columns:repeat(2,1fr);
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
     }
 
-}
-
-@media(max-width:600px){
-
-    .news-grid{
-        grid-template-columns:1fr;
+    .nav {
+      max-width: 1250px;
+      margin: auto;
+      min-height: 76px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
     }
 
-    .featured{
-        grid-column:auto;
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: -1.2px;
+      white-space: nowrap;
     }
 
-    .admin-item{
-        flex-direction:column;
+    .logo span {
+      display: inline-block;
+      background: var(--dark);
+      color: white;
+      padding: 4px 9px;
+      border-radius: 9px;
+      margin-left: 4px;
+      font-size: 16px;
+      letter-spacing: 0;
     }
 
-    .route-summary{
-        grid-template-columns:1fr;
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-size: 15px;
+      font-weight: 700;
     }
 
-    .weather-main{
-        align-items:flex-start;
+    nav a {
+      transition: opacity .2s, transform .2s;
     }
 
-    .weather-temp{
-        font-size:48px;
+    nav a:hover {
+      opacity: .55;
+      transform: translateY(-1px);
     }
 
-    .article-gallery{
-        grid-template-columns:1fr 1fr;
+    .live-button {
+      background: #ef3d4f;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 800;
     }
 
-    .gallery-thumb{
-        height:130px;
+    /* HERO */
+
+    .hero {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 45px 24px 25px;
     }
 
-    .image-admin-grid{
-        grid-template-columns:1fr 1fr;
+    .hero-box {
+      min-height: 460px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255,207,50,.95), transparent 28%),
+        radial-gradient(circle at 20% 90%, rgba(111,82,255,.55), transparent 35%),
+        linear-gradient(135deg, #20212a, #373947);
+      color: white;
+      padding: 55px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+      position: relative;
     }
 
-    .lightbox{
-        padding:15px;
+    .hero-label {
+      display: inline-flex;
+      width: fit-content;
+      background: var(--accent);
+      color: #171820;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 16px;
     }
 
-    .lightbox-prev{
-        left:10px;
+    .hero h1 {
+      max-width: 720px;
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: .95;
+      letter-spacing: -4px;
+      margin-bottom: 20px;
     }
 
-    .lightbox-next{
-        right:10px;
+    .hero p {
+      max-width: 600px;
+      color: rgba(255,255,255,.82);
+      font-size: 18px;
+      margin-bottom: 27px;
     }
 
-}
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-</style>
+    .button {
+      border: 0;
+      padding: 13px 20px;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 15px;
+      background: white;
+      color: var(--dark);
+    }
+
+    .button.dark {
+      background: var(--dark);
+      color: white;
+    }
+
+    /* CONTENT */
+
+    main {
+      max-width: 1250px;
+      margin: auto;
+      padding: 30px 24px 80px;
+    }
+
+    section {
+      margin-top: 45px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .section-heading h2 {
+      font-size: 32px;
+      letter-spacing: -1.5px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* SHOWS */
+
+    .show-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .show-card {
+      min-height: 230px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .show-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(20,20,30,.09);
+    }
+
+    .show-card:nth-child(1) {
+      background: linear-gradient(135deg, #ffcf32, #ffea8c);
+    }
+
+    .show-card:nth-child(2) {
+      background: linear-gradient(135deg, #d9d1ff, #f4f1ff);
+    }
+
+    .show-card:nth-child(3) {
+      background: linear-gradient(135deg, #bcefe4, #effffb);
+    }
+
+    .show-number {
+      position: absolute;
+      right: 20px;
+      top: 12px;
+      font-size: 70px;
+      font-weight: 900;
+      opacity: .12;
+    }
+
+    .show-card h3 {
+      font-size: 28px;
+      letter-spacing: -1px;
+      position: relative;
+    }
+
+    .show-card p {
+      margin-top: 5px;
+      color: rgba(20,20,25,.65);
+      position: relative;
+    }
+
+    /* STREAM */
+
+    .stream-section {
+      background: var(--dark);
+      color: white;
+      border-radius: 28px;
+      padding: 35px;
+      margin-top: 55px;
+    }
+
+    .stream-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .stream-heading h2 {
+      font-size: 34px;
+      letter-spacing: -1.5px;
+    }
+
+    .stream-heading p {
+      color: #aaaeba;
+      margin-top: 4px;
+    }
+
+    .stream-live {
+      background: #ef3d4f;
+      border-radius: 999px;
+      padding: 8px 13px;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .video-card {
+      background: #252631;
+      border-radius: 18px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+
+    .video-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .video-preview {
+      aspect-ratio: 16 / 9;
+      background: #343641;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-preview::after {
+      content: "▶";
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: white;
+      color: #171820;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      padding-left: 3px;
+    }
+
+    .video-info {
+      padding: 16px;
+    }
+
+    .video-info h3 {
+      font-size: 17px;
+    }
+
+    .video-info p {
+      color: #a8abb5;
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    /* MEDIATHEK */
+
+    .library {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .library-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 20px;
+      min-height: 130px;
+    }
+
+    .library-card strong {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+
+    .library-card span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: white;
+      padding: 35px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1250px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-logo {
+      color: var(--text);
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    /* PLAYER */
+
+    .player-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.82);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .player-overlay.active {
+      display: flex;
+    }
+
+    .player {
+      width: min(900px, 100%);
+      background: #171820;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .player video {
+      width: 100%;
+      display: block;
+      background: black;
+      max-height: 70vh;
+    }
+
+    .close-player {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(0,0,0,.7);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .player-title {
+      color: white;
+      padding: 15px 18px;
+      font-weight: 800;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 850px) {
+      nav {
+        display: none;
+      }
+
+      .show-grid,
+      .video-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .library {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-box {
+        padding: 35px;
+        min-height: 400px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        padding-top: 20px;
+      }
+
+      .hero-box {
+        border-radius: 22px;
+        padding: 25px;
+        min-height: 430px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+
+      .show-grid,
+      .video-grid,
+      .library {
+        grid-template-columns: 1fr;
+      }
+
+      .stream-section {
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .stream-heading {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-
-<div
-class="logo"
-onclick="showStart()">
-n:
-</div>
-
-<div class="header-actions">
-
-<button
-class="header-btn"
-onclick="toggleSearch()">
-Suche
-</button>
-
-<button
-class="header-btn"
-onclick="openAdmin()">
-Redaktion
-</button>
-
-</div>
-
-</header>
-
-<main>
-
-<!-- START -->
-
-<section
-id="startPage"
-class="start-page">
-
-<div class="start-hero">
-
-<div class="start-label">
-n: Plattform
-</div>
-
-<h1>
-Was möchtest du öffnen?
-</h1>
-
-<p>
-Nachrichten, Verkehr und regionale Informationen.
-</p>
-
-</div>
-
-<div class="area-grid">
-
-<div
-class="area-card"
-onclick="openNews()">
-
-<div>
-
-<h2>
-n: Nachrichten
-</h2>
-
-<p>
-Aktuelle Nachrichten aus Deutschland,
-der Welt, der Region, Sport und Digital.
-</p>
-
-</div>
-
-<div class="area-arrow">
-→
-</div>
-
-</div>
-
-
-<div
-class="area-card"
-onclick="openTraffic()">
-
-<div>
-
-<h2>
-Verkehr &amp; Route
-</h2>
-
-<p>
-Verkehrslage, Störungen und Routen
-übersichtlich auf einer Seite.
-</p>
-
-</div>
-
-<div class="area-arrow">
-→
-</div>
-
-</div>
-
-
-<a
-class="area-card"
-href="sport.html"
-style="text-decoration:none;color:inherit;">
-
-<div>
-
-<h2>
-Sport Live
-</h2>
-
-<p>
-Live-Ergebnisse, Spiele und aktuelle Sportdaten.
-</p>
-
-</div>
-
-<div class="area-arrow">
-→
-</div>
-
-</a>
-
-
-<a
-class="area-card"
-href="sendeplan.html"
-style="text-decoration:none;color:inherit;">
-
-<div>
-
-<h2>
-TV-Sendeplan
-</h2>
-
-<p>
-Aktuelles TV-Programm und Sendungen auf einen Blick.
-</p>
-
-</div>
-
-<div class="area-arrow">
-→
-</div>
-
-</a>
-
-
-<div
-class="area-card"
-onclick="openArea()">
-
-<div>
-
-<h2>
-n: Bereich
-</h2>
-
-<p>
-Dein Standort, Wetter, Veranstaltungen
-und Nachrichten direkt aus deiner Region.
-</p>
-
-</div>
-
-<div class="area-arrow">
-→
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- NEWS -->
-
-<section
-id="home"
-style="display:none;">
-
-<div class="hero">
-
-<div class="hero-label">
-n: Nachrichten
-</div>
-
-<h1>
-Was gerade passiert.
-</h1>
-
-<p>
-Aktuelle Nachrichten. Einfach und direkt.
-</p>
-
-</div>
-
-<div
-class="search"
-id="searchBox">
-
-<input
-id="searchInput"
-type="search"
-placeholder="Nachrichten durchsuchen..."
-oninput="searchNews">
-
-</div>
-
-<div class="filters">
-
-<button
-class="filter active"
-onclick="filterNews('Alle',this)">
-Alle
-</button>
-
-<button
-class="filter"
-onclick="filterNews('Deutschland',this)">
-Deutschland
-</button>
-
-<button
-class="filter"
-onclick="filterNews('Welt',this)">
-Welt
-</button>
-
-<button
-class="filter"
-onclick="filterNews('Region',this)">
-Region
-</button>
-
-<button
-class="filter"
-onclick="filterNews('Sport',this)">
-Sport
-</button>
-
-<button
-class="filter"
-onclick="filterNews('Digital',this)">
-Digital
-</button>
-
-</div>
-
-<div
-class="news-grid"
-id="newsGrid">
-
-<div class="status-box">
-Nachrichten werden geladen …
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ARTICLE -->
-
-<section
-class="article"
-id="article">
-
-<button
-class="back"
-onclick="openNews()">
-← Zurück
-</button>
-
-<div
-class="article-meta"
-id="articleMeta">
-</div>
-
-<h1
-id="articleTitle">
-</h1>
-
-<div
-class="article-image"
-id="articleImage">
-n:
-</div>
-
-<div
-id="articleGallery">
-</div>
-
-<div
-id="articleVideo">
-</div>
-
-<div
-class="article-text"
-id="articleText">
-</div>
-
-<div
-id="articleConnections"
-style="margin-top:35px;">
-</div>
-
-</section>
-
-
-<!-- VERKEHR -->
-
-<section
-id="traffic"
-class="special-page">
-
-<button
-class="back"
-onclick="showStart()">
-← Startseite
-</button>
-
-<div class="special-header">
-
-<div class="special-label">
-n: Verkehr
-</div>
-
-<h1>
-Verkehr &amp; Route
-</h1>
-
-<p>
-Route berechnen und aktuelle Verkehrsmeldungen abrufen.
-</p>
-
-</div>
-
-<div class="special-box">
-
-<h2>
-Route berechnen
-</h2>
-
-<p>
-Gib Start und Ziel ein.
-</p>
-
-<div class="route-form">
-
-<input
-id="routeStart"
-class="route-input"
-placeholder="Start, z. B. Gelnhausen">
-
-<input
-id="routeDestination"
-class="route-input"
-placeholder="Ziel, z. B. Frankfurt">
-
-<button
-class="route-button"
-onclick="calculateRoute()">
-Route berechnen
-</button>
-
-</div>
-
-<div
-id="routeStatus"
-style="margin-top:15px;color:#777;">
-</div>
-
-<div
-id="routeResult"
-class="route-result">
-
-<div class="route-summary">
-
-<div class="route-stat">
-
-<small>
-Entfernung
-</small>
-
-<strong id="routeDistance">
-–
-</strong>
-
-</div>
-
-<div class="route-stat">
-
-<small>
-Fahrzeit
-</small>
-
-<strong id="routeDuration">
-–
-</strong>
-
-</div>
-
-<div class="route-stat">
-
-<small>
-Route
-</small>
-
-<strong>
-Auto
-</strong>
-
-</div>
-
-</div>
-
-<div class="map-box">
-
-<iframe
-id="routeMap"
-loading="lazy">
-</iframe>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="special-box">
-
-<h2>
-Verkehrsmeldungen
-</h2>
-
-<p>
-Aktuelle Meldungen für eine Autobahn anzeigen.
-</p>
-
-<div class="traffic-controls">
-
-<input
-id="roadInput"
-class="road-input"
-placeholder="Autobahn, z. B. A3"
-value="A3">
-
-<button
-class="traffic-button"
-onclick="loadTraffic()">
-Verkehr laden
-</button>
-
-<button
-class="traffic-button secondary"
-onclick="loadTraffic()">
-Aktualisieren
-</button>
-
-</div>
-
-<div
-id="trafficStatus"
-style="margin-top:15px;color:#777;">
-</div>
-
-<div
-id="trafficList"
-class="traffic-list">
-</div>
-
-<div class="source-note">
-Datenquelle: Die Autobahn GmbH des Bundes.
-</div>
-
-</div>
-
-</section>
-
-
-<!-- BEREICH -->
-
-<section
-id="area"
-class="special-page">
-
-<button
-class="back"
-onclick="showStart()">
-← Startseite
-</button>
-
-<div class="special-header">
-
-<div class="special-label">
-n: Persönlich
-</div>
-
-<h1>
-Mein Bereich.
-</h1>
-
-<p>
-Alles aus deiner Umgebung – an einem Ort.
-</p>
-
-</div>
-
-
-<div class="special-box">
-
-<div class="area-location">
-
-<div class="location-main">
-
-<div class="location-icon">
-</div>
-
-<div>
-
-<div
-id="areaLocationName"
-class="location-name">
-Standort wird gesucht …
-</div>
-
-<div
-id="areaLocationSub"
-class="location-sub">
-Bitte Standort freigeben.
-</div>
-
-</div>
-
-</div>
-
-<div>
-
-<button
-class="location-button"
-onclick="requestLocation()">
-Standort aktualisieren
-</button>
-
-</div>
-
-</div>
-
-<div class="area-private-note">
-Dein Standort wird nur in diesem Browser verwendet und nicht
-in deiner n:-Datenbank gespeichert.
-</div>
-
-</div>
-
-
-<div class="area-grid-inner">
-
-<div class="special-box">
-
-<h2>
-Wetter
-</h2>
-
-<div id="areaWeather">
-
-<div class="area-loading">
-Wetter wird geladen …
-</div>
-
-</div>
-
-</div>
-
-
-<div class="special-box">
-
-<h2>
-Nachrichten aus deiner Region
-</h2>
-
-<div
-id="localNewsList"
-class="local-news-list">
-
-<div class="area-loading">
-Regionale Nachrichten werden geladen …
-</div>
-
-</div>
-
-</div>
-
-
-<div class="special-box">
-
-<h2>
-Veranstaltungen in deiner Nähe
-</h2>
-
-<div
-id="eventsList"
-class="events-list">
-
-<div class="area-loading">
-Veranstaltungen werden geladen …
-</div>
-
-</div>
-
-<div class="source-note">
-Veranstaltungen werden über öffentliche OpenStreetMap-Daten gesucht.
-</div>
-
-</div>
-
-
-<div class="special-box">
-
-<h2>
-Lokale Informationen
-</h2>
-
-<div
-id="localInfo">
-
-<div class="area-loading">
-Lokale Informationen werden geladen …
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ADMIN -->
-
-<section
-class="admin"
-id="admin">
-
-<div
-class="login"
-id="loginBox">
-
-<h2>
-n: Redaktion
-</h2>
-
-<p>
-Anmeldung nur für die Redaktion.
-</p>
-
-<input
-id="email"
-type="email"
-placeholder="E-Mail">
-
-<input
-id="password"
-type="password"
-placeholder="Passwort">
-
-<button
-class="primary"
-onclick="login()">
-Einloggen
-</button>
-
-<div
-class="error"
-id="loginError">
-</div>
-
-</div>
-
-
-<div
-id="dashboard"
-style="display:none">
-
-<div class="admin-top">
-
-<h1>
-Redaktion
-</h1>
-
-<button
-class="secondary"
-onclick="logout()">
-Ausloggen
-</button>
-
-</div>
-
-
-<div class="form-box">
-
-<h2 id="formTitle">
-Neuer Artikel
-</h2>
-
-<label>
-Überschrift
-</label>
-
-<input
-id="title"
-placeholder="Überschrift">
-
-
-<label>
-Kurzbeschreibung
-</label>
-
-<input
-id="description"
-placeholder="Kurze Zusammenfassung">
-
-
-<label>
-Kategorie
-</label>
-
-<select id="category">
-
-<option>Deutschland</option>
-<option>Welt</option>
-<option>Region</option>
-<option>Sport</option>
-<option>Digital</option>
-
-</select>
-
-
-<label>
-Region
-</label>
-
-<input
-id="region"
-placeholder="z. B. Hessen">
-
-
-<label>
-Artikel
-</label>
-
-<textarea
-id="content"
-placeholder="Artikel schreiben...">
-</textarea>
-
-
-<!-- BILDER -->
-
-<label>
-Artikelbilder
-</label>
-
-<div class="image-upload-box">
-
-<input
-id="imageFile"
-type="file"
-accept="image/*"
-multiple
-onchange="handleImageSelection(event)">
-
-<div class="media-note">
-
-Du kannst ein oder mehrere Bilder auswählen.
-Beim Bearbeiten bleiben vorhandene Bilder erhalten.
-Neue Bilder werden zusätzlich hinzugefügt.
-
-</div>
-
-<div
-id="imageAdminGrid"
-class="image-admin-grid">
-</div>
-
-</div>
-
-
-<!-- VIDEO -->
-
-<label>
-Artikelvideo
-</label>
-
-<div class="video-upload-box">
-
-<input
-id="videoFile"
-type="file"
-accept="video/*"
-onchange="previewVideo(event)">
-
-<div class="media-note">
-
-Optional kannst du ein Video zum Artikel hinzufügen.
-Ein neues Video ersetzt das bisherige Video.
-
-</div>
-
-<video
-id="videoPreview"
-class="video-preview"
-controls>
-</video>
-
-
-<div
-id="currentVideoBox"
-class="current-video-box">
-
-<div style="
-font-weight:800;
-margin-bottom:10px;">
-Aktuelles Video
-</div>
-
-<video
-id="currentVideoPreview"
-controls>
-</video>
-
-<div class="video-actions">
-
-<button
-class="media-remove"
-onclick="removeCurrentVideo()">
-Video entfernen
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<button
-class="primary"
-id="saveButton"
-onclick="saveArticle()">
-Veröffentlichen
-</button>
-
-<button
-class="secondary"
-onclick="clearForm()">
-Abbrechen
-</button>
-
-<div
-id="formMessage">
-</div>
-
-</div>
-
-
-<h2>
-Deine Artikel
-</h2>
-
-<div
-class="admin-list"
-id="adminList">
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-
-<footer>
-© 2026 n: · Nachrichten
-</footer>
-
-
-<!-- LIGHTBOX -->
-
-<div
-id="lightbox"
-class="lightbox"
-onclick="handleLightboxBackground(event)">
-
-<button
-class="lightbox-close"
-onclick="closeLightbox(event)">
-×
-</button>
-
-<button
-id="lightboxPrev"
-class="lightbox-prev"
-onclick="previousLightboxImage(event)">
-←
-</button>
-
-<img
-id="lightboxImage"
-class="lightbox-image"
-alt="">
-
-<button
-id="lightboxNext"
-class="lightbox-next"
-onclick="nextLightboxImage(event)">
-→
-</button>
-
-<div
-id="lightboxCounter"
-class="lightbox-counter">
-</div>
-
-</div>
-
-
-<script>
-
-/* =====================================================
-SUPABASE
-===================================================== */
-
-const SUPABASE_URL =
-"https://eqzmsuncndfsiedyfifb.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_eXY1gg_tIr-cRC2kdt0jbQ_QPfbEmkF";
-
-const STORAGE_BUCKET =
-"news-images";
-
-
-/* =====================================================
-APP STATE
-===================================================== */
-
-let articles=[];
-
-let activeFilter="Alle";
-
-let editingId=null;
-
-let editingImageUrl=null;
-
-let editingImageUrls=[];
-
-let editingVideoUrl=null;
-
-let selectedImageFiles=[];
-
-let selectedVideoFile=null;
-
-let removedExistingImages=[];
-
-let articleConnections=
-JSON.parse(
-localStorage.getItem("n_article_connections")||"{}"
-);
-
-
-/* =====================================================
-LIGHTBOX
-===================================================== */
-
-let lightboxImages=[];
-
-let lightboxIndex=0;
-
-
-/* =====================================================
-LOCATION
-===================================================== */
-
-let userLocation=null;
-
-let userPlace=null;
-
-
-/* =====================================================
-SEITEN
-===================================================== */
-
-function hideAllPages(){
-
-document.getElementById("startPage").style.display="none";
-
-document.getElementById("home").style.display="none";
-
-document.getElementById("article").style.display="none";
-
-document.getElementById("traffic").style.display="none";
-
-document.getElementById("area").style.display="none";
-
-document.getElementById("admin").style.display="none";
-
-}
-
-
-function showStart(){
-
-hideAllPages();
-
-document.getElementById("startPage").style.display="block";
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-function openNews(){
-
-hideAllPages();
-
-document.getElementById("home").style.display="block";
-
-loadNews();
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-function openTraffic(){
-
-hideAllPages();
-
-document.getElementById("traffic").style.display="block";
-
-loadTraffic();
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-function openArea(){
-
-hideAllPages();
-
-document.getElementById("area").style.display="block";
-
-loadPersonalArea();
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-/* =====================================================
-SUPABASE REQUEST
-===================================================== */
-
-async function supabaseRequest(endpoint,options={}){
-
-const token=
-sessionStorage.getItem("nAccessToken");
-
-const headers={
-
-"apikey":SUPABASE_KEY,
-
-"Content-Type":"application/json",
-
-...(options.headers||{})
-
-};
-
-if(token){
-
-headers["Authorization"]=
-`Bearer ${token}`;
-
-}
-else if(!headers["Authorization"]){
-
-headers["Authorization"]=
-`Bearer ${SUPABASE_KEY}`;
-
-}
-
-const response=
-await fetch(
-`${SUPABASE_URL}/rest/v1/${endpoint}`,
-{
-...options,
-headers
-}
-);
-
-if(!response.ok){
-
-const text=
-await response.text();
-
-if(
-text.includes("JWT expired")||
-response.status===401
-){
-
-sessionStorage.removeItem("nAccessToken");
-
-sessionStorage.removeItem("nUser");
-
-}
-
-throw new Error(
-text||"Supabase Fehler"
-);
-
-}
-
-const text=
-await response.text();
-
-if(!text){
-return null;
-}
-
-try{
-
-return JSON.parse(text);
-
-}
-catch{
-
-return null;
-
-}
-
-}
-
-
-/* =====================================================
-HTML ESCAPE
-===================================================== */
-
-function escapeHTML(value){
-
-return String(value??"")
-
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-/* =====================================================
-BILDER ERMITTELN
-===================================================== */
-
-function normalizeMediaUrl(value){
-
-if(!value){
-return null;
-}
-
-let url=String(value).trim();
-
-if(!url){
-return null;
-}
-
-/* Bereits vollständige URL */
-if(/^https?:\/\//i.test(url)){
-return url;
-}
-
-/* Supabase Storage-Pfad robust in eine öffentliche URL umwandeln */
-url=url.replace(/^\/+/,"");
-
-if(url.startsWith("storage/v1/object/public/")){
-return `${SUPABASE_URL}/${url}`;
-}
-
-if(url.startsWith(`${STORAGE_BUCKET}/`)){
-url=url.substring(STORAGE_BUCKET.length+1);
-}
-
-/* Falls nur der Dateiname bzw. ein Storage-Pfad gespeichert wurde */
-const encodedPath=url
-.split("/")
-.map(part=>encodeURIComponent(part))
-.join("/");
-
-return `${SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${encodedPath}`;
-
-}
-
-
-function getArticleImages(article){
-
-const images=[];
-
-/*
-Das einzelne Hauptbild hat Priorität.
-Damit wird ein eventuell veraltetes image_urls-Feld nicht mehr
-vor das aktuelle image_url gesetzt.
-*/
-const mainImage=normalizeMediaUrl(article?.image_url);
-
-if(mainImage){
-images.push(mainImage);
-}
-
-let storedImages=article?.image_urls;
-
-if(Array.isArray(storedImages)){
-storedImages=storedImages;
-}
-else if(typeof storedImages==="string"){
-
-const raw=storedImages.trim();
-
-if(raw){
-try{
-const parsed=JSON.parse(raw);
-storedImages=Array.isArray(parsed)
-?parsed
-:[raw];
-}
-catch{
-storedImages=[raw];
-}
-}
-else{
-storedImages=[];
-}
-
-}
-else{
-storedImages=[];
-}
-
-storedImages
-.filter(Boolean)
-.forEach(value=>{
-
-const url=normalizeMediaUrl(value);
-
-if(url && !images.includes(url)){
-images.push(url);
-}
-
-});
-
-return images;
-
-}
-
-
-/* =====================================================
-NEWS BILD
-===================================================== */
-
-function createNewsImage(article){
-
-const images=getArticleImages(article);
-const wrapper=document.createElement("div");
-wrapper.className="news-image";
-
-if(!images.length){
-wrapper.textContent="n:";
-return wrapper;
-}
-
-const image=document.createElement("img");
-image.alt=article?.title||"Artikelbild";
-image.loading="lazy";
-
-let index=0;
-
-const tryNextImage=()=>{
-
-console.error("n:-Bild konnte nicht geladen werden:",images[index]);
-index++;
-
-if(index<images.length){
-image.src=images[index];
-return;
-}
-
-wrapper.innerHTML="";
-const error=document.createElement("span");
-error.className="media-error-label";
-error.textContent="Bild nicht verfügbar";
-wrapper.appendChild(error);
-
-};
-
-image.onerror=tryNextImage;
-image.onload=()=>{
-wrapper.classList.add("image-loaded");
-};
-
-image.src=images[0];
-wrapper.appendChild(image);
-
-return wrapper;
-
-}
-
-
-function getNewsImageHTML(article){
-
-const wrapper=createNewsImage(article);
-return wrapper.outerHTML;
-
-}
-
-/* =====================================================
-NEWS LADEN
-===================================================== */
-
-async function loadNews(){
-
-const grid=
-document.getElementById("newsGrid");
-
-try{
-
-grid.innerHTML=`
-
-<div class="status-box">
-Nachrichten werden geladen …
-</div>
-
-`;
-
-const result=
-await supabaseRequest(
-"news?select=*&order=created_at.desc"
-);
-
-articles=
-Array.isArray(result)
-?result
-:[];
-
-renderNews(articles);
-
-renderAdmin();
-
-}
-catch(error){
-
-console.error(error);
-
-grid.innerHTML=`
-
-<div class="status-box">
-
-<strong>
-Nachrichten konnten nicht geladen werden.
-</strong>
-
-<br><br>
-
-${escapeHTML(error.message)}
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =====================================================
-NEWS RENDERN
-===================================================== */
-
-function renderNews(list){
-
-const grid=
-document.getElementById("newsGrid");
-
-grid.innerHTML="";
-
-if(!list.length){
-
-grid.innerHTML=`
-
-<div class="status-box">
-Noch keine Nachrichten vorhanden.
-</div>
-
-`;
-
-return;
-
-}
-
-if(
-activeFilter==="Alle" &&
-list.length>0
-){
-
-const first=list[0];
-
-const featured=
-document.createElement("div");
-
-featured.className="featured";
-
-featured.onclick=
-()=>openArticle(first.id);
-
-featured.innerHTML=`
-
-<div class="featured-image">
-${getNewsImageHTML(first)}
-</div>
-
-<div class="featured-content">
-
-<div class="featured-label">
-AKTUELL
-</div>
-
-<h2>
-${escapeHTML(first.title||"")}
-</h2>
-
-</div>
-
-`;
-
-grid.appendChild(featured);
-
-}
-
-list.forEach((item,index)=>{
-
-if(
-activeFilter==="Alle" &&
-index===0
-){
-
-return;
-
-}
-
-const card=
-document.createElement("article");
-
-card.className="news-card";
-
-card.onclick=
-()=>openArticle(item.id);
-
-card.innerHTML=`
-
-<div class="news-image">
-${getNewsImageHTML(item)}
-</div>
-
-<div class="news-card-content">
-
-<div class="news-meta">
-
-${escapeHTML(item.category||"")}
-·
-${escapeHTML(item.region||"")}
-
-</div>
-
-<h2>
-${escapeHTML(item.title||"")}
-</h2>
-
-<p>
-${escapeHTML(item.description||"")}
-</p>
-
-</div>
-
-`;
-
-grid.appendChild(card);
-
-});
-
-}
-
-
-/* =====================================================
-FILTER
-===================================================== */
-
-function filterNews(category,button){
-
-activeFilter=category;
-
-document
-.querySelectorAll(".filter")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-button.classList.add("active");
-
-if(category==="Alle"){
-
-renderNews(articles);
-
-return;
-
-}
-
-const filtered=
-articles.filter(
-item=>
-item.category===category||
-item.region===category
-);
-
-renderNews(filtered);
-
-}
-
-
-/* =====================================================
-SUCHE
-===================================================== */
-
-function toggleSearch(){
-
-if(
-document.getElementById("home").style.display!=="block"
-){
-
-openNews();
-
-}
-
-const box=
-document.getElementById("searchBox");
-
-if(box.style.display==="block"){
-
-box.style.display="none";
-
-}
-else{
-
-box.style.display="block";
-
-document
-.getElementById("searchInput")
-.focus();
-
-}
-
-}
-
-
-function searchNews(){
-
-const value=
-document
-.getElementById("searchInput")
-.value
-.toLowerCase()
-.trim();
-
-if(!value){
-
-renderNews(articles);
-
-return;
-
-}
-
-const results=
-articles.filter(
-item=>
-
-String(item.title||"")
-.toLowerCase()
-.includes(value)
-
-||
-
-String(item.description||"")
-.toLowerCase()
-.includes(value)
-
-||
-
-String(item.content||"")
-.toLowerCase()
-.includes(value)
-
-||
-
-String(item.category||"")
-.toLowerCase()
-.includes(value)
-
-||
-
-String(item.region||"")
-.toLowerCase()
-.includes(value)
-
-);
-
-renderNews(results);
-
-}
-
-
-/* =====================================================
-ARTIKEL ÖFFNEN
-===================================================== */
-
-function openArticle(id){
-
-const article=
-articles.find(
-x=>String(x.id)===String(id)
-);
-
-if(!article){
-
-return;
-
-}
-
-hideAllPages();
-
-document
-.getElementById("article")
-.style.display="block";
-
-document
-.getElementById("articleMeta")
-.textContent=
-`${article.category||""} · ${article.region||""}`;
-
-document
-.getElementById("articleTitle")
-.textContent=
-article.title||"";
-
-const images=
-getArticleImages(article);
-
-const imageBox=
-document.getElementById("articleImage");
-
-if(images.length){
-
-imageBox.innerHTML="";
-
-const image=document.createElement("img");
-image.alt=article.title||"Artikelbild";
-
-let imageIndex=0;
-
-image.onerror=()=>{
-
-console.error("n:-Artikelbild konnte nicht geladen werden:",images[imageIndex]);
-imageIndex++;
-
-if(imageIndex<images.length){
-image.src=images[imageIndex];
-return;
-}
-
-imageBox.innerHTML="";
-const error=document.createElement("span");
-error.className="media-error-label";
-error.textContent="Bild nicht verfügbar";
-imageBox.appendChild(error);
-
-};
-
-image.src=images[0];
-imageBox.appendChild(image);
-
-imageBox.onclick=
-()=>openLightbox(images,imageIndex);
-
-}
-else{
-
-imageBox.innerHTML="n:";
-imageBox.onclick=null;
-
-}
-
-renderArticleGallery(images);
-
-renderArticleVideo(article.video_url);
-
-document
-.getElementById("articleText")
-.innerHTML=
-escapeHTML(article.content||"")
-.replace(/\n/g,"<br><br>");
-
-renderArticleConnections(id);
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-/* =====================================================
-GALERIE
-===================================================== */
-
-function renderArticleGallery(images){
-
-const box=
-document.getElementById("articleGallery");
-
-box.innerHTML="";
-
-if(images.length<=1){
-
-return;
-
-}
-
-const gallery=
-document.createElement("div");
-
-gallery.className=
-"article-gallery";
-
-images.forEach(
-(url,index)=>{
-
-const image=
-document.createElement("img");
-
-image.className=
-"gallery-thumb";
-
-image.src=normalizeMediaUrl(url)||url;
-
-image.alt=
-`Artikelbild ${index+1}`;
-
-image.loading="lazy";
-
-image.onclick=
-()=>openLightbox(images,index);
-
-image.onerror=
-()=>image.remove();
-
-gallery.appendChild(image);
-
-}
-);
-
-box.appendChild(gallery);
-
-}
-
-
-/* =====================================================
-VIDEO
-===================================================== */
-
-function renderArticleVideo(videoUrl){
-
-const box=
-document.getElementById("articleVideo");
-
-box.innerHTML="";
-
-if(!videoUrl){
-
-return;
-
-}
-
-const wrapper=
-document.createElement("div");
-
-wrapper.className="article-video";
-
-wrapper.innerHTML=`
-
-<h2>
-Video
-</h2>
-
-<video
-controls
-playsinline
-preload="metadata"
-src="${escapeHTML(videoUrl)}">
-
-Dein Browser unterstützt die Videowiedergabe nicht.
-
-</video>
-
-`;
-
-box.appendChild(wrapper);
-
-}
-
-
-/* =====================================================
-LIGHTBOX
-===================================================== */
-
-function openLightbox(images,index=0){
-
-if(
-!images ||
-!images.length
-){
-
-return;
-
-}
-
-lightboxImages=
-images.filter(Boolean);
-
-lightboxIndex=
-Math.max(
-0,
-Math.min(
-index,
-lightboxImages.length-1
-)
-);
-
-document
-.getElementById("lightbox")
-.classList.add("active");
-
-document.body.style.overflow=
-"hidden";
-
-updateLightbox();
-
-}
-
-
-function updateLightbox(){
-
-if(!lightboxImages.length){
-
-return;
-
-}
-
-const image=
-document.getElementById("lightboxImage");
-
-const counter=
-document.getElementById("lightboxCounter");
-
-const previous=
-document.getElementById("lightboxPrev");
-
-const next=
-document.getElementById("lightboxNext");
-
-image.src=
-lightboxImages[lightboxIndex];
-
-image.alt=
-`Bild ${lightboxIndex+1}`;
-
-counter.textContent=
-`${lightboxIndex+1} / ${lightboxImages.length}`;
-
-if(lightboxImages.length<=1){
-
-previous.style.display="none";
-
-next.style.display="none";
-
-}
-else{
-
-previous.style.display="block";
-
-next.style.display="block";
-
-}
-
-}
-
-
-function closeLightbox(event){
-
-if(event){
-
-event.stopPropagation();
-
-}
-
-document
-.getElementById("lightbox")
-.classList.remove("active");
-
-document.body.style.overflow="";
-
-}
-
-
-function previousLightboxImage(event){
-
-if(event){
-
-event.stopPropagation();
-
-}
-
-if(!lightboxImages.length){
-
-return;
-
-}
-
-lightboxIndex=
-(
-lightboxIndex-
-1+
-lightboxImages.length
-)
-%
-lightboxImages.length;
-
-updateLightbox();
-
-}
-
-
-function nextLightboxImage(event){
-
-if(event){
-
-event.stopPropagation();
-
-}
-
-if(!lightboxImages.length){
-
-return;
-
-}
-
-lightboxIndex=
-(
-lightboxIndex+
-1
-)
-%
-lightboxImages.length;
-
-updateLightbox();
-
-}
-
-
-function handleLightboxBackground(event){
-
-if(
-event.target===
-document.getElementById("lightbox")
-){
-
-closeLightbox();
-
-}
-
-}
-
-
-document.addEventListener(
-"keydown",
-event=>{
-
-const lightbox=
-document.getElementById("lightbox");
-
-if(
-!lightbox.classList.contains("active")
-){
-
-return;
-
-}
-
-if(event.key==="Escape"){
-
-closeLightbox();
-
-}
-
-if(event.key==="ArrowLeft"){
-
-previousLightboxImage();
-
-}
-
-if(event.key==="ArrowRight"){
-
-nextLightboxImage();
-
-}
-
-}
-);
-
-
-/* =====================================================
-ADMIN LOGIN
-===================================================== */
-
-function openAdmin(){
-
-hideAllPages();
-
-document
-.getElementById("admin")
-.style.display="block";
-
-checkSession();
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-async function login(){
-
-const email=
-document
-.getElementById("email")
-.value
-.trim();
-
-const password=
-document
-.getElementById("password")
-.value;
-
-const error=
-document
-.getElementById("loginError");
-
-error.textContent="";
-
-if(
-!email||
-!password
-){
-
-error.textContent=
-"Bitte E-Mail und Passwort eingeben.";
-
-return;
-
-}
-
-try{
-
-const response=
-await fetch(
-`${SUPABASE_URL}/auth/v1/token?grant_type=password`,
-{
-
-method:"POST",
-
-headers:{
-"apikey":SUPABASE_KEY,
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-email,
-password
-})
-
-}
-);
-
-const data=
-await response.json();
-
-if(!response.ok){
-
-throw new Error(
-data.msg||
-data.message||
-"Login fehlgeschlagen."
-);
-
-}
-
-sessionStorage.setItem(
-"nAccessToken",
-data.access_token
-);
-
-sessionStorage.setItem(
-"nUser",
-JSON.stringify(data.user)
-);
-
-showDashboard();
-
-}
-catch(error){
-
-console.error(error);
-
-document
-.getElementById("loginError")
-.textContent=
-error.message;
-
-}
-
-}
-
-
-function checkSession(){
-
-const token=
-sessionStorage.getItem(
-"nAccessToken"
-);
-
-if(token){
-
-showDashboard();
-
-}
-else{
-
-document
-.getElementById("loginBox")
-.style.display="block";
-
-document
-.getElementById("dashboard")
-.style.display="none";
-
-}
-
-}
-
-
-function showDashboard(){
-
-document
-.getElementById("loginBox")
-.style.display="none";
-
-document
-.getElementById("dashboard")
-.style.display="block";
-
-loadNews();
-
-renderAdmin();
-
-}
-
-
-function logout(){
-
-sessionStorage.removeItem(
-"nAccessToken"
-);
-
-sessionStorage.removeItem(
-"nUser"
-);
-
-document
-.getElementById("dashboard")
-.style.display="none";
-
-document
-.getElementById("loginBox")
-.style.display="block";
-
-}
-
-
-/* =====================================================
-BILD-AUSWAHL
-===================================================== */
-
-function handleImageSelection(event){
-
-const files=
-Array.from(
-event.target.files||[]
-)
-.filter(
-file=>file.type.startsWith("image/")
-);
-
-if(!files.length){
-
-return;
-
-}
-
-selectedImageFiles.push(...files);
-
-renderAdminImages();
-
-event.target.value="";
-
-}
-
-
-/* =====================================================
-ADMIN BILDER RENDERN
-===================================================== */
-
-function renderAdminImages(){
-
-const grid=
-document.getElementById("imageAdminGrid");
-
-grid.innerHTML="";
-
-editingImageUrls.forEach(
-(url,index)=>{
-
-const item=
-document.createElement("div");
-
-item.className=
-"admin-image-item";
-
-item.innerHTML=`
-
-<img
-src="${escapeHTML(url)}"
-alt="Bild ${index+1}">
-
-<div class="admin-image-info">
-
-<div>
-
-<div class="admin-image-main">
-
-${index===0
-?"Hauptbild"
-:"Bild "+(index+1)}
-
-</div>
-
-</div>
-
-<button
-class="media-remove"
-onclick="removeExistingImage(${index})">
-
-Entfernen
-
-</button>
-
-</div>
-
-`;
-
-grid.appendChild(item);
-
-}
-);
-
-selectedImageFiles.forEach(
-(file,index)=>{
-
-const item=
-document.createElement("div");
-
-item.className=
-"admin-image-item new-image-item";
-
-const image=
-document.createElement("img");
-
-image.alt=
-`Neues Bild ${index+1}`;
-
-const info=
-document.createElement("div");
-
-info.className=
-"admin-image-info";
-
-info.innerHTML=`
-
-<div>
-
-<div class="admin-image-main">
-Neues Bild
-</div>
-
-<div>
-${escapeHTML(file.name)}
-</div>
-
-</div>
-
-<button
-class="media-remove"
-onclick="removeSelectedImage(${index})">
-
-Entfernen
-
-</button>
-
-`;
-
-item.appendChild(image);
-
-item.appendChild(info);
-
-grid.appendChild(item);
-
-const reader=
-new FileReader();
-
-reader.onload=
-e=>{
-
-image.src=
-e.target.result;
-
-};
-
-reader.readAsDataURL(file);
-
-}
-);
-
-if(
-!editingImageUrls.length &&
-!selectedImageFiles.length
-){
-
-grid.innerHTML=`
-
-<div style="
-grid-column:1/-1;
-color:#888;
-font-size:13px;
-padding:10px 0;">
-
-Noch keine Bilder ausgewählt.
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =====================================================
-VORHANDENES BILD ENTFERNEN
-===================================================== */
-
-function removeExistingImage(index){
-
-if(
-index<0 ||
-index>=editingImageUrls.length
-){
-
-return;
-
-}
-
-const removed=
-editingImageUrls[index];
-
-if(removed){
-
-removedExistingImages.push(removed);
-
-}
-
-editingImageUrls.splice(index,1);
-
-editingImageUrl=
-editingImageUrls.length
-?editingImageUrls[0]
-:null;
-
-renderAdminImages();
-
-}
-
-
-/* =====================================================
-NEUES BILD ENTFERNEN
-===================================================== */
-
-function removeSelectedImage(index){
-
-if(
-index<0 ||
-index>=selectedImageFiles.length
-){
-
-return;
-
-}
-
-selectedImageFiles.splice(index,1);
-
-renderAdminImages();
-
-}
-
-
-/* =====================================================
-VIDEO PREVIEW
-===================================================== */
-
-function previewVideo(event){
-
-const file=
-event.target.files[0];
-
-const preview=
-document.getElementById("videoPreview");
-
-selectedVideoFile=
-file||null;
-
-if(!file){
-
-preview.pause();
-
-preview.removeAttribute("src");
-
-preview.style.display="none";
-
-return;
-
-}
-
-if(
-!file.type.startsWith("video/")
-){
-
-alert(
-"Bitte eine Videodatei auswählen."
-);
-
-event.target.value="";
-
-selectedVideoFile=null;
-
-preview.style.display="none";
-
-return;
-
-}
-
-const url=
-URL.createObjectURL(file);
-
-preview.src=url;
-
-preview.style.display="block";
-
-}
-
-
-/* =====================================================
-VORHANDENES VIDEO ENTFERNEN
-===================================================== */
-
-function removeCurrentVideo(){
-
-editingVideoUrl=null;
-
-const box=
-document.getElementById("currentVideoBox");
-
-const video=
-document.getElementById("currentVideoPreview");
-
-video.pause();
-
-video.removeAttribute("src");
-
-box.style.display="none";
-
-}
-
-
-/* =====================================================
-IMAGE UPLOAD
-===================================================== */
-
-async function uploadImage(file){
-
-const token=
-sessionStorage.getItem(
-"nAccessToken"
-);
-
-if(!token){
-
-throw new Error(
-"Nicht eingeloggt."
-);
-
-}
-
-if(!file){
-
-return null;
-
-}
-
-if(
-!file.type.startsWith("image/")
-){
-
-throw new Error(
-`${file.name} ist kein Bild.`
-);
-
-}
-
-if(
-file.size>10*1024*1024
-){
-
-throw new Error(
-`Das Bild „${file.name}“ ist größer als 10 MB.`
-);
-
-}
-
-let extension=
-file.name
-.split(".")
-.pop()
-.toLowerCase()
-.replace(
-/[^a-z0-9]/g,
-""
-);
-
-if(!extension){
-
-extension="jpg";
-
-}
-
-const filename=
-`${Date.now()}-${crypto.randomUUID()}.${extension}`;
-
-const uploadUrl=
-`${SUPABASE_URL}/storage/v1/object/`+
-`${STORAGE_BUCKET}/${filename}`;
-
-const response=
-await fetch(
-uploadUrl,
-{
-
-method:"POST",
-
-headers:{
-
-"apikey":SUPABASE_KEY,
-
-"Authorization":
-`Bearer ${token}`,
-
-"Content-Type":
-file.type,
-
-"x-upsert":
-"false"
-
-},
-
-body:file
-
-}
-);
-
-if(!response.ok){
-
-const text=
-await response.text();
-
-throw new Error(
-text||
-"Bild-Upload fehlgeschlagen."
-);
-
-}
-
-return
-`${SUPABASE_URL}/storage/v1/object/public/`+
-`${STORAGE_BUCKET}/${filename}`;
-
-}
-
-
-/* =====================================================
-VIDEO UPLOAD
-===================================================== */
-
-async function uploadVideo(file){
-
-const token=
-sessionStorage.getItem(
-"nAccessToken"
-);
-
-if(!token){
-
-throw new Error(
-"Nicht eingeloggt."
-);
-
-}
-
-if(!file){
-
-return null;
-
-}
-
-if(
-!file.type.startsWith("video/")
-){
-
-throw new Error(
-"Die Datei ist kein Video."
-);
-
-}
-
-if(
-file.size>100*1024*1024
-){
-
-throw new Error(
-"Das Video darf maximal 100 MB groß sein."
-);
-
-}
-
-let extension=
-file.name
-.split(".")
-.pop()
-.toLowerCase()
-.replace(
-/[^a-z0-9]/g,
-""
-);
-
-if(!extension){
-
-extension="mp4";
-
-}
-
-const filename=
-`${Date.now()}-${crypto.randomUUID()}.${extension}`;
-
-const uploadUrl=
-`${SUPABASE_URL}/storage/v1/object/`+
-`${STORAGE_BUCKET}/${filename}`;
-
-const response=
-await fetch(
-uploadUrl,
-{
-
-method:"POST",
-
-headers:{
-
-"apikey":SUPABASE_KEY,
-
-"Authorization":
-`Bearer ${token}`,
-
-"Content-Type":
-file.type,
-
-"x-upsert":
-"false"
-
-},
-
-body:file
-
-}
-);
-
-if(!response.ok){
-
-const text=
-await response.text();
-
-throw new Error(
-text||
-"Video-Upload fehlgeschlagen."
-);
-
-}
-
-return
-`${SUPABASE_URL}/storage/v1/object/public/`+
-`${STORAGE_BUCKET}/${filename}`;
-
-}
-
-
-/* =====================================================
-ARTIKEL SPEICHERN
-===================================================== */
-
-async function saveArticle(){
-
-const title=
-document
-.getElementById("title")
-.value
-.trim();
-
-const description=
-document
-.getElementById("description")
-.value
-.trim();
-
-const category=
-document
-.getElementById("category")
-.value;
-
-const region=
-document
-.getElementById("region")
-.value
-.trim();
-
-const content=
-document
-.getElementById("content")
-.value
-.trim();
-
-const message=
-document
-.getElementById("formMessage");
-
-const button=
-document
-.getElementById("saveButton");
-
-if(
-!title||
-!description||
-!region||
-!content
-){
-
-message.className="error";
-
-message.textContent=
-"Bitte alle Felder ausfüllen.";
-
-return;
-
-}
-
-const token=
-sessionStorage.getItem(
-"nAccessToken"
-);
-
-if(!token){
-
-message.className="error";
-
-message.textContent=
-"Bitte erneut einloggen.";
-
-return;
-
-}
-
-try{
-
-button.disabled=true;
-
-button.textContent=
-"Speichern...";
-
-let finalImages=
-[
-...editingImageUrls
-];
-
-if(
-selectedImageFiles.length
-){
-
-for(
-let i=0;
-i<selectedImageFiles.length;
-i++
-){
-
-message.className="success";
-
-message.textContent=
-`Bild ${i+1} von ${selectedImageFiles.length} wird hochgeladen...`;
-
-const url=
-await uploadImage(
-selectedImageFiles[i]
-);
-
-if(url){
-
-/*
-Wenn ein neues Bild hochgeladen wird, soll es das
-Hauptbild des Artikels werden. Deshalb kommt es vorne
-in die Liste statt ans Ende.
-*/
-finalImages.unshift(url);
-
-}
-
-}
-
-}
-
-finalImages=
-finalImages.filter(
-url=>Boolean(url)
-);
-
-const finalImageUrl=
-finalImages.length
-?finalImages[0]
-:null;
-
-let finalVideoUrl=
-editingVideoUrl||null;
-
-if(selectedVideoFile){
-
-message.className="success";
-
-message.textContent=
-"Video wird hochgeladen...";
-
-finalVideoUrl=
-await uploadVideo(
-selectedVideoFile
-);
-
-}
-
-/*
-Wichtig: image_urls wird als JSON-Text gespeichert.
-Damit funktioniert die Speicherung sowohl dann, wenn die Spalte
-als text als auch dann, wenn sie als json/jsonb angelegt wurde.
-getArticleImages() kann beide Varianten lesen.
-*/
-const payload={
-
-title:title,
-
-description:description,
-
-category:category,
-
-region:region,
-
-content:content,
-
-image_url:finalImageUrl,
-
-image_urls:JSON.stringify(finalImages),
-
-video_url:finalVideoUrl
-
-};
-
-let savedRows=null;
-
-if(editingId===null){
-
- savedRows=await supabaseRequest(
- "news",
- {
- method:"POST",
- headers:{
- "Authorization":`Bearer ${token}`,
- "Prefer":"return=representation"
- },
- body:JSON.stringify(payload)
- }
- );
-
- message.className="success";
- message.textContent="Artikel veröffentlicht.";
-
-}
-
-else{
-
- savedRows=await supabaseRequest(
- `news?id=eq.${editingId}`,
- {
- method:"PATCH",
- headers:{
- "Authorization":`Bearer ${token}`,
- "Prefer":"return=representation"
- },
- body:JSON.stringify(payload)
- }
- );
-
- message.className="success";
- message.textContent="Artikel aktualisiert.";
-
-}
-
-/*
-Nicht nur "Speichern..." anzeigen, sondern kontrollieren,
-dass Supabase die Medien tatsächlich zurückliefert.
-*/
-const savedArticle=
- Array.isArray(savedRows) ? savedRows[0] : null;
-
-if(savedArticle){
- const savedImages=getArticleImages(savedArticle);
- const imageMissing=finalImages.length>0 && savedImages.length===0;
- const videoMissing=Boolean(finalVideoUrl) && !savedArticle.video_url;
-
- if(imageMissing || videoMissing){
-   throw new Error(
-     "Der Artikel wurde gespeichert, aber Bild/Video wurde nicht in der Datenbank übernommen. Bitte die Spalten image_url, image_urls und video_url in Supabase prüfen."
-   );
- }
-}
-
-clearForm();
-
-await loadNews();
-
-renderAdmin();
-
-}
-catch(error){
-
-console.error(error);
-
-message.className="error";
-
-message.textContent=
-"Fehler: "+error.message;
-
-}
-finally{
-
-button.disabled=false;
-
-button.textContent=
-"Veröffentlichen";
-
-}
-
-}
-
-
-/* =====================================================
-ADMIN RENDERN
-===================================================== */
-
-function renderAdmin(){
-
-const list=
-document.getElementById("adminList");
-
-if(!list){
-
-return;
-
-}
-
-list.innerHTML="";
-
-if(!articles.length){
-
-list.innerHTML=`
-
-<div class="status-box">
-Noch keine Artikel.
-</div>
-
-`;
-
-return;
-
-}
-
-articles.forEach(
-article=>{
-
-const item=
-document.createElement("div");
-
-item.className=
-"admin-item";
-
-const imageCount=
-getArticleImages(article).length;
-
-const video=
-article.video_url
-?" · Video"
-:"";
-
-item.innerHTML=`
-
-<div>
-
-<div class="admin-item-title">
-
-${escapeHTML(
-article.title||""
-)}
-
-</div>
-
-<small>
-
-${escapeHTML(
-article.category||""
-)}
-
-·
-
-${escapeHTML(
-article.region||""
-)}
-
-·
-
-${imageCount}
-Bild${imageCount===1?"":"er"}
-
-${video}
-
-</small>
-
-</div>
-
-<div class="admin-actions">
-
-<button
-class="small edit"
-onclick="editArticle(${article.id})">
-
-Bearbeiten
-
-</button>
-
-<button
-class="small delete"
-onclick="deleteArticle(${article.id})">
-
-Löschen
-
-</button>
-
-<button
-class="small"
-style="background:#e5e7eb"
-onclick="manageConnections(${article.id})">
-
-Verbinden
-
-</button>
-
-<button
-class="small"
-style="background:#f3f4f6"
-onclick="duplicateArticle(${article.id})">
-
-Duplizieren
-
-</button>
-
-</div>
-
-`;
-
-list.appendChild(item);
-
-}
-);
-
-}
-
-
-/* =====================================================
-ARTIKEL BEARBEITEN
-===================================================== */
-
-function editArticle(id){
-
-const article=
-articles.find(
-x=>String(x.id)===String(id)
-);
-
-if(!article){
-
-return;
-
-}
-
-editingId=id;
-
-editingImageUrls=
-getArticleImages(article);
-
-editingImageUrl=
-editingImageUrls.length
-?editingImageUrls[0]
-:null;
-
-editingVideoUrl=
-article.video_url||null;
-
-selectedImageFiles=[];
-
-selectedVideoFile=null;
-
-removedExistingImages=[];
-
-document
-.getElementById("formTitle")
-.textContent=
-"Artikel bearbeiten";
-
-document
-.getElementById("title")
-.value=
-article.title||"";
-
-document
-.getElementById("description")
-.value=
-article.description||"";
-
-document
-.getElementById("category")
-.value=
-article.category||"Deutschland";
-
-document
-.getElementById("region")
-.value=
-article.region||"";
-
-document
-.getElementById("content")
-.value=
-article.content||"";
-
-document
-.getElementById("imageFile")
-.value="";
-
-renderAdminImages();
-
-document
-.getElementById("videoFile")
-.value="";
-
-document
-.getElementById("videoPreview")
-.style.display="none";
-
-const currentVideoBox=
-document.getElementById(
-"currentVideoBox"
-);
-
-const currentVideoPreview=
-document.getElementById(
-"currentVideoPreview"
-);
-
-if(editingVideoUrl){
-
-currentVideoPreview.src=
-editingVideoUrl;
-
-currentVideoBox.style.display=
-"block";
-
-}
-else{
-
-currentVideoPreview.removeAttribute(
-"src"
-);
-
-currentVideoBox.style.display=
-"none";
-
-}
-
-document
-.getElementById("saveButton")
-.textContent=
-"Änderungen speichern";
-
-document
-.getElementById("formMessage")
-.textContent="";
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-/* =====================================================
-ARTIKEL DUPLIZIEREN
-===================================================== */
-
-function duplicateArticle(id){
-
-const article=
-articles.find(
-x=>String(x.id)===String(id)
-);
-
-if(!article){
-
-return;
-
-}
-
-editingId=null;
-
-editingImageUrls=
-getArticleImages(article);
-
-editingImageUrl=
-editingImageUrls.length
-?editingImageUrls[0]
-:null;
-
-editingVideoUrl=
-article.video_url||null;
-
-selectedImageFiles=[];
-
-selectedVideoFile=null;
-
-removedExistingImages=[];
-
-document
-.getElementById("formTitle")
-.textContent=
-"Artikel duplizieren";
-
-document
-.getElementById("title")
-.value=
-`${article.title||""} – Update`;
-
-document
-.getElementById("description")
-.value=
-article.description||"";
-
-document
-.getElementById("category")
-.value=
-article.category||"Deutschland";
-
-document
-.getElementById("region")
-.value=
-article.region||"";
-
-document
-.getElementById("content")
-.value=
-article.content||"";
-
-document
-.getElementById("imageFile")
-.value="";
-
-renderAdminImages();
-
-document
-.getElementById("videoFile")
-.value="";
-
-document
-.getElementById("videoPreview")
-.style.display="none";
-
-const currentVideoBox=
-document.getElementById(
-"currentVideoBox"
-);
-
-const currentVideoPreview=
-document.getElementById(
-"currentVideoPreview"
-);
-
-if(editingVideoUrl){
-
-currentVideoPreview.src=
-editingVideoUrl;
-
-currentVideoBox.style.display=
-"block";
-
-}
-else{
-
-currentVideoBox.style.display=
-"none";
-
-}
-
-document
-.getElementById("saveButton")
-.textContent=
-"Als neuen Artikel veröffentlichen";
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-/* =====================================================
-FORM LEEREN
-===================================================== */
-
-function clearForm(){
-
-editingId=null;
-
-editingImageUrl=null;
-
-editingImageUrls=[];
-
-editingVideoUrl=null;
-
-selectedImageFiles=[];
-
-selectedVideoFile=null;
-
-removedExistingImages=[];
-
-document
-.getElementById("formTitle")
-.textContent=
-"Neuer Artikel";
-
-document
-.getElementById("title")
-.value="";
-
-document
-.getElementById("description")
-.value="";
-
-document
-.getElementById("category")
-.value=
-"Deutschland";
-
-document
-.getElementById("region")
-.value="";
-
-document
-.getElementById("content")
-.value="";
-
-document
-.getElementById("imageFile")
-.value="";
-
-document
-.getElementById("videoFile")
-.value="";
-
-document
-.getElementById("imageAdminGrid")
-.innerHTML="";
-
-const videoPreview=
-document.getElementById(
-"videoPreview"
-);
-
-videoPreview.pause();
-
-videoPreview.removeAttribute(
-"src"
-);
-
-videoPreview.style.display=
-"none";
-
-const currentVideoBox=
-document.getElementById(
-"currentVideoBox"
-);
-
-const currentVideoPreview=
-document.getElementById(
-"currentVideoPreview"
-);
-
-currentVideoPreview.pause();
-
-currentVideoPreview.removeAttribute(
-"src"
-);
-
-currentVideoBox.style.display=
-"none";
-
-document
-.getElementById("saveButton")
-.textContent=
-"Veröffentlichen";
-
-document
-.getElementById("formMessage")
-.textContent="";
-
-}
-
-
-/* =====================================================
-DELETE
-===================================================== */
-
-async function deleteArticle(id){
-
-const article=
-articles.find(
-x=>String(x.id)===String(id)
-);
-
-if(!article){
-
-return;
-
-}
-
-if(
-!confirm(
-`„${article.title}“ wirklich löschen?`
-)
-){
-
-return;
-
-}
-
-const token=
-sessionStorage.getItem(
-"nAccessToken"
-);
-
-if(!token){
-
-alert(
-"Bitte erneut einloggen."
-);
-
-return;
-
-}
-
-try{
-
-await supabaseRequest(
-`news?id=eq.${id}`,
-{
-
-method:"DELETE",
-
-headers:{
-"Authorization":
-`Bearer ${token}`
-}
-
-}
-);
-
-await loadNews();
-
-renderAdmin();
-
-}
-catch(error){
-
-console.error(error);
-
-alert(
-"Fehler beim Löschen:\n\n"+
-error.message
-);
-
-}
-
-}
-
-
-/* =====================================================
-CONNECTIONS
-===================================================== */
-
-function saveConnections(){
-
-localStorage.setItem(
-"n_article_connections",
-JSON.stringify(
-articleConnections
-)
-);
-
-}
-
-function getConnections(id){
-
-return Array.isArray(
-articleConnections[id]
-)
-?articleConnections[id]
-:[];
-
-}
-
-function connectArticles(a,b){
-
-a=String(a);
-
-b=String(b);
-
-if(a===b){
-
-return;
-
-}
-
-if(!articleConnections[a]){
-
-articleConnections[a]=[];
-
-}
-
-if(!articleConnections[b]){
-
-articleConnections[b]=[];
-
-}
-
-if(
-!articleConnections[a]
-.includes(b)
-){
-
-articleConnections[a].push(b);
-
-}
-
-if(
-!articleConnections[b]
-.includes(a)
-){
-
-articleConnections[b].push(a);
-
-}
-
-saveConnections();
-
-}
-
-function disconnectArticles(a,b){
-
-a=String(a);
-
-b=String(b);
-
-articleConnections[a]=
-(articleConnections[a]||[])
-.filter(
-x=>String(x)!==b
-);
-
-articleConnections[b]=
-(articleConnections[b]||[])
-.filter(
-x=>String(x)!==a
-);
-
-saveConnections();
-
-}
-
-function manageConnections(id){
-
-const article=
-articles.find(
-x=>String(x.id)===String(id)
-);
-
-if(!article){
-
-return;
-
-}
-
-const options=
-articles.filter(
-x=>String(x.id)!==String(id)
-);
-
-if(!options.length){
-
-alert(
-"Noch keine anderen Artikel vorhanden."
-);
-
-return;
-
-}
-
-const text=
-options
-.map(
-x=>`${x.id}: ${x.title}`
-)
-.join("\n");
-
-const input=
-prompt(
-"Artikel-ID eingeben, der verbunden werden soll:\n\n"+
-text
-);
-
-if(!input){
-
-return;
-
-}
-
-const target=
-options.find(
-x=>String(x.id)===input.trim()
-);
-
-if(!target){
-
-alert(
-"Artikel-ID nicht gefunden."
-);
-
-return;
-
-}
-
-connectArticles(
-id,
-target.id
-);
-
-renderAdmin();
-
-alert(
-"Artikel verbunden!"
-);
-
-}
-
-
-/* =====================================================
-CONNECTIONS IM ARTIKEL
-===================================================== */
-
-function renderArticleConnections(id){
-
-const box=
-document.getElementById(
-"articleConnections"
-);
-
-if(!box){
-
-return;
-
-}
-
-const ids=
-getConnections(id);
-
-const related=
-ids
-.map(
-x=>
-articles.find(
-a=>String(a.id)===String(x)
-)
-)
-.filter(Boolean);
-
-if(!related.length){
-
-box.innerHTML="";
-
-return;
-
-}
-
-box.innerHTML=`
-
-<div class="special-box">
-
-<h2>
-Dazu passend
-</h2>
-
-<div
-style="
-display:grid;
-gap:10px;
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));">
-
-${related.map(
-a=>`
-
-<div
-style="
-background:#f7f7f7;
-border:1px solid #ddd;
-border-radius:14px;
-padding:16px;
-cursor:pointer"
-onclick="openArticle(${a.id})">
-
-<strong>
-${escapeHTML(
-a.title||""
-)}
-</strong>
-
-<small
-style="
-color:#777;
-display:block;
-margin-top:5px">
-
-${escapeHTML(
-a.category||""
-)}
-
-·
-
-${escapeHTML(
-a.region||""
-)}
-
-</small>
-
-</div>
-
-`
-).join("")}
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-ROUTE
-===================================================== */
-
-async function geocode(place){
-
-const url=
-"https://nominatim.openstreetmap.org/search"+
-"?format=json&limit=1&q="+
-encodeURIComponent(place);
-
-const response=
-await fetch(
-url,
-{
-headers:{
-"Accept":"application/json"
-}
-}
-);
-
-if(!response.ok){
-
-throw new Error(
-"Ort konnte nicht gesucht werden."
-);
-
-}
-
-const data=
-await response.json();
-
-if(!data.length){
-
-throw new Error(
-`„${place}“ wurde nicht gefunden.`
-);
-
-}
-
-return{
-
-lat:
-parseFloat(data[0].lat),
-
-lon:
-parseFloat(data[0].lon),
-
-name:
-data[0].display_name
-
-};
-
-}
-
-
-async function calculateRoute(){
-
-const start=
-document
-.getElementById("routeStart")
-.value
-.trim();
-
-const destination=
-document
-.getElementById("routeDestination")
-.value
-.trim();
-
-const status=
-document
-.getElementById("routeStatus");
-
-const result=
-document
-.getElementById("routeResult");
-
-if(
-!start||
-!destination
-){
-
-status.textContent=
-"Bitte Start und Ziel eingeben.";
-
-result.style.display=
-"none";
-
-return;
-
-}
-
-status.textContent=
-"Orte werden gesucht …";
-
-result.style.display=
-"none";
-
-try{
-
-const startPoint=
-await geocode(start);
-
-status.textContent=
-"Ziel wird gesucht …";
-
-const endPoint=
-await geocode(destination);
-
-status.textContent=
-"Route wird berechnet …";
-
-const routeUrl=
-`https://router.project-osrm.org/route/v1/driving/`+
-`${startPoint.lon},${startPoint.lat};`+
-`${endPoint.lon},${endPoint.lat}`+
-`?overview=false`;
-
-const response=
-await fetch(routeUrl);
-
-if(!response.ok){
-
-throw new Error(
-"Routenserver nicht erreichbar."
-);
-
-}
-
-const data=
-await response.json();
-
-if(
-data.code!=="Ok"||
-!data.routes||
-!data.routes.length
-){
-
-throw new Error(
-"Keine Route gefunden."
-);
-
-}
-
-const route=
-data.routes[0];
-
-const distance=
-route.distance/1000;
-
-const duration=
-route.duration/60;
-
-document
-.getElementById("routeDistance")
-.textContent=
-distance<10
-?distance.toFixed(1)+" km"
-:Math.round(distance)+" km";
-
-const hours=
-Math.floor(
-duration/60
-);
-
-const minutes=
-Math.round(
-duration%60
-);
-
-document
-.getElementById("routeDuration")
-.textContent=
-hours>0
-?`${hours} h ${minutes} min`
-:`${minutes} min`;
-
-const minLat=
-Math.min(
-startPoint.lat,
-endPoint.lat
-);
-
-const maxLat=
-Math.max(
-startPoint.lat,
-endPoint.lat
-);
-
-const minLon=
-Math.min(
-startPoint.lon,
-endPoint.lon
-);
-
-const maxLon=
-Math.max(
-startPoint.lon,
-endPoint.lon
-);
-
-const paddingLat=
-Math.max(
-(maxLat-minLat)*.25,
-.03
-);
-
-const paddingLon=
-Math.max(
-(maxLon-minLon)*.25,
-.03
-);
-
-const bbox=
-`${minLon-paddingLon},`+
-`${minLat-paddingLat},`+
-`${maxLon+paddingLon},`+
-`${maxLat+paddingLat}`;
-
-const mapUrl=
-"https://www.openstreetmap.org/export/embed.html"+
-"?bbox="+
-encodeURIComponent(bbox)+
-"&layer=mapnik"+
-`&marker=${startPoint.lat},${startPoint.lon}`;
-
-document
-.getElementById("routeMap")
-.src=mapUrl;
-
-result.style.display=
-"block";
-
-status.innerHTML=
-`<strong>${escapeHTML(startPoint.name)}</strong>`+
-` → `+
-`<strong>${escapeHTML(endPoint.name)}</strong>`;
-
-}
-catch(error){
-
-console.error(error);
-
-status.textContent=
-error.message;
-
-result.style.display=
-"none";
-
-}
-
-}
-
-
-/* =====================================================
-TRAFFIC
-===================================================== */
-
-async function loadTraffic(){
-
-const roadInput=
-document
-.getElementById("roadInput")
-.value
-.trim()
-.toUpperCase()
-.replace(/\s/g,"");
-
-const status=
-document
-.getElementById("trafficStatus");
-
-const list=
-document
-.getElementById("trafficList");
-
-if(!roadInput){
-
-status.textContent=
-"Bitte eine Autobahn eingeben, z. B. A3.";
-
-return;
-
-}
-
-status.textContent=
-`Verkehrsmeldungen für ${roadInput} werden geladen …`;
-
-list.innerHTML="";
-
-try{
-
-const base=
-"https://verkehr.autobahn.de/o/autobahn/"+
-encodeURIComponent(roadInput)+
-"/services/";
-
-const endpoints=[
-
-{
-type:"warning",
-name:"Verkehrsmeldungen",
-url:base+"warning"
-},
-
-{
-type:"closure",
-name:"Sperrungen",
-url:base+"closure"
-},
-
-{
-type:"roadwork",
-name:"Baustellen",
-url:base+"roadworks"
-}
-
-];
-
-let allItems=[];
-
-for(
-const endpoint
-of endpoints
-){
-
-try{
-
-const response=
-await fetch(
-endpoint.url
-);
-
-if(!response.ok){
-
-continue;
-
-}
-
-const data=
-await response.json();
-
-const items=
-extractArray(data);
-
-items.forEach(
-item=>{
-
-allItems.push({
-
-...item,
-
-nType:
-endpoint.type,
-
-nTypeName:
-endpoint.name
-
-});
-
-}
-);
-
-}
-catch(error){
-
-console.warn(
-endpoint.name,
-error
-);
-
-}
-
-}
-
-if(!allItems.length){
-
-status.innerHTML=
-`Keine aktuellen Meldungen für <strong>${escapeHTML(roadInput)}</strong> gefunden.`;
-
-return;
-
-}
-
-status.innerHTML=
-`<strong>${allItems.length}</strong> aktuelle Meldung(en) für <strong>${escapeHTML(roadInput)}</strong>`;
-
-allItems.forEach(
-item=>{
-
-const box=
-document.createElement("div");
-
-box.className=
-"traffic-item "+
-item.nType;
-
-const title=
-getTrafficTitle(item);
-
-const description=
-getTrafficDescription(item);
-
-box.innerHTML=`
-
-<span class="traffic-badge">
-
-${escapeHTML(
-item.nTypeName
-)}
-
-</span>
-
-<h3>
-${escapeHTML(title)}
-</h3>
-
-<p>
-${escapeHTML(description)}
-</p>
-
-`;
-
-list.appendChild(box);
-
-}
-);
-
-}
-catch(error){
-
-console.error(error);
-
-status.textContent=
-"Verkehrsdaten konnten nicht geladen werden.";
-
-list.innerHTML=`
-
-<div class="status-box">
-
-<strong>
-Verkehrsdaten nicht verfügbar.
-</strong>
-
-<br><br>
-
-Bitte später erneut versuchen.
-
-</div>
-
-`;
-
-}
-
-}
-
-
-function extractArray(data){
-
-if(Array.isArray(data)){
-
-return data;
-
-}
-
-const keys=[
-"warning",
-"warnings",
-"closure",
-"closures",
-"roadworks",
-"roadwork",
-"items",
-"roads"
-];
-
-for(
-const key
-of keys
-){
-
-if(
-Array.isArray(data[key])
-){
-
-return data[key];
-
-}
-
-}
-
-return[];
-
-}
-
-
-function getTrafficTitle(item){
-
-return(
-item.title||
-item.headline||
-item.subtitle||
-item.description||
-item.display_type||
-item.type||
-"Verkehrsmeldung"
-);
-
-}
-
-
-function getTrafficDescription(item){
-
-return(
-item.description||
-item.subtitle||
-item.text||
-item.message||
-item.information||
-item.detail||
-"Keine weiteren Informationen verfügbar."
-);
-
-}
-
-
-/* =====================================================
-PERSONAL AREA
-===================================================== */
-
-function requestLocation(){
-
-const name=
-document
-.getElementById(
-"areaLocationName"
-);
-
-const sub=
-document
-.getElementById(
-"areaLocationSub"
-);
-
-name.textContent=
-"Standort wird gesucht …";
-
-sub.textContent=
-"Bitte Standortfreigabe bestätigen.";
-
-if(
-!navigator.geolocation
-){
-
-name.textContent=
-"Standort nicht unterstützt";
-
-sub.textContent=
-"Dein Browser unterstützt keine Standortabfrage.";
-
-return;
-
-}
-
-navigator.geolocation.getCurrentPosition(
-
-async position=>{
-
-userLocation={
-
-lat:
-position.coords.latitude,
-
-lon:
-position.coords.longitude
-
-};
-
-localStorage.setItem(
-"n_user_location",
-JSON.stringify(userLocation)
-);
-
-name.textContent=
-"Standort gefunden";
-
-sub.textContent=
-`${userLocation.lat.toFixed(4)}, ${userLocation.lon.toFixed(4)}`;
-
-await loadPersonalAreaData();
-
-},
-
-error=>{
-
-console.error(error);
-
-name.textContent=
-"Standort konnte nicht ermittelt werden";
-
-sub.textContent=
-error.code===1
-?"Standortfreigabe wurde nicht erlaubt."
-:"Bitte erneut versuchen.";
-
-}
-
-);
-
-}
-
-
-function loadSavedLocation(){
-
-try{
-
-const saved=
-localStorage.getItem(
-"n_user_location"
-);
-
-if(saved){
-
-const parsed=
-JSON.parse(saved);
-
-if(
-typeof parsed.lat==="number"&&
-typeof parsed.lon==="number"
-){
-
-userLocation=parsed;
-
-return true;
-
-}
-
-}
-
-}
-catch(error){
-
-console.warn(error);
-
-}
-
-return false;
-
-}
-
-
-async function loadPersonalArea(){
-
-document
-.getElementById("areaWeather")
-.innerHTML=`
-
-<div class="area-loading">
-Persönlichen Bereich wird geladen …
-</div>
-
-`;
-
-document
-.getElementById("localNewsList")
-.innerHTML=`
-
-<div class="area-loading">
-Regionale Nachrichten werden geladen …
-</div>
-
-`;
-
-document
-.getElementById("eventsList")
-.innerHTML=`
-
-<div class="area-loading">
-Veranstaltungen werden gesucht …
-</div>
-
-`;
-
-document
-.getElementById("localInfo")
-.innerHTML=`
-
-<div class="area-loading">
-Region wird ermittelt …
-</div>
-
-`;
-
-if(
-!loadSavedLocation()
-){
-
-requestLocation();
-
-return;
-
-}
-
-await loadPersonalAreaData();
-
-}
-
-
-async function loadPersonalAreaData(){
-
-if(!userLocation){
-
-requestLocation();
-
-return;
-
-}
-
-const name=
-document
-.getElementById(
-"areaLocationName"
-);
-
-const sub=
-document
-.getElementById(
-"areaLocationSub"
-);
-
-name.textContent=
-"Region wird ermittelt …";
-
-sub.textContent=
-`${userLocation.lat.toFixed(4)}, ${userLocation.lon.toFixed(4)}`;
-
-try{
-
-const place=
-await reverseGeocode(
-userLocation.lat,
-userLocation.lon
-);
-
-userPlace=
-place;
-
-name.textContent=
-place.city||
-place.town||
-place.village||
-place.municipality||
-place.county||
-"Deine Region";
-
-sub.textContent=
-[
-place.state,
-place.country
-]
-.filter(Boolean)
-.join(" · ");
-
-await Promise.all([
-
-loadAreaWeather(),
-
-loadAreaEvents(),
-
-loadAreaNews(),
-
-loadLocalInfo()
-
-]);
-
-}
-catch(error){
-
-console.error(error);
-
-document
-.getElementById("localInfo")
-.innerHTML=`
-
-<div class="area-error">
-
-Deine Region konnte nicht ermittelt werden.
-
-</div>
-
-`;
-
-}
-
-}
-
-
-async function reverseGeocode(lat,lon){
-
-const url=
-"https://nominatim.openstreetmap.org/reverse"+
-"?format=json"+
-"&zoom=10"+
-"&addressdetails=1"+
-`&lat=${encodeURIComponent(lat)}`+
-`&lon=${encodeURIComponent(lon)}`;
-
-const response=
-await fetch(
-url,
-{
-headers:{
-"Accept":"application/json"
-}
-}
-);
-
-if(!response.ok){
-
-throw new Error(
-"Standort konnte nicht ermittelt werden."
-);
-
-}
-
-const data=
-await response.json();
-
-return data.address||{};
-
-}
-
-
-/* =====================================================
-WEATHER
-===================================================== */
-
-async function loadAreaWeather(){
-
-if(!userLocation){
-
-return;
-
-}
-
-const box=
-document.getElementById(
-"areaWeather"
-);
-
-try{
-
-const url=
-"https://api.open-meteo.com/v1/forecast"+
-`?latitude=${encodeURIComponent(userLocation.lat)}`+
-`&longitude=${encodeURIComponent(userLocation.lon)}`+
-"&current=temperature_2m,relative_humidity_2m,"+
-"apparent_temperature,precipitation,rain,"+
-"weather_code,wind_speed_10m"+
-"&timezone=auto";
-
-const response=
-await fetch(url);
-
-if(!response.ok){
-
-throw new Error(
-"Wetterdienst nicht erreichbar."
-);
-
-}
-
-const data=
-await response.json();
-
-const current=
-data.current;
-
-const temp=
-Math.round(
-current.temperature_2m
-);
-
-const feels=
-Math.round(
-current.apparent_temperature
-);
-
-const humidity=
-Math.round(
-current.relative_humidity_2m
-);
-
-const wind=
-Math.round(
-current.wind_speed_10m
-);
-
-const rain=
-Number(
-current.precipitation||0
-);
-
-const weather=
-getWeatherDescription(
-current.weather_code
-);
-
-box.innerHTML=`
-
-<div class="area-weather">
-
-<div class="weather-main">
-
-<div>
-
-<div class="weather-temp">
-${temp}°
-</div>
-
-<div class="weather-description">
-${weather.text}
-</div>
-
-<div class="weather-description">
-Gefühlt ${feels}°
-</div>
-
-</div>
-
-<div class="weather-icon">
-${weather.icon}
-</div>
-
-</div>
-
-<div class="weather-stat">
-
-<small>
-Luftfeuchtigkeit
-</small>
-
-<strong>
-${humidity} %
-</strong>
-
-</div>
-
-<div class="weather-stat">
-
-<small>
-Wind
-</small>
-
-<strong>
-${wind} km/h
-</strong>
-
-</div>
-
-<div class="weather-stat">
-
-<small>
-Niederschlag
-</small>
-
-<strong>
-${rain} mm
-</strong>
-
-</div>
-
-<div class="weather-stat">
-
-<small>
-Aktualisiert
-</small>
-
-<strong>
-Jetzt
-</strong>
-
-</div>
-
-</div>
-
-`;
-
-}
-catch(error){
-
-console.error(error);
-
-box.innerHTML=`
-
-<div class="area-error">
-Wetter konnte nicht geladen werden.
-</div>
-
-`;
-
-}
-
-}
-
-
-function getWeatherDescription(code){
-
-const map={
-
-0:{text:"Klarer Himmel",icon:""},
-
-1:{text:"Überwiegend klar",icon:""},
-
-2:{text:"Teilweise bewölkt",icon:""},
-
-3:{text:"Bedeckt",icon:""},
-
-45:{text:"Nebel",icon:""},
-
-48:{text:"Reifnebel",icon:""},
-
-51:{text:"Leichter Nieselregen",icon:""},
-
-53:{text:"Nieselregen",icon:""},
-
-55:{text:"Starker Nieselregen",icon:""},
-
-61:{text:"Leichter Regen",icon:""},
-
-63:{text:"Regen",icon:""},
-
-65:{text:"Starker Regen",icon:""},
-
-71:{text:"Leichter Schneefall",icon:""},
-
-73:{text:"Schneefall",icon:""},
-
-75:{text:"Starker Schneefall",icon:""},
-
-80:{text:"Regenschauer",icon:""},
-
-81:{text:"Regenschauer",icon:""},
-
-82:{text:"Starke Regenschauer",icon:""},
-
-95:{text:"Gewitter",icon:""},
-
-96:{text:"Gewitter mit Hagel",icon:""},
-
-99:{text:"Starkes Gewitter mit Hagel",icon:""}
-
-};
-
-return map[code]||{
-text:"Wetter",
-icon:""
-};
-
-}
-
-
-/* =====================================================
-AREA NEWS
-===================================================== */
-
-async function loadAreaNews(){
-
-const list=
-document.getElementById(
-"localNewsList"
-);
-
-if(!articles.length){
-
-try{
-
-const result=
-await supabaseRequest(
-"news?select=*&order=created_at.desc"
-);
-
-articles=
-Array.isArray(result)
-?result
-:[];
-
-}
-catch(error){
-
-console.error(error);
-
-}
-
-}
-
-if(!articles.length){
-
-list.innerHTML=`
-
-<div class="area-loading">
-
-Noch keine regionalen Nachrichten vorhanden.
-
-</div>
-
-`;
-
-return;
-
-}
-
-const regionNames=[];
-
-if(userPlace){
-
-[
-"city",
-"town",
-"village",
-"municipality",
-"county",
-"state",
-"state_district"
-]
-.forEach(
-key=>{
-
-if(userPlace[key]){
-
-regionNames.push(
-String(
-userPlace[key]
-)
-.toLowerCase()
-);
-
-}
-
-}
-);
-
-}
-
-const regional=
-articles.filter(
-article=>{
-
-const region=
-String(
-article.region||""
-)
-.toLowerCase();
-
-const content=
-(
-String(article.title||"")+
-" "+
-String(article.description||"")
-)
-.toLowerCase();
-
-return regionNames.some(
-name=>
-name&&
-(
-region.includes(name)||
-content.includes(name)
-)
-);
-
-}
-);
-
-if(!regional.length){
-
-list.innerHTML=`
-
-<div class="area-loading">
-
-Keine passenden Nachrichten aus deiner Region gefunden.
-
-<br><br>
-
-<button
-class="location-button secondary"
-onclick="openNews()">
-
-Alle Nachrichten öffnen
-
-</button>
-
-</div>
-
-`;
-
-return;
-
-}
-
-list.innerHTML="";
-
-regional
-.slice(0,6)
-.forEach(
-article=>{
-
-const item=
-document.createElement("div");
-
-item.className=
-"local-news";
-
-item.onclick=
-()=>openArticle(article.id);
-
-item.innerHTML=`
-
-<div class="local-news-meta">
-
-${escapeHTML(
-article.category||"Region"
-)}
-
-·
-
-${escapeHTML(
-article.region||"Lokal"
-)}
-
-</div>
-
-<div class="local-news-title">
-
-${escapeHTML(
-article.title||""
-)}
-
-</div>
-
-`;
-
-list.appendChild(item);
-
-}
-);
-
-}
-
-
-/* =====================================================
-AREA EVENTS
-===================================================== */
-
-async function loadAreaEvents(){
-
-const list=
-document.getElementById(
-"eventsList"
-);
-
-if(!userLocation){
-
-return;
-
-}
-
-try{
-
-const radius=15000;
-
-const query=`
-
-[out:json][timeout:20];
-
-(
-
-node["amenity"="events_venue"]
-(
-around:${radius},
-${userLocation.lat},
-${userLocation.lon}
-);
-
-node["tourism"="attraction"]
-(
-around:${radius},
-${userLocation.lat},
-${userLocation.lon}
-);
-
-node["amenity"="theatre"]
-(
-around:${radius},
-${userLocation.lat},
-${userLocation.lon}
-);
-
-node["amenity"="community_centre"]
-(
-around:${radius},
-${userLocation.lat},
-${userLocation.lon}
-);
-
-way["amenity"="theatre"]
-(
-around:${radius},
-${userLocation.lat},
-${userLocation.lon}
-);
-
-way["amenity"="events_venue"]
-(
-around:${radius},
-${userLocation.lat},
-${userLocation.lon}
-);
-
-);
-
-out center tags;
-
-`;
-
-const response=
-await fetch(
-"https://overpass-api.de/api/interpreter",
-{
-method:"POST",
-body:query
-}
-);
-
-if(!response.ok){
-
-throw new Error(
-"Veranstaltungsdienst nicht erreichbar."
-);
-
-}
-
-const data=
-await response.json();
-
-const elements=
-Array.isArray(data.elements)
-?data.elements
-:[];
-
-const unique=[];
-
-const seen=
-new Set();
-
-elements.forEach(
-item=>{
-
-const tags=
-item.tags||{};
-
-const title=
-tags.name||
-tags.event||
-tags.description;
-
-if(!title){
-
-return;
-
-}
-
-const key=
-title.toLowerCase();
-
-if(seen.has(key)){
-
-return;
-
-}
-
-seen.add(key);
-
-unique.push({
-
-title,
-
-city:
-tags["addr:city"]||
-tags["addr:town"]||
-tags["addr:municipality"]||
-"",
-
-street:
-tags["addr:street"]||
-"",
-
-type:
-getEventType(tags)
-
-});
-
-}
-);
-
-if(!unique.length){
-
-list.innerHTML=`
-
-<div class="area-loading">
-
-Keine passenden Veranstaltungsorte in der Nähe gefunden.
-
-</div>
-
-`;
-
-return;
-
-}
-
-list.innerHTML="";
-
-unique
-.slice(0,8)
-.forEach(
-event=>{
-
-const card=
-document.createElement("div");
-
-card.className=
-"event-card";
-
-card.innerHTML=`
-
-<div class="event-date">
-IN DEINER NÄHE
-</div>
-
-<div class="event-title">
-
-${escapeHTML(
-event.title
-)}
-
-</div>
-
-<div class="event-location">
-
-${escapeHTML(
-[
-event.type,
-event.street,
-event.city
-]
-.filter(Boolean)
-.join(" · ")
-)}
-
-</div>
-
-`;
-
-list.appendChild(card);
-
-}
-);
-
-}
-catch(error){
-
-console.error(error);
-
-list.innerHTML=`
-
-<div class="area-error">
-
-Veranstaltungen konnten gerade nicht geladen werden.
-
-</div>
-
-`;
-
-}
-
-}
-
-
-function getEventType(tags){
-
-if(
-tags.amenity==="theatre"
-){
-
-return"Theater";
-
-}
-
-if(
-tags.amenity==="community_centre"
-){
-
-return"Veranstaltungsort";
-
-}
-
-if(
-tags.tourism==="attraction"
-){
-
-return"Sehenswürdigkeit";
-
-}
-
-return"Veranstaltungsort";
-
-}
-
-
-/* =====================================================
-LOCAL INFO
-===================================================== */
-
-async function loadLocalInfo(){
-
-const box=
-document.getElementById(
-"localInfo"
-);
-
-if(!userPlace){
-
-box.innerHTML=`
-
-<div class="area-loading">
-Keine Region verfügbar.
-</div>
-
-`;
-
-return;
-
-}
-
-const city=
-userPlace.city||
-userPlace.town||
-userPlace.village||
-userPlace.municipality||
-userPlace.county||
-"deiner Region";
-
-const state=
-userPlace.state||"";
-
-const postcode=
-userPlace.postcode||"";
-
-box.innerHTML=`
-
-<div style="
-background:#f5f5f5;
-border-radius:18px;
-padding:22px;">
-
-<div style="
-font-size:13px;
-color:#777;
-font-weight:800;
-text-transform:uppercase;
-letter-spacing:1px;
-margin-bottom:8px;">
-
-DEINE REGION
-
-</div>
-
-<div style="
-font-size:30px;
-font-weight:900;
-letter-spacing:-1px;">
-
-${escapeHTML(city)}
-
-</div>
-
-<div style="
-color:#777;
-margin-top:5px;">
-
-${escapeHTML(
-[
-postcode,
-state
-]
-.filter(Boolean)
-.join(" · ")
-)}
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-START
-===================================================== */
-
-showStart();
-
-</script>
-
-
-<!-- =====================================================
-N: SPOTLIGHT – NUR AUF DER STARTSEITE
-===================================================== -->
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const areaGrid = document.querySelector(".area-grid");
-
-    if (!areaGrid) {
-        return;
-    }
-
-    if (areaGrid.querySelector(".spotlight-card")) {
-        return;
-    }
-
-    const spotlightCard = document.createElement("a");
-
-    spotlightCard.className = "area-card spotlight-card";
-    spotlightCard.href = "spotlight.html";
-    spotlightCard.style.textDecoration = "none";
-    spotlightCard.style.color = "inherit";
-
-    spotlightCard.innerHTML = `
+  <header>
+    <div class="nav">
+      <a href="#" class="logo">
+        MEIN <span>SENDER</span>
+      </a>
+
+      <nav>
+        <a href="#shows">Shows</a>
+        <a href="#stream">Stream</a>
+        <a href="#mediathek">Mediathek</a>
+        <a href="#about">Über uns</a>
+        <a href="#stream" class="live-button">● LIVE</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-box">
+      <div class="hero-label">MEIN SENDER</div>
+
+      <h1>Unsere<br>Show-Highlights.</h1>
+
+      <p>
+        Unterhaltung, Shows und spannende Formate –
+        kostenlos und ohne Anmeldung.
+      </p>
+
+      <div class="hero-buttons">
+        <a class="button" href="#stream">▶ Jetzt streamen</a>
+        <a class="button dark" href="#shows">Shows entdecken</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <section id="shows">
+      <div class="section-heading">
         <div>
-            <h2>n: spotlight</h2>
+          <h2>Unsere Shows</h2>
+          <p>Entdecke die Formate von MEIN SENDER.</p>
+        </div>
+      </div>
+
+      <div class="show-grid">
+
+        <article class="show-card">
+          <div class="show-number">01</div>
+          <h3>Show 01</h3>
+          <p>Dein neues Lieblingsformat.</p>
+        </article>
+
+        <article class="show-card">
+          <div class="show-number">02</div>
+          <h3>Show 02</h3>
+          <p>Mehr Unterhaltung. Mehr Chaos.</p>
+        </article>
+
+        <article class="show-card">
+          <div class="show-number">03</div>
+          <h3>Show 03</h3>
+          <p>Spannung, Spaß und Überraschungen.</p>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="stream" class="stream-section">
+
+      <div class="stream-heading">
+        <div>
+          <h2>MEIN SENDER STREAM</h2>
+          <p>Streame hier deine Sendungen.</p>
         </div>
 
-        <div class="area-arrow">
-            →
+        <div class="stream-live">● STREAM</div>
+      </div>
+
+      <div class="video-grid">
+
+        <article class="video-card"
+                 onclick="openVideo('', 'MEIN SENDER – Beispielvideo')">
+
+          <div class="video-preview"></div>
+
+          <div class="video-info">
+            <h3>Beispielvideo</h3>
+            <p>MEIN SENDER · Folge 1</p>
+          </div>
+
+        </article>
+
+        <article class="video-card"
+                 onclick="openVideo('', 'MEIN SENDER – Neue Folge')">
+
+          <div class="video-preview"></div>
+
+          <div class="video-info">
+            <h3>Neue Folge</h3>
+            <p>MEIN SENDER · Entertainment</p>
+          </div>
+
+        </article>
+
+        <article class="video-card"
+                 onclick="openVideo('', 'MEIN SENDER – Show Special')">
+
+          <div class="video-preview"></div>
+
+          <div class="video-info">
+            <h3>Show Special</h3>
+            <p>MEIN SENDER · Special</p>
+          </div>
+
+        </article>
+
+      </div>
+    </section>
+
+    <section id="mediathek">
+
+      <div class="section-heading">
+        <div>
+          <h2>Mediathek</h2>
+          <p>Alle Sendungen an einem Ort.</p>
         </div>
-    `;
+      </div>
 
-    areaGrid.appendChild(spotlightCard);
+      <div class="library">
 
-});
-</script>
+        <div class="library-card">
+          <strong>Neueste Folgen</strong>
+          <span>Die aktuellsten Sendungen</span>
+        </div>
+
+        <div class="library-card">
+          <strong>Shows</strong>
+          <span>Alle Formate entdecken</span>
+        </div>
+
+        <div class="library-card">
+          <strong>Specials</strong>
+          <span>Besondere Sendungen</span>
+        </div>
+
+        <div class="library-card">
+          <strong>MEIN SENDER LIVE</strong>
+          <span>Live dabei sein</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section id="about">
+
+      <div class="section-heading">
+        <div>
+          <h2>MEIN SENDER</h2>
+          <p>Entertainment · Live · Shows</p>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">MEIN SENDER</div>
+        <div>Entertainment · Live</div>
+      </div>
+
+      <div>
+        © 2026 MEIN SENDER
+      </div>
+    </div>
+  </footer>
+
+  <!-- VIDEO PLAYER -->
+
+  <div class="player-overlay" id="playerOverlay">
+
+    <div class="player">
+
+      <button class="close-player" onclick="closeVideo()">×</button>
+
+      <video id="videoPlayer" controls playsinline></video>
+
+      <div class="player-title" id="playerTitle">
+        MEIN SENDER
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    function openVideo(url, title) {
+
+      const overlay = document.getElementById("playerOverlay");
+      const video = document.getElementById("videoPlayer");
+      const playerTitle = document.getElementById("playerTitle");
+
+      playerTitle.textContent = title;
+
+      if (url) {
+        video.src = url;
+        video.play().catch(() => {});
+      } else {
+        video.removeAttribute("src");
+        video.load();
+      }
+
+      overlay.classList.add("active");
+    }
+
+    function closeVideo() {
+
+      const overlay = document.getElementById("playerOverlay");
+      const video = document.getElementById("videoPlayer");
+
+      video.pause();
+      video.removeAttribute("src");
+      video.load();
+
+      overlay.classList.remove("active");
+    }
+
+    document.getElementById("playerOverlay").addEventListener("click", function(event) {
+
+      if (event.target === this) {
+        closeVideo();
+      }
+
+    });
+
+    document.addEventListener("keydown", function(event) {
+
+      if (event.key === "Escape") {
+        closeVideo();
+      }
+
+    });
+
+  </script>
 
 </body>
 </html>
