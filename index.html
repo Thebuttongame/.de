@@ -24,9 +24,7 @@
       --border: #e8e9ee;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: Arial, Helvetica, sans-serif;
@@ -39,8 +37,6 @@
       color: inherit;
       text-decoration: none;
     }
-
-    /* HEADER */
 
     header {
       position: sticky;
@@ -104,8 +100,6 @@
       border-radius: 999px;
       font-weight: 800;
     }
-
-    /* HERO */
 
     .hero {
       max-width: 1250px;
@@ -178,17 +172,13 @@
       color: white;
     }
 
-    /* CONTENT */
-
     main {
       max-width: 1250px;
       margin: auto;
       padding: 30px 24px 80px;
     }
 
-    section {
-      margin-top: 45px;
-    }
+    section { margin-top: 45px; }
 
     .section-heading {
       display: flex;
@@ -207,8 +197,6 @@
       color: var(--muted);
       font-size: 14px;
     }
-
-    /* SHOWS */
 
     .show-grid {
       display: grid;
@@ -269,8 +257,6 @@
       position: relative;
     }
 
-    /* STREAM */
-
     .stream-section {
       background: var(--dark);
       color: white;
@@ -327,15 +313,24 @@
     .video-preview {
       aspect-ratio: 16 / 9;
       background: #343641;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       position: relative;
       overflow: hidden;
     }
 
+    .video-preview video,
+    .video-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .video-preview::after {
       content: "▶";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
       width: 54px;
       height: 54px;
       border-radius: 50%;
@@ -346,6 +341,7 @@
       justify-content: center;
       font-size: 19px;
       padding-left: 3px;
+      pointer-events: none;
     }
 
     .video-info {
@@ -354,6 +350,7 @@
 
     .video-info h3 {
       font-size: 17px;
+      overflow-wrap: anywhere;
     }
 
     .video-info p {
@@ -362,7 +359,13 @@
       margin-top: 3px;
     }
 
-    /* MEDIATHEK */
+    .video-status {
+      color: #a8abb5;
+      text-align: center;
+      padding: 35px 15px;
+      font-size: 15px;
+      grid-column: 1 / -1;
+    }
 
     .library {
       display: grid;
@@ -389,8 +392,6 @@
       font-size: 13px;
     }
 
-    /* FOOTER */
-
     footer {
       border-top: 1px solid var(--border);
       background: white;
@@ -412,8 +413,6 @@
       font-weight: 900;
       font-size: 18px;
     }
-
-    /* PLAYER */
 
     .player-overlay {
       position: fixed;
@@ -466,12 +465,8 @@
       font-weight: 800;
     }
 
-    /* MOBILE */
-
     @media (max-width: 850px) {
-      nav {
-        display: none;
-      }
+      nav { display: none; }
 
       .show-grid,
       .video-grid {
@@ -489,9 +484,7 @@
     }
 
     @media (max-width: 560px) {
-      .hero {
-        padding-top: 20px;
-      }
+      .hero { padding-top: 20px; }
 
       .hero-box {
         border-radius: 22px;
@@ -499,9 +492,7 @@
         min-height: 430px;
       }
 
-      .hero h1 {
-        letter-spacing: -2px;
-      }
+      .hero h1 { letter-spacing: -2px; }
 
       .show-grid,
       .video-grid,
@@ -573,7 +564,6 @@
       </div>
 
       <div class="show-grid">
-
         <article class="show-card">
           <div class="show-number">01</div>
           <h3>Show 01</h3>
@@ -591,7 +581,6 @@
           <h3>Show 03</h3>
           <p>Spannung, Spaß und Überraschungen.</p>
         </article>
-
       </div>
     </section>
 
@@ -606,45 +595,10 @@
         <div class="stream-live">● STREAM</div>
       </div>
 
-      <div class="video-grid">
-
-        <article class="video-card"
-                 onclick="openVideo('', 'MEIN SENDER – Beispielvideo')">
-
-          <div class="video-preview"></div>
-
-          <div class="video-info">
-            <h3>Beispielvideo</h3>
-            <p>MEIN SENDER · Folge 1</p>
-          </div>
-
-        </article>
-
-        <article class="video-card"
-                 onclick="openVideo('', 'MEIN SENDER – Neue Folge')">
-
-          <div class="video-preview"></div>
-
-          <div class="video-info">
-            <h3>Neue Folge</h3>
-            <p>MEIN SENDER · Entertainment</p>
-          </div>
-
-        </article>
-
-        <article class="video-card"
-                 onclick="openVideo('', 'MEIN SENDER – Show Special')">
-
-          <div class="video-preview"></div>
-
-          <div class="video-info">
-            <h3>Show Special</h3>
-            <p>MEIN SENDER · Special</p>
-          </div>
-
-        </article>
-
+      <div class="video-grid" id="videoGrid">
+        <div class="video-status">Videos werden geladen …</div>
       </div>
+
     </section>
 
     <section id="mediathek">
@@ -657,7 +611,6 @@
       </div>
 
       <div class="library">
-
         <div class="library-card">
           <strong>Neueste Folgen</strong>
           <span>Die aktuellsten Sendungen</span>
@@ -677,20 +630,17 @@
           <strong>MEIN SENDER LIVE</strong>
           <span>Live dabei sein</span>
         </div>
-
       </div>
 
     </section>
 
     <section id="about">
-
       <div class="section-heading">
         <div>
           <h2>MEIN SENDER</h2>
           <p>Entertainment · Live · Shows</p>
         </div>
       </div>
-
     </section>
 
   </main>
@@ -723,32 +673,171 @@
       </div>
 
     </div>
-
   </div>
 
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
+    /*
+      MEIN SENDER – öffentliche Videoseite
+
+      Die Seite ist öffentlich.
+      Besucher brauchen KEINEN Login.
+
+      Die Videos werden automatisch aus dem öffentlichen
+      Supabase-Bucket "videos" geladen.
+
+      Die Regie lädt die Dateien aktuell in:
+      videos/videos/DATEINAME.mp4
+    */
+
+    const SUPABASE_URL = "https://eqzmsuncndfsiedyfifb.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_eXY1gg_tIr-cRC2kdt0jbQ_QPfbEmkF";
+
+    const VIDEO_BUCKET = "videos";
+    const VIDEO_FOLDER = "videos";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const videoGrid = document.getElementById("videoGrid");
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getVideoTitle(fileName) {
+      const withoutExtension = fileName.replace(/\.[^/.]+$/, "");
+      return withoutExtension
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim() || "MEIN SENDER Video";
+    }
+
+    function formatFileSize(bytes) {
+      if (!bytes || isNaN(bytes)) return "";
+      const mb = bytes / (1024 * 1024);
+      return mb.toFixed(2) + " MB";
+    }
+
+    async function loadVideos() {
+      videoGrid.innerHTML =
+        '<div class="video-status">Videos werden geladen …</div>';
+
+      try {
+        const { data, error } = await supabaseClient
+          .storage
+          .from(VIDEO_BUCKET)
+          .list(VIDEO_FOLDER, {
+            limit: 100,
+            offset: 0,
+            sortBy: {
+              column: "created_at",
+              order: "desc"
+            }
+          });
+
+        if (error) {
+          console.error("MEIN SENDER Videos:", error);
+          videoGrid.innerHTML =
+            '<div class="video-status">Die Videos konnten gerade nicht geladen werden.</div>';
+          return;
+        }
+
+        const files = (data || []).filter(file => {
+          if (!file || !file.name) return false;
+
+          const lower = file.name.toLowerCase();
+
+          return [
+            ".mp4",
+            ".webm",
+            ".mov",
+            ".m4v",
+            ".ogg",
+            ".ogv"
+          ].some(ext => lower.endsWith(ext));
+        });
+
+        if (files.length === 0) {
+          videoGrid.innerHTML =
+            '<div class="video-status">Noch keine Videos verfügbar.</div>';
+          return;
+        }
+
+        videoGrid.innerHTML = "";
+
+        files.forEach(file => {
+          const filePath = VIDEO_FOLDER + "/" + file.name;
+
+          const { data: publicData } = supabaseClient
+            .storage
+            .from(VIDEO_BUCKET)
+            .getPublicUrl(filePath);
+
+          const publicUrl = publicData.publicUrl;
+          const title = getVideoTitle(file.name);
+          const size = formatFileSize(file.metadata?.size);
+
+          const card = document.createElement("article");
+          card.className = "video-card";
+
+          card.innerHTML = `
+            <div class="video-preview">
+              <video
+                src="${escapeHtml(publicUrl)}"
+                preload="metadata"
+                muted
+                playsinline
+              ></video>
+            </div>
+
+            <div class="video-info">
+              <h3>${escapeHtml(title)}</h3>
+              <p>MEIN SENDER${size ? " · " + escapeHtml(size) : ""}</p>
+            </div>
+          `;
+
+          card.addEventListener("click", () => {
+            openVideo(publicUrl, title);
+          });
+
+          videoGrid.appendChild(card);
+        });
+
+      } catch (error) {
+        console.error("MEIN SENDER Fehler:", error);
+
+        videoGrid.innerHTML =
+          '<div class="video-status">Fehler beim Laden der Videos.</div>';
+      }
+    }
 
     function openVideo(url, title) {
-
       const overlay = document.getElementById("playerOverlay");
       const video = document.getElementById("videoPlayer");
       const playerTitle = document.getElementById("playerTitle");
 
-      playerTitle.textContent = title;
+      playerTitle.textContent = title || "MEIN SENDER";
 
-      if (url) {
-        video.src = url;
-        video.play().catch(() => {});
-      } else {
-        video.removeAttribute("src");
-        video.load();
-      }
+      video.pause();
+      video.src = url;
+      video.load();
 
       overlay.classList.add("active");
+
+      video.play().catch(() => {});
     }
 
     function closeVideo() {
-
       const overlay = document.getElementById("playerOverlay");
       const video = document.getElementById("videoPlayer");
 
@@ -759,22 +848,21 @@
       overlay.classList.remove("active");
     }
 
-    document.getElementById("playerOverlay").addEventListener("click", function(event) {
-
-      if (event.target === this) {
-        closeVideo();
-      }
-
-    });
+    document
+      .getElementById("playerOverlay")
+      .addEventListener("click", function(event) {
+        if (event.target === this) {
+          closeVideo();
+        }
+      });
 
     document.addEventListener("keydown", function(event) {
-
       if (event.key === "Escape") {
         closeVideo();
       }
-
     });
 
+    loadVideos();
   </script>
 
 </body>
