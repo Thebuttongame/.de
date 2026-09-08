@@ -1,1397 +1,1377 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>MEIN SENDER · REGIE</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f5f7;
-      color: #111827;
-      min-height: 100vh;
-    }
-
-    /* =========================
-       LOGIN
-    ========================= */
-
-    #loginPage {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      background:
-        linear-gradient(
-          135deg,
-          #111827 0%,
-          #182230 55%,
-          #222b38 100%
-        );
-    }
-
-    .login-box {
-      width: 100%;
-      max-width: 430px;
-      background: white;
-      border-radius: 18px;
-      padding: 38px;
-      box-shadow: 0 25px 70px rgba(0,0,0,.35);
-    }
-
-    .brand {
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      margin-bottom: 4px;
-    }
-
-    .brand span {
-      color: #d9a800;
-    }
-
-    .login-subtitle {
-      color: #6b7280;
-      margin-bottom: 30px;
-      font-size: 14px;
-    }
-
-    .login-box label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 7px;
-    }
-
-    .login-box input {
-      width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      padding: 13px 14px;
-      font-size: 15px;
-      margin-bottom: 18px;
-      outline: none;
-    }
-
-    .login-box input:focus {
-      border-color: #111827;
-    }
-
-    .login-button {
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-      padding: 14px;
-      background: #111827;
-      color: white;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .login-button:hover {
-      background: #202938;
-    }
-
-    #loginError {
-      display: none;
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 9px;
-      background: #fee2e2;
-      color: #991b1b;
-      font-size: 14px;
-    }
-
-    /* =========================
-       REGIE
-    ========================= */
-
-    #dashboard {
-      display: none;
-      min-height: 100vh;
-    }
-
-    .topbar {
-      height: 70px;
-      background: #111827;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 28px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .topbar-logo {
-      font-size: 21px;
-      font-weight: 900;
-    }
-
-    .topbar-logo span {
-      color: #d9a800;
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    #userEmail {
-      font-size: 13px;
-      color: #d1d5db;
-    }
-
-    .logout {
-      border: 1px solid #4b5563;
-      background: transparent;
-      color: white;
-      padding: 8px 13px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .logout:hover {
-      background: #273244;
-    }
-
-    .layout {
-      display: flex;
-      min-height: calc(100vh - 70px);
-    }
-
-    .sidebar {
-      width: 230px;
-      background: white;
-      border-right: 1px solid #e5e7eb;
-      padding: 25px 15px;
-    }
-
-    .sidebar-title {
-      color: #9ca3af;
-      text-transform: uppercase;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      padding: 0 12px;
-      margin-bottom: 10px;
-    }
-
-    .nav-button {
-      width: 100%;
-      text-align: left;
-      border: none;
-      background: transparent;
-      padding: 12px;
-      border-radius: 9px;
-      margin-bottom: 4px;
-      font-size: 14px;
-      cursor: pointer;
-      color: #374151;
-    }
-
-    .nav-button:hover,
-    .nav-button.active {
-      background: #f1f2f4;
-      color: #111827;
-      font-weight: 700;
-    }
-
-    .main {
-      flex: 1;
-      padding: 32px;
-      max-width: 1400px;
-    }
-
-    .page-title {
-      font-size: 28px;
-      font-weight: 900;
-      margin-bottom: 7px;
-    }
-
-    .page-description {
-      color: #6b7280;
-      margin-bottom: 30px;
-    }
-
-    /* =========================
-       CARDS
-    ========================= */
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 30px;
-    }
-
-    .stat {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 22px;
-    }
-
-    .stat-label {
-      color: #6b7280;
-      font-size: 13px;
-      margin-bottom: 9px;
-    }
-
-    .stat-number {
-      font-size: 29px;
-      font-weight: 900;
-    }
-
-    .panel {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-
-    .panel h2 {
-      font-size: 19px;
-      margin-bottom: 6px;
-    }
-
-    .panel-description {
-      color: #6b7280;
-      font-size: 13px;
-      margin-bottom: 22px;
-    }
-
-    /* =========================
-       FORM
-    ========================= */
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 17px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .form-group.full {
-      grid-column: 1 / -1;
-    }
-
-    .form-group label {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 7px;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 9px;
-      padding: 12px;
-      font-family: inherit;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .form-group textarea {
-      min-height: 130px;
-      resize: vertical;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: #111827;
-    }
-
-    .primary-button {
-      margin-top: 20px;
-      border: none;
-      background: #111827;
-      color: white;
-      border-radius: 9px;
-      padding: 12px 18px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .primary-button:hover {
-      background: #273244;
-    }
-
-    /* =========================
-       LISTE
-    ========================= */
-
-    .empty {
-      border: 1px dashed #d1d5db;
-      border-radius: 12px;
-      padding: 35px;
-      text-align: center;
-      color: #6b7280;
-    }
-
-    .status {
-      display: none;
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 9px;
-      font-size: 14px;
-    }
-
-    .status.success {
-      display: block;
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .status.error {
-      display: block;
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 900px) {
-      .stats {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .sidebar {
-        width: 190px;
-      }
-    }
-
-    @media (max-width: 650px) {
-      .topbar {
-        padding: 0 15px;
-      }
-
-      #userEmail {
-        display: none;
-      }
-
-      .layout {
-        display: block;
-      }
-
-      .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #e5e7eb;
-        display: flex;
-        overflow-x: auto;
-        padding: 10px;
-      }
-
-      .sidebar-title {
-        display: none;
-      }
-
-      .nav-button {
-        white-space: nowrap;
-        width: auto;
-        margin: 0 3px;
-      }
-
-      .main {
-        padding: 20px 15px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .form-group.full {
-        grid-column: auto;
-      }
-
-      .login-box {
-        padding: 27px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MEIN SENDER · REGIE</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* LOGIN */
+
+#loginPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #111827;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  padding: 38px;
+  border-radius: 18px;
+  box-shadow: 0 25px 70px rgba(0,0,0,.35);
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 900;
+  margin-bottom: 5px;
+}
+
+.logo span {
+  color: #d4a900;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  padding: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #111827;
+}
+
+.login-box input {
+  margin-bottom: 18px;
+}
+
+.login-button {
+  width: 100%;
+  border: none;
+  border-radius: 9px;
+  padding: 14px;
+  background: #111827;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background: #263142;
+}
+
+#loginError {
+  display: none;
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 9px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 14px;
+}
+
+/* DASHBOARD */
+
+#dashboard {
+  display: none;
+  min-height: 100vh;
+}
+
+.topbar {
+  height: 70px;
+  background: #111827;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+}
+
+.topbar-logo {
+  font-size: 21px;
+  font-weight: 900;
+}
+
+.topbar-logo span {
+  color: #d4a900;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#userEmail {
+  color: #d1d5db;
+  font-size: 13px;
+}
+
+.logout {
+  background: transparent;
+  border: 1px solid #4b5563;
+  color: white;
+  padding: 8px 13px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.logout:hover {
+  background: #273244;
+}
+
+.layout {
+  display: flex;
+  min-height: calc(100vh - 70px);
+}
+
+.sidebar {
+  width: 230px;
+  background: white;
+  border-right: 1px solid #e5e7eb;
+  padding: 25px 15px;
+}
+
+.sidebar-title {
+  color: #9ca3af;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 0 12px;
+  margin-bottom: 10px;
+}
+
+.nav-button {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 12px;
+  border-radius: 9px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  color: #374151;
+}
+
+.nav-button:hover,
+.nav-button.active {
+  background: #f1f2f4;
+  color: #111827;
+  font-weight: 700;
+}
+
+.main {
+  flex: 1;
+  padding: 32px;
+  max-width: 1400px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 7px;
+}
+
+.page-description {
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+/* STATISTIK */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.stat {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 22px;
+}
+
+.stat-label {
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 9px;
+}
+
+.stat-number {
+  font-size: 29px;
+  font-weight: 900;
+}
+
+/* PANELS */
+
+.panel {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.panel h2 {
+  font-size: 19px;
+  margin-bottom: 6px;
+}
+
+.panel-description {
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 22px;
+}
+
+/* FORM */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  margin-bottom: 7px;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.primary-button {
+  margin-top: 20px;
+  border: none;
+  background: #111827;
+  color: white;
+  border-radius: 9px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: #273244;
+}
+
+.empty {
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 35px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.status {
+  display: none;
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.status.success {
+  display: block;
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.error {
+  display: block;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sidebar {
+    width: 190px;
+  }
+}
+
+@media (max-width: 650px) {
+
+  .topbar {
+    padding: 0 15px;
+  }
+
+  #userEmail {
+    display: none;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    padding: 10px;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .sidebar-title {
+    display: none;
+  }
+
+  .nav-button {
+    width: auto;
+    white-space: nowrap;
+    margin: 0 3px;
+  }
+
+  .main {
+    padding: 20px 15px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full {
+    grid-column: auto;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- =========================
-       LOGIN
-  ========================= -->
+<!-- =========================
+     LOGIN
+========================= -->
 
-  <div id="loginPage">
+<div id="loginPage">
 
-    <div class="login-box">
+  <div class="login-box">
 
-      <div class="brand">
-        MEIN <span>SENDER</span>
-      </div>
-
-      <div class="login-subtitle">
-        REGIE · Nur für die Redaktion
-      </div>
-
-      <form id="loginForm">
-
-        <label for="email">E-Mail</label>
-        <input
-          id="email"
-          type="email"
-          autocomplete="username"
-          placeholder="deine E-Mail-Adresse"
-          required
-        >
-
-        <label for="password">Passwort</label>
-        <input
-          id="password"
-          type="password"
-          autocomplete="current-password"
-          placeholder="Passwort"
-          required
-        >
-
-        <button
-          class="login-button"
-          type="submit"
-          id="loginButton"
-        >
-          Einloggen
-        </button>
-
-      </form>
-
-      <div id="loginError"></div>
-
+    <div class="logo">
+      MEIN <span>SENDER</span>
     </div>
+
+    <div class="subtitle">
+      REGIE · Nur für die Redaktion
+    </div>
+
+    <form id="loginForm">
+
+      <label for="email">
+        E-Mail
+      </label>
+
+      <input
+        id="email"
+        type="email"
+        autocomplete="username"
+        placeholder="E-Mail-Adresse"
+        required
+      >
+
+      <label for="password">
+        Passwort
+      </label>
+
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Passwort"
+        required
+      >
+
+      <button
+        type="submit"
+        class="login-button"
+        id="loginButton"
+      >
+        Einloggen
+      </button>
+
+    </form>
+
+    <div id="loginError"></div>
 
   </div>
 
+</div>
 
-  <!-- =========================
-       DASHBOARD
-  ========================= -->
 
-  <div id="dashboard">
+<!-- =========================
+     DASHBOARD
+========================= -->
 
-    <header class="topbar">
+<div id="dashboard">
 
-      <div class="topbar-logo">
-        MEIN <span>SENDER</span> · REGIE
+  <header class="topbar">
+
+    <div class="topbar-logo">
+      MEIN <span>SENDER</span> · REGIE
+    </div>
+
+    <div class="topbar-right">
+
+      <span id="userEmail"></span>
+
+      <button
+        class="logout"
+        onclick="logout()"
+      >
+        Abmelden
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="sidebar-title">
+        Redaktion
       </div>
 
-      <div class="topbar-right">
+      <button
+        class="nav-button active"
+        onclick="showSection('overview', this)"
+      >
+        Übersicht
+      </button>
 
-        <span id="userEmail"></span>
+      <button
+        class="nav-button"
+        onclick="showSection('shows', this)"
+      >
+        Sendungen
+      </button>
 
-        <button class="logout" onclick="logout()">
-          Abmelden
-        </button>
+      <button
+        class="nav-button"
+        onclick="showSection('videos', this)"
+      >
+        Videos
+      </button>
 
-      </div>
+      <button
+        class="nav-button"
+        onclick="showSection('highlights', this)"
+      >
+        Highlights
+      </button>
 
-    </header>
+      <button
+        class="nav-button"
+        onclick="showSection('settings', this)"
+      >
+        Einstellungen
+      </button>
+
+    </aside>
 
 
-    <div class="layout">
+    <!-- INHALT -->
 
-      <!-- SIDEBAR -->
+    <main class="main">
 
-      <aside class="sidebar">
 
-        <div class="sidebar-title">
-          Redaktion
+      <!-- ÜBERSICHT -->
+
+      <section id="overview">
+
+        <h1 class="page-title">
+          Willkommen in der Regie
+        </h1>
+
+        <p class="page-description">
+          Hier verwaltest du die Inhalte von MEIN SENDER.
+        </p>
+
+
+        <div class="stats">
+
+          <div class="stat">
+            <div class="stat-label">
+              Sendungen
+            </div>
+            <div class="stat-number" id="showCount">
+              0
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">
+              Videos
+            </div>
+            <div class="stat-number" id="videoCount">
+              0
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">
+              Highlights
+            </div>
+            <div class="stat-number" id="highlightCount">
+              0
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-label">
+              Verbindung
+            </div>
+            <div class="stat-number">
+              ●
+            </div>
+          </div>
+
         </div>
 
-        <button
-          class="nav-button active"
-          onclick="showSection('overview', this)"
-        >
-          Übersicht
-        </button>
 
-        <button
-          class="nav-button"
-          onclick="showSection('shows', this)"
-        >
+        <div class="panel">
+
+          <h2>
+            MEIN SENDER
+          </h2>
+
+          <p class="panel-description">
+            Du bist erfolgreich mit der Regie verbunden.
+          </p>
+
+          <div class="empty">
+            Noch keine Inhalte vorhanden.
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- SENDUNGEN -->
+
+      <section id="shows" style="display:none;">
+
+        <h1 class="page-title">
           Sendungen
-        </button>
+        </h1>
 
-        <button
-          class="nav-button"
-          onclick="showSection('videos', this)"
-        >
+        <p class="page-description">
+          Erstelle und verwalte deine Sendungen.
+        </p>
+
+
+        <div class="panel">
+
+          <h2>
+            Neue Sendung
+          </h2>
+
+          <p class="panel-description">
+            Grundinformationen zur Sendung.
+          </p>
+
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="showTitle">
+                Titel
+              </label>
+
+              <input
+                id="showTitle"
+                type="text"
+                placeholder="Name der Sendung"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="showCategory">
+                Kategorie
+              </label>
+
+              <select id="showCategory">
+
+                <option value="show">
+                  Sendung
+                </option>
+
+                <option value="entertainment">
+                  Unterhaltung
+                </option>
+
+                <option value="special">
+                  Spezial
+                </option>
+
+                <option value="live">
+                  Live
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label for="showDescription">
+                Beschreibung
+              </label>
+
+              <textarea
+                id="showDescription"
+                placeholder="Beschreibung der Sendung..."
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <button
+            class="primary-button"
+            onclick="createShow()"
+          >
+            Sendung erstellen
+          </button>
+
+          <div
+            id="showStatus"
+            class="status"
+          ></div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <h2>
+            Deine Sendungen
+          </h2>
+
+          <p class="panel-description">
+            Gespeicherte Sendungen werden hier angezeigt.
+          </p>
+
+          <div
+            id="showsList"
+            class="empty"
+          >
+            Noch keine Sendungen.
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- VIDEOS -->
+
+      <section id="videos" style="display:none;">
+
+        <h1 class="page-title">
           Videos
-        </button>
+        </h1>
 
-        <button
-          class="nav-button"
-          onclick="showSection('highlights', this)"
-        >
-          Highlights
-        </button>
+        <p class="page-description">
+          Videos für Stream und Mediathek verwalten.
+        </p>
 
-        <button
-          class="nav-button"
-          onclick="showSection('settings', this)"
-        >
+
+        <div class="panel">
+
+          <h2>
+            Neues Video
+          </h2>
+
+          <p class="panel-description">
+            Füge ein Video für MEIN SENDER hinzu.
+          </p>
+
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="videoTitle">
+                Titel
+              </label>
+
+              <input
+                id="videoTitle"
+                type="text"
+                placeholder="Videotitel"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="videoUrl">
+                Video-URL
+              </label>
+
+              <input
+                id="videoUrl"
+                type="url"
+                placeholder="https://..."
+              >
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label for="videoDescription">
+                Beschreibung
+              </label>
+
+              <textarea
+                id="videoDescription"
+                placeholder="Beschreibung..."
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <button
+            class="primary-button"
+            onclick="saveVideo()"
+          >
+            Video speichern
+          </button>
+
+          <div
+            id="videoStatus"
+            class="status"
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- HIGHLIGHTS -->
+
+      <section id="highlights" style="display:none;">
+
+        <h1 class="page-title">
+          Show-Highlights
+        </h1>
+
+        <p class="page-description">
+          Inhalte für die Startseite von MEIN SENDER.
+        </p>
+
+
+        <div class="panel">
+
+          <h2>
+            Neues Highlight
+          </h2>
+
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="highlightTitle">
+                Titel
+              </label>
+
+              <input
+                id="highlightTitle"
+                type="text"
+                placeholder="Highlight-Titel"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="highlightImage">
+                Bild-URL
+              </label>
+
+              <input
+                id="highlightImage"
+                type="url"
+                placeholder="https://..."
+              >
+
+            </div>
+
+
+            <div class="form-group full">
+
+              <label for="highlightDescription">
+                Beschreibung
+              </label>
+
+              <textarea
+                id="highlightDescription"
+                placeholder="Beschreibung..."
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <button
+            class="primary-button"
+            onclick="saveHighlight()"
+          >
+            Highlight speichern
+          </button>
+
+          <div
+            id="highlightStatus"
+            class="status"
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- EINSTELLUNGEN -->
+
+      <section id="settings" style="display:none;">
+
+        <h1 class="page-title">
           Einstellungen
-        </button>
+        </h1>
 
-      </aside>
-
-
-      <!-- MAIN -->
-
-      <main class="main">
+        <p class="page-description">
+          Einstellungen deiner Regie.
+        </p>
 
 
-        <!-- ÜBERSICHT -->
+        <div class="panel">
 
-        <section id="overview">
+          <h2>
+            Angemeldetes Konto
+          </h2>
 
-          <h1 class="page-title">
-            Willkommen in der Regie
-          </h1>
-
-          <p class="page-description">
-            Hier verwaltest du die Inhalte von MEIN SENDER.
+          <p class="panel-description">
+            Du bist angemeldet als:
           </p>
 
+          <strong id="settingsEmail">
+            -
+          </strong>
 
-          <div class="stats">
-
-            <div class="stat">
-              <div class="stat-label">
-                Sendungen
-              </div>
-
-              <div class="stat-number">
-                0
-              </div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">
-                Videos
-              </div>
-
-              <div class="stat-number">
-                0
-              </div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">
-                Highlights
-              </div>
-
-              <div class="stat-number">
-                0
-              </div>
-            </div>
-
-            <div class="stat">
-              <div class="stat-label">
-                Status
-              </div>
-
-              <div class="stat-number">
-                ●
-              </div>
-            </div>
-
-          </div>
+        </div>
 
 
-          <div class="panel">
+        <div class="panel">
 
-            <h2>
-              MEIN SENDER
-            </h2>
+          <h2>
+            MEIN SENDER
+          </h2>
 
-            <p class="panel-description">
-              Die Regie ist verbunden. Sobald deine Datenbanktabellen
-              eingerichtet sind, können hier Sendungen, Videos und
-              Highlights verwaltet werden.
-            </p>
-
-            <div class="empty">
-              Noch keine Inhalte vorhanden.
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- SENDUNGEN -->
-
-        <section id="shows" style="display:none;">
-
-          <h1 class="page-title">
-            Sendungen
-          </h1>
-
-          <p class="page-description">
-            Erstelle und verwalte deine Sendungen.
+          <p class="panel-description">
+            Öffentliche Website und Regie sind getrennt.
+            Besucher der Website benötigen keinen Login.
           </p>
 
-          <div class="panel">
+        </div>
 
-            <h2>
-              Neue Sendung
-            </h2>
+      </section>
 
-            <p class="panel-description">
-              Grundinformationen zur Sendung.
-            </p>
-
-            <div class="form-grid">
-
-              <div class="form-group">
-                <label for="showTitle">
-                  Titel
-                </label>
-
-                <input
-                  id="showTitle"
-                  type="text"
-                  placeholder="z. B. MEIN SENDER LIVE"
-                >
-              </div>
-
-
-              <div class="form-group">
-                <label for="showCategory">
-                  Kategorie
-                </label>
-
-                <select id="showCategory">
-
-                  <option value="show">
-                    Sendung
-                  </option>
-
-                  <option value="news">
-                    News
-                  </option>
-
-                  <option value="entertainment">
-                    Unterhaltung
-                  </option>
-
-                  <option value="special">
-                    Spezial
-                  </option>
-
-                </select>
-
-              </div>
-
-
-              <div class="form-group full">
-
-                <label for="showDescription">
-                  Beschreibung
-                </label>
-
-                <textarea
-                  id="showDescription"
-                  placeholder="Beschreibung der Sendung..."
-                ></textarea>
-
-              </div>
-
-            </div>
-
-            <button
-              class="primary-button"
-              onclick="createShow()"
-            >
-              Sendung erstellen
-            </button>
-
-            <div id="showStatus" class="status"></div>
-
-          </div>
-
-
-          <div class="panel">
-
-            <h2>
-              Deine Sendungen
-            </h2>
-
-            <p class="panel-description">
-              Hier erscheinen später alle gespeicherten Sendungen.
-            </p>
-
-            <div class="empty">
-              Noch keine Sendungen.
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- VIDEOS -->
-
-        <section id="videos" style="display:none;">
-
-          <h1 class="page-title">
-            Videos
-          </h1>
-
-          <p class="page-description">
-            Videos für Stream und Mediathek verwalten.
-          </p>
-
-          <div class="panel">
-
-            <h2>
-              Neues Video
-            </h2>
-
-            <p class="panel-description">
-              Die eigentliche Video-Dateiablage können wir im nächsten
-              Schritt mit deinem Supabase Storage verbinden.
-            </p>
-
-            <div class="form-grid">
-
-              <div class="form-group">
-                <label for="videoTitle">
-                  Titel
-                </label>
-
-                <input
-                  id="videoTitle"
-                  type="text"
-                  placeholder="Videotitel"
-                >
-              </div>
-
-
-              <div class="form-group">
-                <label for="videoUrl">
-                  Video-URL
-                </label>
-
-                <input
-                  id="videoUrl"
-                  type="url"
-                  placeholder="https://..."
-                >
-              </div>
-
-
-              <div class="form-group full">
-
-                <label for="videoDescription">
-                  Beschreibung
-                </label>
-
-                <textarea
-                  id="videoDescription"
-                  placeholder="Beschreibung..."
-                ></textarea>
-
-              </div>
-
-            </div>
-
-            <button
-              class="primary-button"
-              onclick="saveVideo()"
-            >
-              Video speichern
-            </button>
-
-            <div id="videoStatus" class="status"></div>
-
-          </div>
-
-        </section>
-
-
-        <!-- HIGHLIGHTS -->
-
-        <section id="highlights" style="display:none;">
-
-          <h1 class="page-title">
-            Show-Highlights
-          </h1>
-
-          <p class="page-description">
-            Inhalte, die auf der Startseite besonders hervorgehoben
-            werden sollen.
-          </p>
-
-          <div class="panel">
-
-            <h2>
-              Neues Highlight
-            </h2>
-
-            <div class="form-grid">
-
-              <div class="form-group">
-
-                <label for="highlightTitle">
-                  Titel
-                </label>
-
-                <input
-                  id="highlightTitle"
-                  type="text"
-                  placeholder="Highlight-Titel"
-                >
-
-              </div>
-
-
-              <div class="form-group">
-
-                <label for="highlightImage">
-                  Bild-URL
-                </label>
-
-                <input
-                  id="highlightImage"
-                  type="url"
-                  placeholder="https://..."
-                >
-
-              </div>
-
-
-              <div class="form-group full">
-
-                <label for="highlightDescription">
-                  Beschreibung
-                </label>
-
-                <textarea
-                  id="highlightDescription"
-                  placeholder="Beschreibung..."
-                ></textarea>
-
-              </div>
-
-            </div>
-
-            <button
-              class="primary-button"
-              onclick="saveHighlight()"
-            >
-              Highlight speichern
-            </button>
-
-            <div id="highlightStatus" class="status"></div>
-
-          </div>
-
-        </section>
-
-
-        <!-- EINSTELLUNGEN -->
-
-        <section id="settings" style="display:none;">
-
-          <h1 class="page-title">
-            Einstellungen
-          </h1>
-
-          <p class="page-description">
-            Informationen zur Regie.
-          </p>
-
-          <div class="panel">
-
-            <h2>
-              Konto
-            </h2>
-
-            <p class="panel-description">
-              Angemeldet als:
-            </p>
-
-            <strong id="settingsEmail">
-              -
-            </strong>
-
-          </div>
-
-          <div class="panel">
-
-            <h2>
-              MEIN SENDER
-            </h2>
-
-            <p class="panel-description">
-              Öffentliche Website und Regie sind getrennt.
-              Besucher benötigen keinen Login für die normale Website.
-            </p>
-
-          </div>
-
-        </section>
-
-
-      </main>
-
-    </div>
+    </main>
 
   </div>
 
-
-  <!-- =========================
-       SUPABASE
-  ========================= -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-
-    /*
-      ==========================================
-      SUPABASE EINSTELLUNGEN
-      ==========================================
-
-      HIER deine bestehenden Supabase-Daten
-      einsetzen.
-
-      WICHTIG:
-      NICHT den service_role Key verwenden.
-    */
-
-    const SUPABASE_URL =
-      "DEINE_SUPABASE_URL";
-
-    const SUPABASE_PUBLISHABLE_KEY =
-      "DEIN_SUPABASE_PUBLISHABLE_KEY";
+</div>
 
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-      );
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* =========================================
+   DEINE SUPABASE DATEN
+========================================= */
+
+const SUPABASE_URL =
+  "https://eqzmsuncndfsiedyfifb.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_eXY1gg_tIr-cRC2kdt0jbQ_QPfbEmkF";
 
 
-    /*
-      ==========================================
-      LOGIN
-      ==========================================
-    */
+/* =========================================
+   SUPABASE VERBINDUNG
+========================================= */
 
-    const loginForm =
-      document.getElementById("loginForm");
-
-    loginForm.addEventListener("submit", async function(event) {
-
-      event.preventDefault();
-
-      const email =
-        document.getElementById("email").value.trim();
-
-      const password =
-        document.getElementById("password").value;
-
-      const button =
-        document.getElementById("loginButton");
-
-      const error =
-        document.getElementById("loginError");
-
-      error.style.display = "none";
-
-      button.disabled = true;
-      button.textContent = "Einloggen...";
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
 
-      const { data, error: loginError } =
-        await supabaseClient.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
+/* =========================================
+   LOGIN
+========================================= */
+
+document
+  .getElementById("loginForm")
+  .addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+    const button =
+      document.getElementById("loginButton");
+
+    const errorBox =
+      document.getElementById("loginError");
 
 
-      button.disabled = false;
-      button.textContent = "Einloggen";
+    errorBox.style.display = "none";
+
+    button.disabled = true;
+    button.textContent = "Anmeldung läuft...";
 
 
-      if (loginError) {
-
-        error.textContent =
-          "Anmeldung fehlgeschlagen. Bitte E-Mail und Passwort prüfen.";
-
-        error.style.display = "block";
-
-        return;
-      }
-
-
-      if (!data.session) {
-
-        error.textContent =
-          "Es konnte keine Sitzung erstellt werden.";
-
-        error.style.display = "block";
-
-        return;
-      }
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
 
 
-      showDashboard(data.session);
+    button.disabled = false;
+    button.textContent = "Einloggen";
+
+
+    if (error) {
+
+      console.error(error);
+
+      errorBox.textContent =
+        "Anmeldung fehlgeschlagen. Bitte E-Mail und Passwort prüfen.";
+
+      errorBox.style.display = "block";
+
+      return;
+    }
+
+
+    if (!data.session) {
+
+      errorBox.textContent =
+        "Keine gültige Sitzung erhalten.";
+
+      errorBox.style.display = "block";
+
+      return;
+    }
+
+
+    openDashboard(data.session);
+
+  });
+
+
+/* =========================================
+   SESSION PRÜFEN
+========================================= */
+
+async function checkSession() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.getSession();
+
+
+  if (error) {
+
+    console.error(
+      "Session-Fehler:",
+      error
+    );
+
+    return;
+  }
+
+
+  if (data.session) {
+
+    openDashboard(data.session);
+
+  }
+
+}
+
+
+/* =========================================
+   DASHBOARD
+========================================= */
+
+function openDashboard(session) {
+
+  document
+    .getElementById("loginPage")
+    .style.display = "none";
+
+
+  document
+    .getElementById("dashboard")
+    .style.display = "block";
+
+
+  const email =
+    session.user.email || "Redaktion";
+
+
+  document
+    .getElementById("userEmail")
+    .textContent = email;
+
+
+  document
+    .getElementById("settingsEmail")
+    .textContent = email;
+
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  document
+    .getElementById("dashboard")
+    .style.display = "none";
+
+
+  document
+    .getElementById("loginPage")
+    .style.display = "flex";
+
+
+  document
+    .getElementById("password")
+    .value = "";
+
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+function showSection(sectionId, button) {
+
+  const sections = [
+    "overview",
+    "shows",
+    "videos",
+    "highlights",
+    "settings"
+  ];
+
+
+  sections.forEach(function(id) {
+
+    document
+      .getElementById(id)
+      .style.display =
+        id === sectionId
+          ? "block"
+          : "none";
+
+  });
+
+
+  document
+    .querySelectorAll(".nav-button")
+    .forEach(function(btn) {
+
+      btn.classList.remove("active");
 
     });
 
 
-    /*
-      ==========================================
-      SESSION PRÜFEN
-      ==========================================
-    */
+  button.classList.add("active");
 
-    async function checkSession() {
+}
 
-      const {
-        data,
-        error
-      } = await supabaseClient.auth.getSession();
 
+/* =========================================
+   SENDUNG
+========================================= */
 
-      if (error) {
+function createShow() {
 
-        console.error(
-          "Session-Fehler:",
-          error
-        );
+  const title =
+    document
+      .getElementById("showTitle")
+      .value
+      .trim();
 
-        return;
-      }
+  const description =
+    document
+      .getElementById("showDescription")
+      .value
+      .trim();
 
+  const category =
+    document
+      .getElementById("showCategory")
+      .value;
 
-      if (data.session) {
 
-        showDashboard(data.session);
+  const status =
+    document.getElementById("showStatus");
 
-      }
 
-    }
+  if (!title) {
 
+    status.className =
+      "status error";
 
-    /*
-      ==========================================
-      DASHBOARD ÖFFNEN
-      ==========================================
-    */
+    status.textContent =
+      "Bitte einen Titel eingeben.";
 
-    function showDashboard(session) {
+    return;
 
-      document
-        .getElementById("loginPage")
-        .style.display = "none";
+  }
 
 
-      document
-        .getElementById("dashboard")
-        .style.display = "block";
+  console.log({
+    title,
+    description,
+    category
+  });
 
 
-      const email =
-        session.user.email || "Redaktion";
+  status.className =
+    "status success";
 
+  status.textContent =
+    "Sendung vorbereitet: " + title;
 
-      document
-        .getElementById("userEmail")
-        .textContent = email;
+}
 
 
-      document
-        .getElementById("settingsEmail")
-        .textContent = email;
+/* =========================================
+   VIDEO
+========================================= */
 
-    }
+function saveVideo() {
 
+  const title =
+    document
+      .getElementById("videoTitle")
+      .value
+      .trim();
 
-    /*
-      ==========================================
-      LOGOUT
-      ==========================================
-    */
+  const url =
+    document
+      .getElementById("videoUrl")
+      .value
+      .trim();
 
-    async function logout() {
 
-      await supabaseClient.auth.signOut();
+  const status =
+    document.getElementById("videoStatus");
 
-      document
-        .getElementById("dashboard")
-        .style.display = "none";
 
+  if (!title || !url) {
 
-      document
-        .getElementById("loginPage")
-        .style.display = "flex";
+    status.className =
+      "status error";
 
+    status.textContent =
+      "Bitte Titel und Video-URL eingeben.";
 
-      document
-        .getElementById("password")
-        .value = "";
+    return;
 
-    }
+  }
 
 
-    /*
-      ==========================================
-      NAVIGATION
-      ==========================================
-    */
+  console.log({
+    title,
+    url
+  });
 
-    function showSection(sectionId, button) {
 
-      const sections = [
-        "overview",
-        "shows",
-        "videos",
-        "highlights",
-        "settings"
-      ];
+  status.className =
+    "status success";
 
+  status.textContent =
+    "Video vorbereitet: " + title;
 
-      sections.forEach(function(id) {
+}
 
-        const section =
-          document.getElementById(id);
 
-        if (section) {
+/* =========================================
+   HIGHLIGHT
+========================================= */
 
-          section.style.display =
-            id === sectionId
-              ? "block"
-              : "none";
+function saveHighlight() {
 
-        }
+  const title =
+    document
+      .getElementById("highlightTitle")
+      .value
+      .trim();
 
-      });
+  const image =
+    document
+      .getElementById("highlightImage")
+      .value
+      .trim();
 
+  const description =
+    document
+      .getElementById("highlightDescription")
+      .value
+      .trim();
 
-      document
-        .querySelectorAll(".nav-button")
-        .forEach(function(btn) {
 
-          btn.classList.remove("active");
+  const status =
+    document.getElementById("highlightStatus");
 
-        });
 
+  if (!title) {
 
-      if (button) {
+    status.className =
+      "status error";
 
-        button.classList.add("active");
+    status.textContent =
+      "Bitte einen Titel eingeben.";
 
-      }
+    return;
 
-    }
+  }
 
 
-    /*
-      ==========================================
-      SENDUNG ERSTELLEN
-      ==========================================
+  console.log({
+    title,
+    image,
+    description
+  });
 
-      Das ist zunächst die UI-Funktion.
 
-      Sobald wir deine Supabase-Tabelle festlegen,
-      kommt hier der INSERT hinein.
-    */
+  status.className =
+    "status success";
 
-    function createShow() {
+  status.textContent =
+    "Highlight vorbereitet: " + title;
 
-      const title =
-        document.getElementById("showTitle")
-          .value.trim();
+}
 
-      const description =
-        document.getElementById("showDescription")
-          .value.trim();
 
-      const category =
-        document.getElementById("showCategory")
-          .value;
+/* =========================================
+   START
+========================================= */
 
+checkSession();
 
-      const status =
-        document.getElementById("showStatus");
-
-
-      if (!title) {
-
-        status.className =
-          "status error";
-
-        status.textContent =
-          "Bitte einen Titel eingeben.";
-
-        return;
-
-      }
-
-
-      status.className =
-        "status success";
-
-      status.textContent =
-        "Sendung vorbereitet: " + title;
-
-      console.log({
-        title,
-        description,
-        category
-      });
-
-    }
-
-
-    /*
-      ==========================================
-      VIDEO SPEICHERN
-      ==========================================
-    */
-
-    function saveVideo() {
-
-      const title =
-        document.getElementById("videoTitle")
-          .value.trim();
-
-      const url =
-        document.getElementById("videoUrl")
-          .value.trim();
-
-
-      const status =
-        document.getElementById("videoStatus");
-
-
-      if (!title || !url) {
-
-        status.className =
-          "status error";
-
-        status.textContent =
-          "Bitte Titel und Video-URL eingeben.";
-
-        return;
-
-      }
-
-
-      status.className =
-        "status success";
-
-      status.textContent =
-        "Video vorbereitet: " + title;
-
-
-      console.log({
-        title,
-        url
-      });
-
-    }
-
-
-    /*
-      ==========================================
-      HIGHLIGHT SPEICHERN
-      ==========================================
-    */
-
-    function saveHighlight() {
-
-      const title =
-        document.getElementById("highlightTitle")
-          .value.trim();
-
-      const image =
-        document.getElementById("highlightImage")
-          .value.trim();
-
-      const description =
-        document.getElementById("highlightDescription")
-          .value.trim();
-
-
-      const status =
-        document.getElementById("highlightStatus");
-
-
-      if (!title) {
-
-        status.className =
-          "status error";
-
-        status.textContent =
-          "Bitte einen Titel eingeben.";
-
-        return;
-
-      }
-
-
-      status.className =
-        "status success";
-
-      status.textContent =
-        "Highlight vorbereitet: " + title;
-
-
-      console.log({
-        title,
-        image,
-        description
-      });
-
-    }
-
-
-    /*
-      ==========================================
-      START
-      ==========================================
-    */
-
-    checkSession();
-
-  </script>
+</script>
 
 </body>
 </html>
