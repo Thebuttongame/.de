@@ -1,1026 +1,679 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>THE BUTTON GAME</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            --red: #d60000;
-            --red-dark: #8e0000;
-            --black: #111111;
-            --yellow: #ffd400;
-        }
-
-        body {
-            min-height: 100vh;
-            background: #ffffff;
-            color: var(--black);
-            font-family: Arial, Helvetica, sans-serif;
-            overflow-x: hidden;
-        }
-
-
-        /* =========================================
-           ABSERRBAND
-        ========================================= */
-
-        .barrier-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-
-            width: 100%;
-            height: 58px;
-
-            overflow: hidden;
-
-            background: #111;
-
-            border-bottom: 3px solid #111;
-
-            z-index: 100;
-        }
-
-
-        .barrier-track {
-            position: absolute;
-
-            top: 0;
-            left: 0;
-
-            height: 100%;
-
-            display: flex;
-
-            width: max-content;
-
-            animation: barrierMove 18s linear infinite;
-        }
-
-
-        .barrier {
-            height: 100%;
-            display: flex;
-            align-items: center;
-
-            white-space: nowrap;
-
-            font-size: 13px;
-            font-weight: 900;
-            letter-spacing: 2px;
-
-            color: #111;
-
-            background:
-                repeating-linear-gradient(
-                    -45deg,
-                    var(--yellow) 0px,
-                    var(--yellow) 34px,
-                    #111 34px,
-                    #111 68px
-                );
-
-            padding: 0 34px;
-        }
-
-
-        .barrier span {
-            background: rgba(255, 212, 0, 0.92);
-
-            padding: 7px 14px;
-
-            margin: 0 20px;
-
-            border-radius: 3px;
-
-            box-shadow:
-                0 2px 8px rgba(0,0,0,0.2);
-        }
-
-
-        @keyframes barrierMove {
-
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(-50%);
-            }
-
-        }
-
-
-        /* =========================================
-           MAIN
-        ========================================= */
-
-        main {
-            min-height: 100vh;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            padding: 115px 20px 70px;
-        }
-
-
-        .game-container {
-            width: 100%;
-            max-width: 760px;
-
-            text-align: center;
-        }
-
-
-        /* =========================================
-           TITEL
-        ========================================= */
-
-        .title {
-            display: inline-block;
-
-            font-size: clamp(38px, 6vw, 64px);
-
-            font-weight: 900;
-
-            letter-spacing: 5px;
-
-            line-height: 1;
-
-            color: #151515;
-
-            margin-bottom: 17px;
-
-            position: relative;
-        }
-
-
-        .title::after {
-            content: "";
-
-            display: block;
-
-            width: 38px;
-            height: 3px;
-
-            background: var(--red);
-
-            margin: 13px auto 0;
-
-            border-radius: 5px;
-        }
-
-
-        .title .red-o {
-            color: var(--red);
-
-            text-shadow:
-                0 0 13px rgba(214,0,0,0.18);
-        }
-
-
-        .subtitle {
-            color: #888;
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            letter-spacing: 3px;
-
-            text-transform: uppercase;
-        }
-
-
-        /* =========================================
-           BUTTON
-        ========================================= */
-
-        .button-area {
-            position: relative;
-
-            width: 250px;
-            height: 250px;
-
-            margin: 42px auto 30px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-        }
-
-
-        .button-shadow {
-            position: absolute;
-
-            width: 180px;
-            height: 180px;
-
-            border-radius: 50%;
-
-            background: rgba(120, 0, 0, 0.10);
-
-            filter: blur(35px);
-
-            animation: buttonGlow 2.8s infinite ease-in-out;
-        }
-
-
-        @keyframes buttonGlow {
-
-            0%, 100% {
-                transform: scale(0.88);
-                opacity: 0.45;
-            }
-
-            50% {
-                transform: scale(1.15);
-                opacity: 1;
-            }
-
-        }
-
-
-        .red-button {
-            position: relative;
-
-            width: 155px;
-            height: 155px;
-
-            border-radius: 50%;
-
-            border: 9px solid #e9e9e9;
-
-            cursor: pointer;
-
-            background:
-                radial-gradient(
-                    circle at 34% 24%,
-                    #ff6a6a 0%,
-                    #f21d1d 18%,
-                    #c70000 52%,
-                    #790000 100%
-                );
-
-            box-shadow:
-
-                0 18px 28px rgba(0,0,0,0.18),
-
-                inset 0 8px 12px
-                rgba(255,255,255,0.17),
-
-                inset 0 -16px 20px
-                rgba(0,0,0,0.34),
-
-                0 0 38px
-                rgba(210,0,0,0.22);
-
-            transition:
-                transform 0.12s ease,
-                box-shadow 0.12s ease;
-        }
-
-
-        .red-button::before {
-            content: "";
-
-            position: absolute;
-
-            width: 52px;
-            height: 25px;
-
-            top: 23px;
-            left: 34px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(255,255,255,0.18);
-
-            filter: blur(4px);
-
-            transform: rotate(-18deg);
-        }
-
-
-        .red-button:hover {
-
-            transform: scale(1.045);
-
-            box-shadow:
-
-                0 20px 32px rgba(0,0,0,0.20),
-
-                inset 0 8px 12px
-                rgba(255,255,255,0.17),
-
-                inset 0 -16px 20px
-                rgba(0,0,0,0.34),
-
-                0 0 62px
-                rgba(210,0,0,0.35);
-        }
-
-
-        .red-button:active {
-            transform: scale(0.93);
-        }
-
-
-        /* =========================================
-           FRAGE
-        ========================================= */
-
-        .question-line {
-
-            width: 42px;
-            height: 2px;
-
-            background: var(--red);
-
-            margin: 0 auto 19px;
-
-            border-radius: 5px;
-        }
-
-
-        .question {
-
-            font-size: 17px;
-
-            font-weight: 800;
-
-            margin-bottom: 17px;
-        }
-
-
-        /* =========================================
-           ACTIONS
-        ========================================= */
-
-        .actions {
-
-            display: flex;
-
-            justify-content: center;
-
-            gap: 10px;
-
-            flex-wrap: wrap;
-        }
-
-
-        .action-button {
-
-            min-width: 220px;
-
-            padding: 14px 22px;
-
-            border-radius: 7px;
-
-            border: 1px solid #d6d6d6;
-
-            background: #ffffff;
-
-            color: #111;
-
-            font-size: 12px;
-
-            font-weight: 800;
-
-            letter-spacing: 0.5px;
-
-            cursor: pointer;
-
-            transition: 0.2s ease;
-        }
-
-
-        .action-button:hover {
-
-            transform: translateY(-2px);
-
-            border-color: #aaa;
-
-            box-shadow:
-                0 8px 24px rgba(0,0,0,0.08);
-        }
-
-
-        .action-button.primary {
-
-            background: #111;
-
-            border-color: #111;
-
-            color: white;
-        }
-
-
-        .action-button.primary:hover {
-
-            background: var(--red);
-
-            border-color: var(--red);
-        }
-
-
-        .load-button {
-
-            position: relative;
-        }
-
-
-        .load-button::before {
-
-            content: "GESPEICHERT";
-
-            position: absolute;
-
-            top: -8px;
-            right: 10px;
-
-            padding: 3px 6px;
-
-            background: var(--red);
-
-            color: white;
-
-            border-radius: 3px;
-
-            font-size: 7px;
-
-            letter-spacing: 1px;
-        }
-
-
-        /* =========================================
-           FOOTER
-        ========================================= */
-
-        .footer {
-
-            margin-top: 55px;
-
-            color: #999;
-
-            font-size: 10px;
-
-            letter-spacing: 1.5px;
-
-            text-transform: uppercase;
-        }
-
-
-        .footer strong {
-            color: #555;
-        }
-
-
-        /* =========================================
-           MODAL
-        ========================================= */
-
-        .modal-overlay {
-
-            position: fixed;
-
-            inset: 0;
-
-            display: none;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 20px;
-
-            background:
-                rgba(0,0,0,0.58);
-
-            backdrop-filter: blur(8px);
-
-            z-index: 200;
-        }
-
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-
-        .modal {
-
-            width: 100%;
-
-            max-width: 450px;
-
-            background: white;
-
-            border-radius: 11px;
-
-            padding: 32px;
-
-            text-align: left;
-
-            box-shadow:
-                0 30px 80px
-                rgba(0,0,0,0.32);
-
-            animation: modalIn 0.2s ease;
-        }
-
-
-        @keyframes modalIn {
-
-            from {
-                opacity: 0;
-                transform: scale(0.95)
-                           translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1)
-                           translateY(0);
-            }
-
-        }
-
-
-        .modal-warning {
-
-            width: 43px;
-            height: 43px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 8px;
-
-            background:
-                rgba(214,0,0,0.08);
-
-            color: var(--red);
-
-            font-weight: 900;
-
-            margin-bottom: 19px;
-        }
-
-
-        .modal h2 {
-
-            font-size: 23px;
-
-            margin-bottom: 11px;
-        }
-
-
-        .modal p {
-
-            color: #777;
-
-            font-size: 13px;
-
-            line-height: 1.65;
-
-            margin-bottom: 23px;
-        }
-
-
-        .modal-buttons {
-
-            display: flex;
-
-            gap: 9px;
-        }
-
-
-        .modal-buttons button {
-
-            flex: 1;
-
-            padding: 13px;
-
-            border-radius: 7px;
-
-            border: 1px solid #ddd;
-
-            background: white;
-
-            cursor: pointer;
-
-            font-size: 11px;
-
-            font-weight: 800;
-        }
-
-
-        .modal-buttons button:hover {
-            background: #f5f5f5;
-        }
-
-
-        .modal-buttons .confirm {
-
-            background: var(--red);
-
-            border-color: var(--red);
-
-            color: white;
-        }
-
-
-        .modal-buttons .confirm:hover {
-            background: #b90000;
-        }
-
-
-        /* =========================================
-           MOBILE
-        ========================================= */
-
-        @media (max-width: 650px) {
-
-            .barrier-wrapper {
-                height: 50px;
-            }
-
-            .barrier {
-                font-size: 11px;
-                letter-spacing: 1.5px;
-            }
-
-            main {
-                padding-top: 95px;
-            }
-
-            .title {
-                font-size: 39px;
-                letter-spacing: 3px;
-            }
-
-            .subtitle {
-                font-size: 9px;
-            }
-
-            .button-area {
-                width: 220px;
-                height: 220px;
-
-                margin-top: 35px;
-            }
-
-            .red-button {
-                width: 135px;
-                height: 135px;
-            }
-
-            .button-shadow {
-                width: 160px;
-                height: 160px;
-            }
-
-            .actions {
-                flex-direction: column;
-
-                max-width: 330px;
-
-                margin: auto;
-            }
-
-            .action-button {
-                width: 100%;
-            }
-
-            .modal {
-                padding: 25px;
-            }
-
-            .modal-buttons {
-                flex-direction: column;
-            }
-
-        }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>THE BUTTON GAME</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* =========================
+       ABSPERRUNG
+    ========================= */
+
+    .barrier {
+      width: 100%;
+      height: 42px;
+      overflow: hidden;
+      background: #111111;
+      border-bottom: 2px solid #111111;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .barrier-track {
+      height: 100%;
+      display: flex;
+      width: max-content;
+      animation: moveBarrier 12s linear infinite;
+    }
+
+    .barrier-piece {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #111111;
+
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          #ffd900 0px,
+          #ffd900 22px,
+          #111111 22px,
+          #111111 44px
+        );
+
+      padding: 0 25px;
+      min-width: 620px;
+    }
+
+    .barrier-text {
+      background: rgba(255, 217, 0, 0.94);
+      padding: 4px 10px;
+      margin: 0 8px;
+    }
+
+    @keyframes moveBarrier {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 20px 45px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    /* =========================
+       TITLE
+    ========================= */
+
+    .title {
+      margin: 0;
+      font-size: clamp(36px, 7vw, 64px);
+      line-height: 1;
+      font-weight: 1000;
+      letter-spacing: 3px;
+    }
+
+    .red-o {
+      color: #e00000;
+    }
+
+    .subtitle {
+      margin: 14px 0 48px;
+      color: #707070;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       BUTTON AREA
+    ========================= */
+
+    .button-area {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 46px;
+    }
+
+    .red-button {
+      width: 190px;
+      height: 190px;
+
+      border-radius: 50%;
+      border: 9px solid #b40000;
+
+      background:
+        radial-gradient(
+          circle at 35% 28%,
+          #ff5555 0%,
+          #f00000 28%,
+          #d00000 62%,
+          #a90000 100%
+        );
+
+      box-shadow:
+        0 0 0 5px #180000,
+        0 0 35px rgba(120, 0, 0, 0.55),
+        0 0 90px rgba(150, 0, 0, 0.20),
+        inset 0 9px 15px rgba(255, 255, 255, 0.22),
+        inset 0 -13px 20px rgba(80, 0, 0, 0.55);
+
+      cursor: pointer;
+      position: relative;
+
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease;
+    }
+
+    .red-button::after {
+      content: "";
+      position: absolute;
+      width: 78%;
+      height: 78%;
+      left: 11%;
+      top: 11%;
+      border-radius: 50%;
+
+      border: 2px solid rgba(255, 255, 255, 0.10);
+      pointer-events: none;
+    }
+
+    .red-button:hover {
+      transform: scale(1.025);
+
+      box-shadow:
+        0 0 0 5px #180000,
+        0 0 45px rgba(120, 0, 0, 0.65),
+        0 0 110px rgba(150, 0, 0, 0.25),
+        inset 0 9px 15px rgba(255, 255, 255, 0.22),
+        inset 0 -13px 20px rgba(80, 0, 0, 0.55);
+    }
+
+    .red-button:active {
+      transform: scale(0.98);
+    }
+
+    /* =========================
+       FIRST TIME
+    ========================= */
+
+    .question {
+      margin: 0 0 16px;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .action-button {
+      min-width: 235px;
+      height: 50px;
+
+      padding: 0 22px;
+
+      border-radius: 9px;
+      border: 1px solid #cfcfcf;
+
+      background: #ffffff;
+      color: #111111;
+
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+
+      cursor: pointer;
+
+      transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
+    }
+
+    .action-button:hover {
+      background: #f5f5f5;
+      border-color: #aaaaaa;
+      transform: translateY(-1px);
+    }
+
+    .action-button.primary {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
+    }
+
+    .action-button.primary:hover {
+      background: #222222;
+      border-color: #222222;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      background: rgba(0, 0, 0, 0.60);
+
+      z-index: 100;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 430px;
+
+      background: #ffffff;
+      border-radius: 16px;
+
+      padding: 30px;
+
+      text-align: center;
+
+      box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.30);
+    }
+
+    .warning-icon {
+      width: 54px;
+      height: 54px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: 0 auto 18px;
+
+      border-radius: 50%;
+
+      background: #ffd900;
+
+      font-size: 27px;
+    }
+
+    .modal h2 {
+      margin: 0 0 10px;
+
+      font-size: 23px;
+      font-weight: 900;
+    }
+
+    .modal p {
+      margin: 0 0 24px;
+
+      color: #666666;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-button {
+      flex: 1;
+
+      height: 48px;
+
+      border-radius: 9px;
+      border: 1px solid #d2d2d2;
+
+      background: #ffffff;
+
+      font-size: 13px;
+      font-weight: 900;
+
+      cursor: pointer;
+    }
+
+    .modal-button:hover {
+      background: #f5f5f5;
+    }
+
+    .modal-button.start {
+      background: #e00000;
+      color: #ffffff;
+      border-color: #e00000;
+    }
+
+    .modal-button.start:hover {
+      background: #c90000;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      padding: 22px 20px 28px;
+
+      text-align: center;
+
+      color: #777777;
+
+      font-size: 12px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      main {
+        padding: 45px 15px 35px;
+      }
+
+      .subtitle {
+        margin-bottom: 38px;
+      }
+
+      .red-button {
+        width: 165px;
+        height: 165px;
+      }
+
+      .question {
+        font-size: 16px;
+      }
+
+      .action-button {
+        width: 100%;
+        max-width: 330px;
+      }
+
+      .modal-actions {
+        flex-direction: column;
+      }
+
+    }
+
+  </style>
 </head>
 
 
 <body>
 
 
-    <!-- =========================================
-         GELB-SCHWARZE ABSPERRUNG
-    ========================================== -->
+  <!-- =========================
+       ABSPERRUNG
+  ========================= -->
 
-    <div class="barrier-wrapper">
+  <div class="barrier">
 
-        <div class="barrier-track">
+    <div class="barrier-track">
 
-            <div class="barrier">
+      <div class="barrier-piece">
+        <span class="barrier-text">⚠ THE BUTTON GAME</span>
+        <span class="barrier-text">⚠ ZUGANG GESPERRT</span>
+        <span class="barrier-text">⚠ THE BUTTON GAME</span>
+      </div>
 
-                ⚠
-                <span>THE BUTTON GAME · ACHTUNG</span>
-                ⚠
-                <span>BETRETEN AUF EIGENE GEFAHR</span>
-                ⚠
-                <span>THE BUTTON GAME · ACHTUNG</span>
-                ⚠
-                <span>BETRETEN AUF EIGENE GEFAHR</span>
-
-            </div>
-
-
-            <div class="barrier">
-
-                ⚠
-                <span>THE BUTTON GAME · ACHTUNG</span>
-                ⚠
-                <span>BETRETEN AUF EIGENE GEFAHR</span>
-                ⚠
-                <span>THE BUTTON GAME · ACHTUNG</span>
-                ⚠
-                <span>BETRETEN AUF EIGENE GEFAHR</span>
-
-            </div>
-
-        </div>
+      <div class="barrier-piece">
+        <span class="barrier-text">⚠ THE BUTTON GAME</span>
+        <span class="barrier-text">⚠ ZUGANG GESPERRT</span>
+        <span class="barrier-text">⚠ THE BUTTON GAME</span>
+      </div>
 
     </div>
 
+  </div>
 
-    <!-- =========================================
-         HAUPTINHALT
-    ========================================== -->
 
-    <main>
+  <!-- =========================
+       MAIN
+  ========================= -->
 
-        <div class="game-container">
+  <main>
 
+    <div class="container">
 
-            <div class="subtitle">
-                Ein Spiel. Ein Button. Keine Ahnung was passiert.
-            </div>
+      <h1 class="title">
+        THE BUTT<span class="red-o">O</span>N GAME
+      </h1>
 
+      <p class="subtitle">
+        Drück. Entscheide. Spiele.
+      </p>
 
-            <h1 class="title">
 
-                THE BUTT<span class="red-o">O</span>N GAME
+      <!-- BUTTON -->
 
-            </h1>
+      <div class="button-area">
 
+        <button
+          class="red-button"
+          type="button"
+          onclick="firstButtonClick()"
+          aria-label="Den roten Button drücken">
+        </button>
 
-            <!-- BUTTON -->
+      </div>
 
-            <div class="button-area">
 
-                <div class="button-shadow"></div>
+      <!-- FIRST TIME -->
 
-                <button
-                    class="red-button"
-                    onclick="firstTime()"
-                    aria-label="THE BUTTON GAME starten">
-                </button>
+      <p class="question">
+        Spielst du zum ersten Mal?
+      </p>
 
-            </div>
 
+      <div class="actions">
 
-            <!-- FRAGE -->
+        <button
+          class="action-button primary"
+          type="button"
+          onclick="startFirstTime()">
+          ICH SPIELE ZUM ERSTEN MAL
+        </button>
 
-            <div class="question-line"></div>
+        <button
+          class="action-button"
+          type="button"
+          onclick="loadGame()">
+          SPIELSTAND LADEN
+        </button>
 
-            <div class="question">
-                Spielst du zum ersten Mal?
-            </div>
-
-
-            <!-- AKTIONEN -->
-
-            <div class="actions">
-
-                <button
-                    class="action-button primary"
-                    onclick="firstTime()">
-
-                    🔴 JA, ERSTES SPIEL
-
-                </button>
-
-
-                <button
-                    class="action-button load-button"
-                    onclick="loadGame()">
-
-                    ▶ SPIELSTAND LADEN
-
-                </button>
-
-            </div>
-
-
-            <!-- FOOTER -->
-
-            <div class="footer">
-
-                Spiel kostenlos Spielbar
-                ·
-                <strong>Unterstützt durch GitHub</strong>
-
-            </div>
-
-
-        </div>
-
-    </main>
-
-
-    <!-- =========================================
-         MODAL
-    ========================================== -->
-
-    <div
-        class="modal-overlay"
-        id="firstTimeModal">
-
-
-        <div class="modal">
-
-
-            <div class="modal-warning">
-                !
-            </div>
-
-
-            <h2>
-                Spielst du zum ersten Mal?
-            </h2>
-
-
-            <p>
-
-                Du hast angegeben, dass du
-                THE BUTTON GAME zum ersten Mal
-                spielst.
-                <br><br>
-
-                Dein Fortschritt wird ab jetzt
-                automatisch gespeichert.
-
-            </p>
-
-
-            <div class="modal-buttons">
-
-
-                <button onclick="closeModal()">
-                    ABBRECHEN
-                </button>
-
-
-                <button
-                    class="confirm"
-                    onclick="startGame()">
-
-                    SPIEL STARTEN
-
-                </button>
-
-
-            </div>
-
-
-        </div>
+      </div>
 
     </div>
 
+  </main>
 
-    <script>
+
+  <!-- =========================
+       WARNING MODAL
+  ========================= -->
+
+  <div
+    id="warningModal"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true">
+
+    <div class="modal">
+
+      <div class="warning-icon">
+        ⚠
+      </div>
+
+      <h2>
+        Wirklich starten?
+      </h2>
+
+      <p>
+        Du bist dabei, ein neues Spiel zu beginnen.
+        Dein Fortschritt wird ab diesem Zeitpunkt
+        gespeichert.
+      </p>
+
+      <div class="modal-actions">
+
+        <button
+          class="modal-button"
+          type="button"
+          onclick="closeWarning()">
+          ABBRECHEN
+        </button>
+
+        <button
+          class="modal-button start"
+          type="button"
+          onclick="continueFirstTime()">
+          JA, STARTEN
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
 
 
-        /* =========================================
-           ERSTES SPIEL
-        ========================================== */
+  <!-- =========================
+       FOOTER
+  ========================= -->
 
-        function firstTime() {
+  <footer>
+    Spiel kostenlos Spielbar · Unterstützt durch GitHub
+  </footer>
 
-            document
-                .getElementById("firstTimeModal")
-                .classList.add("active");
 
+  <script>
+
+    /* =========================================
+       ERSTER BUTTON
+    ========================================= */
+
+    function firstButtonClick() {
+
+      /*
+       * Die eigentliche Button-Mechanik kommt
+       * später mit dem Spielsystem.
+       */
+
+      console.log("THE BUTTON wurde gedrückt.");
+
+    }
+
+
+    /* =========================================
+       ERSTMALIGES SPIELEN
+    ========================================= */
+
+    function startFirstTime() {
+
+      document
+        .getElementById("warningModal")
+        .classList.add("visible");
+
+    }
+
+
+    function closeWarning() {
+
+      document
+        .getElementById("warningModal")
+        .classList.remove("visible");
+
+    }
+
+
+    function continueFirstTime() {
+
+      /*
+       * Registrierung wird auf der
+       * register.html durchgeführt.
+       */
+
+      window.location.href =
+        "register.html";
+
+    }
+
+
+    /* =========================================
+       SPIELSTAND LADEN
+    ========================================= */
+
+    async function loadGame() {
+
+      /*
+       * Das richtige Login-/Spielstandsystem
+       * bauen wir als nächsten Schritt.
+       *
+       * Bis dahin geht der Spieler zur
+       * Registrierung, falls er noch keinen
+       * Account hat.
+       */
+
+      window.location.href =
+        "register.html";
+
+    }
+
+
+    /* =========================================
+       MODAL MIT ESC SCHLIESSEN
+    ========================================= */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Escape") {
+          closeWarning();
         }
 
-
-        /* =========================================
-           MODAL SCHLIESSEN
-        ========================================== */
-
-        function closeModal() {
-
-            document
-                .getElementById("firstTimeModal")
-                .classList.remove("active");
-
-        }
+      }
+    );
 
 
-        /* =========================================
-           SPIEL STARTEN
-        ========================================== */
+    /* =========================================
+       KLICK AUF MODAL-HINTERGRUND
+    ========================================= */
 
-        function startGame() {
+    document
+      .getElementById("warningModal")
+      .addEventListener(
+        "click",
+        function(event) {
 
-            closeModal();
+          if (
+            event.target === this
+          ) {
 
-            /*
-             * SPÄTER:
-             *
-             * Anmeldung
-             * Benutzername
-             * Avatar
-             * Account erstellen
-             * Spielstand speichern
-             * game.html öffnen
-             */
+            closeWarning();
 
-            alert(
-                "Als Nächstes kommt die Anmeldung und Avatar-Auswahl."
-            );
+          }
 
         }
+      );
 
-
-        /* =========================================
-           SPIELSTAND LADEN
-        ========================================== */
-
-        function loadGame() {
-
-            /*
-             * SPÄTER:
-             *
-             * Gespeicherten Account erkennen
-             * Spielstand laden
-             * game.html öffnen
-             */
-
-            alert(
-                "Hier wird später dein gespeicherter Spielstand geladen."
-            );
-
-        }
-
-
-        /* =========================================
-           ESC
-        ========================================== */
-
-        document.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (event.key === "Escape") {
-                    closeModal();
-                }
-
-            }
-        );
-
-
-        /* =========================================
-           AUSSERHALB KLICKEN
-        ========================================== */
-
-        document
-            .getElementById("firstTimeModal")
-            .addEventListener(
-                "click",
-                function(event) {
-
-                    if (event.target === this) {
-                        closeModal();
-                    }
-
-                }
-            );
-
-
-    </script>
+  </script>
 
 </body>
 </html>
