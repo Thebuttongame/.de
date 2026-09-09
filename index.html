@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>THE BUTTONGAME</title>
+    <title>THE BUTTON GAME</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -14,375 +15,489 @@
         }
 
         :root {
-            --red: #d90000;
-            --dark-red: #9f0000;
-            --black: #111;
-            --gray: #777;
+            --red: #d60000;
+            --red-dark: #8e0000;
+            --black: #111111;
+            --yellow: #ffd400;
         }
 
         body {
             min-height: 100vh;
-            font-family: Arial, Helvetica, sans-serif;
-            background:
-                radial-gradient(
-                    circle at 50% 45%,
-                    rgba(220, 0, 0, 0.035),
-                    transparent 35%
-                ),
-                #ffffff;
+            background: #ffffff;
             color: var(--black);
+            font-family: Arial, Helvetica, sans-serif;
             overflow-x: hidden;
         }
 
+
         /* =========================================
-           WARNLICHTER
+           ABSERRBAND
         ========================================= */
 
-        .warning-bar {
+        .barrier-wrapper {
             position: fixed;
             top: 0;
             left: 0;
+
             width: 100%;
-            height: 82px;
+            height: 58px;
+
+            overflow: hidden;
+
+            background: #111;
+
+            border-bottom: 3px solid #111;
+
+            z-index: 100;
+        }
+
+
+        .barrier-track {
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            height: 100%;
 
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 150px;
 
-            pointer-events: none;
-            z-index: 5;
+            width: max-content;
+
+            animation: barrierMove 18s linear infinite;
         }
 
-        .warning-light {
-            position: relative;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
+
+        .barrier {
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            white-space: nowrap;
+
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 2px;
+
+            color: #111;
 
             background:
-                radial-gradient(
-                    circle at 35% 30%,
-                    #ff7777 0%,
-                    #ff1c1c 22%,
-                    #d00000 55%,
-                    #7d0000 100%
+                repeating-linear-gradient(
+                    -45deg,
+                    var(--yellow) 0px,
+                    var(--yellow) 34px,
+                    #111 34px,
+                    #111 68px
                 );
 
-            border: 5px solid #eeeeee;
+            padding: 0 34px;
+        }
+
+
+        .barrier span {
+            background: rgba(255, 212, 0, 0.92);
+
+            padding: 7px 14px;
+
+            margin: 0 20px;
+
+            border-radius: 3px;
 
             box-shadow:
-                0 0 8px rgba(220, 0, 0, 0.4),
-                0 0 25px rgba(220, 0, 0, 0.35),
-                0 0 55px rgba(220, 0, 0, 0.2);
-
-            animation: warningPulse 1.4s infinite ease-in-out;
+                0 2px 8px rgba(0,0,0,0.2);
         }
 
-        .warning-light::after {
-            content: "";
-            position: absolute;
-            inset: 8px;
-            border-radius: 50%;
-            border-top: 2px solid rgba(255,255,255,0.35);
-        }
 
-        .warning-light:nth-child(2) {
-            animation-delay: 0.7s;
-        }
+        @keyframes barrierMove {
 
-        @keyframes warningPulse {
-            0%, 100% {
-                opacity: 0.65;
-                transform: scale(0.95);
-                box-shadow:
-                    0 0 8px rgba(220,0,0,0.3),
-                    0 0 22px rgba(220,0,0,0.25),
-                    0 0 40px rgba(220,0,0,0.15);
+            from {
+                transform: translateX(0);
             }
 
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-                box-shadow:
-                    0 0 12px rgba(220,0,0,0.7),
-                    0 0 35px rgba(220,0,0,0.55),
-                    0 0 75px rgba(220,0,0,0.3);
+            to {
+                transform: translateX(-50%);
             }
+
         }
+
 
         /* =========================================
-           HAUPTBEREICH
+           MAIN
         ========================================= */
 
         main {
             min-height: 100vh;
 
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
 
-            padding: 120px 20px 70px;
+            padding: 115px 20px 70px;
         }
+
 
         .game-container {
             width: 100%;
-            max-width: 900px;
+            max-width: 760px;
+
             text-align: center;
         }
+
 
         /* =========================================
            TITEL
         ========================================= */
 
         .title {
-            font-size: clamp(52px, 9vw, 105px);
-            font-weight: 1000;
-            letter-spacing: -6px;
-            line-height: 0.9;
+            display: inline-block;
 
-            color: #111;
+            font-size: clamp(38px, 6vw, 64px);
 
-            margin-bottom: 20px;
+            font-weight: 900;
 
-            text-transform: uppercase;
+            letter-spacing: 5px;
+
+            line-height: 1;
+
+            color: #151515;
+
+            margin-bottom: 17px;
+
+            position: relative;
         }
+
+
+        .title::after {
+            content: "";
+
+            display: block;
+
+            width: 38px;
+            height: 3px;
+
+            background: var(--red);
+
+            margin: 13px auto 0;
+
+            border-radius: 5px;
+        }
+
 
         .title .red-o {
             color: var(--red);
+
             text-shadow:
-                0 0 15px rgba(217,0,0,0.18);
+                0 0 13px rgba(214,0,0,0.18);
         }
+
 
         .subtitle {
             color: #888;
-            font-size: 14px;
-            letter-spacing: 3px;
+
+            font-size: 11px;
+
             font-weight: 700;
+
+            letter-spacing: 3px;
+
             text-transform: uppercase;
         }
 
+
         /* =========================================
-           BUTTON BEREICH
+           BUTTON
         ========================================= */
 
         .button-area {
             position: relative;
 
-            width: 320px;
-            height: 320px;
+            width: 250px;
+            height: 250px;
 
-            margin: 55px auto 45px;
+            margin: 42px auto 30px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
         }
 
+
         .button-shadow {
             position: absolute;
 
-            width: 230px;
-            height: 230px;
+            width: 180px;
+            height: 180px;
 
             border-radius: 50%;
 
-            background: rgba(160,0,0,0.08);
+            background: rgba(120, 0, 0, 0.10);
 
             filter: blur(35px);
 
-            animation: buttonGlow 2.6s infinite ease-in-out;
+            animation: buttonGlow 2.8s infinite ease-in-out;
         }
 
+
         @keyframes buttonGlow {
+
             0%, 100% {
                 transform: scale(0.88);
-                opacity: 0.55;
+                opacity: 0.45;
             }
 
             50% {
-                transform: scale(1.18);
+                transform: scale(1.15);
                 opacity: 1;
             }
+
         }
+
 
         .red-button {
             position: relative;
 
-            width: 205px;
-            height: 205px;
+            width: 155px;
+            height: 155px;
 
             border-radius: 50%;
-            border: 12px solid #e7e7e7;
+
+            border: 9px solid #e9e9e9;
 
             cursor: pointer;
 
             background:
                 radial-gradient(
-                    circle at 35% 25%,
-                    #ff6666 0%,
-                    #f51b1b 18%,
-                    #c90000 52%,
-                    #810000 100%
+                    circle at 34% 24%,
+                    #ff6a6a 0%,
+                    #f21d1d 18%,
+                    #c70000 52%,
+                    #790000 100%
                 );
 
             box-shadow:
-                0 20px 30px rgba(0,0,0,0.2),
-                inset 0 10px 14px rgba(255,255,255,0.18),
-                inset 0 -18px 25px rgba(0,0,0,0.35),
-                0 0 40px rgba(210,0,0,0.22);
+
+                0 18px 28px rgba(0,0,0,0.18),
+
+                inset 0 8px 12px
+                rgba(255,255,255,0.17),
+
+                inset 0 -16px 20px
+                rgba(0,0,0,0.34),
+
+                0 0 38px
+                rgba(210,0,0,0.22);
 
             transition:
                 transform 0.12s ease,
                 box-shadow 0.12s ease;
         }
 
+
         .red-button::before {
             content: "";
 
             position: absolute;
 
-            width: 70px;
-            height: 35px;
+            width: 52px;
+            height: 25px;
 
-            top: 28px;
-            left: 43px;
+            top: 23px;
+            left: 34px;
 
             border-radius: 50%;
 
-            background: rgba(255,255,255,0.19);
+            background:
+                rgba(255,255,255,0.18);
 
-            filter: blur(5px);
+            filter: blur(4px);
 
             transform: rotate(-18deg);
         }
 
+
         .red-button:hover {
-            transform: scale(1.04);
+
+            transform: scale(1.045);
 
             box-shadow:
-                0 23px 35px rgba(0,0,0,0.22),
-                inset 0 10px 14px rgba(255,255,255,0.18),
-                inset 0 -18px 25px rgba(0,0,0,0.35),
-                0 0 70px rgba(210,0,0,0.38);
+
+                0 20px 32px rgba(0,0,0,0.20),
+
+                inset 0 8px 12px
+                rgba(255,255,255,0.17),
+
+                inset 0 -16px 20px
+                rgba(0,0,0,0.34),
+
+                0 0 62px
+                rgba(210,0,0,0.35);
         }
+
 
         .red-button:active {
-            transform: scale(0.94);
+            transform: scale(0.93);
         }
+
 
         /* =========================================
-           STARTBEREICH
+           FRAGE
         ========================================= */
 
-        .question {
-            font-size: 19px;
-            font-weight: 800;
-            margin-bottom: 18px;
-        }
-
         .question-line {
-            width: 55px;
-            height: 3px;
+
+            width: 42px;
+            height: 2px;
 
             background: var(--red);
 
-            margin: 0 auto 22px;
+            margin: 0 auto 19px;
 
-            border-radius: 10px;
+            border-radius: 5px;
         }
 
+
+        .question {
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            margin-bottom: 17px;
+        }
+
+
+        /* =========================================
+           ACTIONS
+        ========================================= */
+
         .actions {
+
             display: flex;
+
             justify-content: center;
-            gap: 12px;
+
+            gap: 10px;
+
             flex-wrap: wrap;
         }
 
+
         .action-button {
-            min-width: 230px;
 
-            padding: 16px 25px;
+            min-width: 220px;
 
-            border-radius: 8px;
+            padding: 14px 22px;
 
-            border: 1px solid #d7d7d7;
+            border-radius: 7px;
 
-            background: white;
+            border: 1px solid #d6d6d6;
+
+            background: #ffffff;
 
             color: #111;
 
-            font-size: 13px;
+            font-size: 12px;
+
             font-weight: 800;
-            letter-spacing: 0.4px;
+
+            letter-spacing: 0.5px;
 
             cursor: pointer;
 
             transition: 0.2s ease;
         }
 
+
         .action-button:hover {
-            border-color: #aaa;
+
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+
+            border-color: #aaa;
+
+            box-shadow:
+                0 8px 24px rgba(0,0,0,0.08);
         }
 
+
         .action-button.primary {
+
             background: #111;
+
             border-color: #111;
+
             color: white;
         }
 
+
         .action-button.primary:hover {
+
             background: var(--red);
+
             border-color: var(--red);
         }
 
+
         .load-button {
+
             position: relative;
         }
 
+
         .load-button::before {
+
             content: "GESPEICHERT";
 
             position: absolute;
 
-            top: -9px;
-            right: 12px;
+            top: -8px;
+            right: 10px;
 
-            padding: 3px 7px;
+            padding: 3px 6px;
 
             background: var(--red);
+
             color: white;
 
-            border-radius: 4px;
+            border-radius: 3px;
 
-            font-size: 8px;
+            font-size: 7px;
+
             letter-spacing: 1px;
         }
+
 
         /* =========================================
            FOOTER
         ========================================= */
 
         .footer {
-            margin-top: 60px;
 
-            color: #aaa;
+            margin-top: 55px;
+
+            color: #999;
 
             font-size: 10px;
 
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
 
             text-transform: uppercase;
         }
+
+
+        .footer strong {
+            color: #555;
+        }
+
 
         /* =========================================
            MODAL
         ========================================= */
 
         .modal-overlay {
+
             position: fixed;
+
             inset: 0;
 
             display: none;
@@ -392,88 +507,115 @@
 
             padding: 20px;
 
-            background: rgba(0,0,0,0.55);
+            background:
+                rgba(0,0,0,0.58);
 
             backdrop-filter: blur(8px);
 
-            z-index: 100;
+            z-index: 200;
         }
+
 
         .modal-overlay.active {
             display: flex;
         }
 
+
         .modal {
+
             width: 100%;
-            max-width: 460px;
+
+            max-width: 450px;
 
             background: white;
 
-            border-radius: 12px;
+            border-radius: 11px;
 
-            padding: 35px;
+            padding: 32px;
 
             text-align: left;
 
             box-shadow:
-                0 30px 80px rgba(0,0,0,0.3);
+                0 30px 80px
+                rgba(0,0,0,0.32);
 
             animation: modalIn 0.2s ease;
         }
 
+
         @keyframes modalIn {
+
             from {
                 opacity: 0;
-                transform: scale(0.95) translateY(10px);
+                transform: scale(0.95)
+                           translateY(10px);
             }
 
             to {
                 opacity: 1;
-                transform: scale(1) translateY(0);
+                transform: scale(1)
+                           translateY(0);
             }
+
         }
 
-        .modal-warning {
-            width: 45px;
-            height: 45px;
 
-            border-radius: 9px;
+        .modal-warning {
+
+            width: 43px;
+            height: 43px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
-            background: rgba(217,0,0,0.08);
+            border-radius: 8px;
+
+            background:
+                rgba(214,0,0,0.08);
 
             color: var(--red);
 
-            font-size: 20px;
             font-weight: 900;
 
-            margin-bottom: 20px;
+            margin-bottom: 19px;
         }
+
 
         .modal h2 {
-            font-size: 25px;
-            margin-bottom: 12px;
+
+            font-size: 23px;
+
+            margin-bottom: 11px;
         }
+
 
         .modal p {
+
             color: #777;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 25px;
+
+            font-size: 13px;
+
+            line-height: 1.65;
+
+            margin-bottom: 23px;
         }
+
 
         .modal-buttons {
+
             display: flex;
-            gap: 10px;
+
+            gap: 9px;
         }
 
+
         .modal-buttons button {
+
             flex: 1;
 
-            padding: 14px;
+            padding: 13px;
 
             border-radius: 7px;
 
@@ -483,66 +625,82 @@
 
             cursor: pointer;
 
+            font-size: 11px;
+
             font-weight: 800;
         }
+
 
         .modal-buttons button:hover {
             background: #f5f5f5;
         }
 
+
         .modal-buttons .confirm {
+
             background: var(--red);
+
             border-color: var(--red);
+
             color: white;
         }
+
 
         .modal-buttons .confirm:hover {
             background: #b90000;
         }
 
+
         /* =========================================
-           RESPONSIVE
+           MOBILE
         ========================================= */
 
         @media (max-width: 650px) {
 
-            .warning-bar {
-                gap: 70px;
+            .barrier-wrapper {
+                height: 50px;
             }
 
-            .warning-light {
-                width: 43px;
-                height: 43px;
+            .barrier {
+                font-size: 11px;
+                letter-spacing: 1.5px;
             }
 
             main {
-                padding-top: 105px;
+                padding-top: 95px;
             }
 
             .title {
-                letter-spacing: -4px;
+                font-size: 39px;
+                letter-spacing: 3px;
+            }
+
+            .subtitle {
+                font-size: 9px;
             }
 
             .button-area {
-                width: 270px;
-                height: 270px;
-                margin-top: 45px;
+                width: 220px;
+                height: 220px;
+
+                margin-top: 35px;
             }
 
             .red-button {
-                width: 175px;
-                height: 175px;
+                width: 135px;
+                height: 135px;
             }
 
             .button-shadow {
-                width: 210px;
-                height: 210px;
+                width: 160px;
+                height: 160px;
             }
 
             .actions {
                 flex-direction: column;
-                align-items: stretch;
+
                 max-width: 330px;
+
                 margin: auto;
             }
 
@@ -557,44 +715,78 @@
             .modal-buttons {
                 flex-direction: column;
             }
+
         }
 
     </style>
 </head>
 
+
 <body>
 
+
     <!-- =========================================
-         WARNLICHTER
+         GELB-SCHWARZE ABSPERRUNG
     ========================================== -->
 
-    <div class="warning-bar">
+    <div class="barrier-wrapper">
 
-        <div class="warning-light"></div>
+        <div class="barrier-track">
 
-        <div class="warning-light"></div>
+            <div class="barrier">
+
+                ⚠
+                <span>THE BUTTON GAME · ACHTUNG</span>
+                ⚠
+                <span>BETRETEN AUF EIGENE GEFAHR</span>
+                ⚠
+                <span>THE BUTTON GAME · ACHTUNG</span>
+                ⚠
+                <span>BETRETEN AUF EIGENE GEFAHR</span>
+
+            </div>
+
+
+            <div class="barrier">
+
+                ⚠
+                <span>THE BUTTON GAME · ACHTUNG</span>
+                ⚠
+                <span>BETRETEN AUF EIGENE GEFAHR</span>
+                ⚠
+                <span>THE BUTTON GAME · ACHTUNG</span>
+                ⚠
+                <span>BETRETEN AUF EIGENE GEFAHR</span>
+
+            </div>
+
+        </div>
 
     </div>
 
 
     <!-- =========================================
-         HAUPTSEITE
+         HAUPTINHALT
     ========================================== -->
 
     <main>
 
         <div class="game-container">
 
+
             <div class="subtitle">
                 Ein Spiel. Ein Button. Keine Ahnung was passiert.
             </div>
 
+
             <h1 class="title">
-                THE BUTT<span class="red-o">O</span>NGAME
+
+                THE BUTT<span class="red-o">O</span>N GAME
+
             </h1>
 
 
-            <!-- RED BUTTON -->
+            <!-- BUTTON -->
 
             <div class="button-area">
 
@@ -603,7 +795,7 @@
                 <button
                     class="red-button"
                     onclick="firstTime()"
-                    aria-label="The Button Game starten">
+                    aria-label="THE BUTTON GAME starten">
                 </button>
 
             </div>
@@ -618,28 +810,40 @@
             </div>
 
 
-            <!-- BUTTONS -->
+            <!-- AKTIONEN -->
 
             <div class="actions">
 
                 <button
                     class="action-button primary"
                     onclick="firstTime()">
+
                     🔴 JA, ERSTES SPIEL
+
                 </button>
+
 
                 <button
                     class="action-button load-button"
                     onclick="loadGame()">
+
                     ▶ SPIELSTAND LADEN
+
                 </button>
 
             </div>
 
 
+            <!-- FOOTER -->
+
             <div class="footer">
-                THE BUTTONGAME · SYSTEM BEREIT
+
+                Spiel kostenlos Spielbar
+                ·
+                <strong>Unterstützt durch GitHub</strong>
+
             </div>
+
 
         </div>
 
@@ -647,44 +851,59 @@
 
 
     <!-- =========================================
-         ERSTE-MAL-WARNUNG
+         MODAL
     ========================================== -->
 
     <div
         class="modal-overlay"
         id="firstTimeModal">
 
+
         <div class="modal">
+
 
             <div class="modal-warning">
                 !
             </div>
 
+
             <h2>
-                Wirklich anfangen?
+                Spielst du zum ersten Mal?
             </h2>
 
+
             <p>
-                Du hast angegeben, dass du THE BUTTONGAME
-                zum ersten Mal spielst.
+
+                Du hast angegeben, dass du
+                THE BUTTON GAME zum ersten Mal
+                spielst.
                 <br><br>
-                Dein Fortschritt wird ab jetzt gespeichert.
-                Bereit?
+
+                Dein Fortschritt wird ab jetzt
+                automatisch gespeichert.
+
             </p>
 
+
             <div class="modal-buttons">
+
 
                 <button onclick="closeModal()">
                     ABBRECHEN
                 </button>
 
+
                 <button
                     class="confirm"
                     onclick="startGame()">
+
                     SPIEL STARTEN
+
                 </button>
 
+
             </div>
+
 
         </div>
 
@@ -692,6 +911,7 @@
 
 
     <script>
+
 
         /* =========================================
            ERSTES SPIEL
@@ -720,7 +940,7 @@
 
 
         /* =========================================
-           NEUES SPIEL
+           SPIEL STARTEN
         ========================================== */
 
         function startGame() {
@@ -730,15 +950,17 @@
             /*
              * SPÄTER:
              *
-             * 1. Anmeldung öffnen
-             * 2. Benutzername auswählen
-             * 3. Avatar auswählen
-             * 4. Spieler in Supabase speichern
-             * 5. Spielstand erstellen
-             * 6. game.html öffnen
+             * Anmeldung
+             * Benutzername
+             * Avatar
+             * Account erstellen
+             * Spielstand speichern
+             * game.html öffnen
              */
 
-            alert("Als Nächstes kommt die Anmeldung + Avatar-Auswahl.");
+            alert(
+                "Als Nächstes kommt die Anmeldung und Avatar-Auswahl."
+            );
 
         }
 
@@ -752,41 +974,51 @@
             /*
              * SPÄTER:
              *
-             * Gespeicherten Spieler suchen
-             * und dessen Spielstand laden.
+             * Gespeicherten Account erkennen
+             * Spielstand laden
+             * game.html öffnen
              */
 
-            alert("Hier wird später dein gespeicherter Spielstand geladen.");
+            alert(
+                "Hier wird später dein gespeicherter Spielstand geladen."
+            );
 
         }
 
 
         /* =========================================
-           ESC = MODAL SCHLIESSEN
+           ESC
         ========================================== */
 
-        document.addEventListener("keydown", function(event) {
+        document.addEventListener(
+            "keydown",
+            function(event) {
 
-            if (event.key === "Escape") {
-                closeModal();
+                if (event.key === "Escape") {
+                    closeModal();
+                }
+
             }
-
-        });
+        );
 
 
         /* =========================================
-           KLICK AUSSERHALB
+           AUSSERHALB KLICKEN
         ========================================== */
 
         document
             .getElementById("firstTimeModal")
-            .addEventListener("click", function(event) {
+            .addEventListener(
+                "click",
+                function(event) {
 
-                if (event.target === this) {
-                    closeModal();
+                    if (event.target === this) {
+                        closeModal();
+                    }
+
                 }
+            );
 
-            });
 
     </script>
 
