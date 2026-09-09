@@ -1,733 +1,7 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE BUTTON GAME</title>
-
-<style>
-* {
-    box-sizing: border-box;
-}
-
-html, body {
-    margin: 0;
-    min-height: 100%;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f5f5;
-    color: #111;
-    transition: background .4s, color .4s;
-}
-
-body.dark {
-    background: #0b0b0b;
-    color: #fff;
-}
-
-.hazard {
-    width: 100%;
-    height: 28px;
-    overflow: hidden;
-    background:
-        repeating-linear-gradient(
-            135deg,
-            #111 0px,
-            #111 18px,
-            #ffd900 18px,
-            #ffd900 36px
-        );
-    border-bottom: 3px solid #111;
-    border-top: 3px solid #111;
-}
-
-.hazard-text {
-    white-space: nowrap;
-    line-height: 22px;
-    font-weight: 900;
-    font-size: 13px;
-    animation: ticker 15s linear infinite;
-    color: white;
-    text-shadow: 1px 1px 0 #000;
-}
-
-@keyframes ticker {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(-100%);
-    }
-}
-
-header {
-    height: 75px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 28px;
-    border-bottom: 1px solid #ddd;
-    background: rgba(255,255,255,.96);
-    position: relative;
-    z-index: 20;
-}
-
-body.dark header {
-    background: rgba(12,12,12,.96);
-    border-color: #292929;
-}
-
-.logo {
-    font-size: 23px;
-    font-weight: 900;
-    letter-spacing: -1px;
-}
-
-.red-o {
-    color: #e00000;
-}
-
-.user-area {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: #e00000;
-    border: 3px solid #111;
-}
-
-body.dark .avatar {
-    border-color: white;
-}
-
-.username {
-    font-weight: 800;
-}
-
-.theme-button {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 2px solid #111;
-    background: white;
-    font-size: 20px;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-body.dark .theme-button {
-    background: #191919;
-    border-color: white;
-}
-
-main {
-    min-height: calc(100vh - 103px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 35px 20px 60px;
-}
-
-.stats {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.stat {
-    min-width: 130px;
-    padding: 12px 20px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    text-align: center;
-}
-
-body.dark .stat {
-    background: #151515;
-    border-color: #333;
-}
-
-.stat-label {
-    display: block;
-    font-size: 11px;
-    text-transform: uppercase;
-    font-weight: 800;
-    opacity: .55;
-}
-
-.stat-value {
-    display: block;
-    font-size: 22px;
-    font-weight: 900;
-    margin-top: 3px;
-}
-
-.task-title {
-    font-size: 14px;
-    text-transform: uppercase;
-    font-weight: 900;
-    letter-spacing: 2px;
-    opacity: .55;
-    margin-bottom: 25px;
-}
-
-#gameArea {
-    width: min(900px, 95vw);
-    min-height: 430px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.button-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-}
-
-#mainButton {
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    border: 15px solid #8d0000;
-    background: radial-gradient(circle at 35% 30%, #ff4444, #d40000 55%, #850000);
-    box-shadow:
-        0 25px 45px rgba(0,0,0,.35),
-        inset 0 8px 10px rgba(255,255,255,.18),
-        inset 0 -15px 20px rgba(0,0,0,.3);
-    color: white;
-    font-size: 25px;
-    font-weight: 1000;
-    cursor: pointer;
-    transition: transform .08s, box-shadow .2s, background .4s;
-    user-select: none;
-}
-
-#mainButton:active {
-    transform: translateY(7px) scale(.97);
-    box-shadow:
-        0 10px 20px rgba(0,0,0,.35),
-        inset 0 10px 15px rgba(0,0,0,.3);
-}
-
-#mainButton:hover {
-    filter: brightness(1.08);
-}
-
-.button-caption {
-    font-weight: 800;
-    opacity: .6;
-}
-
-.message {
-    min-height: 25px;
-    font-weight: 900;
-    text-align: center;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* =========================
-   TASK 1
-========================= */
-
-.puzzle-screen {
-    width: min(850px, 95vw);
-    min-height: 450px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 18px;
-    background: #222;
-    box-shadow: 0 20px 60px rgba(0,0,0,.35);
-}
-
-.pinboard {
-    width: 100%;
-    min-height: 450px;
-    background-image: url("pinnwand.png");
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
-
-.code-secret {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: 15px 25px;
-    background: rgba(255,244,170,.94);
-    color: #111;
-    font-size: 38px;
-    font-weight: 1000;
-    letter-spacing: 9px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.3);
-    transform-origin: center;
-    rotate: -3deg;
-}
-
-.lock {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 280px;
-    height: 170px;
-    border-radius: 25px 25px 0 0;
-    background: linear-gradient(#444, #181818);
-    border: 5px solid #090909;
-    box-shadow: 0 -10px 30px rgba(0,0,0,.5);
-    cursor: grab;
-    touch-action: none;
-    z-index: 5;
-}
-
-.lock:active {
-    cursor: grabbing;
-}
-
-.lock-handle {
-    width: 110px;
-    height: 55px;
-    border: 14px solid #333;
-    border-bottom: 0;
-    border-radius: 60px 60px 0 0;
-    position: absolute;
-    left: 50%;
-    top: -55px;
-    transform: translateX(-50%);
-}
-
-.lock-title {
-    color: white;
-    text-align: center;
-    font-size: 18px;
-    font-weight: 900;
-    margin-top: 20px;
-}
-
-.lock-hint {
-    color: #bbb;
-    text-align: center;
-    font-size: 12px;
-    margin-top: 8px;
-}
-
-.code-area {
-    margin-top: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-.code-inputs {
-    display: flex;
-    gap: 10px;
-}
-
-.code-input {
-    width: 55px;
-    height: 65px;
-    font-size: 30px;
-    text-align: center;
-    font-weight: 900;
-    border: 2px solid #aaa;
-    border-radius: 10px;
-    background: white;
-    color: #111;
-}
-
-.code-submit {
-    border: 0;
-    padding: 12px 25px;
-    border-radius: 8px;
-    background: #111;
-    color: white;
-    font-weight: 900;
-    cursor: pointer;
-}
-
-body.dark .code-submit {
-    background: white;
-    color: #111;
-}
-
-.code-message {
-    min-height: 22px;
-    font-weight: 900;
-}
-
-/* =========================
-   TASK 2 RAINBOW
-========================= */
-
-body.rainbow {
-    animation: rainbowBackground 2s linear infinite;
-}
-
-body.rainbow header,
-body.rainbow .stat {
-    animation: rainbowBox 1.5s linear infinite;
-}
-
-body.rainbow #mainButton {
-    animation:
-        rainbowButton 1s linear infinite,
-        rainbowGlow .7s ease-in-out infinite alternate;
-}
-
-@keyframes rainbowBackground {
-    0% { background: #ff0000; }
-    16% { background: #ff8a00; }
-    33% { background: #fff000; }
-    50% { background: #00ff55; }
-    66% { background: #00bfff; }
-    83% { background: #7a00ff; }
-    100% { background: #ff009d; }
-}
-
-@keyframes rainbowBox {
-    0% { filter: hue-rotate(0deg); }
-    100% { filter: hue-rotate(360deg); }
-}
-
-@keyframes rainbowButton {
-    0% { filter: hue-rotate(0deg); }
-    100% { filter: hue-rotate(360deg); }
-}
-
-@keyframes rainbowGlow {
-    from {
-        box-shadow:
-            0 0 30px #fff,
-            0 0 70px #ff0000,
-            0 0 120px #00ffff;
-    }
-    to {
-        box-shadow:
-            0 0 50px #fff,
-            0 0 100px #ff00ff,
-            0 0 160px #ffff00;
-    }
-}
-
-/* =========================
-   TASK 2 DARK
-========================= */
-
-body.blackout {
-    background: #000 !important;
-    color: #111 !important;
-}
-
-body.blackout header,
-body.blackout .stats,
-body.blackout .task-title,
-body.blackout .button-caption,
-body.blackout .message {
-    opacity: 0;
-    transition: opacity .5s;
-}
-
-body.blackout #mainButton {
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* =========================
-   DON'T PRESS
-========================= */
-
-.dont-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-    width: 100%;
-}
-
-.countdown {
-    font-size: 90px;
-    font-weight: 1000;
-    line-height: 1;
-}
-
-.dont-button {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    border: 15px solid #8d0000;
-    background: radial-gradient(circle at 35% 30%, #ff4444, #d40000 55%, #850000);
-    color: white;
-    font-size: 30px;
-    font-weight: 1000;
-    cursor: pointer;
-    box-shadow: 0 25px 60px rgba(255,0,0,.35);
-}
-
-.dont-button:active {
-    transform: scale(.96);
-}
-
-.dont-info {
-    font-weight: 900;
-    text-align: center;
-}
-
-.success-screen {
-    text-align: center;
-}
-
-.success-screen h1 {
-    font-size: 55px;
-    margin: 0 0 15px;
-}
-
-.success-screen p {
-    opacity: .7;
-    font-weight: 700;
-}
-
-.restart-button {
-    margin-top: 20px;
-    border: 0;
-    border-radius: 9px;
-    padding: 13px 25px;
-    background: #111;
-    color: white;
-    font-weight: 900;
-    cursor: pointer;
-}
-
-body.dark .restart-button {
-    background: white;
-    color: #111;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 600px) {
-    header {
-        padding: 0 14px;
-    }
-
-    .logo {
-        font-size: 17px;
-    }
-
-    .username {
-        display: none;
-    }
-
-    #mainButton {
-        width: 220px;
-        height: 220px;
-    }
-
-    .stats {
-        width: 100%;
-    }
-
-    .stat {
-        min-width: 0;
-        flex: 1;
-    }
-
-    .puzzle-screen,
-    .pinboard {
-        min-height: 380px;
-    }
-
-    .lock {
-        width: 230px;
-    }
-
-    .dont-button {
-        width: 240px;
-        height: 240px;
-        font-size: 24px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="hazard">
-    <div class="hazard-text">
-        ⚠ THE BUTTON GAME · NICHT AUFGEBEN · ⚠ THE BUTTON GAME · WAS PASSIERT BEIM NÄCHSTEN KLICK? ·
-    </div>
-</div>
-
-<header>
-    <div class="logo">
-        THE BUTT<span class="red-o">O</span>N GAME
-    </div>
-
-    <div class="user-area">
-        <div class="avatar" id="avatar"></div>
-        <div class="username" id="username">Spieler</div>
-        <button class="theme-button" id="themeButton" title="Darkmode / Normalmode">🎨</button>
-    </div>
-</header>
-
-<main>
-
-    <div class="stats">
-        <div class="stat">
-            <span class="stat-label">Klicks</span>
-            <span class="stat-value" id="clickCounter">0</span>
-        </div>
-
-        <div class="stat">
-            <span class="stat-label">Aufgabe</span>
-            <span class="stat-value" id="taskCounter">1</span>
-        </div>
-    </div>
-
-    <div class="task-title" id="taskTitle">
-        AUFGABE 1
-    </div>
-
-    <div id="gameArea">
-
-        <!-- =========================
-             NORMALER BUTTON
-        ========================== -->
-
-        <div class="button-wrapper" id="normalGame">
-            <button id="mainButton">DRÜCKEN</button>
-            <div class="button-caption" id="buttonCaption">
-                Irgendwann passiert etwas.
-            </div>
-            <div class="message" id="mainMessage"></div>
-        </div>
-
-        <!-- =========================
-             TASK 1 PUZZLE
-        ========================== -->
-
-        <div class="hidden" id="task1Puzzle">
-
-            <div class="puzzle-screen">
-
-                <div class="pinboard">
-
-                    <div class="code-secret">
-                        5831
-                    </div>
-
-                    <div class="lock" id="lock">
-
-                        <div class="lock-handle"></div>
-
-                        <div class="lock-title">
-                            🔒 VERSCHLUSS
-                        </div>
-
-                        <div class="lock-hint">
-                            Zieh mich nach unten weg
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="code-area">
-
-                <div class="code-inputs">
-
-                    <input class="code-input" maxlength="1" inputmode="numeric">
-                    <input class="code-input" maxlength="1" inputmode="numeric">
-                    <input class="code-input" maxlength="1" inputmode="numeric">
-                    <input class="code-input" maxlength="1" inputmode="numeric">
-
-                </div>
-
-                <button class="code-submit" id="codeSubmit">
-                    CODE PRÜFEN
-                </button>
-
-                <div class="code-message" id="codeMessage"></div>
-
-            </div>
-
-        </div>
-
-        <!-- =========================
-             TASK 2 DON'T PRESS
-        ========================== -->
-
-        <div class="hidden" id="dontPressScreen">
-
-            <div class="dont-screen">
-
-                <div class="dont-info">
-                    DU HAST 10 SEKUNDEN.
-                    <br>
-                    DRÜCKE DEN BUTTON NICHT.
-                </div>
-
-                <div class="countdown" id="countdown">
-                    10
-                </div>
-
-                <button class="dont-button" id="dontButton">
-                    NICHT<br>DRÜCKEN
-                </button>
-
-                <div class="message" id="dontMessage"></div>
-
-            </div>
-
-        </div>
-
-        <!-- =========================
-             TASK 2 ERFOLG
-        ========================== -->
-
-        <div class="hidden" id="successScreen">
-
-            <div class="success-screen">
-
-                <h1>✓</h1>
-
-                <h2>AUFGABE 2 GESCHAFFT</h2>
-
-                <p>
-                    Du hast widerstanden.
-                </p>
-
-                <button class="restart-button" id="continueButton">
-                    WEITER
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</main>
-
 <script>
+
 /* =========================================================
-   SPIELER LADEN
+   SPIELER
 ========================================================= */
 
 const playerRaw = localStorage.getItem("buttonGamePlayer");
@@ -743,6 +17,7 @@ try {
 if (!player) {
     window.location.href = "register.html";
 }
+
 
 /* =========================================================
    ELEMENTE
@@ -773,16 +48,33 @@ const countdownElement = document.getElementById("countdown");
 const dontMessage = document.getElementById("dontMessage");
 
 const successScreen = document.getElementById("successScreen");
+const successText = document.getElementById("successText");
 const continueButton = document.getElementById("continueButton");
 
+const task3Screen = document.getElementById("task3Screen");
+
+const hiddenChest = document.getElementById("hiddenChest");
+const chestReward = document.getElementById("chestReward");
+const rewardButton = document.getElementById("rewardButton");
+const chestHint = document.getElementById("chestHint");
+
+const wardrobeButton = document.getElementById("wardrobeButton");
+const wardrobeScreen = document.getElementById("wardrobeScreen");
+const closeWardrobe = document.getElementById("closeWardrobe");
+
 const themeButton = document.getElementById("themeButton");
+const resetButton = document.getElementById("resetButton");
+
 
 /* =========================================================
    SPIELSTAND
 ========================================================= */
 
-let clickCount = Number(localStorage.getItem("buttonGameClicks")) || 0;
-let currentTask = Number(localStorage.getItem("buttonGameTask")) || 1;
+let clickCount =
+    Number(localStorage.getItem("buttonGameClicks")) || 0;
+
+let currentTask =
+    Number(localStorage.getItem("buttonGameTask")) || 1;
 
 let puzzle1Solved =
     localStorage.getItem("buttonGamePuzzle1Solved") === "true";
@@ -790,23 +82,59 @@ let puzzle1Solved =
 let task2Phase =
     localStorage.getItem("buttonGameTask2Phase") || "clicking";
 
+let task3ChestFound =
+    localStorage.getItem("buttonGameChestFound") === "true";
+
+
 /* =========================================================
-   SPIELER UI
+   COSMETICS
 ========================================================= */
 
-usernameElement.textContent = player.username || "Spieler";
+let selectedSkin =
+    localStorage.getItem("buttonGameSkin") || "default";
+
+let unlockedSkins;
+
+try {
+
+    unlockedSkins = JSON.parse(
+        localStorage.getItem("buttonGameUnlockedSkins")
+        || '["default"]'
+    );
+
+} catch {
+
+    unlockedSkins = ["default"];
+
+}
+
+if (!unlockedSkins.includes("default")) {
+    unlockedSkins.push("default");
+}
+
+
+/* =========================================================
+   SPIELER ANZEIGEN
+========================================================= */
+
+usernameElement.textContent =
+    player?.username || "Spieler";
+
 
 const avatarColors = {
+
     red: "#e00000",
     blue: "#1479ff",
     green: "#12a84b",
     purple: "#7b35d6",
     yellow: "#ffd000",
-    black: "#111111"
+    black: "#111"
+
 };
 
 avatarElement.style.background =
-    avatarColors[player.avatar] || "#e00000";
+    avatarColors[player?.avatar] || "#e00000";
+
 
 /* =========================================================
    SPEICHERN
@@ -833,28 +161,47 @@ function saveGame() {
         "buttonGameTask2Phase",
         task2Phase
     );
+
+    localStorage.setItem(
+        "buttonGameChestFound",
+        String(task3ChestFound)
+    );
+
 }
+
+
+/* =========================================================
+   STATS
+========================================================= */
 
 function updateStats() {
 
     clickCounter.textContent = clickCount;
     taskCounter.textContent = currentTask;
+
 }
 
+
 /* =========================================================
-   THEME
+   DARKMODE
 ========================================================= */
 
 let darkMode =
     localStorage.getItem("buttonGameDarkMode") === "true";
 
+
 function applyTheme() {
 
-    document.body.classList.toggle("dark", darkMode);
+    document.body.classList.toggle(
+        "dark",
+        darkMode
+    );
 
     themeButton.textContent =
         darkMode ? "☀️" : "🎨";
+
 }
+
 
 themeButton.addEventListener("click", () => {
 
@@ -866,12 +213,15 @@ themeButton.addEventListener("click", () => {
     );
 
     applyTheme();
+
 });
+
 
 applyTheme();
 
+
 /* =========================================================
-   SCREEN WECHSEL
+   ALLE SCREENS VERSTECKEN
 ========================================================= */
 
 function hideAllScreens() {
@@ -880,15 +230,22 @@ function hideAllScreens() {
     task1Puzzle.classList.add("hidden");
     dontPressScreen.classList.add("hidden");
     successScreen.classList.add("hidden");
+    task3Screen.classList.add("hidden");
+    wardrobeScreen.classList.add("hidden");
+
 }
 
+
 /* =========================================================
-   TASK 1
+   AUFGABE 1
 ========================================================= */
 
 function showTask1() {
 
     hideAllScreens();
+
+    document.body.classList.remove("rainbow");
+    document.body.classList.remove("blackout");
 
     taskTitle.textContent = "AUFGABE 1";
 
@@ -902,13 +259,62 @@ function showTask1() {
     mainMessage.textContent = "";
 
     updateStats();
+    applyButtonSkin();
+
 }
+
+
+/* =========================================================
+   AUFGABE 1 BUTTON
+========================================================= */
+
+mainButton.addEventListener("click", () => {
+
+    if (currentTask !== 1) {
+        return;
+    }
+
+    if (puzzle1Solved) {
+        return;
+    }
+
+    clickCount++;
+
+    updateStats();
+    saveGame();
+
+    if (clickCount < 10) {
+
+        mainMessage.textContent =
+            `${10 - clickCount} Klicks bis etwas passiert.`;
+
+        return;
+    }
+
+    if (clickCount === 10) {
+
+        mainMessage.textContent =
+            "Etwas hat sich verändert.";
+
+        setTimeout(() => {
+            startTask1Puzzle();
+        }, 400);
+
+    }
+
+});
+
+
+/* =========================================================
+   TASK 1 SCHLOSS
+========================================================= */
 
 function startTask1Puzzle() {
 
     hideAllScreens();
 
-    taskTitle.textContent = "AUFGABE 1 · RÄTSEL";
+    taskTitle.textContent =
+        "AUFGABE 1 · RÄTSEL";
 
     task1Puzzle.classList.remove("hidden");
 
@@ -922,59 +328,12 @@ function startTask1Puzzle() {
     });
 
     codeInputs[0].focus();
+
 }
 
-function solveTask1() {
-
-    puzzle1Solved = true;
-
-    currentTask = 2;
-
-    clickCount = 0;
-
-    task2Phase = "clicking";
-
-    saveGame();
-
-    showTask2Clicking();
-}
 
 /* =========================================================
-   TASK 1 BUTTON
-========================================================= */
-
-mainButton.addEventListener("click", () => {
-
-    if (currentTask !== 1) return;
-
-    if (puzzle1Solved) return;
-
-    clickCount++;
-
-    updateStats();
-    saveGame();
-
-    if (clickCount < 10) {
-
-        mainMessage.textContent =
-            "Noch nichts...";
-
-        return;
-    }
-
-    if (clickCount === 10) {
-
-        mainMessage.textContent =
-            "Etwas hat sich verändert.";
-
-        setTimeout(() => {
-            startTask1Puzzle();
-        }, 500);
-    }
-});
-
-/* =========================================================
-   CODE INPUT
+   CODE-EINGABE
 ========================================================= */
 
 codeInputs.forEach((input, index) => {
@@ -988,9 +347,13 @@ codeInputs.forEach((input, index) => {
             input.value &&
             index < codeInputs.length - 1
         ) {
+
             codeInputs[index + 1].focus();
+
         }
+
     });
+
 
     input.addEventListener("keydown", event => {
 
@@ -999,16 +362,22 @@ codeInputs.forEach((input, index) => {
             !input.value &&
             index > 0
         ) {
+
             codeInputs[index - 1].focus();
+
         }
+
     });
+
 });
+
 
 /* =========================================================
    CODE PRÜFEN
 ========================================================= */
 
 codeSubmit.addEventListener("click", checkCode);
+
 
 function checkCode() {
 
@@ -1022,8 +391,20 @@ function checkCode() {
         codeMessage.textContent =
             "✓ Richtig.";
 
+        puzzle1Solved = true;
+
+        currentTask = 2;
+
+        clickCount = 0;
+
+        task2Phase = "clicking";
+
+        saveGame();
+
         setTimeout(() => {
-            solveTask1();
+
+            showTask2Clicking();
+
         }, 700);
 
     } else {
@@ -1036,16 +417,20 @@ function checkCode() {
         });
 
         codeInputs[0].focus();
+
     }
+
 }
 
+
 /* =========================================================
-   SCHLOSS ZIEHEN
+   SCHLOSS DRAGGEN
 ========================================================= */
 
 let draggingLock = false;
 let startY = 0;
 let lockOffset = 0;
+
 
 lock.addEventListener("pointerdown", event => {
 
@@ -1053,24 +438,36 @@ lock.addEventListener("pointerdown", event => {
 
     startY = event.clientY;
 
-    lock.setPointerCapture(event.pointerId);
+    lock.setPointerCapture(
+        event.pointerId
+    );
+
 });
+
 
 lock.addEventListener("pointermove", event => {
 
-    if (!draggingLock) return;
+    if (!draggingLock) {
+        return;
+    }
 
     const difference =
         event.clientY - startY;
 
-    lockOffset = Math.max(
-        0,
-        Math.min(250, difference)
-    );
+    lockOffset =
+        Math.max(
+            0,
+            Math.min(
+                250,
+                difference
+            )
+        );
 
     lock.style.transform =
         `translateX(-50%) translateY(${lockOffset}px)`;
+
 });
+
 
 lock.addEventListener("pointerup", () => {
 
@@ -1087,16 +484,22 @@ lock.addEventListener("pointerup", () => {
 
         lock.style.transform =
             "translateX(-50%) translateY(0px)";
+
     }
+
 });
 
+
 /* =========================================================
-   TASK 2
+   AUFGABE 2 START
 ========================================================= */
 
 function showTask2Clicking() {
 
     hideAllScreens();
+
+    document.body.classList.remove("rainbow");
+    document.body.classList.remove("blackout");
 
     taskTitle.textContent =
         "AUFGABE 2";
@@ -1107,41 +510,53 @@ function showTask2Clicking() {
         "DRÜCKEN";
 
     buttonCaption.textContent =
-        "Nur noch ein paar Klicks.";
+        "Was passiert nach dem nächsten Klick?";
 
     mainMessage.textContent = "";
 
-    document.body.classList.remove("rainbow");
-    document.body.classList.remove("blackout");
-
     updateStats();
+    applyButtonSkin();
+
 }
 
+
 /* =========================================================
-   TASK 2 KLICKPHASE
+   AUFGABE 2 KLICKS
 ========================================================= */
 
 mainButton.addEventListener("click", () => {
 
-    if (currentTask !== 2) return;
+    if (currentTask !== 2) {
+        return;
+    }
 
-    if (task2Phase !== "clicking") return;
 
-    clickCount++;
+    if (task2Phase === "clicking") {
 
-    updateStats();
-    saveGame();
+        clickCount++;
 
-    /*
-       Nach Task 1:
-       5 Klicks = Rainbow
-       danach 4 weitere Klicks = Dunkel
-    */
+        updateStats();
+        saveGame();
 
-    if (clickCount <= 5) {
 
-        mainMessage.textContent =
-            `${5 - clickCount} Klicks bis zum nächsten Ereignis.`;
+        /*
+           Klick 1–4
+        */
+
+        if (clickCount < 5) {
+
+            mainMessage.textContent =
+                `${5 - clickCount} Klicks bis zum Rainbow-Effekt.`;
+
+            return;
+
+        }
+
+
+        /*
+           Klick 5:
+           RAINBOW
+        */
 
         if (clickCount === 5) {
 
@@ -1149,45 +564,82 @@ mainButton.addEventListener("click", () => {
 
             saveGame();
 
-            document.body.classList.add("rainbow");
+            document.body.classList.add(
+                "rainbow"
+            );
 
             mainMessage.textContent =
-                "🌈 WAS PASSIERT HIER?!";
+                "🌈 ALLES WIRD BUNT.";
 
-            setTimeout(() => {
+            return;
 
-                task2Phase = "dark";
-
-                clickCount = 0;
-
-                saveGame();
-
-                startDarkPhase();
-
-            }, 2200);
         }
 
-        return;
     }
+
+
+    /*
+       NACH RAINBOW:
+       4 WEITERE KLICKS
+    */
+
+    if (task2Phase === "rainbow") {
+
+        clickCount++;
+
+        updateStats();
+        saveGame();
+
+
+        const additionalClicks =
+            clickCount - 5;
+
+
+        if (additionalClicks < 4) {
+
+            mainMessage.textContent =
+                `${4 - additionalClicks} weitere Klicks.`;
+
+            return;
+
+        }
+
+
+        /*
+           ALLES AUS
+        */
+
+        task2Phase = "dark";
+
+        saveGame();
+
+        startDarkPhase();
+
+    }
+
 });
 
+
 /* =========================================================
-   DARK PHASE
+   ALLES WIRD DUNKEL
 ========================================================= */
 
 function startDarkPhase() {
 
-    document.body.classList.remove("rainbow");
+    document.body.classList.remove(
+        "rainbow"
+    );
 
-    document.body.classList.add("blackout");
+    document.body.classList.add(
+        "blackout"
+    );
 
-    normalGame.classList.remove("hidden");
-
-    mainMessage.textContent = "";
 
     setTimeout(() => {
 
-        document.body.classList.remove("blackout");
+        document.body.classList.remove(
+            "blackout"
+        );
 
         clickCount = 0;
 
@@ -1198,13 +650,16 @@ function startDarkPhase() {
         startDontPress();
 
     }, 1800);
+
 }
 
+
 /* =========================================================
-   DON'T PRESS
+   NICHT DRÜCKEN
 ========================================================= */
 
 let countdownTimer = null;
+
 
 function startDontPress() {
 
@@ -1213,15 +668,21 @@ function startDontPress() {
     taskTitle.textContent =
         "AUFGABE 2 · NICHT DRÜCKEN";
 
-    dontPressScreen.classList.remove("hidden");
+    dontPressScreen.classList.remove(
+        "hidden"
+    );
+
 
     let timeLeft = 10;
 
-    countdownElement.textContent = timeLeft;
+    countdownElement.textContent =
+        timeLeft;
 
     dontMessage.textContent = "";
 
+
     clearInterval(countdownTimer);
+
 
     countdownTimer = setInterval(() => {
 
@@ -1230,18 +691,22 @@ function startDontPress() {
         countdownElement.textContent =
             timeLeft;
 
+
         if (timeLeft <= 0) {
 
             clearInterval(countdownTimer);
 
             finishTask2();
+
         }
 
     }, 1000);
+
 }
 
+
 /* =========================================================
-   NICHT DRÜCKEN BUTTON
+   NICHT-DRÜCKEN-BUTTON
 ========================================================= */
 
 dontButton.addEventListener("click", () => {
@@ -1255,11 +720,13 @@ dontButton.addEventListener("click", () => {
 
         restartWholeGame();
 
-    }, 1000);
+    }, 900);
+
 });
 
+
 /* =========================================================
-   TASK 2 GESCHAFFT
+   AUFGABE 2 GESCHAFFT
 ========================================================= */
 
 function finishTask2() {
@@ -1272,45 +739,568 @@ function finishTask2() {
 
     saveGame();
 
+    showTask3();
+
+}
+
+
+/* =========================================================
+   AUFGABE 3
+========================================================= */
+
+function showTask3() {
+
     hideAllScreens();
 
     taskTitle.textContent =
-        "AUFGABE 2 GESCHAFFT";
+        "AUFGABE 3";
 
-    successScreen.classList.remove("hidden");
+    task3Screen.classList.remove(
+        "hidden"
+    );
+
+    updateStats();
+
+
+    if (task3ChestFound) {
+
+        chestHint.textContent =
+            "Truhe bereits gefunden.";
+
+        hiddenChest.classList.add(
+            "visible"
+        );
+
+    } else {
+
+        chestHint.textContent =
+            "Bewege die Gegenstände und finde die Truhe.";
+
+    }
+
 }
 
+
 /* =========================================================
-   WEITER
+   BEWEGBARE GEGENSTÄNDE
 ========================================================= */
 
-continueButton.addEventListener("click", () => {
+const draggableObjects =
+    document.querySelectorAll(".draggable");
 
-    /*
-       Task 3 kommt als nächstes.
-       Bis dahin zeigen wir eine Übergangsseite.
-    */
 
-    taskTitle.textContent =
-        "AUFGABE 3";
+draggableObjects.forEach(element => {
 
-    successScreen.querySelector("h2").textContent =
-        "AUFGABE 3";
+    let dragging = false;
 
-    successScreen.querySelector("p").textContent =
-        "Die nächste Aufgabe kommt hier rein.";
+    let offsetX = 0;
+    let offsetY = 0;
 
-    continueButton.textContent =
-        "WEITER";
+
+    element.addEventListener("pointerdown", event => {
+
+        dragging = true;
+
+        element.setPointerCapture(
+            event.pointerId
+        );
+
+
+        const rect =
+            element.getBoundingClientRect();
+
+
+        offsetX =
+            event.clientX - rect.left;
+
+        offsetY =
+            event.clientY - rect.top;
+
+    });
+
+
+    element.addEventListener("pointermove", event => {
+
+        if (!dragging) {
+            return;
+        }
+
+
+        const room =
+            document.getElementById("room");
+
+
+        const roomRect =
+            room.getBoundingClientRect();
+
+
+        let x =
+            event.clientX -
+            roomRect.left -
+            offsetX;
+
+
+        let y =
+            event.clientY -
+            roomRect.top -
+            offsetY;
+
+
+        x = Math.max(
+            0,
+            Math.min(
+                roomRect.width -
+                element.offsetWidth,
+                x
+            )
+        );
+
+
+        y = Math.max(
+            0,
+            Math.min(
+                roomRect.height -
+                element.offsetHeight,
+                y
+            )
+        );
+
+
+        element.style.left =
+            `${x}px`;
+
+        element.style.top =
+            `${y}px`;
+
+        element.style.right =
+            "auto";
+
+        element.style.bottom =
+            "auto";
+
+
+        checkChestVisibility();
+
+    });
+
+
+    element.addEventListener("pointerup", () => {
+
+        dragging = false;
+
+        checkChestVisibility();
+
+    });
+
 });
 
+
 /* =========================================================
-   KOMPLETTER NEUSTART
+   TRUHE SICHTBARKEIT
 ========================================================= */
+
+function checkChestVisibility() {
+
+    if (task3ChestFound) {
+        return;
+    }
+
+
+    const room =
+        document.getElementById("room");
+
+
+    const chestRect =
+        hiddenChest.getBoundingClientRect();
+
+
+    const objects =
+        Array.from(
+            room.querySelectorAll(".draggable")
+        );
+
+
+    let uncovered = true;
+
+
+    for (const object of objects) {
+
+        const rect =
+            object.getBoundingClientRect();
+
+
+        const overlap =
+            !(
+                rect.right < chestRect.left ||
+                rect.left > chestRect.right ||
+                rect.bottom < chestRect.top ||
+                rect.top > chestRect.bottom
+            );
+
+
+        if (overlap) {
+
+            uncovered = false;
+
+            break;
+
+        }
+
+    }
+
+
+    if (uncovered) {
+
+        hiddenChest.classList.add(
+            "visible"
+        );
+
+        chestHint.textContent =
+            "👀 DA IST ETWAS!";
+
+    } else {
+
+        hiddenChest.classList.remove(
+            "visible"
+        );
+
+        chestHint.textContent =
+            "Bewege die Gegenstände und finde die Truhe.";
+
+    }
+
+}
+
+
+/* =========================================================
+   TRUHE ÖFFNEN
+========================================================= */
+
+hiddenChest.addEventListener("click", () => {
+
+    if (
+        !hiddenChest.classList.contains("visible")
+    ) {
+
+        return;
+
+    }
+
+
+    if (task3ChestFound) {
+
+        openChestReward();
+
+        return;
+
+    }
+
+
+    task3ChestFound = true;
+
+
+    /*
+       NEON ROT DAUERHAFT FREISCHALTEN
+    */
+
+    if (!unlockedSkins.includes("neon")) {
+
+        unlockedSkins.push("neon");
+
+    }
+
+
+    localStorage.setItem(
+        "buttonGameUnlockedSkins",
+        JSON.stringify(unlockedSkins)
+    );
+
+
+    saveGame();
+
+
+    hiddenChest.classList.add(
+        "found"
+    );
+
+
+    chestHint.textContent =
+        "🎉 TRUHE GEÖFFNET!";
+
+
+    openChestReward();
+
+});
+
+
+/* =========================================================
+   TRUHEN-REWARD
+========================================================= */
+
+function openChestReward() {
+
+    chestReward.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+rewardButton.addEventListener("click", () => {
+
+    chestReward.classList.add(
+        "hidden"
+    );
+
+    openWardrobe();
+
+});
+
+
+/* =========================================================
+   KLEIDERSCHRANK
+========================================================= */
+
+function openWardrobe() {
+
+    hideAllScreens();
+
+    taskTitle.textContent =
+        "KLEIDERSCHRANK";
+
+    wardrobeScreen.classList.remove(
+        "hidden"
+    );
+
+    updateWardrobe();
+
+}
+
+
+function updateWardrobe() {
+
+    document.querySelectorAll(".skin-card")
+        .forEach(card => {
+
+            const skin =
+                card.dataset.skin;
+
+
+            const unlocked =
+                unlockedSkins.includes(
+                    skin
+                );
+
+
+            card.classList.toggle(
+                "locked",
+                !unlocked
+            );
+
+
+            card.classList.toggle(
+                "active",
+                selectedSkin === skin
+            );
+
+
+            const status =
+                card.querySelector("span");
+
+
+            if (unlocked) {
+
+                status.textContent =
+                    "Freigeschaltet";
+
+            } else {
+
+                status.textContent =
+                    "🔒 Noch nicht gefunden";
+
+            }
+
+        });
+
+
+    applyButtonSkin();
+
+}
+
+
+/* =========================================================
+   BUTTON-SKIN
+========================================================= */
+
+function applyButtonSkin() {
+
+    mainButton.classList.remove(
+        "button-skin-neon",
+        "button-skin-rainbow",
+        "button-skin-ice",
+        "button-skin-matrix",
+        "button-skin-gold"
+    );
+
+
+    if (selectedSkin === "neon") {
+
+        mainButton.classList.add(
+            "button-skin-neon"
+        );
+
+    }
+
+
+    if (selectedSkin === "rainbow") {
+
+        mainButton.classList.add(
+            "button-skin-rainbow"
+        );
+
+    }
+
+
+    if (selectedSkin === "ice") {
+
+        mainButton.classList.add(
+            "button-skin-ice"
+        );
+
+    }
+
+
+    if (selectedSkin === "matrix") {
+
+        mainButton.classList.add(
+            "button-skin-matrix"
+        );
+
+    }
+
+
+    if (selectedSkin === "gold") {
+
+        mainButton.classList.add(
+            "button-skin-gold"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SKINS AUSWÄHLEN
+========================================================= */
+
+document.querySelectorAll(".skin-card")
+    .forEach(card => {
+
+        card.addEventListener("click", () => {
+
+            const skin =
+                card.dataset.skin;
+
+
+            if (
+                !unlockedSkins.includes(skin)
+            ) {
+
+                return;
+
+            }
+
+
+            selectedSkin = skin;
+
+
+            localStorage.setItem(
+                "buttonGameSkin",
+                selectedSkin
+            );
+
+
+            updateWardrobe();
+
+        });
+
+    });
+
+
+/* =========================================================
+   KLEIDERSCHRANK ÖFFNEN
+========================================================= */
+
+wardrobeButton.addEventListener("click", () => {
+
+    openWardrobe();
+
+});
+
+
+/* =========================================================
+   KLEIDERSCHRANK SCHLIESSEN
+========================================================= */
+
+closeWardrobe.addEventListener("click", () => {
+
+    wardrobeScreen.classList.add(
+        "hidden"
+    );
+
+
+    if (currentTask === 1) {
+
+        showTask1();
+
+    } else if (currentTask === 2) {
+
+        if (task2Phase === "dontpress") {
+
+            startDontPress();
+
+        } else {
+
+            showTask2Clicking();
+
+        }
+
+    } else {
+
+        showTask3();
+
+    }
+
+});
+
+
+/* =========================================================
+   RESET ALL
+========================================================= */
+
+resetButton.addEventListener("click", () => {
+
+    const confirmed =
+        confirm(
+            "Willst du wirklich den kompletten Spielverlauf zurücksetzen?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    restartWholeGame();
+
+});
+
 
 function restartWholeGame() {
 
     clearInterval(countdownTimer);
+
 
     clickCount = 0;
 
@@ -1320,84 +1310,139 @@ function restartWholeGame() {
 
     task2Phase = "clicking";
 
-    localStorage.removeItem("buttonGameClicks");
-    localStorage.removeItem("buttonGameTask");
-    localStorage.removeItem("buttonGamePuzzle1Solved");
-    localStorage.removeItem("buttonGameTask2Phase");
+    task3ChestFound = false;
 
-    document.body.classList.remove("rainbow");
-    document.body.classList.remove("blackout");
+
+    localStorage.removeItem(
+        "buttonGameClicks"
+    );
+
+    localStorage.removeItem(
+        "buttonGameTask"
+    );
+
+    localStorage.removeItem(
+        "buttonGamePuzzle1Solved"
+    );
+
+    localStorage.removeItem(
+        "buttonGameTask2Phase"
+    );
+
+    localStorage.removeItem(
+        "buttonGameChestFound"
+    );
+
+
+    /*
+       WICHTIG:
+
+       Die freigeschalteten Cosmetics
+       BLEIBEN ERHALTEN.
+
+       Auch NEON ROT bleibt nach RESET ALL
+       im Kleiderschrank.
+    */
+
+
+    document.body.classList.remove(
+        "rainbow"
+    );
+
+    document.body.classList.remove(
+        "blackout"
+    );
+
+
+    hiddenChest.classList.remove(
+        "visible"
+    );
+
+    hiddenChest.classList.remove(
+        "found"
+    );
+
+    chestReward.classList.add(
+        "hidden"
+    );
+
 
     saveGame();
 
     showTask1();
+
 }
 
+
 /* =========================================================
-   START
+   STARTZUSTAND
 ========================================================= */
 
 updateStats();
 
+applyButtonSkin();
+
+
 if (currentTask === 1) {
 
     if (puzzle1Solved) {
+
         currentTask = 2;
+
+        clickCount = 0;
+
+        task2Phase = "clicking";
+
         saveGame();
+
         showTask2Clicking();
+
     } else {
+
         showTask1();
+
     }
 
-} else if (currentTask === 2) {
+}
+
+
+else if (currentTask === 2) {
 
     if (task2Phase === "dontpress") {
 
         startDontPress();
 
-    } else if (
-        task2Phase === "rainbow" ||
-        task2Phase === "dark"
-    ) {
-
-        /*
-           Falls die Seite während der Effektphase
-           neu geladen wurde, sicherheitshalber
-           wieder bei Task 2 starten.
-        */
-
-        clickCount = 0;
-        task2Phase = "clicking";
-
-        document.body.classList.remove("rainbow");
-        document.body.classList.remove("blackout");
-
-        saveGame();
-
-        showTask2Clicking();
-
     } else {
 
+        /*
+           Bei einem Reload während Rainbow/Dark
+           wird Aufgabe 2 sauber neu gestartet.
+        */
+
+        if (
+            task2Phase === "rainbow" ||
+            task2Phase === "dark"
+        ) {
+
+            clickCount = 0;
+
+            task2Phase = "clicking";
+
+            saveGame();
+
+        }
+
         showTask2Clicking();
+
     }
 
-} else if (currentTask >= 3) {
+}
 
-    hideAllScreens();
 
-    taskTitle.textContent =
-        "AUFGABE 3";
+else if (currentTask >= 3) {
 
-    successScreen.classList.remove("hidden");
-
-    successScreen.querySelector("h2").textContent =
-        "AUFGABE 3";
-
-    successScreen.querySelector("p").textContent =
-        "Die nächste Aufgabe kommt hier rein.";
+    showTask3();
 
 }
-</script>
 
-</body>
-</html>
+</script>
