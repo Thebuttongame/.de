@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#080808">
 
-    <title>THE RED BUTTON</title>
+    <title>THE BUTTONGAME</title>
 
     <style>
         * {
@@ -15,187 +14,224 @@
         }
 
         :root {
-            --red: #e50914;
-            --red-dark: #a8070f;
-            --red-light: #ff2631;
-            --bg: #070707;
-            --panel: #111111;
-            --panel-light: #181818;
-            --border: #292929;
-            --text: #ffffff;
-            --muted: #8d8d8d;
+            --red: #d90000;
+            --dark-red: #9f0000;
+            --black: #111;
+            --gray: #777;
         }
 
         body {
             min-height: 100vh;
-            background:
-                radial-gradient(circle at 50% 35%, rgba(229, 9, 20, 0.10), transparent 30%),
-                #070707;
-            color: var(--text);
             font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(
+                    circle at 50% 45%,
+                    rgba(220, 0, 0, 0.035),
+                    transparent 35%
+                ),
+                #ffffff;
+            color: var(--black);
             overflow-x: hidden;
         }
 
-        /* =========================
-           HEADER
-        ========================= */
+        /* =========================================
+           WARNLICHTER
+        ========================================= */
 
-        header {
-            height: 74px;
-            border-bottom: 1px solid #202020;
+        .warning-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 82px;
+
             display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 38px;
+            gap: 150px;
+
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .warning-light {
             position: relative;
-            z-index: 10;
-            background: rgba(7, 7, 7, 0.92);
-            backdrop-filter: blur(12px);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle at 35% 30%,
+                    #ff7777 0%,
+                    #ff1c1c 22%,
+                    #d00000 55%,
+                    #7d0000 100%
+                );
+
+            border: 5px solid #eeeeee;
+
+            box-shadow:
+                0 0 8px rgba(220, 0, 0, 0.4),
+                0 0 25px rgba(220, 0, 0, 0.35),
+                0 0 55px rgba(220, 0, 0, 0.2);
+
+            animation: warningPulse 1.4s infinite ease-in-out;
         }
 
-        .logo {
-            font-size: 20px;
-            font-weight: 900;
-            letter-spacing: 4px;
+        .warning-light::after {
+            content: "";
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            border-top: 2px solid rgba(255,255,255,0.35);
         }
 
-        .logo span {
-            color: var(--red);
+        .warning-light:nth-child(2) {
+            animation-delay: 0.7s;
         }
 
-        nav {
-            display: flex;
-            gap: 10px;
+        @keyframes warningPulse {
+            0%, 100% {
+                opacity: 0.65;
+                transform: scale(0.95);
+                box-shadow:
+                    0 0 8px rgba(220,0,0,0.3),
+                    0 0 22px rgba(220,0,0,0.25),
+                    0 0 40px rgba(220,0,0,0.15);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+                box-shadow:
+                    0 0 12px rgba(220,0,0,0.7),
+                    0 0 35px rgba(220,0,0,0.55),
+                    0 0 75px rgba(220,0,0,0.3);
+            }
         }
 
-        nav button {
-            border: 1px solid transparent;
-            background: transparent;
-            color: #aaa;
-            padding: 10px 15px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 700;
-            transition: 0.2s ease;
-        }
-
-        nav button:hover {
-            color: white;
-            background: #151515;
-        }
-
-        /* =========================
-           MAIN
-        ========================= */
+        /* =========================================
+           HAUPTBEREICH
+        ========================================= */
 
         main {
-            min-height: calc(100vh - 74px);
+            min-height: 100vh;
+
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 50px 20px 80px;
+            align-items: center;
+
+            padding: 120px 20px 70px;
         }
 
-        .main-content {
+        .game-container {
             width: 100%;
             max-width: 900px;
             text-align: center;
         }
 
-        .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 7px 12px;
-            border: 1px solid #292929;
-            background: #101010;
-            border-radius: 999px;
-            color: #8f8f8f;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 35px;
-        }
+        /* =========================================
+           TITEL
+        ========================================= */
 
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            background: #555;
-            border-radius: 50%;
-        }
-
-        h1 {
-            font-size: clamp(48px, 9vw, 108px);
+        .title {
+            font-size: clamp(52px, 9vw, 105px);
+            font-weight: 1000;
+            letter-spacing: -6px;
             line-height: 0.9;
-            letter-spacing: -5px;
-            font-weight: 950;
-            margin-bottom: 24px;
+
+            color: #111;
+
+            margin-bottom: 20px;
+
+            text-transform: uppercase;
         }
 
-        h1 .red {
+        .title .red-o {
             color: var(--red);
+            text-shadow:
+                0 0 15px rgba(217,0,0,0.18);
         }
 
         .subtitle {
-            color: #858585;
-            max-width: 540px;
-            margin: 0 auto;
-            line-height: 1.6;
-            font-size: 15px;
+            color: #888;
+            font-size: 14px;
+            letter-spacing: 3px;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        /* =========================
-           BUTTON
-        ========================= */
+        /* =========================================
+           BUTTON BEREICH
+        ========================================= */
 
         .button-area {
-            margin: 60px auto 50px;
             position: relative;
-            width: 260px;
-            height: 260px;
+
+            width: 320px;
+            height: 320px;
+
+            margin: 55px auto 45px;
+
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
         }
 
-        .button-glow {
+        .button-shadow {
             position: absolute;
+
             width: 230px;
             height: 230px;
+
             border-radius: 50%;
-            background: rgba(229, 9, 20, 0.08);
+
+            background: rgba(160,0,0,0.08);
+
             filter: blur(35px);
-            animation: glow 2.8s infinite ease-in-out;
+
+            animation: buttonGlow 2.6s infinite ease-in-out;
         }
 
-        @keyframes glow {
+        @keyframes buttonGlow {
             0%, 100% {
-                transform: scale(0.9);
-                opacity: 0.5;
+                transform: scale(0.88);
+                opacity: 0.55;
             }
 
             50% {
-                transform: scale(1.15);
+                transform: scale(1.18);
                 opacity: 1;
             }
         }
 
         .red-button {
             position: relative;
-            width: 190px;
-            height: 190px;
+
+            width: 205px;
+            height: 205px;
+
             border-radius: 50%;
-            border: 10px solid #270608;
-            background:
-                radial-gradient(circle at 35% 27%, #ff6268 0%, #f01824 22%, #c50912 57%, #82040b 100%);
-            box-shadow:
-                0 18px 35px rgba(0, 0, 0, 0.7),
-                inset 0 9px 13px rgba(255,255,255,0.12),
-                inset 0 -16px 20px rgba(0,0,0,0.35),
-                0 0 45px rgba(229,9,20,0.18);
+            border: 12px solid #e7e7e7;
+
             cursor: pointer;
+
+            background:
+                radial-gradient(
+                    circle at 35% 25%,
+                    #ff6666 0%,
+                    #f51b1b 18%,
+                    #c90000 52%,
+                    #810000 100%
+                );
+
+            box-shadow:
+                0 20px 30px rgba(0,0,0,0.2),
+                inset 0 10px 14px rgba(255,255,255,0.18),
+                inset 0 -18px 25px rgba(0,0,0,0.35),
+                0 0 40px rgba(210,0,0,0.22);
+
             transition:
                 transform 0.12s ease,
                 box-shadow 0.12s ease;
@@ -203,147 +239,218 @@
 
         .red-button::before {
             content: "";
+
             position: absolute;
-            width: 55px;
-            height: 27px;
+
+            width: 70px;
+            height: 35px;
+
             top: 28px;
             left: 43px;
+
             border-radius: 50%;
-            background: rgba(255,255,255,0.17);
-            filter: blur(4px);
+
+            background: rgba(255,255,255,0.19);
+
+            filter: blur(5px);
+
             transform: rotate(-18deg);
         }
 
         .red-button:hover {
-            transform: scale(1.035);
+            transform: scale(1.04);
+
             box-shadow:
-                0 20px 40px rgba(0, 0, 0, 0.7),
-                inset 0 9px 13px rgba(255,255,255,0.12),
-                inset 0 -16px 20px rgba(0,0,0,0.35),
-                0 0 65px rgba(229,9,20,0.28);
+                0 23px 35px rgba(0,0,0,0.22),
+                inset 0 10px 14px rgba(255,255,255,0.18),
+                inset 0 -18px 25px rgba(0,0,0,0.35),
+                0 0 70px rgba(210,0,0,0.38);
         }
 
         .red-button:active {
             transform: scale(0.94);
         }
 
-        .button-label {
-            position: absolute;
-            bottom: -38px;
-            left: 0;
-            width: 100%;
-            color: #666;
-            font-size: 10px;
-            letter-spacing: 2px;
-            font-weight: 700;
-            text-transform: uppercase;
+        /* =========================================
+           STARTBEREICH
+        ========================================= */
+
+        .question {
+            font-size: 19px;
+            font-weight: 800;
+            margin-bottom: 18px;
         }
 
-        /* =========================
-           ACTIONS
-        ========================= */
+        .question-line {
+            width: 55px;
+            height: 3px;
+
+            background: var(--red);
+
+            margin: 0 auto 22px;
+
+            border-radius: 10px;
+        }
 
         .actions {
             display: flex;
             justify-content: center;
+            gap: 12px;
             flex-wrap: wrap;
-            gap: 10px;
         }
 
-        .action {
-            min-width: 190px;
-            padding: 15px 22px;
+        .action-button {
+            min-width: 230px;
+
+            padding: 16px 25px;
+
             border-radius: 8px;
-            border: 1px solid var(--border);
-            background: #111;
-            color: white;
-            font-weight: 700;
+
+            border: 1px solid #d7d7d7;
+
+            background: white;
+
+            color: #111;
+
             font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+
             cursor: pointer;
+
             transition: 0.2s ease;
         }
 
-        .action:hover {
-            background: #181818;
-            border-color: #3a3a3a;
+        .action-button:hover {
+            border-color: #aaa;
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
-        .action.primary {
+        .action-button.primary {
+            background: #111;
+            border-color: #111;
+            color: white;
+        }
+
+        .action-button.primary:hover {
             background: var(--red);
             border-color: var(--red);
         }
 
-        .action.primary:hover {
-            background: var(--red-light);
+        .load-button {
+            position: relative;
         }
 
-        /* =========================
-           MODAL
-        ========================= */
+        .load-button::before {
+            content: "GESPEICHERT";
 
-        .modal-background {
+            position: absolute;
+
+            top: -9px;
+            right: 12px;
+
+            padding: 3px 7px;
+
+            background: var(--red);
+            color: white;
+
+            border-radius: 4px;
+
+            font-size: 8px;
+            letter-spacing: 1px;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .footer {
+            margin-top: 60px;
+
+            color: #aaa;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+        }
+
+        /* =========================================
+           MODAL
+        ========================================= */
+
+        .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.78);
-            backdrop-filter: blur(10px);
+
             display: none;
+
             align-items: center;
             justify-content: center;
+
             padding: 20px;
+
+            background: rgba(0,0,0,0.55);
+
+            backdrop-filter: blur(8px);
+
             z-index: 100;
         }
 
-        .modal-background.show {
+        .modal-overlay.active {
             display: flex;
-            animation: fadeIn 0.2s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
         }
 
         .modal {
             width: 100%;
-            max-width: 480px;
-            background: #111;
-            border: 1px solid #303030;
-            border-radius: 14px;
-            padding: 32px;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.7);
+            max-width: 460px;
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 35px;
+
+            text-align: left;
+
+            box-shadow:
+                0 30px 80px rgba(0,0,0,0.3);
+
             animation: modalIn 0.2s ease;
         }
 
         @keyframes modalIn {
             from {
-                transform: scale(0.96) translateY(10px);
                 opacity: 0;
+                transform: scale(0.95) translateY(10px);
             }
 
             to {
-                transform: scale(1) translateY(0);
                 opacity: 1;
+                transform: scale(1) translateY(0);
             }
         }
 
-        .warning-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            background: rgba(229,9,20,0.12);
-            border: 1px solid rgba(229,9,20,0.3);
+        .modal-warning {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 9px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
+            background: rgba(217,0,0,0.08);
+
             color: var(--red);
-            font-size: 22px;
-            margin-bottom: 22px;
+
+            font-size: 20px;
+            font-weight: 900;
+
+            margin-bottom: 20px;
         }
 
         .modal h2 {
@@ -352,94 +459,94 @@
         }
 
         .modal p {
-            color: #888;
+            color: #777;
             font-size: 14px;
-            line-height: 1.65;
+            line-height: 1.6;
             margin-bottom: 25px;
         }
 
-        .modal-actions {
+        .modal-buttons {
             display: flex;
             gap: 10px;
         }
 
-        .modal-actions button {
+        .modal-buttons button {
             flex: 1;
-            padding: 13px;
+
+            padding: 14px;
+
             border-radius: 7px;
+
+            border: 1px solid #ddd;
+
+            background: white;
+
             cursor: pointer;
-            font-weight: 700;
-            border: 1px solid #333;
-            background: #181818;
+
+            font-weight: 800;
+        }
+
+        .modal-buttons button:hover {
+            background: #f5f5f5;
+        }
+
+        .modal-buttons .confirm {
+            background: var(--red);
+            border-color: var(--red);
             color: white;
         }
 
-        .modal-actions button:hover {
-            background: #222;
+        .modal-buttons .confirm:hover {
+            background: #b90000;
         }
 
-        .modal-actions .start {
-            background: var(--red);
-            border-color: var(--red);
-        }
-
-        .modal-actions .start:hover {
-            background: var(--red-light);
-        }
-
-        /* =========================
+        /* =========================================
            RESPONSIVE
-        ========================= */
+        ========================================= */
 
         @media (max-width: 650px) {
 
-            header {
-                height: auto;
-                padding: 18px 20px;
-                flex-direction: column;
-                gap: 15px;
+            .warning-bar {
+                gap: 70px;
             }
 
-            nav {
-                width: 100%;
-                justify-content: center;
-            }
-
-            nav button {
-                font-size: 11px;
-                padding: 8px 10px;
+            .warning-light {
+                width: 43px;
+                height: 43px;
             }
 
             main {
-                min-height: calc(100vh - 120px);
-                padding-top: 35px;
+                padding-top: 105px;
             }
 
-            h1 {
-                letter-spacing: -3px;
+            .title {
+                letter-spacing: -4px;
             }
 
             .button-area {
-                margin-top: 50px;
-                margin-bottom: 45px;
+                width: 270px;
+                height: 270px;
+                margin-top: 45px;
             }
 
             .red-button {
-                width: 165px;
-                height: 165px;
+                width: 175px;
+                height: 175px;
             }
 
-            .button-glow {
-                width: 205px;
-                height: 205px;
+            .button-shadow {
+                width: 210px;
+                height: 210px;
             }
 
             .actions {
                 flex-direction: column;
                 align-items: stretch;
+                max-width: 330px;
+                margin: auto;
             }
 
-            .action {
+            .action-button {
                 width: 100%;
             }
 
@@ -447,93 +554,91 @@
                 padding: 25px;
             }
 
-            .modal-actions {
+            .modal-buttons {
                 flex-direction: column;
             }
         }
+
     </style>
 </head>
 
 <body>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
+    <!-- =========================================
+         WARNLICHTER
+    ========================================== -->
 
-    <header>
+    <div class="warning-bar">
 
-        <div class="logo">
-            THE <span>RED</span> BUTTON
-        </div>
+        <div class="warning-light"></div>
 
-        <nav>
-            <button onclick="showLogin()">ANMELDEN</button>
-            <button onclick="showLeaderboard()">RANGLISTE</button>
-            <button onclick="showProfile()">PROFIL</button>
-        </nav>
+        <div class="warning-light"></div>
 
-    </header>
+    </div>
 
 
-    <!-- =========================
-         MAIN
-    ========================== -->
+    <!-- =========================================
+         HAUPTSEITE
+    ========================================== -->
 
     <main>
 
-        <div class="main-content">
+        <div class="game-container">
 
-            <div class="status">
-                <span class="status-dot"></span>
-                SYSTEM BEREIT
+            <div class="subtitle">
+                Ein Spiel. Ein Button. Keine Ahnung was passiert.
             </div>
 
-            <h1>
-                THE <span class="red">RED</span><br>
-                BUTTON
+            <h1 class="title">
+                THE BUTT<span class="red-o">O</span>NGAME
             </h1>
-
-            <p class="subtitle">
-                Ein Spiel, bei dem niemand weiß, was als Nächstes passiert.
-                Drückst du den Button?
-            </p>
 
 
             <!-- RED BUTTON -->
 
             <div class="button-area">
 
-                <div class="button-glow"></div>
+                <div class="button-shadow"></div>
 
                 <button
                     class="red-button"
-                    onclick="openWarning()"
-                    aria-label="The Red Button starten">
+                    onclick="firstTime()"
+                    aria-label="The Button Game starten">
                 </button>
-
-                <div class="button-label">
-                    Bist du bereit?
-                </div>
 
             </div>
 
 
-            <!-- ACTION BUTTONS -->
+            <!-- FRAGE -->
+
+            <div class="question-line"></div>
+
+            <div class="question">
+                Spielst du zum ersten Mal?
+            </div>
+
+
+            <!-- BUTTONS -->
 
             <div class="actions">
 
                 <button
-                    class="action primary"
-                    onclick="openWarning()">
-                    🔴 Ich spiele zum ersten Mal
+                    class="action-button primary"
+                    onclick="firstTime()">
+                    🔴 JA, ERSTES SPIEL
                 </button>
 
                 <button
-                    class="action"
-                    onclick="continueGame()">
-                    ▶ Weiterspielen
+                    class="action-button load-button"
+                    onclick="loadGame()">
+                    ▶ SPIELSTAND LADEN
                 </button>
 
+            </div>
+
+
+            <div class="footer">
+                THE BUTTONGAME · SYSTEM BEREIT
             </div>
 
         </div>
@@ -541,41 +646,41 @@
     </main>
 
 
-    <!-- =========================
-         WARNING MODAL
-    ========================== -->
+    <!-- =========================================
+         ERSTE-MAL-WARNUNG
+    ========================================== -->
 
     <div
-        class="modal-background"
-        id="warningModal">
+        class="modal-overlay"
+        id="firstTimeModal">
 
         <div class="modal">
 
-            <div class="warning-icon">
+            <div class="modal-warning">
                 !
             </div>
 
             <h2>
-                Spiel wirklich starten?
+                Wirklich anfangen?
             </h2>
 
             <p>
-                Du bist dabei, THE RED BUTTON zum ersten Mal
-                zu starten. Ab diesem Moment wird dein Fortschritt
-                gespeichert.
+                Du hast angegeben, dass du THE BUTTONGAME
+                zum ersten Mal spielst.
                 <br><br>
-                Bist du sicher, dass du beginnen möchtest?
+                Dein Fortschritt wird ab jetzt gespeichert.
+                Bereit?
             </p>
 
-            <div class="modal-actions">
+            <div class="modal-buttons">
 
-                <button onclick="closeWarning()">
-                    Abbrechen
+                <button onclick="closeModal()">
+                    ABBRECHEN
                 </button>
 
                 <button
-                    class="start"
-                    onclick="startNewGame()">
+                    class="confirm"
+                    onclick="startGame()">
                     SPIEL STARTEN
                 </button>
 
@@ -586,109 +691,99 @@
     </div>
 
 
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
-
     <script>
 
-        /* ---------------------------------
-           WARNING
-        --------------------------------- */
+        /* =========================================
+           ERSTES SPIEL
+        ========================================== */
 
-        function openWarning() {
-            document
-                .getElementById("warningModal")
-                .classList.add("show");
-        }
+        function firstTime() {
 
-        function closeWarning() {
             document
-                .getElementById("warningModal")
-                .classList.remove("show");
+                .getElementById("firstTimeModal")
+                .classList.add("active");
+
         }
 
 
-        /* ---------------------------------
-           START NEW GAME
-        --------------------------------- */
+        /* =========================================
+           MODAL SCHLIESSEN
+        ========================================== */
 
-        function startNewGame() {
+        function closeModal() {
 
-            closeWarning();
+            document
+                .getElementById("firstTimeModal")
+                .classList.remove("active");
+
+        }
+
+
+        /* =========================================
+           NEUES SPIEL
+        ========================================== */
+
+        function startGame() {
+
+            closeModal();
 
             /*
-             * Später:
-             * Hier wird der neue Spielstand
-             * in Supabase angelegt.
+             * SPÄTER:
              *
-             * Danach:
-             * window.location.href = "game.html";
+             * 1. Anmeldung öffnen
+             * 2. Benutzername auswählen
+             * 3. Avatar auswählen
+             * 4. Spieler in Supabase speichern
+             * 5. Spielstand erstellen
+             * 6. game.html öffnen
              */
 
-            alert("Hier startet später THE RED BUTTON.");
+            alert("Als Nächstes kommt die Anmeldung + Avatar-Auswahl.");
+
         }
 
 
-        /* ---------------------------------
-           CONTINUE
-        --------------------------------- */
+        /* =========================================
+           SPIELSTAND LADEN
+        ========================================== */
 
-        function continueGame() {
+        function loadGame() {
 
             /*
-             * Später:
-             * Spielstand aus Supabase laden.
+             * SPÄTER:
              *
-             * Wenn kein Spielstand existiert:
-             * Benutzer zu Anmeldung / Start
-             * schicken.
+             * Gespeicherten Spieler suchen
+             * und dessen Spielstand laden.
              */
 
             alert("Hier wird später dein gespeicherter Spielstand geladen.");
+
         }
 
 
-        /* ---------------------------------
-           NAVIGATION
-        --------------------------------- */
-
-        function showLogin() {
-            alert("Die Anmeldung kommt als nächster Schritt.");
-        }
-
-        function showLeaderboard() {
-            alert("Die Rangliste kommt später.");
-        }
-
-        function showProfile() {
-            alert("Das Profil kommt später.");
-        }
-
-
-        /* ---------------------------------
-           MODAL CLOSE WITH ESC
-        --------------------------------- */
+        /* =========================================
+           ESC = MODAL SCHLIESSEN
+        ========================================== */
 
         document.addEventListener("keydown", function(event) {
 
             if (event.key === "Escape") {
-                closeWarning();
+                closeModal();
             }
 
         });
 
 
-        /* ---------------------------------
-           CLICK OUTSIDE MODAL
-        --------------------------------- */
+        /* =========================================
+           KLICK AUSSERHALB
+        ========================================== */
 
         document
-            .getElementById("warningModal")
+            .getElementById("firstTimeModal")
             .addEventListener("click", function(event) {
 
                 if (event.target === this) {
-                    closeWarning();
+                    closeModal();
                 }
 
             });
