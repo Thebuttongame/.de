@@ -1,869 +1,699 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>MEIN SENDER</title>
-  <meta name="description" content="MEIN SENDER – Entertainment, Shows und Live.">
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #f6f7fb;
-      --text: #171820;
-      --muted: #737784;
-      --card: #ffffff;
-      --dark: #171820;
-      --accent: #ffcf32;
-      --border: #e8e9ee;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav {
-      max-width: 1250px;
-      margin: auto;
-      min-height: 76px;
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 30px;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 900;
-      letter-spacing: -1.2px;
-      white-space: nowrap;
-    }
-
-    .logo span {
-      display: inline-block;
-      background: var(--dark);
-      color: white;
-      padding: 4px 9px;
-      border-radius: 9px;
-      margin-left: 4px;
-      font-size: 16px;
-      letter-spacing: 0;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    nav a {
-      transition: opacity .2s, transform .2s;
-    }
-
-    nav a:hover {
-      opacity: .55;
-      transform: translateY(-1px);
-    }
-
-    .live-button {
-      background: #ef3d4f;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-weight: 800;
-    }
-
-    .hero {
-      max-width: 1250px;
-      margin: 0 auto;
-      padding: 45px 24px 25px;
-    }
-
-    .hero-box {
-      min-height: 460px;
-      border-radius: 28px;
-      background:
-        radial-gradient(circle at 80% 20%, rgba(255,207,50,.95), transparent 28%),
-        radial-gradient(circle at 20% 90%, rgba(111,82,255,.55), transparent 35%),
-        linear-gradient(135deg, #20212a, #373947);
-      color: white;
-      padding: 55px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-label {
-      display: inline-flex;
-      width: fit-content;
-      background: var(--accent);
-      color: #171820;
-      padding: 7px 13px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 900;
-      margin-bottom: 16px;
-    }
-
-    .hero h1 {
-      max-width: 720px;
-      font-size: clamp(42px, 7vw, 78px);
-      line-height: .95;
-      letter-spacing: -4px;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      max-width: 600px;
-      color: rgba(255,255,255,.82);
-      font-size: 18px;
-      margin-bottom: 27px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .button {
-      border: 0;
-      padding: 13px 20px;
-      border-radius: 999px;
-      font-weight: 800;
-      cursor: pointer;
-      font-size: 15px;
-      background: white;
-      color: var(--dark);
-    }
-
-    .button.dark {
-      background: var(--dark);
-      color: white;
-    }
-
-    main {
-      max-width: 1250px;
-      margin: auto;
-      padding: 30px 24px 80px;
-    }
-
-    section { margin-top: 45px; }
-
-    .section-heading {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-
-    .section-heading h2 {
-      font-size: 32px;
-      letter-spacing: -1.5px;
-    }
-
-    .section-heading p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .show-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .show-card {
-      min-height: 230px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      transition: transform .2s, box-shadow .2s;
-    }
-
-    .show-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(20,20,30,.09);
-    }
-
-    .show-card:nth-child(1) {
-      background: linear-gradient(135deg, #ffcf32, #ffea8c);
-    }
-
-    .show-card:nth-child(2) {
-      background: linear-gradient(135deg, #d9d1ff, #f4f1ff);
-    }
-
-    .show-card:nth-child(3) {
-      background: linear-gradient(135deg, #bcefe4, #effffb);
-    }
-
-    .show-number {
-      position: absolute;
-      right: 20px;
-      top: 12px;
-      font-size: 70px;
-      font-weight: 900;
-      opacity: .12;
-    }
-
-    .show-card h3 {
-      font-size: 28px;
-      letter-spacing: -1px;
-      position: relative;
-    }
-
-    .show-card p {
-      margin-top: 5px;
-      color: rgba(20,20,25,.65);
-      position: relative;
-    }
-
-    .stream-section {
-      background: var(--dark);
-      color: white;
-      border-radius: 28px;
-      padding: 35px;
-      margin-top: 55px;
-    }
-
-    .stream-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 25px;
-    }
-
-    .stream-heading h2 {
-      font-size: 34px;
-      letter-spacing: -1.5px;
-    }
-
-    .stream-heading p {
-      color: #aaaeba;
-      margin-top: 4px;
-    }
-
-    .stream-live {
-      background: #ef3d4f;
-      border-radius: 999px;
-      padding: 8px 13px;
-      font-size: 12px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .video-card {
-      background: #252631;
-      border-radius: 18px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform .2s;
-    }
-
-    .video-card:hover {
-      transform: translateY(-4px);
-    }
-
-    .video-preview {
-      aspect-ratio: 16 / 9;
-      background: #343641;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .video-preview video,
-    .video-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .video-preview::after {
-      content: "▶";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: white;
-      color: #171820;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 19px;
-      padding-left: 3px;
-      pointer-events: none;
-    }
-
-    .video-info {
-      padding: 16px;
-    }
-
-    .video-info h3 {
-      font-size: 17px;
-      overflow-wrap: anywhere;
-    }
-
-    .video-info p {
-      color: #a8abb5;
-      font-size: 13px;
-      margin-top: 3px;
-    }
-
-    .video-status {
-      color: #a8abb5;
-      text-align: center;
-      padding: 35px 15px;
-      font-size: 15px;
-      grid-column: 1 / -1;
-    }
-
-    .library {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-    }
-
-    .library-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      padding: 20px;
-      min-height: 130px;
-    }
-
-    .library-card strong {
-      display: block;
-      font-size: 17px;
-      margin-bottom: 6px;
-    }
-
-    .library-card span {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      background: white;
-      padding: 35px 24px;
-    }
-
-    .footer-inner {
-      max-width: 1250px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .footer-logo {
-      color: var(--text);
-      font-weight: 900;
-      font-size: 18px;
-    }
-
-    .player-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.82);
-      z-index: 500;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .player-overlay.active {
-      display: flex;
-    }
-
-    .player {
-      width: min(900px, 100%);
-      background: #171820;
-      border-radius: 20px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .player video {
-      width: 100%;
-      display: block;
-      background: black;
-      max-height: 70vh;
-    }
-
-    .close-player {
-      position: absolute;
-      right: 12px;
-      top: 12px;
-      width: 38px;
-      height: 38px;
-      border: 0;
-      border-radius: 50%;
-      background: rgba(0,0,0,.7);
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 2;
-    }
-
-    .player-title {
-      color: white;
-      padding: 15px 18px;
-      font-weight: 800;
-    }
-
-    @media (max-width: 850px) {
-      nav { display: none; }
-
-      .show-grid,
-      .video-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .library {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .hero-box {
-        padding: 35px;
-        min-height: 400px;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .hero { padding-top: 20px; }
-
-      .hero-box {
-        border-radius: 22px;
-        padding: 25px;
-        min-height: 430px;
-      }
-
-      .hero h1 { letter-spacing: -2px; }
-
-      .show-grid,
-      .video-grid,
-      .library {
-        grid-template-columns: 1fr;
-      }
-
-      .stream-section {
-        padding: 22px;
-        border-radius: 22px;
-      }
-
-      .stream-heading {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .footer-inner {
-        flex-direction: column;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080808">
+
+    <title>THE RED BUTTON</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --red: #e50914;
+            --red-dark: #a8070f;
+            --red-light: #ff2631;
+            --bg: #070707;
+            --panel: #111111;
+            --panel-light: #181818;
+            --border: #292929;
+            --text: #ffffff;
+            --muted: #8d8d8d;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 50% 35%, rgba(229, 9, 20, 0.10), transparent 30%),
+                #070707;
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            height: 74px;
+            border-bottom: 1px solid #202020;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 38px;
+            position: relative;
+            z-index: 10;
+            background: rgba(7, 7, 7, 0.92);
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 4px;
+        }
+
+        .logo span {
+            color: var(--red);
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        nav button {
+            border: 1px solid transparent;
+            background: transparent;
+            color: #aaa;
+            padding: 10px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        nav button:hover {
+            color: white;
+            background: #151515;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            min-height: calc(100vh - 74px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px 80px;
+        }
+
+        .main-content {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border: 1px solid #292929;
+            background: #101010;
+            border-radius: 999px;
+            color: #8f8f8f;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 35px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            background: #555;
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-size: clamp(48px, 9vw, 108px);
+            line-height: 0.9;
+            letter-spacing: -5px;
+            font-weight: 950;
+            margin-bottom: 24px;
+        }
+
+        h1 .red {
+            color: var(--red);
+        }
+
+        .subtitle {
+            color: #858585;
+            max-width: 540px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .button-area {
+            margin: 60px auto 50px;
+            position: relative;
+            width: 260px;
+            height: 260px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button-glow {
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            background: rgba(229, 9, 20, 0.08);
+            filter: blur(35px);
+            animation: glow 2.8s infinite ease-in-out;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+        }
+
+        .red-button {
+            position: relative;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            border: 10px solid #270608;
+            background:
+                radial-gradient(circle at 35% 27%, #ff6268 0%, #f01824 22%, #c50912 57%, #82040b 100%);
+            box-shadow:
+                0 18px 35px rgba(0, 0, 0, 0.7),
+                inset 0 9px 13px rgba(255,255,255,0.12),
+                inset 0 -16px 20px rgba(0,0,0,0.35),
+                0 0 45px rgba(229,9,20,0.18);
+            cursor: pointer;
+            transition:
+                transform 0.12s ease,
+                box-shadow 0.12s ease;
+        }
+
+        .red-button::before {
+            content: "";
+            position: absolute;
+            width: 55px;
+            height: 27px;
+            top: 28px;
+            left: 43px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.17);
+            filter: blur(4px);
+            transform: rotate(-18deg);
+        }
+
+        .red-button:hover {
+            transform: scale(1.035);
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.7),
+                inset 0 9px 13px rgba(255,255,255,0.12),
+                inset 0 -16px 20px rgba(0,0,0,0.35),
+                0 0 65px rgba(229,9,20,0.28);
+        }
+
+        .red-button:active {
+            transform: scale(0.94);
+        }
+
+        .button-label {
+            position: absolute;
+            bottom: -38px;
+            left: 0;
+            width: 100%;
+            color: #666;
+            font-size: 10px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .action {
+            min-width: 190px;
+            padding: 15px 22px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #111;
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .action:hover {
+            background: #181818;
+            border-color: #3a3a3a;
+            transform: translateY(-2px);
+        }
+
+        .action.primary {
+            background: var(--red);
+            border-color: var(--red);
+        }
+
+        .action.primary:hover {
+            background: var(--red-light);
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal-background {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.78);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 100;
+        }
+
+        .modal-background.show {
+            display: flex;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 480px;
+            background: #111;
+            border: 1px solid #303030;
+            border-radius: 14px;
+            padding: 32px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.7);
+            animation: modalIn 0.2s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                transform: scale(0.96) translateY(10px);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .warning-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: rgba(229,9,20,0.12);
+            border: 1px solid rgba(229,9,20,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--red);
+            font-size: 22px;
+            margin-bottom: 22px;
+        }
+
+        .modal h2 {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .modal p {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.65;
+            margin-bottom: 25px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 13px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 700;
+            border: 1px solid #333;
+            background: #181818;
+            color: white;
+        }
+
+        .modal-actions button:hover {
+            background: #222;
+        }
+
+        .modal-actions .start {
+            background: var(--red);
+            border-color: var(--red);
+        }
+
+        .modal-actions .start:hover {
+            background: var(--red-light);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            header {
+                height: auto;
+                padding: 18px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                width: 100%;
+                justify-content: center;
+            }
+
+            nav button {
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+
+            main {
+                min-height: calc(100vh - 120px);
+                padding-top: 35px;
+            }
+
+            h1 {
+                letter-spacing: -3px;
+            }
+
+            .button-area {
+                margin-top: 50px;
+                margin-bottom: 45px;
+            }
+
+            .red-button {
+                width: 165px;
+                height: 165px;
+            }
+
+            .button-glow {
+                width: 205px;
+                height: 205px;
+            }
+
+            .actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .action {
+                width: 100%;
+            }
+
+            .modal {
+                padding: 25px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <header>
-    <div class="nav">
-      <a href="#" class="logo">
-        MEIN <span>SENDER</span>
-      </a>
+    <!-- =========================
+         HEADER
+    ========================== -->
 
-      <nav>
-        <a href="#shows">Shows</a>
-        <a href="#stream">Stream</a>
-        <a href="#mediathek">Mediathek</a>
-        <a href="#about">Über uns</a>
-        <a href="#stream" class="live-button">● LIVE</a>
-      </nav>
-    </div>
-  </header>
+    <header>
 
-  <div class="hero">
-    <div class="hero-box">
-      <div class="hero-label">MEIN SENDER</div>
-
-      <h1>Unsere<br>Show-Highlights.</h1>
-
-      <p>
-        Unterhaltung, Shows und spannende Formate –
-        kostenlos und ohne Anmeldung.
-      </p>
-
-      <div class="hero-buttons">
-        <a class="button" href="#stream">▶ Jetzt streamen</a>
-        <a class="button dark" href="#shows">Shows entdecken</a>
-      </div>
-    </div>
-  </div>
-
-  <main>
-
-    <section id="shows">
-      <div class="section-heading">
-        <div>
-          <h2>Unsere Shows</h2>
-          <p>Entdecke die Formate von MEIN SENDER.</p>
-        </div>
-      </div>
-
-      <div class="show-grid">
-        <article class="show-card">
-          <div class="show-number">01</div>
-          <h3>Show 01</h3>
-          <p>Dein neues Lieblingsformat.</p>
-        </article>
-
-        <article class="show-card">
-          <div class="show-number">02</div>
-          <h3>Show 02</h3>
-          <p>Mehr Unterhaltung. Mehr Chaos.</p>
-        </article>
-
-        <article class="show-card">
-          <div class="show-number">03</div>
-          <h3>Show 03</h3>
-          <p>Spannung, Spaß und Überraschungen.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="stream" class="stream-section">
-
-      <div class="stream-heading">
-        <div>
-          <h2>MEIN SENDER STREAM</h2>
-          <p>Streame hier deine Sendungen.</p>
+        <div class="logo">
+            THE <span>RED</span> BUTTON
         </div>
 
-        <div class="stream-live">● STREAM</div>
-      </div>
+        <nav>
+            <button onclick="showLogin()">ANMELDEN</button>
+            <button onclick="showLeaderboard()">RANGLISTE</button>
+            <button onclick="showProfile()">PROFIL</button>
+        </nav>
 
-      <div class="video-grid" id="videoGrid">
-        <div class="video-status">Videos werden geladen …</div>
-      </div>
+    </header>
 
-    </section>
 
-    <section id="mediathek">
+    <!-- =========================
+         MAIN
+    ========================== -->
 
-      <div class="section-heading">
-        <div>
-          <h2>Mediathek</h2>
-          <p>Alle Sendungen an einem Ort.</p>
+    <main>
+
+        <div class="main-content">
+
+            <div class="status">
+                <span class="status-dot"></span>
+                SYSTEM BEREIT
+            </div>
+
+            <h1>
+                THE <span class="red">RED</span><br>
+                BUTTON
+            </h1>
+
+            <p class="subtitle">
+                Ein Spiel, bei dem niemand weiß, was als Nächstes passiert.
+                Drückst du den Button?
+            </p>
+
+
+            <!-- RED BUTTON -->
+
+            <div class="button-area">
+
+                <div class="button-glow"></div>
+
+                <button
+                    class="red-button"
+                    onclick="openWarning()"
+                    aria-label="The Red Button starten">
+                </button>
+
+                <div class="button-label">
+                    Bist du bereit?
+                </div>
+
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="actions">
+
+                <button
+                    class="action primary"
+                    onclick="openWarning()">
+                    🔴 Ich spiele zum ersten Mal
+                </button>
+
+                <button
+                    class="action"
+                    onclick="continueGame()">
+                    ▶ Weiterspielen
+                </button>
+
+            </div>
+
         </div>
-      </div>
 
-      <div class="library">
-        <div class="library-card">
-          <strong>Neueste Folgen</strong>
-          <span>Die aktuellsten Sendungen</span>
+    </main>
+
+
+    <!-- =========================
+         WARNING MODAL
+    ========================== -->
+
+    <div
+        class="modal-background"
+        id="warningModal">
+
+        <div class="modal">
+
+            <div class="warning-icon">
+                !
+            </div>
+
+            <h2>
+                Spiel wirklich starten?
+            </h2>
+
+            <p>
+                Du bist dabei, THE RED BUTTON zum ersten Mal
+                zu starten. Ab diesem Moment wird dein Fortschritt
+                gespeichert.
+                <br><br>
+                Bist du sicher, dass du beginnen möchtest?
+            </p>
+
+            <div class="modal-actions">
+
+                <button onclick="closeWarning()">
+                    Abbrechen
+                </button>
+
+                <button
+                    class="start"
+                    onclick="startNewGame()">
+                    SPIEL STARTEN
+                </button>
+
+            </div>
+
         </div>
-
-        <div class="library-card">
-          <strong>Shows</strong>
-          <span>Alle Formate entdecken</span>
-        </div>
-
-        <div class="library-card">
-          <strong>Specials</strong>
-          <span>Besondere Sendungen</span>
-        </div>
-
-        <div class="library-card">
-          <strong>MEIN SENDER LIVE</strong>
-          <span>Live dabei sein</span>
-        </div>
-      </div>
-
-    </section>
-
-    <section id="about">
-      <div class="section-heading">
-        <div>
-          <h2>MEIN SENDER</h2>
-          <p>Entertainment · Live · Shows</p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-      <div>
-        <div class="footer-logo">MEIN SENDER</div>
-        <div>Entertainment · Live</div>
-      </div>
-
-      <div>
-        © 2026 MEIN SENDER
-      </div>
-    </div>
-  </footer>
-
-  <!-- VIDEO PLAYER -->
-
-  <div class="player-overlay" id="playerOverlay">
-
-    <div class="player">
-
-      <button class="close-player" onclick="closeVideo()">×</button>
-
-      <video id="videoPlayer" controls playsinline></video>
-
-      <div class="player-title" id="playerTitle">
-        MEIN SENDER
-      </div>
 
     </div>
-  </div>
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <script>
-    /*
-      MEIN SENDER – öffentliche Videoseite
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
 
-      Die Seite ist öffentlich.
-      Besucher brauchen KEINEN Login.
+    <script>
 
-      Die Videos werden automatisch aus dem öffentlichen
-      Supabase-Bucket "videos" geladen.
+        /* ---------------------------------
+           WARNING
+        --------------------------------- */
 
-      Die Regie lädt die Dateien aktuell in:
-      videos/videos/DATEINAME.mp4
-    */
+        function openWarning() {
+            document
+                .getElementById("warningModal")
+                .classList.add("show");
+        }
 
-    const SUPABASE_URL = "https://eqzmsuncndfsiedyfifb.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_eXY1gg_tIr-cRC2kdt0jbQ_QPfbEmkF";
+        function closeWarning() {
+            document
+                .getElementById("warningModal")
+                .classList.remove("show");
+        }
 
-    const VIDEO_BUCKET = "videos";
-    const VIDEO_FOLDER = "videos";
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+        /* ---------------------------------
+           START NEW GAME
+        --------------------------------- */
 
-    const videoGrid = document.getElementById("videoGrid");
+        function startNewGame() {
 
-    function escapeHtml(value) {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
+            closeWarning();
 
-    function getVideoTitle(fileName) {
-      const withoutExtension = fileName.replace(/\.[^/.]+$/, "");
-      return withoutExtension
-        .replace(/[_-]+/g, " ")
-        .replace(/\s+/g, " ")
-        .trim() || "MEIN SENDER Video";
-    }
+            /*
+             * Später:
+             * Hier wird der neue Spielstand
+             * in Supabase angelegt.
+             *
+             * Danach:
+             * window.location.href = "game.html";
+             */
 
-    function formatFileSize(bytes) {
-      if (!bytes || isNaN(bytes)) return "";
-      const mb = bytes / (1024 * 1024);
-      return mb.toFixed(2) + " MB";
-    }
+            alert("Hier startet später THE RED BUTTON.");
+        }
 
-    async function loadVideos() {
-      videoGrid.innerHTML =
-        '<div class="video-status">Videos werden geladen …</div>';
 
-      try {
-        const { data, error } = await supabaseClient
-          .storage
-          .from(VIDEO_BUCKET)
-          .list(VIDEO_FOLDER, {
-            limit: 100,
-            offset: 0,
-            sortBy: {
-              column: "created_at",
-              order: "desc"
+        /* ---------------------------------
+           CONTINUE
+        --------------------------------- */
+
+        function continueGame() {
+
+            /*
+             * Später:
+             * Spielstand aus Supabase laden.
+             *
+             * Wenn kein Spielstand existiert:
+             * Benutzer zu Anmeldung / Start
+             * schicken.
+             */
+
+            alert("Hier wird später dein gespeicherter Spielstand geladen.");
+        }
+
+
+        /* ---------------------------------
+           NAVIGATION
+        --------------------------------- */
+
+        function showLogin() {
+            alert("Die Anmeldung kommt als nächster Schritt.");
+        }
+
+        function showLeaderboard() {
+            alert("Die Rangliste kommt später.");
+        }
+
+        function showProfile() {
+            alert("Das Profil kommt später.");
+        }
+
+
+        /* ---------------------------------
+           MODAL CLOSE WITH ESC
+        --------------------------------- */
+
+        document.addEventListener("keydown", function(event) {
+
+            if (event.key === "Escape") {
+                closeWarning();
             }
-          });
 
-        if (error) {
-          console.error("MEIN SENDER Videos:", error);
-          videoGrid.innerHTML =
-            '<div class="video-status">Die Videos konnten gerade nicht geladen werden.</div>';
-          return;
-        }
-
-        const files = (data || []).filter(file => {
-          if (!file || !file.name) return false;
-
-          const lower = file.name.toLowerCase();
-
-          return [
-            ".mp4",
-            ".webm",
-            ".mov",
-            ".m4v",
-            ".ogg",
-            ".ogv"
-          ].some(ext => lower.endsWith(ext));
         });
 
-        if (files.length === 0) {
-          videoGrid.innerHTML =
-            '<div class="video-status">Noch keine Videos verfügbar.</div>';
-          return;
-        }
 
-        videoGrid.innerHTML = "";
+        /* ---------------------------------
+           CLICK OUTSIDE MODAL
+        --------------------------------- */
 
-        files.forEach(file => {
-          const filePath = VIDEO_FOLDER + "/" + file.name;
+        document
+            .getElementById("warningModal")
+            .addEventListener("click", function(event) {
 
-          const { data: publicData } = supabaseClient
-            .storage
-            .from(VIDEO_BUCKET)
-            .getPublicUrl(filePath);
+                if (event.target === this) {
+                    closeWarning();
+                }
 
-          const publicUrl = publicData.publicUrl;
-          const title = getVideoTitle(file.name);
-          const size = formatFileSize(file.metadata?.size);
+            });
 
-          const card = document.createElement("article");
-          card.className = "video-card";
-
-          card.innerHTML = `
-            <div class="video-preview">
-              <video
-                src="${escapeHtml(publicUrl)}"
-                preload="metadata"
-                muted
-                playsinline
-              ></video>
-            </div>
-
-            <div class="video-info">
-              <h3>${escapeHtml(title)}</h3>
-              <p>MEIN SENDER${size ? " · " + escapeHtml(size) : ""}</p>
-            </div>
-          `;
-
-          card.addEventListener("click", () => {
-            openVideo(publicUrl, title);
-          });
-
-          videoGrid.appendChild(card);
-        });
-
-      } catch (error) {
-        console.error("MEIN SENDER Fehler:", error);
-
-        videoGrid.innerHTML =
-          '<div class="video-status">Fehler beim Laden der Videos.</div>';
-      }
-    }
-
-    function openVideo(url, title) {
-      const overlay = document.getElementById("playerOverlay");
-      const video = document.getElementById("videoPlayer");
-      const playerTitle = document.getElementById("playerTitle");
-
-      playerTitle.textContent = title || "MEIN SENDER";
-
-      video.pause();
-      video.src = url;
-      video.load();
-
-      overlay.classList.add("active");
-
-      video.play().catch(() => {});
-    }
-
-    function closeVideo() {
-      const overlay = document.getElementById("playerOverlay");
-      const video = document.getElementById("videoPlayer");
-
-      video.pause();
-      video.removeAttribute("src");
-      video.load();
-
-      overlay.classList.remove("active");
-    }
-
-    document
-      .getElementById("playerOverlay")
-      .addEventListener("click", function(event) {
-        if (event.target === this) {
-          closeVideo();
-        }
-      });
-
-    document.addEventListener("keydown", function(event) {
-      if (event.key === "Escape") {
-        closeVideo();
-      }
-    });
-
-    loadVideos();
-  </script>
+    </script>
 
 </body>
 </html>
