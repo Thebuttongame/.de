@@ -19,8 +19,8 @@
       padding: 0;
       min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
-      background: #fff;
-      color: #111;
+      background: #ffffff;
+      color: #111111;
     }
 
     body {
@@ -37,8 +37,8 @@
       width: 100%;
       height: 38px;
       overflow: hidden;
-      background: #111;
-      border-bottom: 2px solid #111;
+      background: #111111;
+      border-bottom: 2px solid #111111;
       flex-shrink: 0;
     }
 
@@ -62,11 +62,11 @@
           135deg,
           #ffd800 0px,
           #ffd800 26px,
-          #111 26px,
-          #111 48px
+          #111111 26px,
+          #111111 48px
         );
 
-      color: #111;
+      color: #111111;
       font-size: 14px;
       font-weight: 900;
       letter-spacing: 1px;
@@ -95,9 +95,11 @@
     main {
       width: 100%;
       flex: 1;
+
       display: flex;
       justify-content: center;
       align-items: flex-start;
+
       padding: 46px 20px 60px;
     }
 
@@ -118,7 +120,7 @@
 
     .logo-line {
       font-size: 48px;
-      line-height: .96;
+      line-height: 0.96;
       font-weight: 950;
       letter-spacing: -2px;
     }
@@ -129,9 +131,10 @@
 
     .subtitle {
       text-align: center;
-      color: #777;
+      color: #777777;
       font-size: 12px;
       letter-spacing: 1px;
+
       margin-top: 13px;
       margin-bottom: 29px;
     }
@@ -141,17 +144,20 @@
        ========================= */
 
     .card {
-      background: #fff;
-      border: 1px solid #ddd;
+      background: #ffffff;
+
+      border: 1px solid #dddddd;
       border-radius: 17px;
+
       padding: 28px 26px 27px;
 
       box-shadow:
-        0 12px 35px rgba(0, 0, 0, .07);
+        0 12px 35px rgba(0, 0, 0, 0.07);
     }
 
     .card h1 {
       margin: 0 0 7px;
+
       font-size: 22px;
       line-height: 1.2;
       font-weight: 900;
@@ -159,7 +165,9 @@
 
     .card-description {
       margin: 0 0 23px;
-      color: #777;
+
+      color: #777777;
+
       font-size: 13px;
       line-height: 1.45;
     }
@@ -170,7 +178,9 @@
 
     .message {
       display: none;
-      border-radius: 7px;
+
+      border-radius: 8px;
+
       padding: 11px 12px;
       margin-bottom: 16px;
 
@@ -181,15 +191,19 @@
 
     .message.error {
       display: block;
+
       background: #fff0f0;
       border: 1px solid #ffbebe;
+
       color: #c00000;
     }
 
     .message.success {
       display: block;
+
       background: #effff2;
       border: 1px solid #a9e5b2;
+
       color: #176b26;
     }
 
@@ -203,14 +217,14 @@
 
     label {
       display: block;
+
       margin-bottom: 7px;
 
       font-size: 12px;
       font-weight: 900;
-      letter-spacing: .5px;
+      letter-spacing: 0.5px;
     }
 
-    input[type="email"],
     input[type="text"],
     input[type="password"] {
       width: 100%;
@@ -221,31 +235,34 @@
       border: 1px solid #d8d8d8;
       border-radius: 9px;
 
-      background: #fff;
-      color: #111;
+      background: #ffffff;
+      color: #111111;
 
       font-size: 14px;
+
       outline: none;
 
       transition:
-        border-color .15s ease,
-        box-shadow .15s ease;
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
     }
 
     input:focus {
-      border-color: #111;
+      border-color: #111111;
 
       box-shadow:
-        0 0 0 3px rgba(0,0,0,.06);
+        0 0 0 3px rgba(0, 0, 0, 0.06);
     }
 
     input::placeholder {
-      color: #aaa;
+      color: #aaaaaa;
     }
 
     .hint {
       margin-top: 6px;
-      color: #888;
+
+      color: #888888;
+
       font-size: 11px;
       line-height: 1.4;
     }
@@ -256,8 +273,12 @@
 
     .avatar-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+
+      grid-template-columns:
+        repeat(6, 1fr);
+
       gap: 8px;
+
       margin-top: 8px;
     }
 
@@ -267,6 +288,7 @@
 
     .avatar-option input {
       position: absolute;
+
       opacity: 0;
       pointer-events: none;
     }
@@ -279,27 +301,27 @@
       justify-content: center;
       align-items: center;
 
-      border: 2px solid #ddd;
+      border: 2px solid #dddddd;
       border-radius: 10px;
 
       cursor: pointer;
 
       transition:
-        transform .12s ease,
-        border-color .12s ease,
-        box-shadow .12s ease;
+        transform 0.12s ease,
+        border-color 0.12s ease,
+        box-shadow 0.12s ease;
     }
 
     .avatar:hover {
       transform: translateY(-2px);
-      border-color: #999;
+      border-color: #999999;
     }
 
     .avatar-option input:checked + .avatar {
-      border-color: #111;
+      border-color: #111111;
 
       box-shadow:
-        0 0 0 3px rgba(0,0,0,.1);
+        0 0 0 3px rgba(0, 0, 0, 0.1);
 
       transform: translateY(-1px);
     }
@@ -325,7 +347,7 @@
     }
 
     .avatar-black {
-      background: #111;
+      background: #111111;
     }
 
     /* =========================
@@ -341,18 +363,18 @@
       border: 0;
       border-radius: 9px;
 
-      background: #111;
-      color: #fff;
+      background: #111111;
+      color: #ffffff;
 
       font-size: 14px;
       font-weight: 900;
-      letter-spacing: .5px;
+      letter-spacing: 0.5px;
 
       cursor: pointer;
 
       transition:
-        background .15s ease,
-        transform .1s ease;
+        background 0.15s ease,
+        transform 0.1s ease;
     }
 
     .submit-button:hover {
@@ -360,11 +382,11 @@
     }
 
     .submit-button:active {
-      transform: scale(.99);
+      transform: scale(0.99);
     }
 
     .submit-button:disabled {
-      background: #999;
+      background: #999999;
       cursor: wait;
     }
 
@@ -377,7 +399,8 @@
 
       text-align: center;
 
-      color: #999;
+      color: #999999;
+
       font-size: 11px;
     }
 
@@ -469,6 +492,8 @@
 
     <div class="page">
 
+      <!-- LOGO -->
+
       <div class="logo">
 
         <div class="logo-line">
@@ -481,14 +506,13 @@
 
       </div>
 
+
       <div class="subtitle">
         ERSTELLE DEINEN SPIELER
       </div>
 
 
-      <!-- =========================
-           CARD
-           ========================= -->
+      <!-- CARD -->
 
       <div class="card">
 
@@ -500,38 +524,19 @@
         </p>
 
 
+        <!-- MESSAGE -->
+
         <div
           id="message"
           class="message"
         ></div>
 
 
+        <!-- FORM -->
+
         <form id="registerForm">
 
-          <!-- EMAIL -->
-
-          <div class="field">
-
-            <label for="email">
-              E-MAIL
-            </label>
-
-            <input
-              id="email"
-              type="email"
-              autocomplete="email"
-              placeholder="deine@email.de"
-              required
-            >
-
-            <div class="hint">
-              Wird für die Anmeldung benötigt.
-            </div>
-
-          </div>
-
-
-          <!-- USERNAME -->
+          <!-- BENUTZERNAME -->
 
           <div class="field">
 
@@ -550,13 +555,13 @@
             >
 
             <div class="hint">
-              3–20 Zeichen. Dieser Name wird im Spiel angezeigt.
+              3–20 Zeichen. Jeder Benutzername kann nur einmal vergeben werden.
             </div>
 
           </div>
 
 
-          <!-- PASSWORD -->
+          <!-- PASSWORT -->
 
           <div class="field">
 
@@ -572,6 +577,10 @@
               placeholder="Mindestens 6 Zeichen"
               required
             >
+
+            <div class="hint">
+              Mindestens 6 Zeichen.
+            </div>
 
           </div>
 
@@ -688,9 +697,7 @@
   </main>
 
 
-  <!-- =========================
-       FOOTER
-       ========================= -->
+  <!-- FOOTER -->
 
   <footer>
     Spiel kostenlos Spielbar · Unterstützt durch GitHub
@@ -704,7 +711,7 @@
   <script>
 
     /* =========================================
-       SUPABASE
+       SUPABASE VERBINDUNG
        ========================================= */
 
     const SUPABASE_URL =
@@ -734,9 +741,6 @@
     const submitButton =
       document.getElementById("submitButton");
 
-    const emailInput =
-      document.getElementById("email");
-
     const usernameInput =
       document.getElementById("username");
 
@@ -745,10 +749,13 @@
 
 
     /* =========================================
-       MESSAGE
+       NACHRICHTEN
        ========================================= */
 
-    function showMessage(text, type = "error") {
+    function showMessage(
+      text,
+      type = "error"
+    ) {
 
       message.textContent = text;
 
@@ -781,9 +788,6 @@
 
         /* Eingaben */
 
-        const email =
-          emailInput.value.trim();
-
         const username =
           usernameInput.value.trim();
 
@@ -796,7 +800,9 @@
           )?.value || "red";
 
 
-        /* Prüfung */
+        /* =====================================
+           PRÜFUNGEN
+           ===================================== */
 
         if (username.length < 3) {
 
@@ -828,12 +834,14 @@
         }
 
 
-        /* Button sperren */
+        /* =====================================
+           BUTTON SPERREN
+           ===================================== */
 
         submitButton.disabled = true;
 
         submitButton.textContent =
-          "ACCOUNT WIRD ERSTELLT …";
+          "SPIELER WIRD ERSTELLT …";
 
 
         try {
@@ -844,26 +852,31 @@
 
 
           /* =====================================
-             1. SUPABASE AUTH
+             REGISTRIERUNGS-FUNKTION AUFRUFEN
              ===================================== */
 
           const {
             data,
             error
           } =
-            await supabaseClient.auth.signUp({
+            await supabaseClient.rpc(
+              "register_game_account",
+              {
+                p_username: username,
+                p_password: password,
+                p_avatar: selectedAvatar
+              }
+            );
 
-              email: email,
 
-              password: password
-
-            });
-
+          /* =====================================
+             SUPABASE FEHLER
+             ===================================== */
 
           if (error) {
 
             console.error(
-              "Supabase Auth Fehler:",
+              "Supabase Fehler:",
               error
             );
 
@@ -876,118 +889,127 @@
           }
 
 
-          if (!data || !data.user) {
-
-            throw new Error(
-              "Supabase hat keinen Benutzer zurückgegeben."
-            );
-          }
-
-
           console.log(
-            "Auth-Account erstellt:",
-            data.user.id
+            "Registrierungsantwort:",
+            data
           );
 
 
           /* =====================================
-             2. PLAYER PROFIL
+             FUNKTIONSFEHLER
              ===================================== */
 
-          const {
-            error: profileError
-          } =
-            await supabaseClient
-              .from("players")
-              .insert({
+          if (!data) {
 
-                id: data.user.id,
-
-                username: username,
-
-                avatar: selectedAvatar,
-
-                score: 0,
-
-                task_number: 0
-
-              });
-
-
-          if (profileError) {
-
-            console.error(
-              "players Fehler:",
-              profileError
+            showMessage(
+              "Keine Antwort vom Server erhalten."
             );
 
+            return;
+          }
 
-            if (
-              profileError.code === "23505"
-            ) {
 
-              showMessage(
-                "Dieser Benutzername ist bereits vergeben."
-              );
+          if (data.success !== true) {
 
-            } else {
+            switch (data.error) {
 
-              showMessage(
-                "Spieler konnte nicht gespeichert werden: " +
-                profileError.message
-              );
+              case "USERNAME_TOO_SHORT":
+
+                showMessage(
+                  "Der Benutzername muss mindestens 3 Zeichen lang sein."
+                );
+
+                break;
+
+
+              case "USERNAME_TOO_LONG":
+
+                showMessage(
+                  "Der Benutzername darf höchstens 20 Zeichen lang sein."
+                );
+
+                break;
+
+
+              case "PASSWORD_TOO_SHORT":
+
+                showMessage(
+                  "Das Passwort muss mindestens 6 Zeichen lang sein."
+                );
+
+                break;
+
+
+              case "USERNAME_EXISTS":
+
+                showMessage(
+                  "Dieser Benutzername ist bereits vergeben."
+                );
+
+                break;
+
+
+              default:
+
+                showMessage(
+                  "Die Registrierung konnte nicht durchgeführt werden."
+                );
+
             }
 
             return;
           }
 
 
+          /* =====================================
+             ERFOLG
+             ===================================== */
+
           console.log(
-            "Spielerprofil gespeichert."
+            "Spieler erfolgreich erstellt:",
+            data
           );
 
 
-          /* =====================================
-             3. SESSION PRÜFEN
-             ===================================== */
+          /*
+           * Wir speichern den aktuellen
+           * Spieler lokal im Browser.
+           *
+           * Später wird das durch eine
+           * richtige Session ersetzt.
+           */
 
-          const {
-            data: sessionData
-          } =
-            await supabaseClient.auth.getSession();
+          localStorage.setItem(
+            "buttonGamePlayer",
+            JSON.stringify({
 
+              id: data.id,
 
-          if (
-            !sessionData ||
-            !sessionData.session
-          ) {
+              username: data.username,
 
-            showMessage(
-              "Account erstellt. Bitte bestätige deine E-Mail-Adresse.",
-              "success"
-            );
+              avatar: selectedAvatar,
 
-            submitButton.disabled = false;
+              score: 0,
 
-            submitButton.textContent =
-              "SPIELER ERSTELLEN";
+              task_number: 0
 
-            return;
-          }
+            })
+          );
 
-
-          /* =====================================
-             4. GAME
-             ===================================== */
 
           showMessage(
-            "Spieler erfolgreich erstellt! Spiel wird gestartet …",
+            "Spieler erfolgreich erstellt! Das Spiel wird gestartet …",
             "success"
           );
+
 
           submitButton.textContent =
             "SPIEL WIRD GESTARTET …";
 
+
+          /* =====================================
+             GAME
+             ===================================== */
 
           setTimeout(function() {
 
@@ -1011,10 +1033,30 @@
           );
 
 
-          submitButton.disabled = false;
+        } finally {
 
-          submitButton.textContent =
-            "SPIELER ERSTELLEN";
+          /*
+           * Falls keine Weiterleitung
+           * stattfindet, Button wieder aktivieren.
+           */
+
+          setTimeout(function() {
+
+            if (
+              !window.location.pathname
+                .toLowerCase()
+                .includes("game.html")
+            ) {
+
+              submitButton.disabled = false;
+
+              submitButton.textContent =
+                "SPIELER ERSTELLEN";
+
+            }
+
+          }, 1000);
+
         }
 
       }
