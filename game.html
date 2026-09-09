@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>THE BUTTON GAME</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* =========================
+       TICKER
+       ========================= */
+
+    .ticker-wrap {
+      width: 100%;
+      height: 38px;
+      overflow: hidden;
+      background: #111111;
+      border-bottom: 2px solid #111111;
+      flex-shrink: 0;
+    }
+
+    .ticker {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: tickerMove 22s linear infinite;
+    }
+
+    .ticker-item {
+      height: 32px;
+
+      display: flex;
+      align-items: center;
+
+      padding: 0 24px;
+      margin-right: 6px;
+
+      background:
+        repeating-linear-gradient(
+          135deg,
+          #ffd800 0px,
+          #ffd800 26px,
+          #111111 26px,
+          #111111 48px
+        );
+
+      color: #111111;
+
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+
+      white-space: nowrap;
+    }
+
+    .ticker-item span {
+      background: #ffd800;
+      padding: 0 7px;
+    }
+
+    @keyframes tickerMove {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    header {
+      width: 100%;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 20px 28px;
+
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .small-logo {
+      font-size: 20px;
+      font-weight: 950;
+      letter-spacing: -0.8px;
+    }
+
+    .small-logo .red-o {
+      color: #e00000;
+    }
+
+    .player-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+
+      border-radius: 50%;
+
+      border: 2px solid #111111;
+    }
+
+    .avatar.red {
+      background: #e00000;
+    }
+
+    .avatar.blue {
+      background: #155eef;
+    }
+
+    .avatar.green {
+      background: #159447;
+    }
+
+    .avatar.yellow {
+      background: #ffd800;
+    }
+
+    .avatar.purple {
+      background: #7939d9;
+    }
+
+    .avatar.black {
+      background: #111111;
+    }
+
+    .username {
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    /* =========================
+       MAIN
+       ========================= */
+
+    main {
+      flex: 1;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 50px 20px 70px;
+    }
+
+    .game {
+      width: 100%;
+      max-width: 720px;
+
+      text-align: center;
+    }
+
+    /* =========================
+       TITLE
+       ========================= */
+
+    .game-title {
+      margin: 0;
+
+      font-size: clamp(36px, 8vw, 70px);
+      line-height: 0.95;
+
+      font-weight: 950;
+      letter-spacing: -3px;
+    }
+
+    .game-title .red-o {
+      color: #e00000;
+    }
+
+    .game-subtitle {
+      margin-top: 15px;
+
+      color: #777777;
+
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    /* =========================
+       STATS
+       ========================= */
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+
+      margin-top: 38px;
+    }
+
+    .stat {
+      min-width: 130px;
+
+      padding: 13px 18px;
+
+      border: 1px solid #dddddd;
+      border-radius: 10px;
+
+      background: #ffffff;
+    }
+
+    .stat-label {
+      color: #888888;
+
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .stat-value {
+      margin-top: 3px;
+
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+    /* =========================
+       BUTTON
+       ========================= */
+
+    .button-area {
+      margin-top: 55px;
+
+      display: flex;
+      justify-content: center;
+    }
+
+    .game-button {
+      width: 250px;
+      height: 250px;
+
+      border: 0;
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle at 35% 30%,
+          #ff4b4b 0%,
+          #e00000 35%,
+          #a90000 72%,
+          #710000 100%
+        );
+
+      box-shadow:
+        0 25px 50px rgba(120, 0, 0, 0.30),
+        inset 0 8px 15px rgba(255, 255, 255, 0.15),
+        inset 0 -15px 25px rgba(0, 0, 0, 0.30);
+
+      cursor: pointer;
+
+      color: white;
+
+      font-size: 22px;
+      font-weight: 950;
+      letter-spacing: 1px;
+
+      transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease;
+    }
+
+    .game-button:hover {
+      transform: scale(1.025);
+
+      box-shadow:
+        0 30px 60px rgba(120, 0, 0, 0.35),
+        inset 0 8px 15px rgba(255, 255, 255, 0.15),
+        inset 0 -15px 25px rgba(0, 0, 0, 0.30);
+    }
+
+    .game-button:active {
+      transform: scale(0.95);
+
+      box-shadow:
+        0 10px 20px rgba(120, 0, 0, 0.25),
+        inset 0 12px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    /* =========================
+       STATUS
+       ========================= */
+
+    .status {
+      min-height: 24px;
+
+      margin-top: 30px;
+
+      color: #777777;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    footer {
+      padding: 0 20px 22px;
+
+      text-align: center;
+
+      color: #999999;
+
+      font-size: 11px;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 600px) {
+
+      header {
+        padding: 16px 18px;
+      }
+
+      .small-logo {
+        font-size: 16px;
+      }
+
+      .username {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .stats {
+        margin-top: 30px;
+      }
+
+      .stat {
+        min-width: 110px;
+      }
+
+      .button-area {
+        margin-top: 40px;
+      }
+
+      .game-button {
+        width: 205px;
+        height: 205px;
+
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       TICKER
+       ========================= -->
+
+  <div class="ticker-wrap">
+
+    <div class="ticker">
+
+      <div class="ticker-item">
+        <span>⚠ THE BUTTON GAME</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ SPIEL AUF EIGENE GEFAHR</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ THE BUTTON GAME</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ SPIEL AUF EIGENE GEFAHR</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ THE BUTTON GAME</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ SPIEL AUF EIGENE GEFAHR</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ THE BUTTON GAME</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ SPIEL AUF EIGENE GEFAHR</span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       HEADER
+       ========================= -->
+
+  <header>
+
+    <div class="small-logo">
+      THE BUTT<span class="red-o">O</span>N GAME
+    </div>
+
+
+    <div class="player-info">
+
+      <div
+        id="avatar"
+        class="avatar red"
+      ></div>
+
+      <div
+        id="username"
+        class="username"
+      >
+        Spieler
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       MAIN
+       ========================= -->
+
+  <main>
+
+    <div class="game">
+
+      <h1 class="game-title">
+        THE BUTT<span class="red-o">O</span>N GAME
+      </h1>
+
+      <div class="game-subtitle">
+        BIST DU BEREIT?
+      </div>
+
+
+      <!-- STATS -->
+
+      <div class="stats">
+
+        <div class="stat">
+
+          <div class="stat-label">
+            PUNKTE
+          </div>
+
+          <div
+            id="score"
+            class="stat-value"
+          >
+            0
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <div class="stat-label">
+            AUFGABE
+          </div>
+
+          <div
+            id="taskNumber"
+            class="stat-value"
+          >
+            0
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- BUTTON -->
+
+      <div class="button-area">
+
+        <button
+          id="gameButton"
+          class="game-button"
+        >
+          DRÜCKEN
+        </button>
+
+      </div>
+
+
+      <!-- STATUS -->
+
+      <div
+        id="status"
+        class="status"
+      >
+        Der nächste Schritt wartet auf dich.
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+       ========================= -->
+
+  <footer>
+    Spiel kostenlos Spielbar · Unterstützt durch GitHub
+  </footer>
+
+
+  <!-- =========================
+       JAVASCRIPT
+       ========================= -->
+
+  <script>
+
+    /* =========================================
+       SPIELER LADEN
+       ========================================= */
+
+    const savedPlayer =
+      localStorage.getItem("buttonGamePlayer");
+
+
+    /*
+     * Wenn kein Spieler vorhanden ist,
+     * zurück zur Registrierung.
+     */
+
+    if (!savedPlayer) {
+
+      window.location.href =
+        "register.html";
+
+    }
+
+
+    let player;
+
+
+    try {
+
+      player =
+        JSON.parse(savedPlayer);
+
+    } catch (error) {
+
+      localStorage.removeItem(
+        "buttonGamePlayer"
+      );
+
+      window.location.href =
+        "register.html";
+
+    }
+
+
+    /* =========================================
+       ELEMENTE
+       ========================================= */
+
+    const usernameElement =
+      document.getElementById("username");
+
+    const avatarElement =
+      document.getElementById("avatar");
+
+    const scoreElement =
+      document.getElementById("score");
+
+    const taskNumberElement =
+      document.getElementById("taskNumber");
+
+    const statusElement =
+      document.getElementById("status");
+
+    const gameButton =
+      document.getElementById("gameButton");
+
+
+    /* =========================================
+       SPIELER ANZEIGEN
+       ========================================= */
+
+    usernameElement.textContent =
+      player.username || "Spieler";
+
+
+    scoreElement.textContent =
+      player.score || 0;
+
+
+    taskNumberElement.textContent =
+      player.task_number || 0;
+
+
+    /* =========================================
+       AVATAR
+       ========================================= */
+
+    const allowedAvatars = [
+      "red",
+      "blue",
+      "green",
+      "yellow",
+      "purple",
+      "black"
+    ];
+
+
+    const avatar =
+      allowedAvatars.includes(player.avatar)
+        ? player.avatar
+        : "red";
+
+
+    avatarElement.className =
+      "avatar " + avatar;
+
+
+    /* =========================================
+       BUTTON
+       ========================================= */
+
+    gameButton.addEventListener(
+      "click",
+      function() {
+
+        /*
+         * Vorerst nur Testfunktion.
+         * Die echten Aufgaben kommen später.
+         */
+
+        statusElement.textContent =
+          "BUTTON GEDRÜCKT.";
+
+        gameButton.textContent =
+          "NOCHMAL";
+
+        console.log(
+          "THE BUTTON GAME:",
+          player.username,
+          "hat den Button gedrückt."
+        );
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
