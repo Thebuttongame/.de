@@ -1,1902 +1,1403 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BUTTON GAME</title>
 
-  <title>THE BUTTON GAME</title>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+html, body {
+    margin: 0;
+    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f5f5;
+    color: #111;
+    transition: background .4s, color .4s;
+}
 
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #ffffff;
-      color: #111111;
-    }
+body.dark {
+    background: #0b0b0b;
+    color: #fff;
+}
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-    }
-
-    /* =========================================
-       TICKER
-       ========================================= */
-
-    .ticker-wrap {
-      width: 100%;
-      height: 38px;
-      overflow: hidden;
-      background: #111111;
-      border-bottom: 2px solid #111111;
-      flex-shrink: 0;
-    }
-
-    .ticker {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      width: max-content;
-      animation: tickerMove 22s linear infinite;
-    }
-
-    .ticker-item {
-      height: 32px;
-
-      display: flex;
-      align-items: center;
-
-      padding: 0 24px;
-      margin-right: 6px;
-
-      background:
+.hazard {
+    width: 100%;
+    height: 28px;
+    overflow: hidden;
+    background:
         repeating-linear-gradient(
-          135deg,
-          #ffd800 0px,
-          #ffd800 26px,
-          #111111 26px,
-          #111111 48px
+            135deg,
+            #111 0px,
+            #111 18px,
+            #ffd900 18px,
+            #ffd900 36px
         );
+    border-bottom: 3px solid #111;
+    border-top: 3px solid #111;
+}
 
-      color: #111111;
+.hazard-text {
+    white-space: nowrap;
+    line-height: 22px;
+    font-weight: 900;
+    font-size: 13px;
+    animation: ticker 15s linear infinite;
+    color: white;
+    text-shadow: 1px 1px 0 #000;
+}
 
-      font-size: 14px;
-      font-weight: 900;
-      letter-spacing: 1px;
-
-      white-space: nowrap;
+@keyframes ticker {
+    from {
+        transform: translateX(100%);
     }
-
-    .ticker-item span {
-      background: #ffd800;
-      padding: 0 7px;
+    to {
+        transform: translateX(-100%);
     }
+}
 
-    @keyframes tickerMove {
-      from {
-        transform: translateX(0);
-      }
+header {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    border-bottom: 1px solid #ddd;
+    background: rgba(255,255,255,.96);
+    position: relative;
+    z-index: 20;
+}
 
-      to {
-        transform: translateX(-50%);
-      }
+body.dark header {
+    background: rgba(12,12,12,.96);
+    border-color: #292929;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.red-o {
+    color: #e00000;
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #e00000;
+    border: 3px solid #111;
+}
+
+body.dark .avatar {
+    border-color: white;
+}
+
+.username {
+    font-weight: 800;
+}
+
+.theme-button {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #111;
+    background: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+body.dark .theme-button {
+    background: #191919;
+    border-color: white;
+}
+
+main {
+    min-height: calc(100vh - 103px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 35px 20px 60px;
+}
+
+.stats {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat {
+    min-width: 130px;
+    padding: 12px 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    text-align: center;
+}
+
+body.dark .stat {
+    background: #151515;
+    border-color: #333;
+}
+
+.stat-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 800;
+    opacity: .55;
+}
+
+.stat-value {
+    display: block;
+    font-size: 22px;
+    font-weight: 900;
+    margin-top: 3px;
+}
+
+.task-title {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 2px;
+    opacity: .55;
+    margin-bottom: 25px;
+}
+
+#gameArea {
+    width: min(900px, 95vw);
+    min-height: 430px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+#mainButton {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    border: 15px solid #8d0000;
+    background: radial-gradient(circle at 35% 30%, #ff4444, #d40000 55%, #850000);
+    box-shadow:
+        0 25px 45px rgba(0,0,0,.35),
+        inset 0 8px 10px rgba(255,255,255,.18),
+        inset 0 -15px 20px rgba(0,0,0,.3);
+    color: white;
+    font-size: 25px;
+    font-weight: 1000;
+    cursor: pointer;
+    transition: transform .08s, box-shadow .2s, background .4s;
+    user-select: none;
+}
+
+#mainButton:active {
+    transform: translateY(7px) scale(.97);
+    box-shadow:
+        0 10px 20px rgba(0,0,0,.35),
+        inset 0 10px 15px rgba(0,0,0,.3);
+}
+
+#mainButton:hover {
+    filter: brightness(1.08);
+}
+
+.button-caption {
+    font-weight: 800;
+    opacity: .6;
+}
+
+.message {
+    min-height: 25px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================
+   TASK 1
+========================= */
+
+.puzzle-screen {
+    width: min(850px, 95vw);
+    min-height: 450px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #222;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+
+.pinboard {
+    width: 100%;
+    min-height: 450px;
+    background-image: url("pinnwand.png");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.code-secret {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 25px;
+    background: rgba(255,244,170,.94);
+    color: #111;
+    font-size: 38px;
+    font-weight: 1000;
+    letter-spacing: 9px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.3);
+    transform-origin: center;
+    rotate: -3deg;
+}
+
+.lock {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 280px;
+    height: 170px;
+    border-radius: 25px 25px 0 0;
+    background: linear-gradient(#444, #181818);
+    border: 5px solid #090909;
+    box-shadow: 0 -10px 30px rgba(0,0,0,.5);
+    cursor: grab;
+    touch-action: none;
+    z-index: 5;
+}
+
+.lock:active {
+    cursor: grabbing;
+}
+
+.lock-handle {
+    width: 110px;
+    height: 55px;
+    border: 14px solid #333;
+    border-bottom: 0;
+    border-radius: 60px 60px 0 0;
+    position: absolute;
+    left: 50%;
+    top: -55px;
+    transform: translateX(-50%);
+}
+
+.lock-title {
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 900;
+    margin-top: 20px;
+}
+
+.lock-hint {
+    color: #bbb;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.code-area {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.code-inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.code-input {
+    width: 55px;
+    height: 65px;
+    font-size: 30px;
+    text-align: center;
+    font-weight: 900;
+    border: 2px solid #aaa;
+    border-radius: 10px;
+    background: white;
+    color: #111;
+}
+
+.code-submit {
+    border: 0;
+    padding: 12px 25px;
+    border-radius: 8px;
+    background: #111;
+    color: white;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+body.dark .code-submit {
+    background: white;
+    color: #111;
+}
+
+.code-message {
+    min-height: 22px;
+    font-weight: 900;
+}
+
+/* =========================
+   TASK 2 RAINBOW
+========================= */
+
+body.rainbow {
+    animation: rainbowBackground 2s linear infinite;
+}
+
+body.rainbow header,
+body.rainbow .stat {
+    animation: rainbowBox 1.5s linear infinite;
+}
+
+body.rainbow #mainButton {
+    animation:
+        rainbowButton 1s linear infinite,
+        rainbowGlow .7s ease-in-out infinite alternate;
+}
+
+@keyframes rainbowBackground {
+    0% { background: #ff0000; }
+    16% { background: #ff8a00; }
+    33% { background: #fff000; }
+    50% { background: #00ff55; }
+    66% { background: #00bfff; }
+    83% { background: #7a00ff; }
+    100% { background: #ff009d; }
+}
+
+@keyframes rainbowBox {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes rainbowButton {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes rainbowGlow {
+    from {
+        box-shadow:
+            0 0 30px #fff,
+            0 0 70px #ff0000,
+            0 0 120px #00ffff;
     }
+    to {
+        box-shadow:
+            0 0 50px #fff,
+            0 0 100px #ff00ff,
+            0 0 160px #ffff00;
+    }
+}
 
+/* =========================
+   TASK 2 DARK
+========================= */
 
-    /* =========================================
-       HEADER
-       ========================================= */
+body.blackout {
+    background: #000 !important;
+    color: #111 !important;
+}
 
+body.blackout header,
+body.blackout .stats,
+body.blackout .task-title,
+body.blackout .button-caption,
+body.blackout .message {
+    opacity: 0;
+    transition: opacity .5s;
+}
+
+body.blackout #mainButton {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* =========================
+   DON'T PRESS
+========================= */
+
+.dont-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    width: 100%;
+}
+
+.countdown {
+    font-size: 90px;
+    font-weight: 1000;
+    line-height: 1;
+}
+
+.dont-button {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 15px solid #8d0000;
+    background: radial-gradient(circle at 35% 30%, #ff4444, #d40000 55%, #850000);
+    color: white;
+    font-size: 30px;
+    font-weight: 1000;
+    cursor: pointer;
+    box-shadow: 0 25px 60px rgba(255,0,0,.35);
+}
+
+.dont-button:active {
+    transform: scale(.96);
+}
+
+.dont-info {
+    font-weight: 900;
+    text-align: center;
+}
+
+.success-screen {
+    text-align: center;
+}
+
+.success-screen h1 {
+    font-size: 55px;
+    margin: 0 0 15px;
+}
+
+.success-screen p {
+    opacity: .7;
+    font-weight: 700;
+}
+
+.restart-button {
+    margin-top: 20px;
+    border: 0;
+    border-radius: 9px;
+    padding: 13px 25px;
+    background: #111;
+    color: white;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+body.dark .restart-button {
+    background: white;
+    color: #111;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
     header {
-      width: 100%;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      padding: 18px 28px;
-
-      border-bottom: 1px solid #eeeeee;
-      background: #ffffff;
-
-      flex-shrink: 0;
+        padding: 0 14px;
     }
 
-    .small-logo {
-      font-size: 20px;
-      font-weight: 950;
-      letter-spacing: -0.8px;
-    }
-
-    .small-logo .red-o {
-      color: #e00000;
-    }
-
-    .player-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .player-avatar {
-      width: 34px;
-      height: 34px;
-
-      border-radius: 50%;
-
-      border: 2px solid #111111;
-    }
-
-    .player-avatar.red {
-      background: #e00000;
-    }
-
-    .player-avatar.blue {
-      background: #155eef;
-    }
-
-    .player-avatar.green {
-      background: #159447;
-    }
-
-    .player-avatar.yellow {
-      background: #ffd800;
-    }
-
-    .player-avatar.purple {
-      background: #7939d9;
-    }
-
-    .player-avatar.black {
-      background: #111111;
+    .logo {
+        font-size: 17px;
     }
 
     .username {
-      font-size: 13px;
-      font-weight: 900;
+        display: none;
     }
 
-
-    /* =========================================
-       MAIN
-       ========================================= */
-
-    main {
-      flex: 1;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      padding: 45px 20px 70px;
+    #mainButton {
+        width: 220px;
+        height: 220px;
     }
-
-    .game {
-      width: 100%;
-      max-width: 720px;
-
-      text-align: center;
-    }
-
-
-    /* =========================================
-       TITLE
-       ========================================= */
-
-    .game-title {
-      margin: 0;
-
-      font-size: clamp(36px, 8vw, 70px);
-      line-height: 0.95;
-
-      font-weight: 950;
-      letter-spacing: -3px;
-    }
-
-    .game-title .red-o {
-      color: #e00000;
-    }
-
-    .game-subtitle {
-      margin-top: 15px;
-
-      color: #777777;
-
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2px;
-    }
-
-
-    /* =========================================
-       STATS
-       ========================================= */
 
     .stats {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-
-      margin-top: 32px;
+        width: 100%;
     }
 
     .stat {
-      min-width: 130px;
-
-      padding: 12px 18px;
-
-      border: 1px solid #dddddd;
-      border-radius: 10px;
-
-      background: #ffffff;
+        min-width: 0;
+        flex: 1;
     }
 
-    .stat-label {
-      color: #888888;
-
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 1px;
+    .puzzle-screen,
+    .pinboard {
+        min-height: 380px;
     }
-
-    .stat-value {
-      margin-top: 3px;
-
-      font-size: 22px;
-      font-weight: 950;
-    }
-
-
-    /* =========================================
-       BUTTON
-       ========================================= */
-
-    .button-area {
-      margin-top: 42px;
-
-      display: flex;
-      justify-content: center;
-    }
-
-    .game-button {
-      width: 245px;
-      height: 245px;
-
-      border: 0;
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle at 35% 30%,
-          #ff4b4b 0%,
-          #e00000 35%,
-          #a90000 72%,
-          #710000 100%
-        );
-
-      box-shadow:
-        0 25px 50px rgba(120, 0, 0, 0.30),
-        inset 0 8px 15px rgba(255, 255, 255, 0.15),
-        inset 0 -15px 25px rgba(0, 0, 0, 0.30);
-
-      cursor: pointer;
-
-      color: #ffffff;
-
-      font-size: 21px;
-      font-weight: 950;
-      letter-spacing: 1px;
-
-      transition:
-        transform 0.12s ease,
-        box-shadow 0.12s ease;
-    }
-
-    .game-button:hover {
-      transform: scale(1.025);
-
-      box-shadow:
-        0 30px 60px rgba(120, 0, 0, 0.35),
-        inset 0 8px 15px rgba(255, 255, 255, 0.15),
-        inset 0 -15px 25px rgba(0, 0, 0, 0.30);
-    }
-
-    .game-button:active {
-      transform: scale(0.95);
-    }
-
-    .game-button:disabled {
-      cursor: default;
-      opacity: 0.55;
-      transform: none;
-    }
-
-
-    /* =========================================
-       STATUS
-       ========================================= */
-
-    .status {
-      min-height: 24px;
-
-      margin-top: 25px;
-
-      color: #777777;
-
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-
-    /* =========================================
-       PUZZLE OVERLAY
-       ========================================= */
-
-    .puzzle-overlay {
-      position: fixed;
-
-      inset: 0;
-
-      z-index: 1000;
-
-      display: none;
-
-      justify-content: center;
-      align-items: center;
-
-      background:
-        rgba(0, 0, 0, 0.72);
-
-      padding: 20px;
-
-      overflow: hidden;
-    }
-
-    .puzzle-overlay.active {
-      display: flex;
-    }
-
-
-    /* =========================================
-       PINWAND
-       ========================================= */
-
-    .puzzle-scene {
-      position: relative;
-
-      width: min(740px, 94vw);
-      height: min(680px, 88vh);
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .pinboard-photo {
-      position: absolute;
-
-      width: min(600px, 88vw);
-      height: auto;
-
-      max-height: 620px;
-
-      object-fit: contain;
-
-      border-radius: 4px;
-
-      box-shadow:
-        0 25px 70px rgba(0, 0, 0, 0.45);
-
-      user-select: none;
-      pointer-events: none;
-    }
-
-
-    /* =========================================
-       CODE AUF DER PINNWAND
-       ========================================= */
-
-    .hidden-code {
-      position: absolute;
-
-      z-index: 2;
-
-      /*
-       * Position auf der gelben Pinnwand.
-       */
-
-      top: 48%;
-      left: 50%;
-
-      transform: translate(-50%, -50%);
-
-      font-family:
-        "Courier New",
-        monospace;
-
-      font-size: clamp(35px, 7vw, 58px);
-
-      font-weight: 950;
-
-      letter-spacing: 10px;
-
-      color: #111111;
-
-      background: #ffffff;
-
-      border: 4px solid #111111;
-
-      padding: 12px 18px;
-
-      box-shadow:
-        5px 5px 0 #111111;
-
-      user-select: none;
-
-      z-index: 3;
-    }
-
-
-    /* =========================================
-       SCHLOSS
-       ========================================= */
 
     .lock {
-      position: absolute;
-
-      z-index: 10;
-
-      top: 50%;
-      left: 50%;
-
-      width: 320px;
-
-      transform:
-        translate(-50%, -50%);
-
-      background: #eeeeee;
-
-      border: 5px solid #111111;
-
-      border-radius: 18px;
-
-      padding: 22px 22px 25px;
-
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.45);
-
-      cursor: grab;
-
-      touch-action: none;
-
-      user-select: none;
+        width: 230px;
     }
 
-    .lock.dragging {
-      cursor: grabbing;
+    .dont-button {
+        width: 240px;
+        height: 240px;
+        font-size: 24px;
     }
-
-
-    /* Bügel */
-
-    .lock-shackle {
-      width: 105px;
-      height: 75px;
-
-      margin: -58px auto 7px;
-
-      border: 14px solid #222222;
-
-      border-bottom: 0;
-
-      border-radius:
-        55px 55px 0 0;
-
-      position: relative;
-    }
-
-    .lock-body {
-      background:
-        linear-gradient(
-          145deg,
-          #444444,
-          #1b1b1b
-        );
-
-      border-radius: 12px;
-
-      padding: 20px;
-
-      border: 3px solid #080808;
-
-      color: #ffffff;
-    }
-
-    .lock-title {
-      font-size: 18px;
-      font-weight: 950;
-      letter-spacing: 1px;
-
-      margin-bottom: 5px;
-    }
-
-    .lock-hint {
-      color: #bbbbbb;
-
-      font-size: 11px;
-      line-height: 1.4;
-
-      margin-bottom: 17px;
-    }
-
-    .drag-handle {
-      display: inline-block;
-
-      margin-bottom: 13px;
-
-      padding: 5px 9px;
-
-      border-radius: 5px;
-
-      background: #ffd800;
-      color: #111111;
-
-      font-size: 10px;
-      font-weight: 950;
-      letter-spacing: 1px;
-    }
-
-
-    /* =========================================
-       CODE INPUT
-       ========================================= */
-
-    .code-inputs {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-
-      margin-bottom: 14px;
-    }
-
-    .code-digit {
-      width: 52px;
-      height: 57px;
-
-      border: 2px solid #555555;
-      border-radius: 8px;
-
-      background: #ffffff;
-      color: #111111;
-
-      text-align: center;
-
-      font-family: "Courier New", monospace;
-
-      font-size: 28px;
-      font-weight: 950;
-
-      outline: none;
-    }
-
-    .code-digit:focus {
-      border-color: #ffd800;
-
-      box-shadow:
-        0 0 0 3px rgba(255, 216, 0, 0.25);
-    }
-
-
-    /* =========================================
-       CHECK BUTTON
-       ========================================= */
-
-    .check-code {
-      width: 100%;
-      height: 45px;
-
-      border: 0;
-      border-radius: 8px;
-
-      background: #e00000;
-      color: #ffffff;
-
-      font-size: 13px;
-      font-weight: 950;
-      letter-spacing: 0.5px;
-
-      cursor: pointer;
-    }
-
-    .check-code:hover {
-      background: #bd0000;
-    }
-
-
-    /* =========================================
-       LOCK MESSAGE
-       ========================================= */
-
-    .lock-message {
-      min-height: 18px;
-
-      margin-top: 10px;
-
-      font-size: 11px;
-      font-weight: 800;
-
-      text-align: center;
-    }
-
-    .lock-message.error {
-      color: #ff6b6b;
-    }
-
-    .lock-message.success {
-      color: #68e878;
-    }
-
-
-    /* =========================================
-       FINISH
-       ========================================= */
-
-    .success-screen {
-      position: absolute;
-
-      inset: 0;
-
-      z-index: 50;
-
-      display: none;
-
-      justify-content: center;
-      align-items: center;
-
-      background: rgba(255, 255, 255, 0.97);
-
-      text-align: center;
-    }
-
-    .success-screen.active {
-      display: flex;
-    }
-
-    .success-box {
-      width: min(450px, 90vw);
-
-      padding: 40px 25px;
-
-      border: 2px solid #111111;
-      border-radius: 15px;
-
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.15);
-    }
-
-    .success-check {
-      font-size: 55px;
-
-      margin-bottom: 10px;
-    }
-
-    .success-title {
-      font-size: 30px;
-      font-weight: 950;
-    }
-
-    .success-text {
-      margin-top: 10px;
-
-      color: #777777;
-
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-
-    /* =========================================
-       FOOTER
-       ========================================= */
-
-    footer {
-      padding: 0 20px 22px;
-
-      text-align: center;
-
-      color: #999999;
-
-      font-size: 11px;
-    }
-
-
-    /* =========================================
-       MOBILE
-       ========================================= */
-
-    @media (max-width: 600px) {
-
-      header {
-        padding: 16px 18px;
-      }
-
-      .small-logo {
-        font-size: 16px;
-      }
-
-      .username {
-        max-width: 120px;
-
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .stats {
-        margin-top: 25px;
-      }
-
-      .stat {
-        min-width: 105px;
-      }
-
-      .game-button {
-        width: 205px;
-        height: 205px;
-
-        font-size: 18px;
-      }
-
-      .puzzle-scene {
-        height: 600px;
-      }
-
-      .lock {
-        width: 285px;
-      }
-
-      .code-digit {
-        width: 48px;
-        height: 52px;
-      }
-    }
-
-  </style>
+}
+</style>
 </head>
-
 
 <body>
 
-
-  <!-- =======================================
-       TICKER
-       ======================================== -->
-
-  <div class="ticker-wrap">
-
-    <div class="ticker">
-
-      <div class="ticker-item">
-        <span>⚠ THE BUTTON GAME</span>
-      </div>
-
-      <div class="ticker-item">
-        <span>⚠ SPIEL AUF EIGENE GEFAHR</span>
-      </div>
-
-      <div class="ticker-item">
-        <span>⚠ THE BUTTON GAME</span>
-      </div>
-
-      <div class="ticker-item">
-        <span>⚠ SPIEL AUF EIGENE GEFAHR</span>
-      </div>
-
-      <div class="ticker-item">
-        <span>⚠ THE BUTTON GAME</span>
-      </div>
-
-      <div class="ticker-item">
-        <span>⚠ SPIEL AUF EIGENE GEFAHR</span>
-      </div>
-
-      <div class="ticker-item">
-        <span>⚠ THE BUTTON GAME</span>
-      </div>
-
-      <div class="ticker-item">
-        <span>⚠ SPIEL AUF EIGENE GEFAHR</span>
-      </div>
-
+<div class="hazard">
+    <div class="hazard-text">
+        ⚠ THE BUTTON GAME · NICHT AUFGEBEN · ⚠ THE BUTTON GAME · WAS PASSIERT BEIM NÄCHSTEN KLICK? ·
     </div>
+</div>
 
-  </div>
-
-
-  <!-- =======================================
-       HEADER
-       ======================================== -->
-
-  <header>
-
-    <div class="small-logo">
-      THE BUTT<span class="red-o">O</span>N GAME
-    </div>
-
-
-    <div class="player-info">
-
-      <div
-        id="avatar"
-        class="player-avatar red"
-      ></div>
-
-      <div
-        id="username"
-        class="username"
-      >
-        Spieler
-      </div>
-
-    </div>
-
-  </header>
-
-
-  <!-- =======================================
-       MAIN GAME
-       ======================================== -->
-
-  <main>
-
-    <div class="game">
-
-
-      <h1 class="game-title">
+<header>
+    <div class="logo">
         THE BUTT<span class="red-o">O</span>N GAME
-      </h1>
+    </div>
 
+    <div class="user-area">
+        <div class="avatar" id="avatar"></div>
+        <div class="username" id="username">Spieler</div>
+        <button class="theme-button" id="themeButton" title="Darkmode / Normalmode">🎨</button>
+    </div>
+</header>
 
-      <div class="game-subtitle">
-        DRÜCK. DENK. LÖSE.
-      </div>
+<main>
 
-
-      <!-- STATS -->
-
-      <div class="stats">
+    <div class="stats">
+        <div class="stat">
+            <span class="stat-label">Klicks</span>
+            <span class="stat-value" id="clickCounter">0</span>
+        </div>
 
         <div class="stat">
+            <span class="stat-label">Aufgabe</span>
+            <span class="stat-value" id="taskCounter">1</span>
+        </div>
+    </div>
 
-          <div class="stat-label">
-            KLICKS
-          </div>
+    <div class="task-title" id="taskTitle">
+        AUFGABE 1
+    </div>
 
-          <div
-            id="clickCount"
-            class="stat-value"
-          >
-            0
-          </div>
+    <div id="gameArea">
+
+        <!-- =========================
+             NORMALER BUTTON
+        ========================== -->
+
+        <div class="button-wrapper" id="normalGame">
+            <button id="mainButton">DRÜCKEN</button>
+            <div class="button-caption" id="buttonCaption">
+                Irgendwann passiert etwas.
+            </div>
+            <div class="message" id="mainMessage"></div>
+        </div>
+
+        <!-- =========================
+             TASK 1 PUZZLE
+        ========================== -->
+
+        <div class="hidden" id="task1Puzzle">
+
+            <div class="puzzle-screen">
+
+                <div class="pinboard">
+
+                    <div class="code-secret">
+                        5831
+                    </div>
+
+                    <div class="lock" id="lock">
+
+                        <div class="lock-handle"></div>
+
+                        <div class="lock-title">
+                            🔒 VERSCHLUSS
+                        </div>
+
+                        <div class="lock-hint">
+                            Zieh mich nach unten weg
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="code-area">
+
+                <div class="code-inputs">
+
+                    <input class="code-input" maxlength="1" inputmode="numeric">
+                    <input class="code-input" maxlength="1" inputmode="numeric">
+                    <input class="code-input" maxlength="1" inputmode="numeric">
+                    <input class="code-input" maxlength="1" inputmode="numeric">
+
+                </div>
+
+                <button class="code-submit" id="codeSubmit">
+                    CODE PRÜFEN
+                </button>
+
+                <div class="code-message" id="codeMessage"></div>
+
+            </div>
 
         </div>
 
+        <!-- =========================
+             TASK 2 DON'T PRESS
+        ========================== -->
 
-        <div class="stat">
+        <div class="hidden" id="dontPressScreen">
 
-          <div class="stat-label">
-            AUFGABE
-          </div>
+            <div class="dont-screen">
 
-          <div
-            id="taskNumber"
-            class="stat-value"
-          >
-            1
-          </div>
+                <div class="dont-info">
+                    DU HAST 10 SEKUNDEN.
+                    <br>
+                    DRÜCKE DEN BUTTON NICHT.
+                </div>
+
+                <div class="countdown" id="countdown">
+                    10
+                </div>
+
+                <button class="dont-button" id="dontButton">
+                    NICHT<br>DRÜCKEN
+                </button>
+
+                <div class="message" id="dontMessage"></div>
+
+            </div>
 
         </div>
 
-      </div>
+        <!-- =========================
+             TASK 2 ERFOLG
+        ========================== -->
 
+        <div class="hidden" id="successScreen">
 
-      <!-- BUTTON -->
+            <div class="success-screen">
 
-      <div class="button-area">
+                <h1>✓</h1>
 
-        <button
-          id="gameButton"
-          class="game-button"
-        >
-          DRÜCKEN
-        </button>
+                <h2>AUFGABE 2 GESCHAFFT</h2>
 
-      </div>
+                <p>
+                    Du hast widerstanden.
+                </p>
 
+                <button class="restart-button" id="continueButton">
+                    WEITER
+                </button>
 
-      <div
-        id="status"
-        class="status"
-      >
-        Drücke den Button.
-      </div>
+            </div>
 
+        </div>
 
     </div>
 
-  </main>
+</main>
 
+<script>
+/* =========================================================
+   SPIELER LADEN
+========================================================= */
 
-  <!-- =======================================
-       PUZZLE
-       ======================================== -->
+const playerRaw = localStorage.getItem("buttonGamePlayer");
 
-  <div
-    id="puzzleOverlay"
-    class="puzzle-overlay"
-  >
+let player = null;
 
+try {
+    player = playerRaw ? JSON.parse(playerRaw) : null;
+} catch {
+    player = null;
+}
 
-    <div
-      id="puzzleScene"
-      class="puzzle-scene"
-    >
+if (!player) {
+    window.location.href = "register.html";
+}
 
+/* =========================================================
+   ELEMENTE
+========================================================= */
 
-      <!-- PINNWAND-FOTO -->
+const usernameElement = document.getElementById("username");
+const avatarElement = document.getElementById("avatar");
 
-      <img
-        src="pinnwand.png"
-        class="pinboard-photo"
-        id="pinboardPhoto"
-        alt="Pinnwand"
-        draggable="false"
-      >
+const clickCounter = document.getElementById("clickCounter");
+const taskCounter = document.getElementById("taskCounter");
+const taskTitle = document.getElementById("taskTitle");
 
+const normalGame = document.getElementById("normalGame");
+const mainButton = document.getElementById("mainButton");
+const mainMessage = document.getElementById("mainMessage");
+const buttonCaption = document.getElementById("buttonCaption");
 
-      <!-- CODE -->
+const task1Puzzle = document.getElementById("task1Puzzle");
+const lock = document.getElementById("lock");
 
-      <div
-        id="hiddenCode"
-        class="hidden-code"
-      >
-        5831
-      </div>
+const codeInputs = document.querySelectorAll(".code-input");
+const codeSubmit = document.getElementById("codeSubmit");
+const codeMessage = document.getElementById("codeMessage");
 
+const dontPressScreen = document.getElementById("dontPressScreen");
+const dontButton = document.getElementById("dontButton");
+const countdownElement = document.getElementById("countdown");
+const dontMessage = document.getElementById("dontMessage");
 
-      <!-- =================================
-           SCHLOSS
-           ================================== -->
+const successScreen = document.getElementById("successScreen");
+const continueButton = document.getElementById("continueButton");
 
-      <div
-        id="lock"
-        class="lock"
-      >
+const themeButton = document.getElementById("themeButton");
 
-        <div class="lock-shackle"></div>
+/* =========================================================
+   SPIELSTAND
+========================================================= */
 
+let clickCount = Number(localStorage.getItem("buttonGameClicks")) || 0;
+let currentTask = Number(localStorage.getItem("buttonGameTask")) || 1;
 
-        <div class="lock-body">
+let puzzle1Solved =
+    localStorage.getItem("buttonGamePuzzle1Solved") === "true";
 
-          <div class="drag-handle">
-            ↓ HIER GREIFEN UND ZIEHEN ↓
-          </div>
+let task2Phase =
+    localStorage.getItem("buttonGameTask2Phase") || "clicking";
 
+/* =========================================================
+   SPIELER UI
+========================================================= */
 
-          <div class="lock-title">
-            ZAHLENSCHLOSS
-          </div>
+usernameElement.textContent = player.username || "Spieler";
 
+const avatarColors = {
+    red: "#e00000",
+    blue: "#1479ff",
+    green: "#12a84b",
+    purple: "#7b35d6",
+    yellow: "#ffd000",
+    black: "#111111"
+};
 
-          <div class="lock-hint">
-            Ziehe das Schloss nach unten,
-            um dahinter nach einem Hinweis
-            zu suchen.
-          </div>
+avatarElement.style.background =
+    avatarColors[player.avatar] || "#e00000";
 
+/* =========================================================
+   SPEICHERN
+========================================================= */
 
-          <div class="code-inputs">
+function saveGame() {
 
-            <input
-              class="code-digit"
-              maxlength="1"
-              inputmode="numeric"
-              autocomplete="off"
-            >
-
-            <input
-              class="code-digit"
-              maxlength="1"
-              inputmode="numeric"
-              autocomplete="off"
-            >
-
-            <input
-              class="code-digit"
-              maxlength="1"
-              inputmode="numeric"
-              autocomplete="off"
-            >
-
-            <input
-              class="code-digit"
-              maxlength="1"
-              inputmode="numeric"
-              autocomplete="off"
-            >
-
-          </div>
-
-
-          <button
-            id="checkCode"
-            class="check-code"
-          >
-            CODE BESTÄTIGEN
-          </button>
-
-
-          <div
-            id="lockMessage"
-            class="lock-message"
-          ></div>
-
-        </div>
-
-      </div>
-
-
-      <!-- =================================
-           ERFOLG
-           ================================== -->
-
-      <div
-        id="successScreen"
-        class="success-screen"
-      >
-
-        <div class="success-box">
-
-          <div class="success-check">
-            ✓
-          </div>
-
-          <div class="success-title">
-            AUFGABE GELÖST
-          </div>
-
-          <div class="success-text">
-            Der Code war korrekt.<br>
-            Deine nächste Aufgabe wartet.
-          </div>
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-
-  <!-- =======================================
-       FOOTER
-       ======================================== -->
-
-  <footer>
-    Spiel kostenlos Spielbar · Unterstützt durch GitHub
-  </footer>
-
-
-  <script>
-
-    /* =========================================
-       SPIELER
-       ========================================= */
-
-    const savedPlayer =
-      localStorage.getItem("buttonGamePlayer");
-
-
-    if (!savedPlayer) {
-
-      window.location.href =
-        "register.html";
-
-    }
-
-
-    let player;
-
-    try {
-
-      player =
-        JSON.parse(savedPlayer);
-
-    } catch (error) {
-
-      localStorage.removeItem(
-        "buttonGamePlayer"
-      );
-
-      window.location.href =
-        "register.html";
-
-    }
-
-
-    /* =========================================
-       ELEMENTE
-       ========================================= */
-
-    const usernameElement =
-      document.getElementById("username");
-
-    const avatarElement =
-      document.getElementById("avatar");
-
-    const clickCountElement =
-      document.getElementById("clickCount");
-
-    const taskNumberElement =
-      document.getElementById("taskNumber");
-
-    const statusElement =
-      document.getElementById("status");
-
-    const gameButton =
-      document.getElementById("gameButton");
-
-    const puzzleOverlay =
-      document.getElementById("puzzleOverlay");
-
-    const lock =
-      document.getElementById("lock");
-
-    const checkCodeButton =
-      document.getElementById("checkCode");
-
-    const lockMessage =
-      document.getElementById("lockMessage");
-
-    const successScreen =
-      document.getElementById("successScreen");
-
-    const codeInputs =
-      document.querySelectorAll(".code-digit");
-
-
-    /* =========================================
-       AVATAR
-       ========================================= */
-
-    const allowedAvatars = [
-      "red",
-      "blue",
-      "green",
-      "yellow",
-      "purple",
-      "black"
-    ];
-
-    const avatar =
-      allowedAvatars.includes(player.avatar)
-        ? player.avatar
-        : "red";
-
-
-    avatarElement.className =
-      "player-avatar " + avatar;
-
-
-    /* =========================================
-       USERNAME
-       ========================================= */
-
-    usernameElement.textContent =
-      player.username || "Spieler";
-
-
-    /* =========================================
-       SPIELSTAND
-       ========================================= */
-
-    let clickCount =
-      Number(
-        localStorage.getItem(
-          "buttonGameClicks"
-        )
-      ) || 0;
-
-
-    let currentTask =
-      Number(
-        localStorage.getItem(
-          "buttonGameTask"
-        )
-      ) || 1;
-
-
-    let puzzleSolved =
-      localStorage.getItem(
-        "buttonGamePuzzle1Solved"
-      ) === "true";
-
-
-    clickCountElement.textContent =
-      clickCount;
-
-
-    taskNumberElement.textContent =
-      currentTask;
-
-
-    /* =========================================
-       BEREITS GELÖST?
-       ========================================= */
-
-    if (puzzleSolved) {
-
-      statusElement.textContent =
-        "Aufgabe 1 bereits gelöst.";
-
-    }
-
-
-    /* =========================================
-       SPIELSTAND SPEICHERN
-       ========================================= */
-
-    function saveGame() {
-
-      localStorage.setItem(
+    localStorage.setItem(
         "buttonGameClicks",
         String(clickCount)
-      );
+    );
 
-      localStorage.setItem(
+    localStorage.setItem(
         "buttonGameTask",
         String(currentTask)
-      );
+    );
 
-      localStorage.setItem(
+    localStorage.setItem(
         "buttonGamePuzzle1Solved",
-        puzzleSolved
-          ? "true"
-          : "false"
-      );
-
-
-      /*
-       * Den aktuellen Spieler ebenfalls
-       * aktualisieren.
-       */
-
-      player.score =
-        clickCount;
-
-      player.task_number =
-        currentTask;
-
-
-      localStorage.setItem(
-        "buttonGamePlayer",
-        JSON.stringify(player)
-      );
-
-    }
-
-
-    /* =========================================
-       BUTTON KLICK
-       ========================================= */
-
-    gameButton.addEventListener(
-      "click",
-      function() {
-
-        if (puzzleSolved) {
-
-          statusElement.textContent =
-            "Aufgabe 1 ist bereits gelöst.";
-
-          return;
-        }
-
-
-        clickCount++;
-
-
-        clickCountElement.textContent =
-          clickCount;
-
-
-        saveGame();
-
-
-        /* =====================================
-           10. KLICK
-           ===================================== */
-
-        if (clickCount >= 10) {
-
-          gameButton.disabled = true;
-
-          statusElement.textContent =
-            "Etwas stimmt hier nicht …";
-
-
-          setTimeout(
-            function() {
-
-              openPuzzle();
-
-            },
-            350
-          );
-
-          return;
-        }
-
-
-        /* =====================================
-           NORMALE KLICKS
-           ===================================== */
-
-        const remaining =
-          10 - clickCount;
-
-
-        if (remaining === 1) {
-
-          statusElement.textContent =
-            "Noch 1 Klick …";
-
-        } else {
-
-          statusElement.textContent =
-            "Noch " +
-            remaining +
-            " Klicks.";
-
-        }
-
-      }
+        String(puzzle1Solved)
     );
 
+    localStorage.setItem(
+        "buttonGameTask2Phase",
+        task2Phase
+    );
+}
 
-    /* =========================================
-       PUZZLE ÖFFNEN
-       ========================================= */
+function updateStats() {
 
-    function openPuzzle() {
+    clickCounter.textContent = clickCount;
+    taskCounter.textContent = currentTask;
+}
 
-      puzzleOverlay.classList.add(
-        "active"
-      );
+/* =========================================================
+   THEME
+========================================================= */
 
+let darkMode =
+    localStorage.getItem("buttonGameDarkMode") === "true";
 
-      /*
-       * Schloss wieder in die
-       * Ausgangsposition setzen.
-       */
+function applyTheme() {
 
-      lock.style.transform =
-        "translate(-50%, -50%)";
+    document.body.classList.toggle("dark", darkMode);
 
+    themeButton.textContent =
+        darkMode ? "☀️" : "🎨";
+}
 
-      lock.style.left =
-        "50%";
+themeButton.addEventListener("click", () => {
 
-      lock.style.top =
-        "50%";
+    darkMode = !darkMode;
 
-
-      lockMessage.textContent = "";
-
-      lockMessage.className =
-        "lock-message";
-
-
-      codeInputs.forEach(
-        function(input) {
-
-          input.value = "";
-
-        }
-      );
-
-
-      setTimeout(
-        function() {
-
-          codeInputs[0].focus();
-
-        },
-        250
-      );
-
-    }
-
-
-    /* =========================================
-       CODE-EINGABE
-       ========================================= */
-
-    codeInputs.forEach(
-      function(input, index) {
-
-        input.addEventListener(
-          "input",
-          function() {
-
-            /*
-             * Nur Zahlen zulassen.
-             */
-
-            input.value =
-              input.value.replace(
-                /[^0-9]/g,
-                ""
-              );
-
-
-            /*
-             * Automatisch zum
-             * nächsten Feld.
-             */
-
-            if (
-              input.value &&
-              index <
-              codeInputs.length - 1
-            ) {
-
-              codeInputs[
-                index + 1
-              ].focus();
-
-            }
-
-          }
-        );
-
-
-        input.addEventListener(
-          "keydown",
-          function(event) {
-
-            if (
-              event.key === "Backspace" &&
-              !input.value &&
-              index > 0
-            ) {
-
-              codeInputs[
-                index - 1
-              ].focus();
-
-            }
-
-          }
-        );
-
-      }
+    localStorage.setItem(
+        "buttonGameDarkMode",
+        String(darkMode)
     );
 
+    applyTheme();
+});
 
-    /* =========================================
-       CODE PRÜFEN
-       ========================================= */
+applyTheme();
 
-    checkCodeButton.addEventListener(
-      "click",
-      checkCode
-    );
+/* =========================================================
+   SCREEN WECHSEL
+========================================================= */
 
+function hideAllScreens() {
 
-    function checkCode() {
+    normalGame.classList.add("hidden");
+    task1Puzzle.classList.add("hidden");
+    dontPressScreen.classList.add("hidden");
+    successScreen.classList.add("hidden");
+}
 
-      let enteredCode = "";
+/* =========================================================
+   TASK 1
+========================================================= */
 
+function showTask1() {
 
-      codeInputs.forEach(
-        function(input) {
+    hideAllScreens();
 
-          enteredCode +=
-            input.value;
+    taskTitle.textContent = "AUFGABE 1";
 
-        }
-      );
+    normalGame.classList.remove("hidden");
 
+    mainButton.textContent = "DRÜCKEN";
 
-      if (
-        enteredCode.length !== 4
-      ) {
+    buttonCaption.textContent =
+        "Irgendwann passiert etwas.";
 
-        lockMessage.textContent =
-          "Bitte alle 4 Zahlen eingeben.";
+    mainMessage.textContent = "";
 
-        lockMessage.className =
-          "lock-message error";
+    updateStats();
+}
+
+function startTask1Puzzle() {
+
+    hideAllScreens();
+
+    taskTitle.textContent = "AUFGABE 1 · RÄTSEL";
+
+    task1Puzzle.classList.remove("hidden");
+
+    codeMessage.textContent = "";
+
+    lock.style.transform =
+        "translateX(-50%) translateY(0px)";
+
+    codeInputs.forEach(input => {
+        input.value = "";
+    });
+
+    codeInputs[0].focus();
+}
+
+function solveTask1() {
+
+    puzzle1Solved = true;
+
+    currentTask = 2;
+
+    clickCount = 0;
+
+    task2Phase = "clicking";
+
+    saveGame();
+
+    showTask2Clicking();
+}
+
+/* =========================================================
+   TASK 1 BUTTON
+========================================================= */
+
+mainButton.addEventListener("click", () => {
+
+    if (currentTask !== 1) return;
+
+    if (puzzle1Solved) return;
+
+    clickCount++;
+
+    updateStats();
+    saveGame();
+
+    if (clickCount < 10) {
+
+        mainMessage.textContent =
+            "Noch nichts...";
 
         return;
-      }
-
-
-      /*
-       * Der Code dieser Aufgabe.
-       */
-
-      const correctCode =
-        "5831";
-
-
-      if (
-        enteredCode === correctCode
-      ) {
-
-        solvePuzzle();
-
-      } else {
-
-        lockMessage.textContent =
-          "Falscher Code.";
-
-        lockMessage.className =
-          "lock-message error";
-
-
-        /*
-         * Eingabe leeren.
-         */
-
-        codeInputs.forEach(
-          function(input) {
-
-            input.value = "";
-
-          }
-        );
-
-
-        codeInputs[0].focus();
-
-      }
-
     }
 
+    if (clickCount === 10) {
 
-    /* =========================================
-       AUFGABE LÖSEN
-       ========================================= */
+        mainMessage.textContent =
+            "Etwas hat sich verändert.";
 
-    function solvePuzzle() {
-
-      puzzleSolved = true;
-
-
-      currentTask = 2;
-
-
-      saveGame();
-
-
-      lockMessage.textContent =
-        "CODE RICHTIG!";
-
-      lockMessage.className =
-        "lock-message success";
-
-
-      /*
-       * Kurze Verzögerung,
-       * dann Erfolg anzeigen.
-       */
-
-      setTimeout(
-        function() {
-
-          successScreen.classList.add(
-            "active"
-          );
-
-
-          taskNumberElement.textContent =
-            currentTask;
-
-
-          statusElement.textContent =
-            "Aufgabe 1 gelöst.";
-
-        },
-        450
-      );
-
+        setTimeout(() => {
+            startTask1Puzzle();
+        }, 500);
     }
+});
 
+/* =========================================================
+   CODE INPUT
+========================================================= */
 
-    /* =========================================
-       SCHLOSS ZIEHEN
-       ========================================= */
+codeInputs.forEach((input, index) => {
 
-    let dragging = false;
+    input.addEventListener("input", () => {
 
-    let dragStartY = 0;
-
-    let originalTop = 0;
-
-
-    function startDrag(event) {
-
-      /*
-       * Nicht auf den Eingabefeldern
-       * oder dem Button starten.
-       */
-
-      if (
-        event.target.closest(
-          ".code-digit"
-        ) ||
-        event.target.closest(
-          ".check-code"
-        )
-      ) {
-
-        return;
-
-      }
-
-
-      dragging = true;
-
-
-      lock.classList.add(
-        "dragging"
-      );
-
-
-      const rect =
-        lock.getBoundingClientRect();
-
-
-      dragStartY =
-        event.clientY ||
-        event.touches?.[0]?.clientY ||
-        0;
-
-
-      originalTop =
-        rect.top;
-
-
-      event.preventDefault();
-
-    }
-
-
-    function moveDrag(event) {
-
-      if (!dragging) {
-        return;
-      }
-
-
-      const currentY =
-        event.clientY ||
-        event.touches?.[0]?.clientY ||
-        0;
-
-
-      const difference =
-        currentY - dragStartY;
-
-
-      /*
-       * Schloss darf nur
-       * nach unten gezogen werden.
-       */
-
-      const newTop =
-        Math.max(
-          originalTop,
-          originalTop + difference
-        );
-
-
-      lock.style.top =
-        newTop + "px";
-
-
-      lock.style.transform =
-        "translateX(-50%)";
-
-
-      /*
-       * Wenn weit genug nach unten
-       * gezogen wurde, gilt der Hinweis
-       * als vollständig freigelegt.
-       */
-
-      if (
-        difference > 250
-      ) {
-
-        lock.classList.remove(
-          "dragging"
-        );
-
-        dragging = false;
-
-        lock.style.transition =
-          "top 0.25s ease";
-
-
-        lock.style.top =
-          "calc(100% + 100px)";
-
-
-        setTimeout(
-          function() {
-
-            lock.style.transition =
-              "";
-
-            statusElement.textContent =
-              "Der Hinweis ist sichtbar. Finde den Code.";
-
-          },
-          250
-        );
-
-      }
-
-
-      event.preventDefault();
-
-    }
-
-
-    function stopDrag() {
-
-      if (!dragging) {
-        return;
-      }
-
-
-      dragging = false;
-
-
-      lock.classList.remove(
-        "dragging"
-      );
-
-
-      /*
-       * Wenn nur ein kleines Stück
-       * gezogen wurde, zurück zur Mitte.
-       */
-
-      lock.style.transition =
-        "top 0.25s ease";
-
-
-      lock.style.top =
-        "50%";
-
-
-      lock.style.transform =
-        "translate(-50%, -50%)";
-
-
-      setTimeout(
-        function() {
-
-          lock.style.transition =
-            "";
-
-        },
-        250
-      );
-
-    }
-
-
-    /* =========================================
-       MOUSE
-       ========================================= */
-
-    lock.addEventListener(
-      "mousedown",
-      startDrag
-    );
-
-
-    window.addEventListener(
-      "mousemove",
-      moveDrag
-    );
-
-
-    window.addEventListener(
-      "mouseup",
-      stopDrag
-    );
-
-
-    /* =========================================
-       TOUCH
-       ========================================= */
-
-    lock.addEventListener(
-      "touchstart",
-      startDrag,
-      {
-        passive: false
-      }
-    );
-
-
-    window.addEventListener(
-      "touchmove",
-      moveDrag,
-      {
-        passive: false
-      }
-    );
-
-
-    window.addEventListener(
-      "touchend",
-      stopDrag
-    );
-
-
-    /* =========================================
-       SPEICHERN BEIM VERLASSEN
-       ========================================= */
-
-    window.addEventListener(
-      "beforeunload",
-      function() {
-
-        saveGame();
-
-      }
-    );
-
-
-    /*
-     * Auch bei Tab-Wechsel speichern.
-     */
-
-    document.addEventListener(
-      "visibilitychange",
-      function() {
+        input.value =
+            input.value.replace(/[^0-9]/g, "");
 
         if (
-          document.visibilityState ===
-          "hidden"
+            input.value &&
+            index < codeInputs.length - 1
         ) {
-
-          saveGame();
-
+            codeInputs[index + 1].focus();
         }
+    });
 
-      }
+    input.addEventListener("keydown", event => {
+
+        if (
+            event.key === "Backspace" &&
+            !input.value &&
+            index > 0
+        ) {
+            codeInputs[index - 1].focus();
+        }
+    });
+});
+
+/* =========================================================
+   CODE PRÜFEN
+========================================================= */
+
+codeSubmit.addEventListener("click", checkCode);
+
+function checkCode() {
+
+    const code =
+        Array.from(codeInputs)
+            .map(input => input.value)
+            .join("");
+
+    if (code === "5831") {
+
+        codeMessage.textContent =
+            "✓ Richtig.";
+
+        setTimeout(() => {
+            solveTask1();
+        }, 700);
+
+    } else {
+
+        codeMessage.textContent =
+            "Falscher Code.";
+
+        codeInputs.forEach(input => {
+            input.value = "";
+        });
+
+        codeInputs[0].focus();
+    }
+}
+
+/* =========================================================
+   SCHLOSS ZIEHEN
+========================================================= */
+
+let draggingLock = false;
+let startY = 0;
+let lockOffset = 0;
+
+lock.addEventListener("pointerdown", event => {
+
+    draggingLock = true;
+
+    startY = event.clientY;
+
+    lock.setPointerCapture(event.pointerId);
+});
+
+lock.addEventListener("pointermove", event => {
+
+    if (!draggingLock) return;
+
+    const difference =
+        event.clientY - startY;
+
+    lockOffset = Math.max(
+        0,
+        Math.min(250, difference)
     );
 
-  </script>
+    lock.style.transform =
+        `translateX(-50%) translateY(${lockOffset}px)`;
+});
+
+lock.addEventListener("pointerup", () => {
+
+    draggingLock = false;
+
+    if (lockOffset > 100) {
+
+        lock.style.transform =
+            "translateX(-50%) translateY(250px)";
+
+    } else {
+
+        lockOffset = 0;
+
+        lock.style.transform =
+            "translateX(-50%) translateY(0px)";
+    }
+});
+
+/* =========================================================
+   TASK 2
+========================================================= */
+
+function showTask2Clicking() {
+
+    hideAllScreens();
+
+    taskTitle.textContent =
+        "AUFGABE 2";
+
+    normalGame.classList.remove("hidden");
+
+    mainButton.textContent =
+        "DRÜCKEN";
+
+    buttonCaption.textContent =
+        "Nur noch ein paar Klicks.";
+
+    mainMessage.textContent = "";
+
+    document.body.classList.remove("rainbow");
+    document.body.classList.remove("blackout");
+
+    updateStats();
+}
+
+/* =========================================================
+   TASK 2 KLICKPHASE
+========================================================= */
+
+mainButton.addEventListener("click", () => {
+
+    if (currentTask !== 2) return;
+
+    if (task2Phase !== "clicking") return;
+
+    clickCount++;
+
+    updateStats();
+    saveGame();
+
+    /*
+       Nach Task 1:
+       5 Klicks = Rainbow
+       danach 4 weitere Klicks = Dunkel
+    */
+
+    if (clickCount <= 5) {
+
+        mainMessage.textContent =
+            `${5 - clickCount} Klicks bis zum nächsten Ereignis.`;
+
+        if (clickCount === 5) {
+
+            task2Phase = "rainbow";
+
+            saveGame();
+
+            document.body.classList.add("rainbow");
+
+            mainMessage.textContent =
+                "🌈 WAS PASSIERT HIER?!";
+
+            setTimeout(() => {
+
+                task2Phase = "dark";
+
+                clickCount = 0;
+
+                saveGame();
+
+                startDarkPhase();
+
+            }, 2200);
+        }
+
+        return;
+    }
+});
+
+/* =========================================================
+   DARK PHASE
+========================================================= */
+
+function startDarkPhase() {
+
+    document.body.classList.remove("rainbow");
+
+    document.body.classList.add("blackout");
+
+    normalGame.classList.remove("hidden");
+
+    mainMessage.textContent = "";
+
+    setTimeout(() => {
+
+        document.body.classList.remove("blackout");
+
+        clickCount = 0;
+
+        task2Phase = "dontpress";
+
+        saveGame();
+
+        startDontPress();
+
+    }, 1800);
+}
+
+/* =========================================================
+   DON'T PRESS
+========================================================= */
+
+let countdownTimer = null;
+
+function startDontPress() {
+
+    hideAllScreens();
+
+    taskTitle.textContent =
+        "AUFGABE 2 · NICHT DRÜCKEN";
+
+    dontPressScreen.classList.remove("hidden");
+
+    let timeLeft = 10;
+
+    countdownElement.textContent = timeLeft;
+
+    dontMessage.textContent = "";
+
+    clearInterval(countdownTimer);
+
+    countdownTimer = setInterval(() => {
+
+        timeLeft--;
+
+        countdownElement.textContent =
+            timeLeft;
+
+        if (timeLeft <= 0) {
+
+            clearInterval(countdownTimer);
+
+            finishTask2();
+        }
+
+    }, 1000);
+}
+
+/* =========================================================
+   NICHT DRÜCKEN BUTTON
+========================================================= */
+
+dontButton.addEventListener("click", () => {
+
+    clearInterval(countdownTimer);
+
+    dontMessage.textContent =
+        "DU HAST IHN GEDRÜCKT.";
+
+    setTimeout(() => {
+
+        restartWholeGame();
+
+    }, 1000);
+});
+
+/* =========================================================
+   TASK 2 GESCHAFFT
+========================================================= */
+
+function finishTask2() {
+
+    currentTask = 3;
+
+    clickCount = 0;
+
+    task2Phase = "finished";
+
+    saveGame();
+
+    hideAllScreens();
+
+    taskTitle.textContent =
+        "AUFGABE 2 GESCHAFFT";
+
+    successScreen.classList.remove("hidden");
+}
+
+/* =========================================================
+   WEITER
+========================================================= */
+
+continueButton.addEventListener("click", () => {
+
+    /*
+       Task 3 kommt als nächstes.
+       Bis dahin zeigen wir eine Übergangsseite.
+    */
+
+    taskTitle.textContent =
+        "AUFGABE 3";
+
+    successScreen.querySelector("h2").textContent =
+        "AUFGABE 3";
+
+    successScreen.querySelector("p").textContent =
+        "Die nächste Aufgabe kommt hier rein.";
+
+    continueButton.textContent =
+        "WEITER";
+});
+
+/* =========================================================
+   KOMPLETTER NEUSTART
+========================================================= */
+
+function restartWholeGame() {
+
+    clearInterval(countdownTimer);
+
+    clickCount = 0;
+
+    currentTask = 1;
+
+    puzzle1Solved = false;
+
+    task2Phase = "clicking";
+
+    localStorage.removeItem("buttonGameClicks");
+    localStorage.removeItem("buttonGameTask");
+    localStorage.removeItem("buttonGamePuzzle1Solved");
+    localStorage.removeItem("buttonGameTask2Phase");
+
+    document.body.classList.remove("rainbow");
+    document.body.classList.remove("blackout");
+
+    saveGame();
+
+    showTask1();
+}
+
+/* =========================================================
+   START
+========================================================= */
+
+updateStats();
+
+if (currentTask === 1) {
+
+    if (puzzle1Solved) {
+        currentTask = 2;
+        saveGame();
+        showTask2Clicking();
+    } else {
+        showTask1();
+    }
+
+} else if (currentTask === 2) {
+
+    if (task2Phase === "dontpress") {
+
+        startDontPress();
+
+    } else if (
+        task2Phase === "rainbow" ||
+        task2Phase === "dark"
+    ) {
+
+        /*
+           Falls die Seite während der Effektphase
+           neu geladen wurde, sicherheitshalber
+           wieder bei Task 2 starten.
+        */
+
+        clickCount = 0;
+        task2Phase = "clicking";
+
+        document.body.classList.remove("rainbow");
+        document.body.classList.remove("blackout");
+
+        saveGame();
+
+        showTask2Clicking();
+
+    } else {
+
+        showTask2Clicking();
+    }
+
+} else if (currentTask >= 3) {
+
+    hideAllScreens();
+
+    taskTitle.textContent =
+        "AUFGABE 3";
+
+    successScreen.classList.remove("hidden");
+
+    successScreen.querySelector("h2").textContent =
+        "AUFGABE 3";
+
+    successScreen.querySelector("p").textContent =
+        "Die nächste Aufgabe kommt hier rein.";
+
+}
+</script>
 
 </body>
 </html>
