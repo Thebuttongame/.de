@@ -1,7 +1,7 @@
 <script>
-
 /* =========================================================
-   SPIELER
+   THE BUTTON GAME
+   SPIELLOGIK
 ========================================================= */
 
 const playerRaw = localStorage.getItem("buttonGamePlayer");
@@ -10,130 +10,159 @@ let player = null;
 
 try {
     player = playerRaw ? JSON.parse(playerRaw) : null;
-} catch {
+} catch (e) {
     player = null;
 }
 
 if (!player) {
     window.location.href = "register.html";
+    throw new Error("Kein Spieler vorhanden.");
 }
-
-
-/* =========================================================
-   ELEMENTE
-========================================================= */
-
-const usernameElement = document.getElementById("username");
-const avatarElement = document.getElementById("avatar");
-
-const clickCounter = document.getElementById("clickCounter");
-const taskCounter = document.getElementById("taskCounter");
-const taskTitle = document.getElementById("taskTitle");
-
-const normalGame = document.getElementById("normalGame");
-const mainButton = document.getElementById("mainButton");
-const mainMessage = document.getElementById("mainMessage");
-const buttonCaption = document.getElementById("buttonCaption");
-
-const task1Puzzle = document.getElementById("task1Puzzle");
-const lock = document.getElementById("lock");
-
-const codeInputs = document.querySelectorAll(".code-input");
-const codeSubmit = document.getElementById("codeSubmit");
-const codeMessage = document.getElementById("codeMessage");
-
-const dontPressScreen = document.getElementById("dontPressScreen");
-const dontButton = document.getElementById("dontButton");
-const countdownElement = document.getElementById("countdown");
-const dontMessage = document.getElementById("dontMessage");
-
-const successScreen = document.getElementById("successScreen");
-const successText = document.getElementById("successText");
-const continueButton = document.getElementById("continueButton");
-
-const task3Screen = document.getElementById("task3Screen");
-
-const hiddenChest = document.getElementById("hiddenChest");
-const chestReward = document.getElementById("chestReward");
-const rewardButton = document.getElementById("rewardButton");
-const chestHint = document.getElementById("chestHint");
-
-const wardrobeButton = document.getElementById("wardrobeButton");
-const wardrobeScreen = document.getElementById("wardrobeScreen");
-const closeWardrobe = document.getElementById("closeWardrobe");
-
-const themeButton = document.getElementById("themeButton");
-const resetButton = document.getElementById("resetButton");
 
 
 /* =========================================================
    SPIELSTAND
 ========================================================= */
 
-let clickCount =
-    Number(localStorage.getItem("buttonGameClicks")) || 0;
+let currentTask = Number(player.task_number || 1);
 
-let currentTask =
-    Number(localStorage.getItem("buttonGameTask")) || 1;
+if (currentTask < 1) {
+    currentTask = 1;
+}
 
-let puzzle1Solved =
-    localStorage.getItem("buttonGamePuzzle1Solved") === "true";
+let score = Number(player.score || 0);
 
-let task2Phase =
-    localStorage.getItem("buttonGameTask2Phase") || "clicking";
+let clickCount = 0;
+let puzzle1Solved = false;
 
-let task3ChestFound =
-    localStorage.getItem("buttonGameChestFound") === "true";
+let task2Phase = "clicking";
+
+let unlockedSkins = ["default"];
+let selectedSkin = "default";
+
+let chestOpened = false;
 
 
 /* =========================================================
-   COSMETICS
+   ELEMENTE
 ========================================================= */
 
-let selectedSkin =
-    localStorage.getItem("buttonGameSkin") || "default";
+const $ = (id) => document.getElementById(id);
 
-let unlockedSkins;
+const usernameEl = $("username");
+const avatarEl = $("avatar");
+const clickCounterEl = $("clickCounter");
+const taskCounterEl = $("taskCounter");
+const taskTitleEl = $("taskTitle");
 
-try {
+const normalGame = $("normalGame");
+const mainButton = $("mainButton");
+const mainMessage = $("mainMessage");
+const buttonCaption = $("buttonCaption");
 
-    unlockedSkins = JSON.parse(
-        localStorage.getItem("buttonGameUnlockedSkins")
-        || '["default"]'
-    );
+const task1Puzzle = $("task1Puzzle");
+const lock = $("lock");
+const codeSubmit = $("codeSubmit");
+const codeMessage = $("codeMessage");
 
-} catch {
+const dontPressScreen = $("dontPressScreen");
+const dontButton = $("dontButton");
+const countdownEl = $("countdown");
+const dontMessage = $("dontMessage");
 
-    unlockedSkins = ["default"];
+const successScreen = $("successScreen");
+const successText = $("successText");
+const continueButton = $("continueButton");
 
+const task3Screen = $("task3Screen");
+const hiddenChest = $("hiddenChest");
+const chestReward = $("chestReward");
+const rewardButton = $("rewardButton");
+const chestHint = $("chestHint");
+
+const wardrobeButton = $("wardrobeButton");
+const wardrobeScreen = $("wardrobeScreen");
+const closeWardrobe = $("closeWardrobe");
+
+const themeButton = $("themeButton");
+const resetButton = $("resetButton");
+
+const room = $("room");
+
+
+/* =========================================================
+   SPIELERANZEIGE
+========================================================= */
+
+if (usernameEl) {
+    usernameEl.textContent = player.username || "Spieler";
 }
 
-if (!unlockedSkins.includes("default")) {
-    unlockedSkins.push("default");
+if (avatarEl) {
+    avatarEl.textContent = player.avatar || "●";
 }
 
 
 /* =========================================================
-   SPIELER ANZEIGEN
+   LOCAL STORAGE LADEN
 ========================================================= */
 
-usernameElement.textContent =
-    player?.username || "Spieler";
+function loadLocalGameData() {
+
+    try {
+
+        const saved = JSON.parse(
+            localStorage.getItem("buttonGameState") || "{}"
+        );
+
+        if (saved.currentTask !== undefined) {
+            currentTask = Number(saved.currentTask);
+        }
+
+        if (saved.score !== undefined) {
+            score = Number(saved.score);
+        }
+
+        if (saved.clickCount !== undefined) {
+            clickCount = Number(saved.clickCount);
+        }
+
+        if (saved.puzzle1Solved !== undefined) {
+            puzzle1Solved = Boolean(saved.puzzle1Solved);
+        }
+
+        if (saved.task2Phase) {
+            task2Phase = saved.task2Phase;
+        }
+
+        if (saved.chestOpened !== undefined) {
+            chestOpened = Boolean(saved.chestOpened);
+        }
+
+    } catch (e) {
+        console.warn("Spielstand konnte nicht geladen werden:", e);
+    }
 
 
-const avatarColors = {
+    try {
 
-    red: "#e00000",
-    blue: "#1479ff",
-    green: "#12a84b",
-    purple: "#7b35d6",
-    yellow: "#ffd000",
-    black: "#111"
+        const cosmetics = JSON.parse(
+            localStorage.getItem("buttonGameCosmetics") || "{}"
+        );
 
-};
+        if (Array.isArray(cosmetics.unlockedSkins)) {
+            unlockedSkins = cosmetics.unlockedSkins;
+        }
 
-avatarElement.style.background =
-    avatarColors[player?.avatar] || "#e00000";
+        if (cosmetics.selectedSkin) {
+            selectedSkin = cosmetics.selectedSkin;
+        }
+
+    } catch (e) {
+        console.warn("Cosmetics konnten nicht geladen werden:", e);
+    }
+
+}
 
 
 /* =========================================================
@@ -142,29 +171,38 @@ avatarElement.style.background =
 
 function saveGame() {
 
-    localStorage.setItem(
-        "buttonGameClicks",
-        String(clickCount)
-    );
+    const data = {
+        currentTask,
+        score,
+        clickCount,
+        puzzle1Solved,
+        task2Phase,
+        chestOpened
+    };
 
     localStorage.setItem(
-        "buttonGameTask",
-        String(currentTask)
+        "buttonGameState",
+        JSON.stringify(data)
     );
 
-    localStorage.setItem(
-        "buttonGamePuzzle1Solved",
-        String(puzzle1Solved)
-    );
+    player.score = score;
+    player.task_number = currentTask;
 
     localStorage.setItem(
-        "buttonGameTask2Phase",
-        task2Phase
+        "buttonGamePlayer",
+        JSON.stringify(player)
     );
+}
+
+
+function saveCosmetics() {
 
     localStorage.setItem(
-        "buttonGameChestFound",
-        String(task3ChestFound)
+        "buttonGameCosmetics",
+        JSON.stringify({
+            unlockedSkins,
+            selectedSkin
+        })
     );
 
 }
@@ -176,222 +214,184 @@ function saveGame() {
 
 function updateStats() {
 
-    clickCounter.textContent = clickCount;
-    taskCounter.textContent = currentTask;
+    if (clickCounterEl) {
+        clickCounterEl.textContent = clickCount;
+    }
+
+    if (taskCounterEl) {
+        taskCounterEl.textContent = currentTask;
+    }
+
+    if (usernameEl) {
+        usernameEl.textContent = player.username || "Spieler";
+    }
 
 }
 
 
 /* =========================================================
-   DARKMODE
-========================================================= */
-
-let darkMode =
-    localStorage.getItem("buttonGameDarkMode") === "true";
-
-
-function applyTheme() {
-
-    document.body.classList.toggle(
-        "dark",
-        darkMode
-    );
-
-    themeButton.textContent =
-        darkMode ? "☀️" : "🎨";
-
-}
-
-
-themeButton.addEventListener("click", () => {
-
-    darkMode = !darkMode;
-
-    localStorage.setItem(
-        "buttonGameDarkMode",
-        String(darkMode)
-    );
-
-    applyTheme();
-
-});
-
-
-applyTheme();
-
-
-/* =========================================================
-   ALLE SCREENS VERSTECKEN
+   SCREENS AUSBLENDEN
 ========================================================= */
 
 function hideAllScreens() {
 
-    normalGame.classList.add("hidden");
-    task1Puzzle.classList.add("hidden");
-    dontPressScreen.classList.add("hidden");
-    successScreen.classList.add("hidden");
-    task3Screen.classList.add("hidden");
-    wardrobeScreen.classList.add("hidden");
+    if (normalGame) {
+        normalGame.style.display = "none";
+    }
+
+    if (task1Puzzle) {
+        task1Puzzle.style.display = "none";
+    }
+
+    if (dontPressScreen) {
+        dontPressScreen.style.display = "none";
+    }
+
+    if (successScreen) {
+        successScreen.style.display = "none";
+    }
+
+    if (task3Screen) {
+        task3Screen.style.display = "none";
+    }
 
 }
 
 
 /* =========================================================
-   AUFGABE 1
+   NORMALER BUTTON
+========================================================= */
+
+function showNormalGame() {
+
+    hideAllScreens();
+
+    if (normalGame) {
+        normalGame.style.display = "flex";
+    }
+
+    if (mainButton) {
+        mainButton.style.display = "flex";
+    }
+
+    if (mainMessage) {
+        mainMessage.textContent = "";
+    }
+
+}
+
+
+/* =========================================================
+   TASK 1
 ========================================================= */
 
 function showTask1() {
 
+    currentTask = 1;
+
+    task2Phase = "clicking";
+
     hideAllScreens();
 
-    document.body.classList.remove("rainbow");
-    document.body.classList.remove("blackout");
+    if (normalGame) {
+        normalGame.style.display = "flex";
+    }
 
-    taskTitle.textContent = "AUFGABE 1";
+    if (taskTitleEl) {
+        taskTitleEl.textContent = "TASK 1";
+    }
 
-    normalGame.classList.remove("hidden");
+    if (buttonCaption) {
+        buttonCaption.textContent = "DRÜCKEN";
+    }
 
-    mainButton.textContent = "DRÜCKEN";
+    if (mainButton) {
+        mainButton.style.display = "flex";
+    }
 
-    buttonCaption.textContent =
-        "Irgendwann passiert etwas.";
-
-    mainMessage.textContent = "";
+    if (mainMessage) {
+        mainMessage.textContent = "";
+    }
 
     updateStats();
-    applyButtonSkin();
 
 }
 
 
 /* =========================================================
-   AUFGABE 1 BUTTON
+   TASK 1 BUTTON
 ========================================================= */
 
-mainButton.addEventListener("click", () => {
-
-    if (currentTask !== 1) {
-        return;
-    }
-
-    if (puzzle1Solved) {
-        return;
-    }
+function task1Click() {
 
     clickCount++;
+    score++;
 
     updateStats();
     saveGame();
 
-    if (clickCount < 10) {
-
+    if (mainMessage) {
         mainMessage.textContent =
-            `${10 - clickCount} Klicks bis etwas passiert.`;
-
-        return;
+            clickCount + " Klick" + (clickCount === 1 ? "" : "s");
     }
 
-    if (clickCount === 10) {
+    /*
+       Bei Klick 10 erscheint das Schloss.
+    */
 
-        mainMessage.textContent =
-            "Etwas hat sich verändert.";
+    if (clickCount >= 10 && !puzzle1Solved) {
 
-        setTimeout(() => {
-            startTask1Puzzle();
-        }, 400);
+        showTask1Puzzle();
 
     }
-
-});
-
-
-/* =========================================================
-   TASK 1 SCHLOSS
-========================================================= */
-
-function startTask1Puzzle() {
-
-    hideAllScreens();
-
-    taskTitle.textContent =
-        "AUFGABE 1 · RÄTSEL";
-
-    task1Puzzle.classList.remove("hidden");
-
-    codeMessage.textContent = "";
-
-    lock.style.transform =
-        "translateX(-50%) translateY(0px)";
-
-    codeInputs.forEach(input => {
-        input.value = "";
-    });
-
-    codeInputs[0].focus();
 
 }
 
 
 /* =========================================================
-   CODE-EINGABE
+   PUZZLE
 ========================================================= */
 
-codeInputs.forEach((input, index) => {
+function showTask1Puzzle() {
 
-    input.addEventListener("input", () => {
+    if (normalGame) {
+        normalGame.style.display = "none";
+    }
 
-        input.value =
-            input.value.replace(/[^0-9]/g, "");
+    if (task1Puzzle) {
+        task1Puzzle.style.display = "flex";
+    }
 
-        if (
-            input.value &&
-            index < codeInputs.length - 1
-        ) {
+    if (taskTitleEl) {
+        taskTitleEl.textContent = "TASK 1 – CODE";
+    }
 
-            codeInputs[index + 1].focus();
+    if (codeMessage) {
+        codeMessage.textContent = "";
+    }
 
-        }
-
-    });
-
-
-    input.addEventListener("keydown", event => {
-
-        if (
-            event.key === "Backspace" &&
-            !input.value &&
-            index > 0
-        ) {
-
-            codeInputs[index - 1].focus();
-
-        }
-
-    });
-
-});
+}
 
 
 /* =========================================================
    CODE PRÜFEN
 ========================================================= */
 
-codeSubmit.addEventListener("click", checkCode);
-
-
 function checkCode() {
 
-    const code =
-        Array.from(codeInputs)
-            .map(input => input.value)
-            .join("");
+    const inputs = document.querySelectorAll(".code-input");
+
+    let code = "";
+
+    inputs.forEach(input => {
+        code += String(input.value || "").trim();
+    });
 
     if (code === "5831") {
 
-        codeMessage.textContent =
-            "✓ Richtig.";
-
         puzzle1Solved = true;
+
+        score += 100;
 
         currentTask = 2;
 
@@ -401,22 +401,19 @@ function checkCode() {
 
         saveGame();
 
+        if (codeMessage) {
+            codeMessage.textContent = "RICHTIG!";
+        }
+
         setTimeout(() => {
-
             showTask2Clicking();
-
         }, 700);
 
     } else {
 
-        codeMessage.textContent =
-            "Falscher Code.";
-
-        codeInputs.forEach(input => {
-            input.value = "";
-        });
-
-        codeInputs[0].focus();
+        if (codeMessage) {
+            codeMessage.textContent = "FALSCHER CODE.";
+        }
 
     }
 
@@ -424,232 +421,157 @@ function checkCode() {
 
 
 /* =========================================================
-   SCHLOSS DRAGGEN
+   CODE INPUTS
 ========================================================= */
 
-let draggingLock = false;
-let startY = 0;
-let lockOffset = 0;
+document.querySelectorAll(".code-input").forEach((input, index, inputs) => {
 
+    input.addEventListener("input", () => {
 
-lock.addEventListener("pointerdown", event => {
+        input.value = input.value.replace(/\D/g, "").slice(0, 1);
 
-    draggingLock = true;
+        if (input.value && inputs[index + 1]) {
+            inputs[index + 1].focus();
+        }
 
-    startY = event.clientY;
+    });
 
-    lock.setPointerCapture(
-        event.pointerId
-    );
+    input.addEventListener("keydown", event => {
 
-});
+        if (
+            event.key === "Backspace" &&
+            !input.value &&
+            inputs[index - 1]
+        ) {
+            inputs[index - 1].focus();
+        }
 
+        if (event.key === "Enter") {
+            checkCode();
+        }
 
-lock.addEventListener("pointermove", event => {
-
-    if (!draggingLock) {
-        return;
-    }
-
-    const difference =
-        event.clientY - startY;
-
-    lockOffset =
-        Math.max(
-            0,
-            Math.min(
-                250,
-                difference
-            )
-        );
-
-    lock.style.transform =
-        `translateX(-50%) translateY(${lockOffset}px)`;
+    });
 
 });
 
 
-lock.addEventListener("pointerup", () => {
-
-    draggingLock = false;
-
-    if (lockOffset > 100) {
-
-        lock.style.transform =
-            "translateX(-50%) translateY(250px)";
-
-    } else {
-
-        lockOffset = 0;
-
-        lock.style.transform =
-            "translateX(-50%) translateY(0px)";
-
-    }
-
-});
+if (codeSubmit) {
+    codeSubmit.addEventListener("click", checkCode);
+}
 
 
 /* =========================================================
-   AUFGABE 2 START
+   TASK 2 – KLICKEN
 ========================================================= */
 
 function showTask2Clicking() {
 
+    currentTask = 2;
+
+    task2Phase = "clicking";
+
     hideAllScreens();
 
-    document.body.classList.remove("rainbow");
-    document.body.classList.remove("blackout");
+    if (normalGame) {
+        normalGame.style.display = "flex";
+    }
 
-    taskTitle.textContent =
-        "AUFGABE 2";
+    if (taskTitleEl) {
+        taskTitleEl.textContent = "TASK 2";
+    }
 
-    normalGame.classList.remove("hidden");
+    if (buttonCaption) {
+        buttonCaption.textContent = "WEITER DRÜCKEN";
+    }
 
-    mainButton.textContent =
-        "DRÜCKEN";
+    if (mainButton) {
+        mainButton.style.display = "flex";
+    }
 
-    buttonCaption.textContent =
-        "Was passiert nach dem nächsten Klick?";
+    if (mainMessage) {
+        mainMessage.textContent = "";
+    }
 
-    mainMessage.textContent = "";
+    document.body.classList.remove(
+        "rainbow-mode",
+        "dark-game"
+    );
+
+    clickCount = 0;
 
     updateStats();
-    applyButtonSkin();
+    saveGame();
 
 }
 
 
 /* =========================================================
-   AUFGABE 2 KLICKS
+   TASK 2 BUTTON
 ========================================================= */
 
-mainButton.addEventListener("click", () => {
+function task2Click() {
 
-    if (currentTask !== 2) {
+    clickCount++;
+    score++;
+
+    updateStats();
+    saveGame();
+
+
+    /*
+       5 Klicks -> Regenbogen
+    */
+
+    if (
+        task2Phase === "clicking" &&
+        clickCount >= 5
+    ) {
+
+        task2Phase = "rainbow";
+
+        saveGame();
+
+        document.body.classList.add("rainbow-mode");
+
+        if (mainMessage) {
+            mainMessage.textContent =
+                "WAS PASSIERT HIER?!";
+        }
+
         return;
     }
 
 
-    if (task2Phase === "clicking") {
-
-        clickCount++;
-
-        updateStats();
-        saveGame();
-
-
-        /*
-           Klick 1–4
-        */
-
-        if (clickCount < 5) {
-
-            mainMessage.textContent =
-                `${5 - clickCount} Klicks bis zum Rainbow-Effekt.`;
-
-            return;
-
-        }
-
-
-        /*
-           Klick 5:
-           RAINBOW
-        */
-
-        if (clickCount === 5) {
-
-            task2Phase = "rainbow";
-
-            saveGame();
-
-            document.body.classList.add(
-                "rainbow"
-            );
-
-            mainMessage.textContent =
-                "🌈 ALLES WIRD BUNT.";
-
-            return;
-
-        }
-
-    }
-
-
     /*
-       NACH RAINBOW:
-       4 WEITERE KLICKS
+       4 weitere Klicks -> alles dunkel
     */
 
-    if (task2Phase === "rainbow") {
-
-        clickCount++;
-
-        updateStats();
-        saveGame();
-
-
-        const additionalClicks =
-            clickCount - 5;
-
-
-        if (additionalClicks < 4) {
-
-            mainMessage.textContent =
-                `${4 - additionalClicks} weitere Klicks.`;
-
-            return;
-
-        }
-
-
-        /*
-           ALLES AUS
-        */
+    if (
+        task2Phase === "rainbow" &&
+        clickCount >= 9
+    ) {
 
         task2Phase = "dark";
 
         saveGame();
 
-        startDarkPhase();
+        document.body.classList.remove("rainbow-mode");
+        document.body.classList.add("dark-game");
+
+        if (mainMessage) {
+            mainMessage.textContent =
+                "";
+        }
+
+        setTimeout(() => {
+
+            document.body.classList.remove("dark-game");
+
+            startDontPress();
+
+        }, 1200);
 
     }
-
-});
-
-
-/* =========================================================
-   ALLES WIRD DUNKEL
-========================================================= */
-
-function startDarkPhase() {
-
-    document.body.classList.remove(
-        "rainbow"
-    );
-
-    document.body.classList.add(
-        "blackout"
-    );
-
-
-    setTimeout(() => {
-
-        document.body.classList.remove(
-            "blackout"
-        );
-
-        clickCount = 0;
-
-        task2Phase = "dontpress";
-
-        saveGame();
-
-        startDontPress();
-
-    }, 1800);
 
 }
 
@@ -658,45 +580,62 @@ function startDarkPhase() {
    NICHT DRÜCKEN
 ========================================================= */
 
-let countdownTimer = null;
-
+let dontPressTimer = null;
 
 function startDontPress() {
 
+    currentTask = 2;
+    task2Phase = "dontpress";
+
+    saveGame();
+
     hideAllScreens();
 
-    taskTitle.textContent =
-        "AUFGABE 2 · NICHT DRÜCKEN";
+    if (dontPressScreen) {
+        dontPressScreen.style.display = "flex";
+    }
 
-    dontPressScreen.classList.remove(
-        "hidden"
-    );
-
+    if (taskTitleEl) {
+        taskTitleEl.textContent = "TASK 2";
+    }
 
     let timeLeft = 10;
 
-    countdownElement.textContent =
-        timeLeft;
+    if (countdownEl) {
+        countdownEl.textContent = timeLeft;
+    }
 
-    dontMessage.textContent = "";
+    if (dontMessage) {
+        dontMessage.textContent = "";
+    }
 
 
-    clearInterval(countdownTimer);
+    if (dontPressTimer) {
+        clearInterval(dontPressTimer);
+    }
 
-
-    countdownTimer = setInterval(() => {
+    dontPressTimer = setInterval(() => {
 
         timeLeft--;
 
-        countdownElement.textContent =
-            timeLeft;
-
+        if (countdownEl) {
+            countdownEl.textContent = timeLeft;
+        }
 
         if (timeLeft <= 0) {
 
-            clearInterval(countdownTimer);
+            clearInterval(dontPressTimer);
+            dontPressTimer = null;
 
-            finishTask2();
+            task2Phase = "completed";
+
+            score += 200;
+
+            currentTask = 3;
+
+            saveGame();
+
+            showSuccess();
 
         }
 
@@ -706,355 +645,235 @@ function startDontPress() {
 
 
 /* =========================================================
-   NICHT-DRÜCKEN-BUTTON
+   NICHT DRÜCKEN BUTTON
 ========================================================= */
 
-dontButton.addEventListener("click", () => {
+if (dontButton) {
 
-    clearInterval(countdownTimer);
+    dontButton.addEventListener("click", () => {
 
-    dontMessage.textContent =
-        "DU HAST IHN GEDRÜCKT.";
+        if (dontPressTimer) {
+            clearInterval(dontPressTimer);
+            dontPressTimer = null;
+        }
 
-    setTimeout(() => {
+        if (dontMessage) {
+            dontMessage.textContent =
+                "DU HAST IHN GEDRÜCKT.";
+        }
 
-        restartWholeGame();
+        setTimeout(() => {
 
-    }, 900);
+            resetGameOnly();
 
-});
+        }, 1000);
 
-
-/* =========================================================
-   AUFGABE 2 GESCHAFFT
-========================================================= */
-
-function finishTask2() {
-
-    currentTask = 3;
-
-    clickCount = 0;
-
-    task2Phase = "finished";
-
-    saveGame();
-
-    showTask3();
+    });
 
 }
 
 
 /* =========================================================
-   AUFGABE 3
+   SUCCESS
+========================================================= */
+
+function showSuccess() {
+
+    hideAllScreens();
+
+    if (successScreen) {
+        successScreen.style.display = "flex";
+    }
+
+    if (successText) {
+        successText.textContent =
+            "TASK 2 GESCHAFFT.";
+    }
+
+    if (taskTitleEl) {
+        taskTitleEl.textContent = "GESCHAFFT";
+    }
+
+    updateStats();
+
+}
+
+
+/* =========================================================
+   WEITER
+========================================================= */
+
+if (continueButton) {
+
+    continueButton.addEventListener("click", () => {
+
+        currentTask = 3;
+
+        saveGame();
+
+        showTask3();
+
+    });
+
+}
+
+
+/* =========================================================
+   TASK 3
 ========================================================= */
 
 function showTask3() {
 
-    hideAllScreens();
-
-    taskTitle.textContent =
-        "AUFGABE 3";
-
-    task3Screen.classList.remove(
-        "hidden"
-    );
-
-    updateStats();
-
-
-    if (task3ChestFound) {
-
-        chestHint.textContent =
-            "Truhe bereits gefunden.";
-
-        hiddenChest.classList.add(
-            "visible"
-        );
-
-    } else {
-
-        chestHint.textContent =
-            "Bewege die Gegenstände und finde die Truhe.";
-
-    }
-
-}
-
-
-/* =========================================================
-   BEWEGBARE GEGENSTÄNDE
-========================================================= */
-
-const draggableObjects =
-    document.querySelectorAll(".draggable");
-
-
-draggableObjects.forEach(element => {
-
-    let dragging = false;
-
-    let offsetX = 0;
-    let offsetY = 0;
-
-
-    element.addEventListener("pointerdown", event => {
-
-        dragging = true;
-
-        element.setPointerCapture(
-            event.pointerId
-        );
-
-
-        const rect =
-            element.getBoundingClientRect();
-
-
-        offsetX =
-            event.clientX - rect.left;
-
-        offsetY =
-            event.clientY - rect.top;
-
-    });
-
-
-    element.addEventListener("pointermove", event => {
-
-        if (!dragging) {
-            return;
-        }
-
-
-        const room =
-            document.getElementById("room");
-
-
-        const roomRect =
-            room.getBoundingClientRect();
-
-
-        let x =
-            event.clientX -
-            roomRect.left -
-            offsetX;
-
-
-        let y =
-            event.clientY -
-            roomRect.top -
-            offsetY;
-
-
-        x = Math.max(
-            0,
-            Math.min(
-                roomRect.width -
-                element.offsetWidth,
-                x
-            )
-        );
-
-
-        y = Math.max(
-            0,
-            Math.min(
-                roomRect.height -
-                element.offsetHeight,
-                y
-            )
-        );
-
-
-        element.style.left =
-            `${x}px`;
-
-        element.style.top =
-            `${y}px`;
-
-        element.style.right =
-            "auto";
-
-        element.style.bottom =
-            "auto";
-
-
-        checkChestVisibility();
-
-    });
-
-
-    element.addEventListener("pointerup", () => {
-
-        dragging = false;
-
-        checkChestVisibility();
-
-    });
-
-});
-
-
-/* =========================================================
-   TRUHE SICHTBARKEIT
-========================================================= */
-
-function checkChestVisibility() {
-
-    if (task3ChestFound) {
-        return;
-    }
-
-
-    const room =
-        document.getElementById("room");
-
-
-    const chestRect =
-        hiddenChest.getBoundingClientRect();
-
-
-    const objects =
-        Array.from(
-            room.querySelectorAll(".draggable")
-        );
-
-
-    let uncovered = true;
-
-
-    for (const object of objects) {
-
-        const rect =
-            object.getBoundingClientRect();
-
-
-        const overlap =
-            !(
-                rect.right < chestRect.left ||
-                rect.left > chestRect.right ||
-                rect.bottom < chestRect.top ||
-                rect.top > chestRect.bottom
-            );
-
-
-        if (overlap) {
-
-            uncovered = false;
-
-            break;
-
-        }
-
-    }
-
-
-    if (uncovered) {
-
-        hiddenChest.classList.add(
-            "visible"
-        );
-
-        chestHint.textContent =
-            "👀 DA IST ETWAS!";
-
-    } else {
-
-        hiddenChest.classList.remove(
-            "visible"
-        );
-
-        chestHint.textContent =
-            "Bewege die Gegenstände und finde die Truhe.";
-
-    }
-
-}
-
-
-/* =========================================================
-   TRUHE ÖFFNEN
-========================================================= */
-
-hiddenChest.addEventListener("click", () => {
-
-    if (
-        !hiddenChest.classList.contains("visible")
-    ) {
-
-        return;
-
-    }
-
-
-    if (task3ChestFound) {
-
-        openChestReward();
-
-        return;
-
-    }
-
-
-    task3ChestFound = true;
-
-
-    /*
-       NEON ROT DAUERHAFT FREISCHALTEN
-    */
-
-    if (!unlockedSkins.includes("neon")) {
-
-        unlockedSkins.push("neon");
-
-    }
-
-
-    localStorage.setItem(
-        "buttonGameUnlockedSkins",
-        JSON.stringify(unlockedSkins)
-    );
-
+    currentTask = 3;
 
     saveGame();
 
+    hideAllScreens();
 
-    hiddenChest.classList.add(
-        "found"
-    );
+    if (task3Screen) {
+        task3Screen.style.display = "flex";
+    }
 
+    if (taskTitleEl) {
+        taskTitleEl.textContent = "TASK 3";
+    }
 
-    chestHint.textContent =
-        "🎉 TRUHE GEÖFFNET!";
+    if (chestHint) {
+        if (chestOpened) {
+            chestHint.textContent =
+                "Du hast die Truhe bereits gefunden.";
+        } else {
+            chestHint.textContent =
+                "Irgendwo hier ist eine Truhe versteckt...";
+        }
+    }
 
+    if (hiddenChest) {
 
-    openChestReward();
+        hiddenChest.style.display =
+            chestOpened ? "none" : "block";
 
-});
+    }
 
-
-/* =========================================================
-   TRUHEN-REWARD
-========================================================= */
-
-function openChestReward() {
-
-    chestReward.classList.remove(
-        "hidden"
-    );
+    updateStats();
 
 }
 
 
-rewardButton.addEventListener("click", () => {
+/* =========================================================
+   TRUHE
+========================================================= */
 
-    chestReward.classList.add(
-        "hidden"
+if (hiddenChest) {
+
+    hiddenChest.addEventListener("click", () => {
+
+        if (chestOpened) {
+            return;
+        }
+
+        chestOpened = true;
+
+        unlockSkin("neon");
+
+        score += 500;
+
+        saveGame();
+
+        hiddenChest.style.display = "none";
+
+        if (chestReward) {
+            chestReward.style.display = "flex";
+        }
+
+        if (chestHint) {
+            chestHint.textContent =
+                "TRUHE GEÖFFNET!";
+        }
+
+        updateStats();
+
+    });
+
+}
+
+
+/* =========================================================
+   COSMETIC FREISCHALTEN
+========================================================= */
+
+function unlockSkin(skin) {
+
+    if (!unlockedSkins.includes(skin)) {
+        unlockedSkins.push(skin);
+    }
+
+    selectedSkin = skin;
+
+    saveCosmetics();
+
+    applyButtonSkin();
+
+}
+
+
+/* =========================================================
+   REWARD BUTTON
+========================================================= */
+
+if (rewardButton) {
+
+    rewardButton.addEventListener("click", () => {
+
+        selectedSkin = "neon";
+
+        saveCosmetics();
+
+        applyButtonSkin();
+
+        if (chestReward) {
+            chestReward.style.display = "none";
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   BUTTON SKINS
+========================================================= */
+
+function applyButtonSkin() {
+
+    if (!mainButton) {
+        return;
+    }
+
+    mainButton.classList.remove(
+        "skin-default",
+        "skin-neon",
+        "skin-gold",
+        "skin-black"
     );
 
-    openWardrobe();
+    if (selectedSkin === "neon") {
+        mainButton.classList.add("skin-neon");
+    }
 
-});
+    else if (selectedSkin === "gold") {
+        mainButton.classList.add("skin-gold");
+    }
+
+    else if (selectedSkin === "black") {
+        mainButton.classList.add("skin-black");
+    }
+
+    else {
+        mainButton.classList.add("skin-default");
+    }
+
+}
 
 
 /* =========================================================
@@ -1063,325 +882,370 @@ rewardButton.addEventListener("click", () => {
 
 function openWardrobe() {
 
-    hideAllScreens();
-
-    taskTitle.textContent =
-        "KLEIDERSCHRANK";
-
-    wardrobeScreen.classList.remove(
-        "hidden"
-    );
-
-    updateWardrobe();
-
-}
-
-
-function updateWardrobe() {
-
-    document.querySelectorAll(".skin-card")
-        .forEach(card => {
-
-            const skin =
-                card.dataset.skin;
-
-
-            const unlocked =
-                unlockedSkins.includes(
-                    skin
-                );
-
-
-            card.classList.toggle(
-                "locked",
-                !unlocked
-            );
-
-
-            card.classList.toggle(
-                "active",
-                selectedSkin === skin
-            );
-
-
-            const status =
-                card.querySelector("span");
-
-
-            if (unlocked) {
-
-                status.textContent =
-                    "Freigeschaltet";
-
-            } else {
-
-                status.textContent =
-                    "🔒 Noch nicht gefunden";
-
-            }
-
-        });
-
-
-    applyButtonSkin();
-
-}
-
-
-/* =========================================================
-   BUTTON-SKIN
-========================================================= */
-
-function applyButtonSkin() {
-
-    mainButton.classList.remove(
-        "button-skin-neon",
-        "button-skin-rainbow",
-        "button-skin-ice",
-        "button-skin-matrix",
-        "button-skin-gold"
-    );
-
-
-    if (selectedSkin === "neon") {
-
-        mainButton.classList.add(
-            "button-skin-neon"
-        );
-
-    }
-
-
-    if (selectedSkin === "rainbow") {
-
-        mainButton.classList.add(
-            "button-skin-rainbow"
-        );
-
-    }
-
-
-    if (selectedSkin === "ice") {
-
-        mainButton.classList.add(
-            "button-skin-ice"
-        );
-
-    }
-
-
-    if (selectedSkin === "matrix") {
-
-        mainButton.classList.add(
-            "button-skin-matrix"
-        );
-
-    }
-
-
-    if (selectedSkin === "gold") {
-
-        mainButton.classList.add(
-            "button-skin-gold"
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   SKINS AUSWÄHLEN
-========================================================= */
-
-document.querySelectorAll(".skin-card")
-    .forEach(card => {
-
-        card.addEventListener("click", () => {
-
-            const skin =
-                card.dataset.skin;
-
-
-            if (
-                !unlockedSkins.includes(skin)
-            ) {
-
-                return;
-
-            }
-
-
-            selectedSkin = skin;
-
-
-            localStorage.setItem(
-                "buttonGameSkin",
-                selectedSkin
-            );
-
-
-            updateWardrobe();
-
-        });
-
-    });
-
-
-/* =========================================================
-   KLEIDERSCHRANK ÖFFNEN
-========================================================= */
-
-wardrobeButton.addEventListener("click", () => {
-
-    openWardrobe();
-
-});
-
-
-/* =========================================================
-   KLEIDERSCHRANK SCHLIESSEN
-========================================================= */
-
-closeWardrobe.addEventListener("click", () => {
-
-    wardrobeScreen.classList.add(
-        "hidden"
-    );
-
-
-    if (currentTask === 1) {
-
-        showTask1();
-
-    } else if (currentTask === 2) {
-
-        if (task2Phase === "dontpress") {
-
-            startDontPress();
-
-        } else {
-
-            showTask2Clicking();
-
-        }
-
-    } else {
-
-        showTask3();
-
-    }
-
-});
-
-
-/* =========================================================
-   RESET ALL
-========================================================= */
-
-resetButton.addEventListener("click", () => {
-
-    const confirmed =
-        confirm(
-            "Willst du wirklich den kompletten Spielverlauf zurücksetzen?"
-        );
-
-
-    if (!confirmed) {
+    if (!wardrobeScreen) {
         return;
     }
 
+    wardrobeScreen.style.display = "flex";
 
-    restartWholeGame();
+    renderWardrobe();
+
+}
+
+
+function closeWardrobeScreen() {
+
+    if (wardrobeScreen) {
+        wardrobeScreen.style.display = "none";
+    }
+
+}
+
+
+function renderWardrobe() {
+
+    if (!wardrobeScreen) {
+        return;
+    }
+
+    const cards =
+        wardrobeScreen.querySelectorAll(".skin-card");
+
+    cards.forEach(card => {
+
+        const skin = card.dataset.skin;
+
+        if (!skin) {
+            return;
+        }
+
+        const unlocked =
+            unlockedSkins.includes(skin);
+
+        card.classList.toggle(
+            "locked",
+            !unlocked
+        );
+
+        card.classList.toggle(
+            "selected",
+            skin === selectedSkin
+        );
+
+    });
+
+}
+
+
+if (wardrobeButton) {
+    wardrobeButton.addEventListener(
+        "click",
+        openWardrobe
+    );
+}
+
+
+if (closeWardrobe) {
+    closeWardrobe.addEventListener(
+        "click",
+        closeWardrobeScreen
+    );
+}
+
+
+document.querySelectorAll(".skin-card").forEach(card => {
+
+    card.addEventListener("click", () => {
+
+        const skin = card.dataset.skin;
+
+        if (!skin) {
+            return;
+        }
+
+        if (!unlockedSkins.includes(skin)) {
+            return;
+        }
+
+        selectedSkin = skin;
+
+        saveCosmetics();
+
+        applyButtonSkin();
+
+        renderWardrobe();
+
+    });
 
 });
 
 
-function restartWholeGame() {
+/* =========================================================
+   DRAGGABLE ELEMENTE
+========================================================= */
 
-    clearInterval(countdownTimer);
+function makeDraggable(element) {
+
+    if (!element) {
+        return;
+    }
+
+    let dragging = false;
+
+    let offsetX = 0;
+    let offsetY = 0;
 
 
-    clickCount = 0;
+    function startDrag(event) {
+
+        dragging = true;
+
+        const rect =
+            element.getBoundingClientRect();
+
+        const point =
+            event.touches
+                ? event.touches[0]
+                : event;
+
+        offsetX =
+            point.clientX - rect.left;
+
+        offsetY =
+            point.clientY - rect.top;
+
+        element.style.position = "fixed";
+
+        element.style.zIndex = "9999";
+
+        event.preventDefault();
+
+    }
+
+
+    function moveDrag(event) {
+
+        if (!dragging) {
+            return;
+        }
+
+        const point =
+            event.touches
+                ? event.touches[0]
+                : event;
+
+        element.style.left =
+            (point.clientX - offsetX) + "px";
+
+        element.style.top =
+            (point.clientY - offsetY) + "px";
+
+        event.preventDefault();
+
+    }
+
+
+    function stopDrag() {
+
+        dragging = false;
+
+    }
+
+
+    element.addEventListener(
+        "mousedown",
+        startDrag
+    );
+
+    document.addEventListener(
+        "mousemove",
+        moveDrag
+    );
+
+    document.addEventListener(
+        "mouseup",
+        stopDrag
+    );
+
+
+    element.addEventListener(
+        "touchstart",
+        startDrag,
+        { passive: false }
+    );
+
+    document.addEventListener(
+        "touchmove",
+        moveDrag,
+        { passive: false }
+    );
+
+    document.addEventListener(
+        "touchend",
+        stopDrag
+    );
+
+}
+
+
+makeDraggable(lock);
+
+document.querySelectorAll(".draggable").forEach(
+    makeDraggable
+);
+
+
+/* =========================================================
+   HAUPTBUTTON
+========================================================= */
+
+if (mainButton) {
+
+    mainButton.addEventListener("click", () => {
+
+        if (currentTask === 1) {
+            task1Click();
+        }
+
+        else if (
+            currentTask === 2 &&
+            task2Phase !== "dontpress"
+        ) {
+            task2Click();
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   DARKMODE
+========================================================= */
+
+function applyTheme() {
+
+    const dark =
+        localStorage.getItem("buttonGameDarkmode")
+        === "true";
+
+    document.body.classList.toggle(
+        "dark-mode",
+        dark
+    );
+
+}
+
+
+if (themeButton) {
+
+    themeButton.addEventListener("click", () => {
+
+        const dark =
+            document.body.classList.contains(
+                "dark-mode"
+            );
+
+        localStorage.setItem(
+            "buttonGameDarkmode",
+            String(!dark)
+        );
+
+        applyTheme();
+
+    });
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetGameOnly() {
+
+    if (dontPressTimer) {
+        clearInterval(dontPressTimer);
+        dontPressTimer = null;
+    }
 
     currentTask = 1;
+
+    score = 0;
+
+    clickCount = 0;
 
     puzzle1Solved = false;
 
     task2Phase = "clicking";
 
-    task3ChestFound = false;
-
-
-    localStorage.removeItem(
-        "buttonGameClicks"
-    );
-
-    localStorage.removeItem(
-        "buttonGameTask"
-    );
-
-    localStorage.removeItem(
-        "buttonGamePuzzle1Solved"
-    );
-
-    localStorage.removeItem(
-        "buttonGameTask2Phase"
-    );
-
-    localStorage.removeItem(
-        "buttonGameChestFound"
-    );
-
-
-    /*
-       WICHTIG:
-
-       Die freigeschalteten Cosmetics
-       BLEIBEN ERHALTEN.
-
-       Auch NEON ROT bleibt nach RESET ALL
-       im Kleiderschrank.
-    */
-
-
-    document.body.classList.remove(
-        "rainbow"
-    );
-
-    document.body.classList.remove(
-        "blackout"
-    );
-
-
-    hiddenChest.classList.remove(
-        "visible"
-    );
-
-    hiddenChest.classList.remove(
-        "found"
-    );
-
-    chestReward.classList.add(
-        "hidden"
-    );
-
+    chestOpened = false;
 
     saveGame();
+
+    document.body.classList.remove(
+        "rainbow-mode",
+        "dark-game"
+    );
 
     showTask1();
 
 }
 
 
+if (resetButton) {
+
+    resetButton.addEventListener("click", () => {
+
+        const confirmed =
+            confirm(
+                "Wirklich den gesamten Spielstand zurücksetzen?"
+            );
+
+        if (!confirmed) {
+            return;
+        }
+
+        resetGameOnly();
+
+    });
+
+}
+
+
 /* =========================================================
-   STARTZUSTAND
+   TASTATUR
 ========================================================= */
 
-updateStats();
+document.addEventListener("keydown", event => {
+
+    if (
+        event.key === "Escape" &&
+        wardrobeScreen &&
+        wardrobeScreen.style.display !== "none"
+    ) {
+        closeWardrobeScreen();
+    }
+
+});
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadLocalGameData();
+
+applyTheme();
 
 applyButtonSkin();
 
+updateStats();
+
+
+/*
+   Welchen Bildschirm anzeigen?
+*/
 
 if (currentTask === 1) {
 
@@ -1405,7 +1269,6 @@ if (currentTask === 1) {
 
 }
 
-
 else if (currentTask === 2) {
 
     if (task2Phase === "dontpress") {
@@ -1414,30 +1277,11 @@ else if (currentTask === 2) {
 
     } else {
 
-        /*
-           Bei einem Reload während Rainbow/Dark
-           wird Aufgabe 2 sauber neu gestartet.
-        */
-
-        if (
-            task2Phase === "rainbow" ||
-            task2Phase === "dark"
-        ) {
-
-            clickCount = 0;
-
-            task2Phase = "clicking";
-
-            saveGame();
-
-        }
-
         showTask2Clicking();
 
     }
 
 }
-
 
 else if (currentTask >= 3) {
 
