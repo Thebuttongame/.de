@@ -27,61 +27,58 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
     }
 
     /* =========================
-       ABSPERRUNG
-    ========================= */
+       ABSERRUNG / TICKER
+       ========================= */
 
-    .barrier {
+    .ticker-wrap {
       width: 100%;
-      height: 42px;
+      height: 38px;
       overflow: hidden;
       background: #111111;
       border-bottom: 2px solid #111111;
-      white-space: nowrap;
-      position: relative;
+      flex-shrink: 0;
     }
 
-    .barrier-track {
+    .ticker {
       height: 100%;
       display: flex;
+      align-items: center;
       width: max-content;
-      animation: moveBarrier 12s linear infinite;
+      animation: tickerMove 22s linear infinite;
     }
 
-    .barrier-piece {
-      height: 42px;
+    .ticker-item {
+      height: 32px;
       display: flex;
       align-items: center;
-
-      font-size: 15px;
-      font-weight: 900;
-      letter-spacing: 2px;
-
-      color: #111111;
+      padding: 0 24px;
+      margin-right: 6px;
 
       background:
         repeating-linear-gradient(
-          -45deg,
-          #ffd900 0px,
-          #ffd900 22px,
-          #111111 22px,
-          #111111 44px
+          135deg,
+          #ffd800 0px,
+          #ffd800 26px,
+          #111111 26px,
+          #111111 48px
         );
 
-      padding: 0 25px;
-      min-width: 620px;
+      color: #111111;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      white-space: nowrap;
     }
 
-    .barrier-text {
-      background: rgba(255, 217, 0, 0.94);
-      padding: 4px 10px;
-      margin: 0 8px;
+    .ticker-item span {
+      background: #ffd800;
+      padding: 0 7px;
     }
 
-    @keyframes moveBarrier {
+    @keyframes tickerMove {
       from {
         transform: translateX(0);
       }
@@ -92,440 +89,412 @@
     }
 
     /* =========================
-       MAIN
-    ========================= */
+       HAUPTBEREICH
+       ========================= */
 
     main {
-      flex: 1;
       width: 100%;
-
+      flex: 1;
       display: flex;
       justify-content: center;
-      align-items: center;
-
-      padding: 55px 20px;
+      align-items: flex-start;
+      padding: 46px 20px 60px;
     }
 
-    .register-container {
+    .page {
       width: 100%;
-      max-width: 470px;
-
-      text-align: center;
+      max-width: 430px;
     }
 
     /* =========================
-       TITLE
-    ========================= */
+       LOGO
+       ========================= */
 
-    .title {
-      margin: 0;
-
-      font-size: clamp(32px, 7vw, 54px);
-      font-weight: 1000;
-
-      letter-spacing: 3px;
-      line-height: 1;
+    .logo {
+      text-align: center;
+      margin-bottom: 7px;
+      user-select: none;
     }
 
-    .red-o {
+    .logo-line {
+      font-size: 48px;
+      line-height: 0.96;
+      font-weight: 950;
+      letter-spacing: -2px;
+    }
+
+    .logo .red-o {
       color: #e00000;
     }
 
     .subtitle {
-      margin: 13px 0 35px;
-
-      color: #666666;
-
-      font-size: 14px;
+      text-align: center;
+      color: #777777;
+      font-size: 12px;
       letter-spacing: 1px;
-
-      text-transform: uppercase;
+      margin-top: 13px;
+      margin-bottom: 29px;
     }
 
     /* =========================
        CARD
-    ========================= */
+       ========================= */
 
     .card {
       background: #ffffff;
-
       border: 1px solid #dddddd;
-      border-radius: 18px;
-
-      padding: 30px;
+      border-radius: 17px;
+      padding: 28px 26px 27px;
 
       box-shadow:
-        0 15px 45px rgba(0, 0, 0, 0.08);
-
-      text-align: left;
+        0 12px 35px rgba(0, 0, 0, 0.07);
     }
 
-    .card-title {
-      margin: 0 0 6px;
-
-      font-size: 24px;
+    .card h1 {
+      margin: 0 0 7px;
+      font-size: 22px;
+      line-height: 1.2;
       font-weight: 900;
     }
 
     .card-description {
-      margin: 0 0 25px;
-
+      margin: 0 0 23px;
       color: #777777;
-
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    /* =========================
-       INPUTS
-    ========================= */
-
-    label {
-      display: block;
-
-      margin: 0 0 8px;
-
       font-size: 13px;
-      font-weight: 800;
-
-      letter-spacing: 0.4px;
-    }
-
-    input {
-      width: 100%;
-      height: 50px;
-
-      border: 1px solid #d5d5d5;
-      border-radius: 10px;
-
-      padding: 0 15px;
-
-      font-size: 16px;
-
-      outline: none;
-
-      transition: 0.2s;
-
-      background: #fafafa;
-    }
-
-    input:focus {
-      border-color: #e00000;
-
-      background: #ffffff;
-
-      box-shadow:
-        0 0 0 3px rgba(224, 0, 0, 0.08);
-    }
-
-    .input-group {
-      margin-bottom: 20px;
+      line-height: 1.45;
     }
 
     /* =========================
-       AVATARE
-    ========================= */
-
-    .avatar-title {
-      margin: 4px 0 12px;
-
-      font-size: 13px;
-      font-weight: 800;
-
-      letter-spacing: 0.4px;
-    }
-
-    .avatars {
-      display: grid;
-
-      grid-template-columns:
-        repeat(6, 1fr);
-
-      gap: 9px;
-
-      margin-bottom: 25px;
-    }
-
-    .avatar {
-      aspect-ratio: 1;
-
-      border: 2px solid #e2e2e2;
-      border-radius: 50%;
-
-      background: #f5f5f5;
-
-      cursor: pointer;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 25px;
-
-      transition:
-        transform 0.15s ease,
-        border-color 0.15s ease,
-        box-shadow 0.15s ease;
-
-      user-select: none;
-    }
-
-    .avatar:hover {
-      transform: translateY(-2px);
-
-      border-color: #aaaaaa;
-    }
-
-    .avatar.selected {
-      border-color: #e00000;
-
-      box-shadow:
-        0 0 0 3px rgba(224, 0, 0, 0.13);
-
-      transform: translateY(-2px);
-    }
-
-    /* =========================
-       REGISTER BUTTON
-    ========================= */
-
-    .register-button {
-      width: 100%;
-      height: 54px;
-
-      border: none;
-      border-radius: 11px;
-
-      background: #e00000;
-      color: white;
-
-      font-size: 15px;
-      font-weight: 900;
-
-      letter-spacing: 1px;
-
-      cursor: pointer;
-
-      transition:
-        transform 0.15s ease,
-        background 0.15s ease,
-        box-shadow 0.15s ease;
-    }
-
-    .register-button:hover {
-      background: #c90000;
-
-      transform: translateY(-1px);
-
-      box-shadow:
-        0 8px 22px rgba(224, 0, 0, 0.22);
-    }
-
-    .register-button:active {
-      transform: translateY(1px);
-    }
-
-    .register-button:disabled {
-      opacity: 0.55;
-
-      cursor: not-allowed;
-
-      transform: none;
-
-      box-shadow: none;
-    }
-
-    /* =========================
-       MESSAGE
-    ========================= */
+       ERROR / SUCCESS
+       ========================= */
 
     .message {
       display: none;
+      border-radius: 7px;
+      padding: 11px 12px;
+      margin-bottom: 16px;
 
-      margin-bottom: 18px;
-
-      padding: 12px 14px;
-
-      border-radius: 9px;
-
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.4;
-
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .message.error {
       display: block;
-
       background: #fff0f0;
-
-      border: 1px solid #ffcaca;
-
-      color: #b00000;
+      border: 1px solid #ffbebe;
+      color: #c00000;
     }
 
     .message.success {
       display: block;
-
-      background: #effaf0;
-
-      border: 1px solid #bfe5c2;
-
-      color: #176b21;
+      background: #effff2;
+      border: 1px solid #a9e5b2;
+      color: #176b26;
     }
 
     /* =========================
-       BACK BUTTON
-    ========================= */
+       FORM
+       ========================= */
 
-    .back-button {
-      display: block;
-
-      width: 100%;
-
-      margin-top: 15px;
-
-      padding: 13px;
-
-      text-align: center;
-
-      border: none;
-
-      background: transparent;
-
-      color: #666666;
-
-      font-size: 13px;
-      font-weight: 700;
-
-      cursor: pointer;
+    .field {
+      margin-bottom: 18px;
     }
 
-    .back-button:hover {
+    label {
+      display: block;
+      margin-bottom: 7px;
+
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    input[type="email"],
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      height: 44px;
+
+      padding: 0 13px;
+
+      border: 1px solid #d8d8d8;
+      border-radius: 9px;
+
+      background: #ffffff;
       color: #111111;
+
+      font-size: 14px;
+      outline: none;
+
+      transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+
+    input:focus {
+      border-color: #111111;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+    }
+
+    input::placeholder {
+      color: #aaaaaa;
+    }
+
+    .hint {
+      margin-top: 6px;
+      color: #888888;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    /* =========================
+       AVATAR
+       ========================= */
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .avatar-option {
+      position: relative;
+    }
+
+    .avatar-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .avatar {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border: 2px solid #dddddd;
+      border-radius: 10px;
+
+      cursor: pointer;
+
+      font-size: 0;
+
+      transition:
+        transform 0.12s ease,
+        border-color 0.12s ease,
+        box-shadow 0.12s ease;
+    }
+
+    .avatar:hover {
+      transform: translateY(-2px);
+      border-color: #999999;
+    }
+
+    .avatar-option input:checked + .avatar {
+      border-color: #111111;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .avatar-red {
+      background: #e00000;
+    }
+
+    .avatar-blue {
+      background: #155eef;
+    }
+
+    .avatar-green {
+      background: #159447;
+    }
+
+    .avatar-yellow {
+      background: #ffd800;
+    }
+
+    .avatar-purple {
+      background: #7939d9;
+    }
+
+    .avatar-black {
+      background: #111111;
+    }
+
+    /* =========================
+       BUTTON
+       ========================= */
+
+    .submit-button {
+      width: 100%;
+      height: 49px;
+
+      margin-top: 6px;
+
+      border: 0;
+      border-radius: 9px;
+
+      background: #111111;
+      color: #ffffff;
+
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+
+      cursor: pointer;
+
+      transition:
+        background 0.15s ease,
+        transform 0.1s ease;
+    }
+
+    .submit-button:hover {
+      background: #252525;
+    }
+
+    .submit-button:active {
+      transform: scale(0.99);
+    }
+
+    .submit-button:disabled {
+      background: #999999;
+      cursor: wait;
+      transform: none;
     }
 
     /* =========================
        FOOTER
-    ========================= */
+       ========================= */
 
     footer {
-      padding: 22px 20px 28px;
-
+      padding: 0 20px 22px;
       text-align: center;
 
-      color: #777777;
-
-      font-size: 12px;
+      color: #999999;
+      font-size: 11px;
     }
 
     /* =========================
        MOBILE
-    ========================= */
+       ========================= */
 
-    @media (max-width: 520px) {
-
+    @media (max-width: 600px) {
       main {
-        padding: 35px 14px;
+        padding-top: 32px;
+      }
+
+      .logo-line {
+        font-size: 39px;
       }
 
       .card {
-        padding: 22px;
+        padding: 24px 20px;
       }
 
-      .avatars {
+      .avatar-grid {
         gap: 6px;
       }
-
-      .avatar {
-        font-size: 21px;
-      }
-
-      .title {
-        letter-spacing: 2px;
-      }
-
     }
-
   </style>
 </head>
 
-
 <body>
 
-
   <!-- =========================
-       ABSPERRUNG
-  ========================= -->
+       ABSERRUNG
+       ========================= -->
 
-  <div class="barrier">
+  <div class="ticker-wrap">
+    <div class="ticker">
 
-    <div class="barrier-track">
-
-      <div class="barrier-piece">
-
-        <span class="barrier-text">
-          ⚠ THE BUTTON GAME
-        </span>
-
-        <span class="barrier-text">
-          ⚠ ZUGANG GESPERRT
-        </span>
-
-        <span class="barrier-text">
-          ⚠ THE BUTTON GAME
-        </span>
-
+      <div class="ticker-item">
+        <span>⚠ ZUGANG GESPERRT</span>
       </div>
 
+      <div class="ticker-item">
+        <span>⚠ THE BUTTON GAME</span>
+      </div>
 
-      <div class="barrier-piece">
+      <div class="ticker-item">
+        <span>⚠ ZUGANG GESPERRT</span>
+      </div>
 
-        <span class="barrier-text">
-          ⚠ THE BUTTON GAME
-        </span>
+      <div class="ticker-item">
+        <span>⚠ THE BUTTON GAME</span>
+      </div>
 
-        <span class="barrier-text">
-          ⚠ ZUGANG GESPERRT
-        </span>
+      <div class="ticker-item">
+        <span>⚠ ZUGANG GESPERRT</span>
+      </div>
 
-        <span class="barrier-text">
-          ⚠ THE BUTTON GAME
-        </span>
+      <div class="ticker-item">
+        <span>⚠ THE BUTTON GAME</span>
+      </div>
 
+      <!-- Wiederholung für nahtlosen Lauf -->
+
+      <div class="ticker-item">
+        <span>⚠ ZUGANG GESPERRT</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ THE BUTTON GAME</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ ZUGANG GESPERRT</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ THE BUTTON GAME</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ ZUGANG GESPERRT</span>
+      </div>
+
+      <div class="ticker-item">
+        <span>⚠ THE BUTTON GAME</span>
       </div>
 
     </div>
-
   </div>
 
 
   <!-- =========================
-       MAIN
-  ========================= -->
+       INHALT
+       ========================= -->
 
   <main>
 
-    <div class="register-container">
+    <div class="page">
+
+      <div class="logo">
+        <div class="logo-line">
+          THE BUTT<span class="red-o">O</span>N
+        </div>
+
+        <div class="logo-line">
+          GAME
+        </div>
+      </div>
+
+      <div class="subtitle">
+        ERSTELLE DEINEN SPIELER
+      </div>
 
 
-      <h1 class="title">
-        THE BUTT<span class="red-o">O</span>N GAME
-      </h1>
-
-
-      <p class="subtitle">
-        Erstelle deinen Spieler
-      </p>
-
+      <!-- =========================
+           REGISTRIERUNG
+           ========================= -->
 
       <div class="card">
 
-
-        <h2 class="card-title">
-          Spieler erstellen
-        </h2>
-
+        <h1>Spieler erstellen</h1>
 
         <p class="card-description">
           Wähle deinen Namen und deinen Avatar.
@@ -533,150 +502,162 @@
         </p>
 
 
-        <div
-          id="message"
-          class="message">
-        </div>
+        <!-- Fehlermeldung -->
+
+        <div id="message" class="message"></div>
 
 
-        <!-- =========================
-             USERNAME
-        ========================= -->
+        <form id="registerForm">
 
-        <div class="input-group">
+          <!-- E-MAIL -->
 
-          <label for="username">
-            BENUTZERNAME
-          </label>
+          <div class="field">
 
-          <input
-            id="username"
-            type="text"
-            maxlength="20"
-            autocomplete="username"
-            placeholder="Dein Spielername">
+            <label for="email">
+              E-MAIL
+            </label>
 
-        </div>
+            <input
+              id="email"
+              type="email"
+              autocomplete="email"
+              placeholder="deine@email.de"
+              required
+            >
 
+            <div class="hint">
+              Wird für deinen Account benötigt.
+            </div>
 
-        <!-- =========================
-             PASSWORD
-        ========================= -->
-
-        <div class="input-group">
-
-          <label for="password">
-            PASSWORT
-          </label>
-
-          <input
-            id="password"
-            type="password"
-            autocomplete="new-password"
-            placeholder="Mindestens 6 Zeichen">
-
-        </div>
+          </div>
 
 
-        <!-- =========================
-             AVATAR
-        ========================= -->
+          <!-- BENUTZERNAME -->
 
-        <div class="avatar-title">
-          AVATAR
-        </div>
+          <div class="field">
+
+            <label for="username">
+              BENUTZERNAME
+            </label>
+
+            <input
+              id="username"
+              type="text"
+              minlength="3"
+              maxlength="20"
+              autocomplete="username"
+              placeholder="z. B. Maxi"
+              required
+            >
+
+            <div class="hint">
+              3–20 Zeichen. Dieser Name wird im Spiel angezeigt.
+            </div>
+
+          </div>
 
 
-        <div class="avatars">
+          <!-- PASSWORT -->
 
+          <div class="field">
+
+            <label for="password">
+              PASSWORT
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              minlength="6"
+              autocomplete="new-password"
+              placeholder="Mindestens 6 Zeichen"
+              required
+            >
+
+          </div>
+
+
+          <!-- AVATAR -->
+
+          <div class="field">
+
+            <label>
+              AVATAR
+            </label>
+
+            <div class="avatar-grid">
+
+              <label class="avatar-option">
+                <input
+                  type="radio"
+                  name="avatar"
+                  value="red"
+                  checked
+                >
+                <span class="avatar avatar-red"></span>
+              </label>
+
+              <label class="avatar-option">
+                <input
+                  type="radio"
+                  name="avatar"
+                  value="blue"
+                >
+                <span class="avatar avatar-blue"></span>
+              </label>
+
+              <label class="avatar-option">
+                <input
+                  type="radio"
+                  name="avatar"
+                  value="green"
+                >
+                <span class="avatar avatar-green"></span>
+              </label>
+
+              <label class="avatar-option">
+                <input
+                  type="radio"
+                  name="avatar"
+                  value="yellow"
+                >
+                <span class="avatar avatar-yellow"></span>
+              </label>
+
+              <label class="avatar-option">
+                <input
+                  type="radio"
+                  name="avatar"
+                  value="purple"
+                >
+                <span class="avatar avatar-purple"></span>
+              </label>
+
+              <label class="avatar-option">
+                <input
+                  type="radio"
+                  name="avatar"
+                  value="black"
+                >
+                <span class="avatar avatar-black"></span>
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <!-- ABSENDEN -->
 
           <button
-            class="avatar selected"
-            data-avatar="red"
-            type="button">
-
-            🔴
-
+            id="submitButton"
+            class="submit-button"
+            type="submit"
+          >
+            SPIELER ERSTELLEN
           </button>
 
-
-          <button
-            class="avatar"
-            data-avatar="blue"
-            type="button">
-
-            🔵
-
-          </button>
-
-
-          <button
-            class="avatar"
-            data-avatar="green"
-            type="button">
-
-            🟢
-
-          </button>
-
-
-          <button
-            class="avatar"
-            data-avatar="yellow"
-            type="button">
-
-            🟡
-
-          </button>
-
-
-          <button
-            class="avatar"
-            data-avatar="purple"
-            type="button">
-
-            🟣
-
-          </button>
-
-
-          <button
-            class="avatar"
-            data-avatar="black"
-            type="button">
-
-            ⚫
-
-          </button>
-
-
-        </div>
-
-
-        <!-- =========================
-             REGISTER
-        ========================= -->
-
-        <button
-          id="registerButton"
-          class="register-button"
-          type="button"
-          onclick="registerPlayer()">
-
-          SPIELER ERSTELLEN
-
-        </button>
-
-
-        <button
-          class="back-button"
-          type="button"
-          onclick="window.location.href='index.html'">
-
-          ← Zurück
-
-        </button>
-
+        </form>
 
       </div>
 
@@ -687,26 +668,30 @@
 
   <!-- =========================
        FOOTER
-  ========================= -->
+       ========================= -->
 
   <footer>
-
     Spiel kostenlos Spielbar · Unterstützt durch GitHub
-
   </footer>
 
 
+  <!-- =========================
+       SUPABASE
+       ========================= -->
+
   <script>
 
-    /* =========================================
-       SUPABASE
-    ========================================= */
+    /*
+     * ==========================================
+     * THE BUTTON GAME – SUPABASE
+     * ==========================================
+     */
 
     const SUPABASE_URL =
       "https://srpzynncajhuuwssiaiv.supabase.co";
 
     const SUPABASE_ANON_KEY =
-      "sb_publishable_Nf8SpGWS7yN69EnaYbaKLA_8IxlNoyQ";
+      "sb_publishable_Nf8SpGW3Y7y69EnaYbaKLA_8IxlNoyQ";
 
 
     const supabaseClient =
@@ -716,64 +701,40 @@
       );
 
 
-    /* =========================================
-       AUSGEWÄHLTER AVATAR
-    ========================================= */
+    /*
+     * ==========================================
+     * ELEMENTE
+     * ==========================================
+     */
 
-    let selectedAvatar = "red";
+    const form =
+      document.getElementById("registerForm");
 
+    const message =
+      document.getElementById("message");
 
-    document
-      .querySelectorAll(".avatar")
-      .forEach(button => {
+    const submitButton =
+      document.getElementById("submitButton");
 
-        button.addEventListener(
-          "click",
-          () => {
+    const emailInput =
+      document.getElementById("email");
 
-            document
-              .querySelectorAll(".avatar")
-              .forEach(item => {
+    const usernameInput =
+      document.getElementById("username");
 
-                item.classList.remove(
-                  "selected"
-                );
-
-              });
-
-
-            button.classList.add(
-              "selected"
-            );
+    const passwordInput =
+      document.getElementById("password");
 
 
-            selectedAvatar =
-              button.dataset.avatar;
+    /*
+     * ==========================================
+     * MELDUNGEN
+     * ==========================================
+     */
 
-          }
-        );
+    function showMessage(text, type = "error") {
 
-      });
-
-
-    /* =========================================
-       NACHRICHT
-    ========================================= */
-
-    function showMessage(
-      text,
-      type
-    ) {
-
-      const message =
-        document.getElementById(
-          "message"
-        );
-
-
-      message.textContent =
-        text;
-
+      message.textContent = text;
 
       message.className =
         "message " + type;
@@ -781,17 +742,9 @@
     }
 
 
-    function clearMessage() {
+    function hideMessage() {
 
-      const message =
-        document.getElementById(
-          "message"
-        );
-
-
-      message.textContent =
-        "";
-
+      message.textContent = "";
 
       message.className =
         "message";
@@ -799,121 +752,94 @@
     }
 
 
-    /* =========================================
-       REGISTRIERUNG
-    ========================================= */
+    /*
+     * ==========================================
+     * REGISTRIERUNG
+     * ==========================================
+     */
 
-    async function registerPlayer() {
+    form.addEventListener("submit", async function(event) {
 
-      clearMessage();
+      event.preventDefault();
 
+      hideMessage();
+
+
+      /*
+       * Eingaben
+       */
+
+      const email =
+        emailInput.value.trim();
 
       const username =
-        document
-          .getElementById("username")
-          .value
-          .trim();
-
+        usernameInput.value.trim();
 
       const password =
-        document
-          .getElementById("password")
-          .value;
+        passwordInput.value;
+
+      const selectedAvatar =
+        document.querySelector(
+          'input[name="avatar"]:checked'
+        )?.value || "red";
 
 
-      /* USERNAME */
-
-      if (!username) {
-
-        showMessage(
-          "Bitte gib einen Benutzernamen ein.",
-          "error"
-        );
-
-        return;
-
-      }
-
+      /*
+       * Eigene Prüfung
+       */
 
       if (username.length < 3) {
 
         showMessage(
-          "Der Benutzername muss mindestens 3 Zeichen haben.",
-          "error"
+          "Der Benutzername muss mindestens 3 Zeichen lang sein."
         );
 
         return;
-
       }
 
 
       if (username.length > 20) {
 
         showMessage(
-          "Der Benutzername darf höchstens 20 Zeichen haben.",
-          "error"
+          "Der Benutzername darf höchstens 20 Zeichen lang sein."
         );
 
         return;
-
-      }
-
-
-      /* PASSWORT */
-
-      if (!password) {
-
-        showMessage(
-          "Bitte gib ein Passwort ein.",
-          "error"
-        );
-
-        return;
-
       }
 
 
       if (password.length < 6) {
 
         showMessage(
-          "Das Passwort muss mindestens 6 Zeichen haben.",
-          "error"
+          "Das Passwort muss mindestens 6 Zeichen lang sein."
         );
 
         return;
-
       }
 
 
-      const button =
-        document.getElementById(
-          "registerButton"
-        );
+      /*
+       * Button sperren
+       */
 
+      submitButton.disabled = true;
 
-      button.disabled =
-        true;
-
-
-      button.textContent =
+      submitButton.textContent =
         "ACCOUNT WIRD ERSTELLT …";
 
 
       try {
 
-
-        /* =====================================
-           TECHNISCHE E-MAIL
-        ===================================== */
-
-        const email =
-          username.toLowerCase() +
-          "@thebuttongame.local";
+        console.log(
+          "THE BUTTON GAME Registrierung gestartet"
+        );
 
 
-        /* =====================================
-           SUPABASE AUTH
-        ===================================== */
+        /*
+         * ==========================================
+         * 1. SUPABASE AUTH ACCOUNT ERSTELLEN
+         * ==========================================
+         */
 
         const {
           data,
@@ -928,25 +854,120 @@
           });
 
 
+        /*
+         * Auth-Fehler
+         */
+
         if (error) {
 
-          throw error;
+          console.error(
+            "THE BUTTON GAME Registrierung:",
+            error
+          );
 
+          const errorMessage =
+            error.message || "";
+
+
+          /*
+           * Bereits registriert
+           */
+
+          if (
+            errorMessage.toLowerCase().includes(
+              "already registered"
+            )
+            ||
+            errorMessage.toLowerCase().includes(
+              "already been registered"
+            )
+          ) {
+
+            showMessage(
+              "Diese E-Mail-Adresse ist bereits registriert."
+            );
+
+          }
+
+
+          /*
+           * Ungültige E-Mail
+           */
+
+          else if (
+            errorMessage.toLowerCase().includes(
+              "invalid email"
+            )
+          ) {
+
+            showMessage(
+              "Bitte gib eine gültige E-Mail-Adresse ein."
+            );
+
+          }
+
+
+          /*
+           * Passwort
+           */
+
+          else if (
+            errorMessage.toLowerCase().includes(
+              "password"
+            )
+          ) {
+
+            showMessage(
+              "Das Passwort wird von Supabase nicht akzeptiert."
+            );
+
+          }
+
+
+          /*
+           * Sonst: echte Fehlermeldung
+           * anzeigen, damit wir bei einem
+           * weiteren Problem genau wissen,
+           * was Supabase meldet.
+           */
+
+          else {
+
+            showMessage(
+              "Supabase-Fehler: " +
+              errorMessage
+            );
+
+          }
+
+          return;
         }
 
 
-        if (!data.user) {
+        /*
+         * Ohne User wäre etwas schiefgelaufen.
+         */
+
+        if (!data || !data.user) {
 
           throw new Error(
-            "Der Account konnte nicht erstellt werden."
+            "Supabase hat keinen Benutzer zurückgegeben."
           );
 
         }
 
 
-        /* =====================================
-           SPIELERPROFIL
-        ===================================== */
+        console.log(
+          "Supabase Benutzer erstellt:",
+          data.user.id
+        );
+
+
+        /*
+         * ==========================================
+         * 2. PROFIL IN players SPEICHERN
+         * ==========================================
+         */
 
         const {
           error: profileError
@@ -968,178 +989,151 @@
             });
 
 
+        /*
+         * Profil-Fehler
+         */
+
         if (profileError) {
 
+          console.error(
+            "THE BUTTON GAME players-Fehler:",
+            profileError
+          );
+
+
+          /*
+           * Username bereits vorhanden
+           */
 
           if (
             profileError.code === "23505"
           ) {
 
             showMessage(
-              "Dieser Benutzername ist bereits vergeben.",
-              "error"
+              "Dieser Benutzername ist bereits vergeben."
             );
-
-
-          } else {
-
-            throw profileError;
 
           }
 
+          else {
 
-          button.disabled =
-            false;
+            showMessage(
+              "Spieler konnte nicht gespeichert werden: " +
+              profileError.message
+            );
 
-
-          button.textContent =
-            "SPIELER ERSTELLEN";
-
+          }
 
           return;
-
         }
 
 
-        /* =====================================
-           ERFOLG
-        ===================================== */
+        console.log(
+          "Spielerprofil erfolgreich gespeichert."
+        );
+
+
+        /*
+         * ==========================================
+         * 3. PRÜFEN, OB EINE SESSION EXISTIERT
+         * ==========================================
+         */
+
+        const {
+          data: sessionData
+        } =
+          await supabaseClient.auth.getSession();
+
+
+        /*
+         * Wenn Confirm Email aktiviert ist,
+         * gibt es möglicherweise noch keine Session.
+         */
+
+        if (
+          !sessionData ||
+          !sessionData.session
+        ) {
+
+          showMessage(
+            "Der Account wurde erstellt. Bitte bestätige deine E-Mail-Adresse und melde dich danach an.",
+            "success"
+          );
+
+          submitButton.disabled = false;
+
+          submitButton.textContent =
+            "SPIELER ERSTELLEN";
+
+          return;
+        }
+
+
+        /*
+         * ==========================================
+         * 4. ERFOLGREICH → GAME
+         * ==========================================
+         */
 
         showMessage(
-          "Spieler erfolgreich erstellt! Weiter zum Spiel …",
+          "Spieler erfolgreich erstellt! Das Spiel wird gestartet …",
           "success"
         );
 
+        submitButton.textContent =
+          "SPIEL WIRD GESTARTET …";
 
-        button.textContent =
-          "SPIELER ERSTELLT ✓";
 
+        /*
+         * Kurz warten, damit die
+         * Erfolgsmeldung sichtbar ist.
+         */
 
-        setTimeout(
-          () => {
+        setTimeout(function() {
 
-            window.location.href =
-              "game.html";
+          window.location.href =
+            "game.html";
 
-          },
-          1000
-        );
+        }, 500);
 
 
       } catch (error) {
 
-
         console.error(
-          "THE BUTTON GAME Registrierung:",
+          "THE BUTTON GAME unerwarteter Fehler:",
           error
         );
 
 
-        let message =
-          "Die Registrierung konnte nicht abgeschlossen werden.";
-
-
-        if (
-          error &&
-          error.message
-        ) {
-
-          const errorText =
-            error.message.toLowerCase();
-
-
-          if (
-            errorText.includes(
-              "already registered"
-            )
-          ) {
-
-            message =
-              "Dieser Account existiert bereits.";
-
-          }
-
-          else if (
-            errorText.includes(
-              "password"
-            )
-          ) {
-
-            message =
-              "Das Passwort ist ungültig.";
-
-          }
-
-          else if (
-            errorText.includes(
-              "email"
-            )
-          ) {
-
-            message =
-              "Die Registrierung konnte wegen der Account-Einstellungen nicht durchgeführt werden.";
-
-          }
-
-        }
-
-
         showMessage(
-          message,
-          "error"
+          "Ein unerwarteter Fehler ist aufgetreten: " +
+          (error.message || error)
         );
 
 
-        button.disabled =
-          false;
+      } finally {
 
+        /*
+         * Nur wieder freigeben,
+         * wenn wir nicht gerade weiterleiten.
+         */
 
-        button.textContent =
-          "SPIELER ERSTELLEN";
+        if (
+          !window.location.href.includes(
+            "game.html"
+          )
+        ) {
+
+          submitButton.disabled = false;
+
+          submitButton.textContent =
+            "SPIELER ERSTELLEN";
+
+        }
 
       }
 
-    }
-
-
-    /* =========================================
-       ENTER-TASTE
-    ========================================= */
-
-    document
-      .getElementById("username")
-      .addEventListener(
-        "keydown",
-        event => {
-
-          if (
-            event.key === "Enter"
-          ) {
-
-            registerPlayer();
-
-          }
-
-        }
-      );
-
-
-    document
-      .getElementById("password")
-      .addEventListener(
-        "keydown",
-        event => {
-
-          if (
-            event.key === "Enter"
-          ) {
-
-            registerPlayer();
-
-          }
-
-        }
-      );
+    });
 
   </script>
 
