@@ -25,11 +25,12 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
     }
 
-    /* =========================
+    /* =========================================
        TICKER
-       ========================= */
+       ========================================= */
 
     .ticker-wrap {
       width: 100%;
@@ -90,9 +91,10 @@
       }
     }
 
-    /* =========================
+
+    /* =========================================
        HEADER
-       ========================= */
+       ========================================= */
 
     header {
       width: 100%;
@@ -101,9 +103,12 @@
       justify-content: space-between;
       align-items: center;
 
-      padding: 20px 28px;
+      padding: 18px 28px;
 
       border-bottom: 1px solid #eeeeee;
+      background: #ffffff;
+
+      flex-shrink: 0;
     }
 
     .small-logo {
@@ -122,7 +127,7 @@
       gap: 10px;
     }
 
-    .avatar {
+    .player-avatar {
       width: 34px;
       height: 34px;
 
@@ -131,27 +136,27 @@
       border: 2px solid #111111;
     }
 
-    .avatar.red {
+    .player-avatar.red {
       background: #e00000;
     }
 
-    .avatar.blue {
+    .player-avatar.blue {
       background: #155eef;
     }
 
-    .avatar.green {
+    .player-avatar.green {
       background: #159447;
     }
 
-    .avatar.yellow {
+    .player-avatar.yellow {
       background: #ffd800;
     }
 
-    .avatar.purple {
+    .player-avatar.purple {
       background: #7939d9;
     }
 
-    .avatar.black {
+    .player-avatar.black {
       background: #111111;
     }
 
@@ -160,9 +165,10 @@
       font-weight: 900;
     }
 
-    /* =========================
+
+    /* =========================================
        MAIN
-       ========================= */
+       ========================================= */
 
     main {
       flex: 1;
@@ -171,7 +177,7 @@
       justify-content: center;
       align-items: center;
 
-      padding: 50px 20px 70px;
+      padding: 45px 20px 70px;
     }
 
     .game {
@@ -181,9 +187,10 @@
       text-align: center;
     }
 
-    /* =========================
+
+    /* =========================================
        TITLE
-       ========================= */
+       ========================================= */
 
     .game-title {
       margin: 0;
@@ -209,22 +216,23 @@
       letter-spacing: 2px;
     }
 
-    /* =========================
+
+    /* =========================================
        STATS
-       ========================= */
+       ========================================= */
 
     .stats {
       display: flex;
       justify-content: center;
       gap: 12px;
 
-      margin-top: 38px;
+      margin-top: 32px;
     }
 
     .stat {
       min-width: 130px;
 
-      padding: 13px 18px;
+      padding: 12px 18px;
 
       border: 1px solid #dddddd;
       border-radius: 10px;
@@ -247,20 +255,21 @@
       font-weight: 950;
     }
 
-    /* =========================
+
+    /* =========================================
        BUTTON
-       ========================= */
+       ========================================= */
 
     .button-area {
-      margin-top: 55px;
+      margin-top: 42px;
 
       display: flex;
       justify-content: center;
     }
 
     .game-button {
-      width: 250px;
-      height: 250px;
+      width: 245px;
+      height: 245px;
 
       border: 0;
       border-radius: 50%;
@@ -281,9 +290,9 @@
 
       cursor: pointer;
 
-      color: white;
+      color: #ffffff;
 
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 950;
       letter-spacing: 1px;
 
@@ -303,20 +312,23 @@
 
     .game-button:active {
       transform: scale(0.95);
-
-      box-shadow:
-        0 10px 20px rgba(120, 0, 0, 0.25),
-        inset 0 12px 20px rgba(0, 0, 0, 0.25);
     }
 
-    /* =========================
+    .game-button:disabled {
+      cursor: default;
+      opacity: 0.55;
+      transform: none;
+    }
+
+
+    /* =========================================
        STATUS
-       ========================= */
+       ========================================= */
 
     .status {
       min-height: 24px;
 
-      margin-top: 30px;
+      margin-top: 25px;
 
       color: #777777;
 
@@ -324,9 +336,377 @@
       font-weight: 700;
     }
 
-    /* =========================
+
+    /* =========================================
+       PUZZLE OVERLAY
+       ========================================= */
+
+    .puzzle-overlay {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 1000;
+
+      display: none;
+
+      justify-content: center;
+      align-items: center;
+
+      background:
+        rgba(0, 0, 0, 0.72);
+
+      padding: 20px;
+
+      overflow: hidden;
+    }
+
+    .puzzle-overlay.active {
+      display: flex;
+    }
+
+
+    /* =========================================
+       PINWAND
+       ========================================= */
+
+    .puzzle-scene {
+      position: relative;
+
+      width: min(740px, 94vw);
+      height: min(680px, 88vh);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .pinboard-photo {
+      position: absolute;
+
+      width: min(600px, 88vw);
+      height: auto;
+
+      max-height: 620px;
+
+      object-fit: contain;
+
+      border-radius: 4px;
+
+      box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.45);
+
+      user-select: none;
+      pointer-events: none;
+    }
+
+
+    /* =========================================
+       CODE AUF DER PINNWAND
+       ========================================= */
+
+    .hidden-code {
+      position: absolute;
+
+      z-index: 2;
+
+      /*
+       * Position auf der gelben Pinnwand.
+       */
+
+      top: 48%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
+
+      font-family:
+        "Courier New",
+        monospace;
+
+      font-size: clamp(35px, 7vw, 58px);
+
+      font-weight: 950;
+
+      letter-spacing: 10px;
+
+      color: #111111;
+
+      background: #ffffff;
+
+      border: 4px solid #111111;
+
+      padding: 12px 18px;
+
+      box-shadow:
+        5px 5px 0 #111111;
+
+      user-select: none;
+
+      z-index: 3;
+    }
+
+
+    /* =========================================
+       SCHLOSS
+       ========================================= */
+
+    .lock {
+      position: absolute;
+
+      z-index: 10;
+
+      top: 50%;
+      left: 50%;
+
+      width: 320px;
+
+      transform:
+        translate(-50%, -50%);
+
+      background: #eeeeee;
+
+      border: 5px solid #111111;
+
+      border-radius: 18px;
+
+      padding: 22px 22px 25px;
+
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.45);
+
+      cursor: grab;
+
+      touch-action: none;
+
+      user-select: none;
+    }
+
+    .lock.dragging {
+      cursor: grabbing;
+    }
+
+
+    /* Bügel */
+
+    .lock-shackle {
+      width: 105px;
+      height: 75px;
+
+      margin: -58px auto 7px;
+
+      border: 14px solid #222222;
+
+      border-bottom: 0;
+
+      border-radius:
+        55px 55px 0 0;
+
+      position: relative;
+    }
+
+    .lock-body {
+      background:
+        linear-gradient(
+          145deg,
+          #444444,
+          #1b1b1b
+        );
+
+      border-radius: 12px;
+
+      padding: 20px;
+
+      border: 3px solid #080808;
+
+      color: #ffffff;
+    }
+
+    .lock-title {
+      font-size: 18px;
+      font-weight: 950;
+      letter-spacing: 1px;
+
+      margin-bottom: 5px;
+    }
+
+    .lock-hint {
+      color: #bbbbbb;
+
+      font-size: 11px;
+      line-height: 1.4;
+
+      margin-bottom: 17px;
+    }
+
+    .drag-handle {
+      display: inline-block;
+
+      margin-bottom: 13px;
+
+      padding: 5px 9px;
+
+      border-radius: 5px;
+
+      background: #ffd800;
+      color: #111111;
+
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: 1px;
+    }
+
+
+    /* =========================================
+       CODE INPUT
+       ========================================= */
+
+    .code-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+
+      margin-bottom: 14px;
+    }
+
+    .code-digit {
+      width: 52px;
+      height: 57px;
+
+      border: 2px solid #555555;
+      border-radius: 8px;
+
+      background: #ffffff;
+      color: #111111;
+
+      text-align: center;
+
+      font-family: "Courier New", monospace;
+
+      font-size: 28px;
+      font-weight: 950;
+
+      outline: none;
+    }
+
+    .code-digit:focus {
+      border-color: #ffd800;
+
+      box-shadow:
+        0 0 0 3px rgba(255, 216, 0, 0.25);
+    }
+
+
+    /* =========================================
+       CHECK BUTTON
+       ========================================= */
+
+    .check-code {
+      width: 100%;
+      height: 45px;
+
+      border: 0;
+      border-radius: 8px;
+
+      background: #e00000;
+      color: #ffffff;
+
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: 0.5px;
+
+      cursor: pointer;
+    }
+
+    .check-code:hover {
+      background: #bd0000;
+    }
+
+
+    /* =========================================
+       LOCK MESSAGE
+       ========================================= */
+
+    .lock-message {
+      min-height: 18px;
+
+      margin-top: 10px;
+
+      font-size: 11px;
+      font-weight: 800;
+
+      text-align: center;
+    }
+
+    .lock-message.error {
+      color: #ff6b6b;
+    }
+
+    .lock-message.success {
+      color: #68e878;
+    }
+
+
+    /* =========================================
+       FINISH
+       ========================================= */
+
+    .success-screen {
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 50;
+
+      display: none;
+
+      justify-content: center;
+      align-items: center;
+
+      background: rgba(255, 255, 255, 0.97);
+
+      text-align: center;
+    }
+
+    .success-screen.active {
+      display: flex;
+    }
+
+    .success-box {
+      width: min(450px, 90vw);
+
+      padding: 40px 25px;
+
+      border: 2px solid #111111;
+      border-radius: 15px;
+
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .success-check {
+      font-size: 55px;
+
+      margin-bottom: 10px;
+    }
+
+    .success-title {
+      font-size: 30px;
+      font-weight: 950;
+    }
+
+    .success-text {
+      margin-top: 10px;
+
+      color: #777777;
+
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+
+    /* =========================================
        FOOTER
-       ========================= */
+       ========================================= */
 
     footer {
       padding: 0 20px 22px;
@@ -338,9 +718,10 @@
       font-size: 11px;
     }
 
-    /* =========================
+
+    /* =========================================
        MOBILE
-       ========================= */
+       ========================================= */
 
     @media (max-width: 600px) {
 
@@ -354,21 +735,18 @@
 
       .username {
         max-width: 120px;
+
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
       .stats {
-        margin-top: 30px;
+        margin-top: 25px;
       }
 
       .stat {
-        min-width: 110px;
-      }
-
-      .button-area {
-        margin-top: 40px;
+        min-width: 105px;
       }
 
       .game-button {
@@ -377,15 +755,31 @@
 
         font-size: 18px;
       }
+
+      .puzzle-scene {
+        height: 600px;
+      }
+
+      .lock {
+        width: 285px;
+      }
+
+      .code-digit {
+        width: 48px;
+        height: 52px;
+      }
     }
+
   </style>
 </head>
 
+
 <body>
 
-  <!-- =========================
+
+  <!-- =======================================
        TICKER
-       ========================= -->
+       ======================================== -->
 
   <div class="ticker-wrap">
 
@@ -428,9 +822,9 @@
   </div>
 
 
-  <!-- =========================
+  <!-- =======================================
        HEADER
-       ========================= -->
+       ======================================== -->
 
   <header>
 
@@ -443,7 +837,7 @@
 
       <div
         id="avatar"
-        class="avatar red"
+        class="player-avatar red"
       ></div>
 
       <div
@@ -458,20 +852,22 @@
   </header>
 
 
-  <!-- =========================
-       MAIN
-       ========================= -->
+  <!-- =======================================
+       MAIN GAME
+       ======================================== -->
 
   <main>
 
     <div class="game">
 
+
       <h1 class="game-title">
         THE BUTT<span class="red-o">O</span>N GAME
       </h1>
 
+
       <div class="game-subtitle">
-        BIST DU BEREIT?
+        DRÜCK. DENK. LÖSE.
       </div>
 
 
@@ -482,11 +878,11 @@
         <div class="stat">
 
           <div class="stat-label">
-            PUNKTE
+            KLICKS
           </div>
 
           <div
-            id="score"
+            id="clickCount"
             class="stat-value"
           >
             0
@@ -505,7 +901,7 @@
             id="taskNumber"
             class="stat-value"
           >
-            0
+            1
           </div>
 
         </div>
@@ -527,47 +923,190 @@
       </div>
 
 
-      <!-- STATUS -->
-
       <div
         id="status"
         class="status"
       >
-        Der nächste Schritt wartet auf dich.
+        Drücke den Button.
       </div>
+
 
     </div>
 
   </main>
 
 
-  <!-- =========================
+  <!-- =======================================
+       PUZZLE
+       ======================================== -->
+
+  <div
+    id="puzzleOverlay"
+    class="puzzle-overlay"
+  >
+
+
+    <div
+      id="puzzleScene"
+      class="puzzle-scene"
+    >
+
+
+      <!-- PINNWAND-FOTO -->
+
+      <img
+        src="pinnwand.png"
+        class="pinboard-photo"
+        id="pinboardPhoto"
+        alt="Pinnwand"
+        draggable="false"
+      >
+
+
+      <!-- CODE -->
+
+      <div
+        id="hiddenCode"
+        class="hidden-code"
+      >
+        5831
+      </div>
+
+
+      <!-- =================================
+           SCHLOSS
+           ================================== -->
+
+      <div
+        id="lock"
+        class="lock"
+      >
+
+        <div class="lock-shackle"></div>
+
+
+        <div class="lock-body">
+
+          <div class="drag-handle">
+            ↓ HIER GREIFEN UND ZIEHEN ↓
+          </div>
+
+
+          <div class="lock-title">
+            ZAHLENSCHLOSS
+          </div>
+
+
+          <div class="lock-hint">
+            Ziehe das Schloss nach unten,
+            um dahinter nach einem Hinweis
+            zu suchen.
+          </div>
+
+
+          <div class="code-inputs">
+
+            <input
+              class="code-digit"
+              maxlength="1"
+              inputmode="numeric"
+              autocomplete="off"
+            >
+
+            <input
+              class="code-digit"
+              maxlength="1"
+              inputmode="numeric"
+              autocomplete="off"
+            >
+
+            <input
+              class="code-digit"
+              maxlength="1"
+              inputmode="numeric"
+              autocomplete="off"
+            >
+
+            <input
+              class="code-digit"
+              maxlength="1"
+              inputmode="numeric"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <button
+            id="checkCode"
+            class="check-code"
+          >
+            CODE BESTÄTIGEN
+          </button>
+
+
+          <div
+            id="lockMessage"
+            class="lock-message"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================
+           ERFOLG
+           ================================== -->
+
+      <div
+        id="successScreen"
+        class="success-screen"
+      >
+
+        <div class="success-box">
+
+          <div class="success-check">
+            ✓
+          </div>
+
+          <div class="success-title">
+            AUFGABE GELÖST
+          </div>
+
+          <div class="success-text">
+            Der Code war korrekt.<br>
+            Deine nächste Aufgabe wartet.
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================
        FOOTER
-       ========================= -->
+       ======================================== -->
 
   <footer>
     Spiel kostenlos Spielbar · Unterstützt durch GitHub
   </footer>
 
 
-  <!-- =========================
-       JAVASCRIPT
-       ========================= -->
-
   <script>
 
     /* =========================================
-       SPIELER LADEN
+       SPIELER
        ========================================= */
 
     const savedPlayer =
       localStorage.getItem("buttonGamePlayer");
 
-
-    /*
-     * Wenn kein Spieler vorhanden ist,
-     * zurück zur Registrierung.
-     */
 
     if (!savedPlayer) {
 
@@ -578,7 +1117,6 @@
 
 
     let player;
-
 
     try {
 
@@ -607,8 +1145,8 @@
     const avatarElement =
       document.getElementById("avatar");
 
-    const scoreElement =
-      document.getElementById("score");
+    const clickCountElement =
+      document.getElementById("clickCount");
 
     const taskNumberElement =
       document.getElementById("taskNumber");
@@ -619,21 +1157,23 @@
     const gameButton =
       document.getElementById("gameButton");
 
+    const puzzleOverlay =
+      document.getElementById("puzzleOverlay");
 
-    /* =========================================
-       SPIELER ANZEIGEN
-       ========================================= */
+    const lock =
+      document.getElementById("lock");
 
-    usernameElement.textContent =
-      player.username || "Spieler";
+    const checkCodeButton =
+      document.getElementById("checkCode");
 
+    const lockMessage =
+      document.getElementById("lockMessage");
 
-    scoreElement.textContent =
-      player.score || 0;
+    const successScreen =
+      document.getElementById("successScreen");
 
-
-    taskNumberElement.textContent =
-      player.task_number || 0;
+    const codeInputs =
+      document.querySelectorAll(".code-digit");
 
 
     /* =========================================
@@ -649,7 +1189,6 @@
       "black"
     ];
 
-
     const avatar =
       allowedAvatars.includes(player.avatar)
         ? player.avatar
@@ -657,33 +1196,702 @@
 
 
     avatarElement.className =
-      "avatar " + avatar;
+      "player-avatar " + avatar;
 
 
     /* =========================================
-       BUTTON
+       USERNAME
+       ========================================= */
+
+    usernameElement.textContent =
+      player.username || "Spieler";
+
+
+    /* =========================================
+       SPIELSTAND
+       ========================================= */
+
+    let clickCount =
+      Number(
+        localStorage.getItem(
+          "buttonGameClicks"
+        )
+      ) || 0;
+
+
+    let currentTask =
+      Number(
+        localStorage.getItem(
+          "buttonGameTask"
+        )
+      ) || 1;
+
+
+    let puzzleSolved =
+      localStorage.getItem(
+        "buttonGamePuzzle1Solved"
+      ) === "true";
+
+
+    clickCountElement.textContent =
+      clickCount;
+
+
+    taskNumberElement.textContent =
+      currentTask;
+
+
+    /* =========================================
+       BEREITS GELÖST?
+       ========================================= */
+
+    if (puzzleSolved) {
+
+      statusElement.textContent =
+        "Aufgabe 1 bereits gelöst.";
+
+    }
+
+
+    /* =========================================
+       SPIELSTAND SPEICHERN
+       ========================================= */
+
+    function saveGame() {
+
+      localStorage.setItem(
+        "buttonGameClicks",
+        String(clickCount)
+      );
+
+      localStorage.setItem(
+        "buttonGameTask",
+        String(currentTask)
+      );
+
+      localStorage.setItem(
+        "buttonGamePuzzle1Solved",
+        puzzleSolved
+          ? "true"
+          : "false"
+      );
+
+
+      /*
+       * Den aktuellen Spieler ebenfalls
+       * aktualisieren.
+       */
+
+      player.score =
+        clickCount;
+
+      player.task_number =
+        currentTask;
+
+
+      localStorage.setItem(
+        "buttonGamePlayer",
+        JSON.stringify(player)
+      );
+
+    }
+
+
+    /* =========================================
+       BUTTON KLICK
        ========================================= */
 
     gameButton.addEventListener(
       "click",
       function() {
 
+        if (puzzleSolved) {
+
+          statusElement.textContent =
+            "Aufgabe 1 ist bereits gelöst.";
+
+          return;
+        }
+
+
+        clickCount++;
+
+
+        clickCountElement.textContent =
+          clickCount;
+
+
+        saveGame();
+
+
+        /* =====================================
+           10. KLICK
+           ===================================== */
+
+        if (clickCount >= 10) {
+
+          gameButton.disabled = true;
+
+          statusElement.textContent =
+            "Etwas stimmt hier nicht …";
+
+
+          setTimeout(
+            function() {
+
+              openPuzzle();
+
+            },
+            350
+          );
+
+          return;
+        }
+
+
+        /* =====================================
+           NORMALE KLICKS
+           ===================================== */
+
+        const remaining =
+          10 - clickCount;
+
+
+        if (remaining === 1) {
+
+          statusElement.textContent =
+            "Noch 1 Klick …";
+
+        } else {
+
+          statusElement.textContent =
+            "Noch " +
+            remaining +
+            " Klicks.";
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       PUZZLE ÖFFNEN
+       ========================================= */
+
+    function openPuzzle() {
+
+      puzzleOverlay.classList.add(
+        "active"
+      );
+
+
+      /*
+       * Schloss wieder in die
+       * Ausgangsposition setzen.
+       */
+
+      lock.style.transform =
+        "translate(-50%, -50%)";
+
+
+      lock.style.left =
+        "50%";
+
+      lock.style.top =
+        "50%";
+
+
+      lockMessage.textContent = "";
+
+      lockMessage.className =
+        "lock-message";
+
+
+      codeInputs.forEach(
+        function(input) {
+
+          input.value = "";
+
+        }
+      );
+
+
+      setTimeout(
+        function() {
+
+          codeInputs[0].focus();
+
+        },
+        250
+      );
+
+    }
+
+
+    /* =========================================
+       CODE-EINGABE
+       ========================================= */
+
+    codeInputs.forEach(
+      function(input, index) {
+
+        input.addEventListener(
+          "input",
+          function() {
+
+            /*
+             * Nur Zahlen zulassen.
+             */
+
+            input.value =
+              input.value.replace(
+                /[^0-9]/g,
+                ""
+              );
+
+
+            /*
+             * Automatisch zum
+             * nächsten Feld.
+             */
+
+            if (
+              input.value &&
+              index <
+              codeInputs.length - 1
+            ) {
+
+              codeInputs[
+                index + 1
+              ].focus();
+
+            }
+
+          }
+        );
+
+
+        input.addEventListener(
+          "keydown",
+          function(event) {
+
+            if (
+              event.key === "Backspace" &&
+              !input.value &&
+              index > 0
+            ) {
+
+              codeInputs[
+                index - 1
+              ].focus();
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+    /* =========================================
+       CODE PRÜFEN
+       ========================================= */
+
+    checkCodeButton.addEventListener(
+      "click",
+      checkCode
+    );
+
+
+    function checkCode() {
+
+      let enteredCode = "";
+
+
+      codeInputs.forEach(
+        function(input) {
+
+          enteredCode +=
+            input.value;
+
+        }
+      );
+
+
+      if (
+        enteredCode.length !== 4
+      ) {
+
+        lockMessage.textContent =
+          "Bitte alle 4 Zahlen eingeben.";
+
+        lockMessage.className =
+          "lock-message error";
+
+        return;
+      }
+
+
+      /*
+       * Der Code dieser Aufgabe.
+       */
+
+      const correctCode =
+        "5831";
+
+
+      if (
+        enteredCode === correctCode
+      ) {
+
+        solvePuzzle();
+
+      } else {
+
+        lockMessage.textContent =
+          "Falscher Code.";
+
+        lockMessage.className =
+          "lock-message error";
+
+
         /*
-         * Vorerst nur Testfunktion.
-         * Die echten Aufgaben kommen später.
+         * Eingabe leeren.
          */
 
-        statusElement.textContent =
-          "BUTTON GEDRÜCKT.";
+        codeInputs.forEach(
+          function(input) {
 
-        gameButton.textContent =
-          "NOCHMAL";
+            input.value = "";
 
-        console.log(
-          "THE BUTTON GAME:",
-          player.username,
-          "hat den Button gedrückt."
+          }
         );
+
+
+        codeInputs[0].focus();
+
+      }
+
+    }
+
+
+    /* =========================================
+       AUFGABE LÖSEN
+       ========================================= */
+
+    function solvePuzzle() {
+
+      puzzleSolved = true;
+
+
+      currentTask = 2;
+
+
+      saveGame();
+
+
+      lockMessage.textContent =
+        "CODE RICHTIG!";
+
+      lockMessage.className =
+        "lock-message success";
+
+
+      /*
+       * Kurze Verzögerung,
+       * dann Erfolg anzeigen.
+       */
+
+      setTimeout(
+        function() {
+
+          successScreen.classList.add(
+            "active"
+          );
+
+
+          taskNumberElement.textContent =
+            currentTask;
+
+
+          statusElement.textContent =
+            "Aufgabe 1 gelöst.";
+
+        },
+        450
+      );
+
+    }
+
+
+    /* =========================================
+       SCHLOSS ZIEHEN
+       ========================================= */
+
+    let dragging = false;
+
+    let dragStartY = 0;
+
+    let originalTop = 0;
+
+
+    function startDrag(event) {
+
+      /*
+       * Nicht auf den Eingabefeldern
+       * oder dem Button starten.
+       */
+
+      if (
+        event.target.closest(
+          ".code-digit"
+        ) ||
+        event.target.closest(
+          ".check-code"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      dragging = true;
+
+
+      lock.classList.add(
+        "dragging"
+      );
+
+
+      const rect =
+        lock.getBoundingClientRect();
+
+
+      dragStartY =
+        event.clientY ||
+        event.touches?.[0]?.clientY ||
+        0;
+
+
+      originalTop =
+        rect.top;
+
+
+      event.preventDefault();
+
+    }
+
+
+    function moveDrag(event) {
+
+      if (!dragging) {
+        return;
+      }
+
+
+      const currentY =
+        event.clientY ||
+        event.touches?.[0]?.clientY ||
+        0;
+
+
+      const difference =
+        currentY - dragStartY;
+
+
+      /*
+       * Schloss darf nur
+       * nach unten gezogen werden.
+       */
+
+      const newTop =
+        Math.max(
+          originalTop,
+          originalTop + difference
+        );
+
+
+      lock.style.top =
+        newTop + "px";
+
+
+      lock.style.transform =
+        "translateX(-50%)";
+
+
+      /*
+       * Wenn weit genug nach unten
+       * gezogen wurde, gilt der Hinweis
+       * als vollständig freigelegt.
+       */
+
+      if (
+        difference > 250
+      ) {
+
+        lock.classList.remove(
+          "dragging"
+        );
+
+        dragging = false;
+
+        lock.style.transition =
+          "top 0.25s ease";
+
+
+        lock.style.top =
+          "calc(100% + 100px)";
+
+
+        setTimeout(
+          function() {
+
+            lock.style.transition =
+              "";
+
+            statusElement.textContent =
+              "Der Hinweis ist sichtbar. Finde den Code.";
+
+          },
+          250
+        );
+
+      }
+
+
+      event.preventDefault();
+
+    }
+
+
+    function stopDrag() {
+
+      if (!dragging) {
+        return;
+      }
+
+
+      dragging = false;
+
+
+      lock.classList.remove(
+        "dragging"
+      );
+
+
+      /*
+       * Wenn nur ein kleines Stück
+       * gezogen wurde, zurück zur Mitte.
+       */
+
+      lock.style.transition =
+        "top 0.25s ease";
+
+
+      lock.style.top =
+        "50%";
+
+
+      lock.style.transform =
+        "translate(-50%, -50%)";
+
+
+      setTimeout(
+        function() {
+
+          lock.style.transition =
+            "";
+
+        },
+        250
+      );
+
+    }
+
+
+    /* =========================================
+       MOUSE
+       ========================================= */
+
+    lock.addEventListener(
+      "mousedown",
+      startDrag
+    );
+
+
+    window.addEventListener(
+      "mousemove",
+      moveDrag
+    );
+
+
+    window.addEventListener(
+      "mouseup",
+      stopDrag
+    );
+
+
+    /* =========================================
+       TOUCH
+       ========================================= */
+
+    lock.addEventListener(
+      "touchstart",
+      startDrag,
+      {
+        passive: false
+      }
+    );
+
+
+    window.addEventListener(
+      "touchmove",
+      moveDrag,
+      {
+        passive: false
+      }
+    );
+
+
+    window.addEventListener(
+      "touchend",
+      stopDrag
+    );
+
+
+    /* =========================================
+       SPEICHERN BEIM VERLASSEN
+       ========================================= */
+
+    window.addEventListener(
+      "beforeunload",
+      function() {
+
+        saveGame();
+
+      }
+    );
+
+
+    /*
+     * Auch bei Tab-Wechsel speichern.
+     */
+
+    document.addEventListener(
+      "visibilitychange",
+      function() {
+
+        if (
+          document.visibilityState ===
+          "hidden"
+        ) {
+
+          saveGame();
+
+        }
 
       }
     );
