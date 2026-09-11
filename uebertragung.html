@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MTRIPS LIVE – Übertragung</title>
+
+<style>
+
+*{
+    box-sizing:border-box
+}
+
+html,
+body{
+    margin:0;
+    width:100%;
+    height:100%;
+    background:#000;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif
+}
+
+body{
+    display:flex;
+    align-items:center;
+    justify-content:center
+}
+
+#video{
+    width:100vw;
+    height:100vh;
+    object-fit:contain;
+    background:#000;
+    display:block
+}
+
+#waiting{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    background:#000;
+    z-index:5;
+    font-size:18px;
+    text-align:center;
+    padding:30px
+}
+
+#waiting .box{
+    max-width:600px
+}
+
+#waiting strong{
+    display:block;
+    font-size:28px;
+    margin-bottom:12px
+}
+
+#waiting button{
+    border:0;
+    border-radius:6px;
+    background:#2563eb;
+    color:#fff;
+    font-weight:700;
+    padding:12px 20px;
+    cursor:pointer;
+    margin-top:18px
+}
+
+#waiting button:hover{
+    background:#1d4ed8
+}
+
+#fullscreen{
+    position:fixed;
+    right:14px;
+    top:14px;
+    z-index:10;
+    border:0;
+    border-radius:5px;
+    background:rgba(15,23,42,.85);
+    color:#fff;
+    padding:9px 12px;
+    font-weight:700;
+    cursor:pointer;
+    opacity:.35;
+    transition:.2s
+}
+
+#fullscreen:hover{
+    opacity:1
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="waiting">
+
+    <div class="box">
+
+        <strong>
+            MTRIPS LIVE
+        </strong>
+
+        <span id="waitingText">
+            Warte auf die Regie...
+        </span>
+
+        <br>
+
+        <button onclick="requestFullscreen()">
+            Übertragung auf Vollbild
+        </button>
+
+    </div>
+
+</div>
+
+
+<video
+    id="video"
+    autoplay
+    playsinline>
+</video>
+
+
+<button
+    id="fullscreen"
+    onclick="requestFullscreen()">
+    Vollbild
+</button>
+
+
+<script>
+
+const CHANNEL_NAME =
+    "mtrips-live-regie-v1";
+
+
+const channel =
+    new BroadcastChannel(
+        CHANNEL_NAME
+    );
+
+
+const video =
+    document.getElementById(
+        "video"
+    );
+
+
+const waiting =
+    document.getElementById(
+        "waiting"
+    );
+
+
+const waitingText =
+    document.getElementById(
+        "waitingText"
+    );
+
+
+let pc = null;
+
+let pendingCandidates = [];
+
+
+function showWaiting(text){
+
+    waiting.style.display =
+        "flex";
+
+    waitingText.textContent =
+        text;
+
+}
+
+
+function hideWaiting(){
+
+    waiting.style.display =
+        "none";
+
+}
+
+
+function createPeer(){
+
+    if(pc){
+        pc.close();
+    }
+
+
+    pc =
+        new RTCPeerConnection({
+            iceServers:[]
+        });
+
+
+    pc.onicecandidate =
+        event => {
+
+            if(event.candidate){
+
+                channel.postMessage({
+
+                    type:
+                        "ICE_FROM_TRANSMISSION",
+
+                    candidate:
+                        event.candidate
+
+                });
+
+            }
+
+        };
+
+
+    pc.ontrack =
+        event => {
+
+            const incoming =
+                event.streams[0] ||
+                new MediaStream([
+                    event.track
+                ]);
+
+
+            video.srcObject =
+                incoming;
+
+
+            video
+                .play()
+                .catch(()=>{});
+
+
+            hideWaiting();
+
+        };
+
+
+    pc.onconnectionstatechange =
+        () => {
+
+            if(!pc){
+                return;
+            }
+
+
+            if(
+                [
+                    "failed",
+                    "disconnected",
+                    "closed"
+                ].includes(
+                    pc.connectionState
+                )
+            ){
+
+                showWaiting(
+                    "Verbindung zur Regie verloren."
+                );
+
+            }
+
+        };
+
+
+    return pc;
+
+}
+
+
+channel.onmessage =
+    async event => {
+
+        const data =
+            event.data || {};
+
+
+        if(
+            data.type ===
+            "OFFER"
+        ){
+
+            try{
+
+                const peer =
+                    createPeer();
+
+
+                await peer.setRemoteDescription(
+                    data.description
+                );
+
+
+                for(
+                    const candidate
+                    of pendingCandidates
+                ){
+
+                    await peer.addIceCandidate(
+                        candidate
+                    );
+
+                }
+
+
+                pendingCandidates = [];
+
+
+                const answer =
+                    await peer.createAnswer();
+
+
+                await peer.setLocalDescription(
+                    answer
+                );
+
+
+                channel.postMessage({
+
+                    type:
+                        "ANSWER_FROM_TRANSMISSION",
+
+                    description:
+                        peer.localDescription
+
+                });
+
+            }
+
+            catch(error){
+
+                console.error(error);
+
+                showWaiting(
+                    "Die Verbindung konnte nicht aufgebaut werden."
+                );
+
+            }
+
+            return;
+
+        }
+
+
+        if(
+            data.type ===
+            "ICE_FROM_REGIE"
+        ){
+
+            if(
+                !pc ||
+                !pc.remoteDescription
+            ){
+
+                pendingCandidates.push(
+                    data.candidate
+                );
+
+            }
+
+            else{
+
+                try{
+
+                    await pc.addIceCandidate(
+                        data.candidate
+                    );
+
+                }
+
+                catch(error){
+
+                    console.error(error);
+
+                }
+
+            }
+
+            return;
+
+        }
+
+    };
+
+
+channel.postMessage({
+
+    type:
+        "TRANSMISSION_HELLO"
+
+});
+
+
+function requestFullscreen(){
+
+    if(!document.fullscreenElement){
+
+        document
+            .documentElement
+            .requestFullscreen()
+            .catch(()=>{});
+
+    }
+
+    else{
+
+        document
+            .exitFullscreen()
+            .catch(()=>{});
+
+    }
+
+}
+
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        channel.postMessage({
+
+            type:
+                "TRANSMISSION_CLOSED"
+
+        });
+
+
+        if(pc){
+
+            pc.close();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
