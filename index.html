@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MTRIPS LIVE</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background: #050505;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    header {
+        padding: 20px;
+        background: #111;
+        border-bottom: 2px solid #e00000;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 28px;
+    }
+
+    .live {
+        color: red;
+        font-weight: bold;
+    }
+
+    main {
+        padding: 25px;
+    }
+
+    video {
+        width: 90%;
+        max-width: 1200px;
+        background: #000;
+        border: 3px solid #333;
+        border-radius: 8px;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 14px 25px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        background: #d00000;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #ff0000;
+    }
+
+    #status {
+        margin-top: 15px;
+        color: #aaa;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1><span class="live">● LIVE</span> MTRIPS</h1>
+</header>
+
+<main>
+
+    <h2>Minecraft Live</h2>
+
+    <video id="minecraft" autoplay playsinline></video>
+
+    <br>
+
+    <button id="start">
+        Minecraft übertragen
+    </button>
+
+    <div id="status">
+        Noch keine Übertragung gestartet.
+    </div>
+
+</main>
+
+<script>
+
+const video = document.getElementById("minecraft");
+const button = document.getElementById("start");
+const status = document.getElementById("status");
+
+let stream = null;
+
+button.addEventListener("click", async () => {
+
+    try {
+
+        status.textContent = "Bitte Minecraft-Fenster auswählen...";
+
+        stream = await navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: true
+        });
+
+        video.srcObject = stream;
+
+        status.textContent = "● LIVE – Minecraft wird übertragen.";
+
+        button.textContent = "Übertragung läuft";
+
+        stream.getVideoTracks()[0].addEventListener("ended", () => {
+
+            video.srcObject = null;
+
+            status.textContent = "Übertragung beendet.";
+
+            button.textContent = "Minecraft übertragen";
+
+            stream = null;
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "Übertragung wurde abgebrochen.";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
