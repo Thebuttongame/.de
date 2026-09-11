@@ -1,301 +1,1041 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>A + M ♡</title>
+<title>A + M ♡</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
 
-        html {
-            scroll-behavior: smooth;
-        }
+/* =========================================================
+   GRUNDLAGEN
+========================================================= */
 
-        body {
-            margin: 0;
-            background: #fff8f5;
-            color: #594642;
-            font-family: Arial, sans-serif;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        /* HERO */
+html {
+    scroll-behavior: smooth;
+}
 
-        .hero {
-            min-height: 90vh;
+body {
+    margin: 0;
+    min-height: 100vh;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(255, 214, 222, .75),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(255, 231, 211, .8),
+            transparent 30%
+        ),
+        #fff8f5;
 
-            text-align: center;
+    color: #594642;
 
-            padding: 30px;
-        }
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
 
-        .hero-content {
-            animation: appear 1.2s ease;
-        }
 
-        .little {
-            font-size: 12px;
-            letter-spacing: 5px;
-            color: #a9918b;
-            margin-bottom: 25px;
-        }
+/* =========================================================
+   ZUGANG
+========================================================= */
 
-        h1 {
-            margin: 0;
+#lockScreen {
 
-            font-family: Georgia, serif;
+    position: fixed;
 
-            font-size: clamp(90px, 17vw, 180px);
+    inset: 0;
 
-            line-height: 0.9;
+    z-index: 9999;
 
-            color: #594642;
-        }
+    display: flex;
 
-        h1 span {
-            color: #cf7e91;
-        }
+    align-items: center;
+    justify-content: center;
 
-        .heart {
-            font-family: Georgia, serif;
+    padding: 25px;
 
-            font-size: 65px;
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            #f8dce2,
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            #f6e5d4,
+            transparent 35%
+        ),
+        #fff8f5;
+}
 
-            color: #cf7e91;
+.lockBox {
 
-            margin: 25px 0 10px;
+    width: min(420px, 100%);
 
-            animation: heartbeat 3s infinite ease-in-out;
-        }
+    padding: 42px 30px;
 
-        .subtitle {
-            color: #a9918b;
-            font-size: 17px;
-        }
+    text-align: center;
 
+    background: rgba(255,255,255,.92);
 
-        /* INTRO */
+    border-radius: 30px;
 
-        .intro {
-            text-align: center;
+    box-shadow:
+        0 25px 80px rgba(80,55,50,.15);
 
-            padding: 40px 20px 60px;
-        }
+    animation: appear .8s ease;
+}
 
-        .intro-small {
-            color: #b3687b;
+.lockLogo {
 
-            font-size: 11px;
+    font-family: Georgia, serif;
 
-            letter-spacing: 3px;
-        }
+    font-size: 65px;
 
-        .intro h2 {
-            font-family: Georgia, serif;
+    margin-bottom: 5px;
+}
 
-            font-size: clamp(32px, 6vw, 55px);
+.lockLogo span {
+    color: #cf7e91;
+}
 
-            margin: 10px 0;
+.lockSmall {
 
-            font-weight: normal;
-        }
+    font-size: 10px;
 
+    letter-spacing: 4px;
 
-        /* BILDER */
+    color: #a9918b;
 
-        .memories {
+    margin-bottom: 28px;
+}
 
-            width: min(1100px, calc(100% - 30px));
+.lockBox h1 {
 
-            margin: auto;
+    margin: 0 0 10px;
 
-            padding-bottom: 100px;
+    font-family: Georgia, serif;
 
-            display: grid;
+    font-size: 30px;
 
-            grid-template-columns:
-                repeat(auto-fit, minmax(280px, 1fr));
+    font-weight: normal;
+}
 
-            gap: 30px;
-        }
+.lockBox p {
 
+    color: #8b7771;
 
-        .memory {
+    line-height: 1.6;
 
-            background: white;
+    margin-bottom: 25px;
+}
 
-            padding: 14px;
+.codeInput {
 
-            border-radius: 22px;
+    width: 100%;
 
-            box-shadow:
-                0 15px 45px rgba(80, 55, 50, 0.10);
+    padding: 16px;
 
-            transition: 0.3s;
-        }
+    border: 1px solid #eaded8;
 
-        .memory:hover {
+    border-radius: 15px;
 
-            transform: translateY(-7px);
+    background: #fffdfb;
 
-            box-shadow:
-                0 25px 60px rgba(80, 55, 50, 0.16);
-        }
+    text-align: center;
 
+    font-size: 20px;
 
-        .memory-image {
+    letter-spacing: 4px;
 
-            width: 100%;
+    outline: none;
+}
 
-            aspect-ratio: 4 / 3;
+.codeInput:focus {
+    border-color: #cf7e91;
+}
 
-            border-radius: 16px;
+.enterButton {
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #f4e3e5,
-                    #f8eee5
-                );
+    width: 100%;
 
-            display: flex;
+    margin-top: 14px;
 
-            justify-content: center;
+    padding: 16px;
 
-            align-items: center;
+    border: none;
 
-            color: #cf7e91;
+    border-radius: 15px;
 
-            font-family: Georgia, serif;
+    background: #cf7e91;
 
-            font-size: 45px;
+    color: white;
 
-            overflow: hidden;
-        }
+    font-weight: bold;
 
-        .memory-image img {
+    font-size: 15px;
 
-            width: 100%;
-            height: 100%;
+    cursor: pointer;
+}
 
-            object-fit: cover;
-        }
+.enterButton:hover {
+    opacity: .9;
+}
 
+.lockError {
 
-        .memory-content {
+    min-height: 22px;
 
-            padding: 18px 5px 8px;
-        }
+    margin-top: 13px;
 
-        .date {
+    color: #b35d6d;
 
-            font-size: 10px;
+    font-size: 13px;
+}
 
-            letter-spacing: 2px;
 
-            color: #cf7e91;
-        }
+/* =========================================================
+   HAUPTSEITE
+========================================================= */
 
-        .memory h3 {
+#site {
+    display: none;
+}
 
-            font-family: Georgia, serif;
 
-            font-size: 25px;
+/* =========================================================
+   HEADER
+========================================================= */
 
-            font-weight: normal;
+.hero {
 
-            margin: 8px 0;
-        }
+    min-height: 72vh;
 
-        .memory p {
+    display: flex;
 
-            color: #806d67;
+    justify-content: center;
 
-            line-height: 1.7;
+    align-items: center;
 
-            margin: 0;
-        }
+    text-align: center;
 
+    padding: 40px 20px;
+}
 
-        /* FOOTER */
+.heroContent {
+    animation: appear 1s ease;
+}
 
-        footer {
+.heroSmall {
 
-            text-align: center;
+    color: #a9918b;
 
-            padding: 35px 20px 60px;
+    font-size: 11px;
 
-            color: #a9918b;
+    letter-spacing: 5px;
 
-            font-size: 13px;
-        }
+    margin-bottom: 25px;
+}
 
+.hero h1 {
 
-        /* ANIMATION */
+    margin: 0;
 
-        @keyframes heartbeat {
+    font-family: Georgia, serif;
 
-            0%, 100% {
-                transform: scale(1);
-            }
+    font-weight: normal;
 
-            50% {
-                transform: scale(1.08);
-            }
-        }
+    font-size:
+        clamp(90px, 18vw, 190px);
 
+    line-height: .8;
+}
 
-        @keyframes appear {
+.hero h1 span {
+    color: #cf7e91;
+}
 
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
+.heroHeart {
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    margin-top: 30px;
 
+    font-family: Georgia, serif;
 
-        /* HANDY */
+    font-size: 70px;
 
-        @media (max-width: 600px) {
+    color: #cf7e91;
 
-            .hero {
-                min-height: 75vh;
-            }
+    animation:
+        heartbeat 3s ease-in-out infinite;
+}
 
-            .memories {
-                width: calc(100% - 20px);
-            }
+.heroSubtitle {
 
-        }
+    color: #a9918b;
 
-    </style>
+    font-size: 17px;
+
+    margin-top: 8px;
+}
+
+
+/* =========================================================
+   INHALT
+========================================================= */
+
+.content {
+
+    width: min(
+        1450px,
+        calc(100% - 30px)
+    );
+
+    margin: auto;
+
+    padding-bottom: 100px;
+}
+
+.layout {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        360px;
+
+    gap: 35px;
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   FOTO-BEREICH
+========================================================= */
+
+.memoriesTitle {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.memoriesTitle .small {
+
+    color: #cf7e91;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+}
+
+.memoriesTitle h2 {
+
+    font-family: Georgia, serif;
+
+    font-size: 42px;
+
+    font-weight: normal;
+
+    margin: 8px 0;
+}
+
+.memoriesTitle p {
+
+    color: #8b7771;
+
+    margin: 0;
+}
+
+
+/* =========================================================
+   POLAROID-GRID
+========================================================= */
+
+.photoGrid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(230px, 1fr)
+        );
+
+    gap: 35px;
+
+    align-items: start;
+}
+
+.polaroid {
+
+    position: relative;
+
+    padding: 12px 12px 25px;
+
+    background: #fff;
+
+    box-shadow:
+        0 15px 35px
+        rgba(70,50,45,.15);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+
+    animation:
+        polaroidAppear .7s ease both;
+}
+
+.polaroid:nth-child(3n + 1) {
+    transform: rotate(-2deg);
+}
+
+.polaroid:nth-child(3n + 2) {
+    transform: rotate(1.5deg);
+}
+
+.polaroid:nth-child(3n) {
+    transform: rotate(-.7deg);
+}
+
+.polaroid:hover {
+
+    transform:
+        translateY(-8px)
+        rotate(0deg)
+        scale(1.02);
+
+    box-shadow:
+        0 25px 50px
+        rgba(70,50,45,.20);
+
+    z-index: 5;
+}
+
+.polaroidImage {
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    background: #f4e6e3;
+
+    overflow: hidden;
+}
+
+.polaroidImage img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+.polaroidText {
+
+    padding: 12px 7px 0;
+}
+
+.polaroidText h3 {
+
+    margin: 0 0 5px;
+
+    font-family: Georgia, serif;
+
+    font-size: 20px;
+
+    font-weight: normal;
+}
+
+.polaroidText p {
+
+    margin: 0;
+
+    color: #806d67;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+.polaroidDate {
+
+    margin-top: 8px;
+
+    color: #b18b83;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   FOTO HINZUFÜGEN
+========================================================= */
+
+.addCard {
+
+    margin-top: 45px;
+
+    padding: 25px;
+
+    background: rgba(255,255,255,.8);
+
+    border:
+        1px solid #eaded8;
+
+    border-radius: 24px;
+
+    text-align: center;
+}
+
+.addCard h3 {
+
+    margin: 0 0 8px;
+
+    font-family: Georgia, serif;
+
+    font-size: 26px;
+
+    font-weight: normal;
+}
+
+.addCard p {
+
+    color: #8b7771;
+
+    font-size: 13px;
+}
+
+.addButton {
+
+    display: inline-block;
+
+    padding: 13px 22px;
+
+    margin-top: 8px;
+
+    background: #cf7e91;
+
+    color: white;
+
+    border-radius: 13px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    font-size: 14px;
+}
+
+.addButton:hover {
+    opacity: .9;
+}
+
+#photoInput {
+    display: none;
+}
+
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+.chat {
+
+    position: sticky;
+
+    top: 20px;
+
+    height: calc(100vh - 40px);
+
+    min-height: 500px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background:
+        rgba(255,255,255,.88);
+
+    border:
+        1px solid #eaded8;
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(80,55,50,.12);
+
+    overflow: hidden;
+}
+
+.chatHeader {
+
+    padding: 23px 22px 18px;
+
+    border-bottom:
+        1px solid #eee2de;
+
+    background:
+        rgba(255,250,248,.9);
+}
+
+.chatHeaderTitle {
+
+    font-family: Georgia, serif;
+
+    font-size: 26px;
+}
+
+.chatHeaderSmall {
+
+    margin-top: 3px;
+
+    color: #a9918b;
+
+    font-size: 11px;
+}
+
+.chatMessages {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 25px 18px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+/* Gedankenblasen */
+
+.bubble {
+
+    max-width: 85%;
+
+    padding: 12px 16px;
+
+    border-radius: 20px 20px 20px 5px;
+
+    background: #f6e5e6;
+
+    color: #67514c;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    align-self: flex-start;
+
+    position: relative;
+
+    animation:
+        bubbleIn .45s ease;
+}
+
+.bubble::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 5px;
+
+    bottom: -5px;
+
+    width: 11px;
+
+    height: 11px;
+
+    background: #f6e5e6;
+
+    border-radius: 50%;
+}
+
+.bubble.mine {
+
+    align-self: flex-end;
+
+    border-radius:
+        20px 20px 5px 20px;
+
+    background: #f0d4da;
+}
+
+.bubble.mine::after {
+
+    left: auto;
+
+    right: 5px;
+
+    background: #f0d4da;
+}
+
+.bubbleName {
+
+    font-size: 10px;
+
+    color: #b36e7e;
+
+    margin-bottom: 3px;
+
+    font-weight: bold;
+}
+
+.bubbleTime {
+
+    font-size: 9px;
+
+    color: #ae9993;
+
+    margin-top: 5px;
+
+    text-align: right;
+}
+
+
+/* Chat Eingabe */
+
+.chatInputArea {
+
+    padding: 15px;
+
+    border-top:
+        1px solid #eee2de;
+
+    background:
+        rgba(255,250,248,.95);
+}
+
+.chatInputRow {
+
+    display: flex;
+
+    gap: 8px;
+}
+
+.chatInput {
+
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 13px 15px;
+
+    border:
+        1px solid #eaded8;
+
+    border-radius: 17px;
+
+    outline: none;
+
+    background: white;
+
+    font: inherit;
+
+    color: #594642;
+}
+
+.chatSend {
+
+    width: 48px;
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #cf7e91;
+
+    color: white;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+.chatSend:hover {
+    opacity: .9;
+}
+
+.chatHint {
+
+    margin-top: 7px;
+
+    text-align: center;
+
+    color: #b09c96;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    text-align: center;
+
+    color: #a9918b;
+
+    padding: 25px 20px 60px;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   ANIMATIONEN
+========================================================= */
+
+@keyframes heartbeat {
+
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+@keyframes appear {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes polaroidAppear {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(20px)
+            rotate(0deg);
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bubbleIn {
+
+    from {
+        opacity: 0;
+        transform:
+            translateY(8px)
+            scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   TABLET / HANDY
+========================================================= */
+
+@media (max-width: 950px) {
+
+    .layout {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .chat {
+
+        position: relative;
+
+        top: auto;
+
+        height: 550px;
+
+        min-height: 0;
+
+        order: 2;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .hero {
+
+        min-height: 65vh;
+
+    }
+
+    .content {
+
+        width:
+            calc(100% - 18px);
+
+    }
+
+    .photoGrid {
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 18px;
+
+    }
+
+    .polaroid {
+
+        padding: 8px 8px 17px;
+
+    }
+
+    .polaroidText h3 {
+
+        font-size: 16px;
+
+    }
+
+    .polaroidText p {
+
+        font-size: 11px;
+
+    }
+
+    .memoriesTitle h2 {
+
+        font-size: 34px;
+
+    }
+
+}
+
+@media (max-width: 430px) {
+
+    .photoGrid {
+
+        grid-template-columns: 1fr;
+
+        max-width: 320px;
+
+        margin: auto;
+
+    }
+
+}
+
+</style>
 </head>
 
 
 <body>
 
 
-    <!-- =====================
-         START
-    ====================== -->
+<!-- =====================================================
+     CODE-SCHUTZ
+====================================================== -->
+
+<section id="lockScreen">
+
+    <div class="lockBox">
+
+        <div class="lockLogo">
+            A <span>+</span> M ♡
+        </div>
+
+        <div class="lockSmall">
+            OUR LITTLE PLACE
+        </div>
+
+        <h1>
+            Nur für uns
+        </h1>
+
+        <p>
+            Gib unseren kleinen Code ein,
+            um unsere gemeinsame Seite zu öffnen.
+        </p>
+
+        <input
+            id="codeInput"
+            class="codeInput"
+            type="password"
+            inputmode="numeric"
+            placeholder="••••••"
+            maxlength="6"
+            autocomplete="off"
+        >
+
+        <button
+            class="enterButton"
+            onclick="unlock()"
+        >
+            Öffnen ♡
+        </button>
+
+        <div
+            id="lockError"
+            class="lockError"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     HAUPTSEITE
+====================================================== -->
+
+<div id="site">
+
+
+    <!-- HERO -->
 
     <section class="hero">
 
-        <div class="hero-content">
+        <div class="heroContent">
 
-            <div class="little">
+            <div class="heroSmall">
                 OUR LITTLE PLACE
             </div>
 
@@ -303,11 +1043,11 @@
                 A <span>+</span> M
             </h1>
 
-            <div class="heart">
+            <div class="heroHeart">
                 ♡
             </div>
 
-            <div class="subtitle">
+            <div class="heroSubtitle">
                 Ein kleiner Ort nur für uns.
             </div>
 
@@ -317,90 +1057,724 @@
 
 
 
-    <!-- =====================
-         ERINNERUNGEN
-    ====================== -->
+    <!-- INHALT -->
 
-    <section class="intro">
+    <main class="content">
 
-        <div class="intro-small">
-            SCHÖN, DASS DU HIER BIST
+        <div class="layout">
+
+
+            <!-- =================================================
+                 FOTOS
+            ================================================== -->
+
+            <section>
+
+                <div class="memoriesTitle">
+
+                    <div class="small">
+                        UNSERE MOMENTE
+                    </div>
+
+                    <h2>
+                        Kleine Erinnerungen
+                    </h2>
+
+                    <p>
+                        Bilder, Gedanken und kleine Momente,
+                        die uns gehören.
+                    </p>
+
+                </div>
+
+
+                <div
+                    id="photoGrid"
+                    class="photoGrid"
+                >
+
+
+                    <!-- Beispiel-Polaroid -->
+
+                    <article class="polaroid">
+
+                        <div class="polaroidImage">
+
+                            <div
+                                style="
+                                width:100%;
+                                height:100%;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                color:#cf7e91;
+                                font-family:Georgia,serif;
+                                font-size:45px;
+                                "
+                            >
+                                ♡
+                            </div>
+
+                        </div>
+
+                        <div class="polaroidText">
+
+                            <h3>
+                                Unser kleiner Ort
+                            </h3>
+
+                            <p>
+                                Hier entstehen später
+                                unsere gemeinsamen Erinnerungen.
+                            </p>
+
+                            <div class="polaroidDate">
+                                A + M
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                </div>
+
+
+
+                <!-- FOTO HINZUFÜGEN -->
+
+                <div class="addCard">
+
+                    <h3>
+                        Einen Moment hinzufügen
+                    </h3>
+
+                    <p>
+                        Such ein Bild aus und schreib,
+                        wenn du möchtest, ein paar Worte dazu.
+                    </p>
+
+
+                    <label
+                        for="photoInput"
+                        class="addButton"
+                    >
+                        + Bild hinzufügen
+                    </label>
+
+
+                    <input
+                        id="photoInput"
+                        type="file"
+                        accept="image/*"
+                        onchange="addPhoto(event)"
+                    >
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 CHAT
+            ================================================== -->
+
+            <aside class="chat">
+
+
+                <div class="chatHeader">
+
+                    <div class="chatHeaderTitle">
+                        Unsere Gedanken
+                    </div>
+
+                    <div class="chatHeaderSmall">
+                        Nur wir zwei · unser kleiner Chat
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="chatMessages"
+                    class="chatMessages"
+                >
+
+
+                    <div class="bubble">
+
+                        <div class="bubbleName">
+                            A + M
+                        </div>
+
+                        Willkommen in unserem
+                        kleinen gemeinsamen Ort. ♡
+
+                        <div class="bubbleTime">
+                            gerade eben
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="chatInputArea">
+
+                    <div class="chatInputRow">
+
+                        <input
+                            id="chatInput"
+                            class="chatInput"
+                            type="text"
+                            maxlength="500"
+                            placeholder="Schreib einen Gedanken …"
+                            onkeydown="
+                                if(event.key === 'Enter')
+                                sendMessage()
+                            "
+                        >
+
+                        <button
+                            class="chatSend"
+                            onclick="sendMessage()"
+                            title="Senden"
+                        >
+                            ↑
+                        </button>
+
+                    </div>
+
+                    <div class="chatHint">
+                        Ein kleiner Gedanke für uns ♡
+                    </div>
+
+                </div>
+
+
+            </aside>
+
+
         </div>
 
-        <h2>
-            Unsere kleinen Momente
-        </h2>
-
-    </section>
-
-
-
-    <section class="memories">
-
-
-        <article class="memory">
-
-            <div class="memory-image">
-                ♡
-            </div>
-
-            <div class="memory-content">
-
-                <div class="date">
-                    UNSERE ERSTE ERINNERUNG
-                </div>
-
-                <h3>
-                    Einfach wir
-                </h3>
-
-                <p>
-                    Hier können später eure gemeinsamen
-                    Erinnerungen stehen.
-                </p>
-
-            </div>
-
-        </article>
-
-
-
-        <article class="memory">
-
-            <div class="memory-image">
-                ♡
-            </div>
-
-            <div class="memory-content">
-
-                <div class="date">
-                    EIN SCHÖNER MOMENT
-                </div>
-
-                <h3>
-                    Für immer gespeichert
-                </h3>
-
-                <p>
-                    Ein kleiner Text über einen Moment,
-                    den ihr nicht vergessen möchtet.
-                </p>
-
-            </div>
-
-        </article>
-
-
-    </section>
+    </main>
 
 
 
     <footer>
-
         A + M · unser kleiner Ort ♡
-
     </footer>
 
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   EINSTELLUNGEN
+========================================================= */
+
+/*
+   Euer gemeinsamer Zugangscode
+*/
+
+const ACCESS_CODE = "21.8.26";
+
+
+/*
+   Name für Nachrichten.
+   Später können wir daraus "A" und "M"
+   auswählbar machen.
+*/
+
+let MY_NAME = "A";
+
+
+/* =========================================================
+   CODE ÖFFNEN
+========================================================= */
+
+function unlock() {
+
+    const input =
+        document.getElementById("codeInput");
+
+    const error =
+        document.getElementById("lockError");
+
+    const entered =
+        input.value.trim();
+
+
+    if (entered === ACCESS_CODE) {
+
+        document.getElementById("lockScreen")
+            .style.display = "none";
+
+        document.getElementById("site")
+            .style.display = "block";
+
+
+        /*
+           Merkt sich die Freigabe für diesen Browser.
+        */
+
+        sessionStorage.setItem(
+            "AM_access",
+            "true"
+        );
+
+
+        error.textContent = "";
+
+    }
+
+    else {
+
+        error.textContent =
+            "Der Code stimmt noch nicht. ♡";
+
+        input.value = "";
+
+        input.focus();
+
+    }
+
+}
+
+
+/* =========================================================
+   CODE BEIM ÖFFNEN PRÜFEN
+========================================================= */
+
+if (
+    sessionStorage.getItem("AM_access")
+    === "true"
+) {
+
+    document.getElementById("lockScreen")
+        .style.display = "none";
+
+    document.getElementById("site")
+        .style.display = "block";
+
+}
+
+
+/* =========================================================
+   FOTO HINZUFÜGEN
+========================================================= */
+
+function addPhoto(event) {
+
+    const file =
+        event.target.files[0];
+
+
+    if (!file) {
+        return;
+    }
+
+
+    /*
+       Nur Bilder akzeptieren.
+    */
+
+    if (!file.type.startsWith("image/")) {
+
+        alert(
+            "Bitte nur ein Bild auswählen."
+        );
+
+        return;
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload = function(e) {
+
+
+        const grid =
+            document.getElementById("photoGrid");
+
+
+        const article =
+            document.createElement("article");
+
+
+        article.className =
+            "polaroid";
+
+
+        const imageURL =
+            e.target.result;
+
+
+        article.innerHTML = `
+
+            <div class="polaroidImage">
+
+                <img
+                    src="${imageURL}"
+                    alt="Unsere Erinnerung"
+                >
+
+            </div>
+
+
+            <div class="polaroidText">
+
+                <h3>
+                    Ein kleiner Moment
+                </h3>
+
+                <p>
+                    Ein Bild von uns. ♡
+                </p>
+
+                <div class="polaroidDate">
+                    A + M
+                </div>
+
+            </div>
+
+        `;
+
+
+        grid.prepend(article);
+
+
+        /*
+           Vorläufig lokal speichern.
+        */
+
+        saveLocalPhoto(
+            imageURL
+        );
+
+
+        /*
+           Input zurücksetzen,
+           damit dasselbe Bild
+           erneut gewählt werden kann.
+        */
+
+        event.target.value = "";
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* =========================================================
+   LOKALE FOTOS
+========================================================= */
+
+function saveLocalPhoto(image) {
+
+    let photos =
+        JSON.parse(
+            localStorage.getItem(
+                "AM_photos"
+            ) || "[]"
+        );
+
+
+    photos.push(image);
+
+
+    /*
+       Maximal 20 lokale Fotos.
+       Die echte Online-Version ersetzt
+       diesen Teil später.
+    */
+
+    if (photos.length > 20) {
+        photos.shift();
+    }
+
+
+    localStorage.setItem(
+        "AM_photos",
+        JSON.stringify(photos)
+    );
+
+}
+
+
+/* =========================================================
+   LOKALE FOTOS LADEN
+========================================================= */
+
+function loadLocalPhotos() {
+
+    const photos =
+        JSON.parse(
+            localStorage.getItem(
+                "AM_photos"
+            ) || "[]"
+        );
+
+
+    const grid =
+        document.getElementById("photoGrid");
+
+
+    photos.reverse().forEach(
+        function(image) {
+
+            const article =
+                document.createElement("article");
+
+            article.className =
+                "polaroid";
+
+            article.innerHTML = `
+
+                <div class="polaroidImage">
+
+                    <img
+                        src="${image}"
+                        alt="Unsere Erinnerung"
+                    >
+
+                </div>
+
+                <div class="polaroidText">
+
+                    <h3>
+                        Ein kleiner Moment
+                    </h3>
+
+                    <p>
+                        ♡
+                    </p>
+
+                    <div class="polaroidDate">
+                        A + M
+                    </div>
+
+                </div>
+
+            `;
+
+
+            grid.prepend(article);
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+function sendMessage() {
+
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text) {
+        return;
+    }
+
+
+    createBubble(
+        text,
+        MY_NAME,
+        true
+    );
+
+
+    saveLocalMessage(
+        text,
+        MY_NAME
+    );
+
+
+    input.value = "";
+
+    input.focus();
+
+}
+
+
+/* =========================================================
+   CHAT-BLASE
+========================================================= */
+
+function createBubble(
+    text,
+    name,
+    mine
+) {
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    const bubble =
+        document.createElement("div");
+
+
+    bubble.className =
+        "bubble" +
+        (mine ? " mine" : "");
+
+
+    const time =
+        new Date().toLocaleTimeString(
+            "de-DE",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+
+    bubble.innerHTML = `
+
+        <div class="bubbleName">
+            ${escapeHTML(name)}
+        </div>
+
+        ${escapeHTML(text)}
+
+        <div class="bubbleTime">
+            ${time}
+        </div>
+
+    `;
+
+
+    container.appendChild(
+        bubble
+    );
+
+
+    container.scrollTop =
+        container.scrollHeight;
+
+}
+
+
+/* =========================================================
+   CHAT LOKAL SPEICHERN
+========================================================= */
+
+function saveLocalMessage(
+    text,
+    name
+) {
+
+    let messages =
+        JSON.parse(
+            localStorage.getItem(
+                "AM_messages"
+            ) || "[]"
+        );
+
+
+    messages.push({
+
+        text: text,
+
+        name: name,
+
+        time: Date.now()
+
+    });
+
+
+    if (messages.length > 100) {
+        messages.shift();
+    }
+
+
+    localStorage.setItem(
+        "AM_messages",
+        JSON.stringify(messages)
+    );
+
+}
+
+
+/* =========================================================
+   CHAT LOKAL LADEN
+========================================================= */
+
+function loadLocalMessages() {
+
+    const messages =
+        JSON.parse(
+            localStorage.getItem(
+                "AM_messages"
+            ) || "[]"
+        );
+
+
+    messages.forEach(
+        function(message) {
+
+            createBubble(
+                message.text,
+                message.name,
+                message.name === MY_NAME
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SICHERER TEXT
+========================================================= */
+
+function escapeHTML(text) {
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadLocalPhotos();
+
+loadLocalMessages();
+
+</script>
 
 </body>
 </html>
