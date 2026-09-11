@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -11,112 +12,465 @@
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
-    background: #07111f;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #060b12;
     color: white;
-    font-family: Arial, sans-serif;
 }
+
+/* =========================
+   HEADER
+========================= */
 
 header {
-    height: 70px;
-    background: linear-gradient(90deg, #111827, #1e293b);
+    height: 64px;
+    width: 100%;
+    background: linear-gradient(90deg, #111827, #182536);
+    border-bottom: 1px solid #334155;
+
     display: flex;
     align-items: center;
-    padding: 0 25px;
-    border-bottom: 2px solid #334155;
+    justify-content: space-between;
+
+    padding: 0 22px;
 }
 
-.logo {
-    font-size: 28px;
-    font-weight: bold;
+.brand {
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
-.logo span {
+.brand .red {
     color: #ef4444;
 }
 
-main {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
+
+.live-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ef4444;
+    box-shadow: 0 0 10px rgba(239, 68, 68, .8);
+}
+
+.header-live {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* =========================
+   HAUPTBEREICH
+========================= */
+
+.main {
+    height: calc(100vh - 64px);
+    display: flex;
+}
+
+/* =========================
+   LINKER BEREICH
+========================= */
+
+.preview-area {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 22px;
+
+    background:
+        radial-gradient(circle at center, #111827 0%, #060b12 70%);
+}
+
+/* 16:9 Vorschau */
 
 .preview {
     width: 100%;
+    max-width: 1100px;
     aspect-ratio: 16 / 9;
+
     background: #000;
-    border: 2px solid #334155;
+
     position: relative;
     overflow: hidden;
+
+    border: 1px solid #334155;
+    border-radius: 8px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, .55);
 }
+
+/* Minecraft / Bildschirm */
 
 #screen {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
     width: 100%;
     height: 100%;
+
     object-fit: contain;
+
+    background: #000;
 }
 
-.station-logo {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    font-size: 25px;
-    font-weight: bold;
-    background: rgba(0,0,0,.55);
-    padding: 8px 14px;
-    border-radius: 5px;
-}
+/* =========================
+   LIVE LABEL
+========================= */
 
-.live {
+.live-label {
     position: absolute;
-    left: 20px;
-    top: 20px;
+
+    left: 18px;
+    top: 18px;
+
     background: #dc2626;
-    padding: 7px 12px;
+
+    padding: 7px 11px;
+
     border-radius: 4px;
-    font-weight: bold;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: .5px;
+
+    z-index: 20;
+
+    pointer-events: none;
 }
 
-.controls {
-    margin-top: 20px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
+/* =========================
+   LOGO
+========================= */
+
+#logo {
+    position: absolute;
+
+    left: 78%;
+    top: 8%;
+
+    width: 150px;
+
+    height: auto;
+
+    object-fit: contain;
+
+    z-index: 30;
+
+    cursor: grab;
+
+    user-select: none;
+
+    display: none;
+
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,.5));
 }
+
+#logo:active {
+    cursor: grabbing;
+}
+
+/* =========================
+   NACHRICHT
+========================= */
+
+#message {
+    position: absolute;
+
+    left: 50%;
+    bottom: 7%;
+
+    transform: translateX(-50%);
+
+    max-width: 85%;
+
+    background: rgba(0, 0, 0, .82);
+
+    border-left: 5px solid #ef4444;
+
+    padding: 14px 22px;
+
+    font-size: clamp(16px, 2vw, 28px);
+
+    font-weight: 700;
+
+    text-align: center;
+
+    border-radius: 4px;
+
+    z-index: 40;
+
+    display: none;
+
+    pointer-events: none;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,.5);
+}
+
+/* =========================
+   RECHTE REGIE
+========================= */
+
+.control-panel {
+    width: 350px;
+
+    background: #0b111b;
+
+    border-left: 1px solid #334155;
+
+    overflow-y: auto;
+
+    padding: 22px;
+}
+
+/* Überschriften */
+
+.panel-title {
+    font-size: 20px;
+    font-weight: 800;
+
+    margin-bottom: 20px;
+}
+
+.section {
+    border-top: 1px solid #263244;
+
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.section-title {
+    font-size: 13px;
+
+    color: #94a3b8;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 13px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
 
 button {
+    width: 100%;
+
     border: 0;
-    padding: 14px 20px;
-    background: #2563eb;
+
+    border-radius: 5px;
+
+    padding: 12px 14px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
     color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 6px;
+
+    background: #2563eb;
+
     cursor: pointer;
+
+    margin-bottom: 9px;
+
+    transition: .15s ease;
 }
 
 button:hover {
     background: #1d4ed8;
 }
 
-.stop {
+button:active {
+    transform: scale(.98);
+}
+
+.stop-button {
     background: #dc2626;
 }
 
-.stop:hover {
+.stop-button:hover {
     background: #b91c1c;
 }
 
-.status {
-    margin-top: 18px;
-    padding: 15px;
-    background: #111827;
-    border: 1px solid #334155;
+.secondary-button {
+    background: #334155;
 }
 
-h1 {
-    margin-top: 0;
+.secondary-button:hover {
+    background: #475569;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+input[type="file"] {
+    width: 100%;
+
+    color: #cbd5e1;
+
+    font-size: 13px;
+
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: 100%;
+
+    height: 44px;
+
+    border: 1px solid #334155;
+
+    border-radius: 5px;
+
+    outline: none;
+
+    background: #111827;
+
+    color: white;
+
+    padding: 0 12px;
+
+    font-size: 14px;
+
+    margin-bottom: 9px;
+}
+
+input[type="text"]:focus {
+    border-color: #3b82f6;
+}
+
+/* =========================
+   RANGE SLIDER
+========================= */
+
+.range-row {
+    margin-bottom: 17px;
+}
+
+.range-label {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 7px;
+
+    color: #cbd5e1;
+
+    font-size: 13px;
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    margin-top: 20px;
+
+    padding: 12px;
+
+    border-radius: 5px;
+
+    background: #111827;
+
+    border: 1px solid #263244;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+.status strong {
+    color: white;
+}
+
+/* =========================
+   HINWEIS
+========================= */
+
+.hint {
+    margin-top: 10px;
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+/* =========================
+   VOLLZUSTAND
+========================= */
+
+.fullscreen-button {
+    background: #475569;
+}
+
+/* =========================
+   MOBILE / KLEINERE FENSTER
+========================= */
+
+@media (max-width: 900px) {
+
+    .control-panel {
+        width: 300px;
+    }
+
+    .preview-area {
+        padding: 12px;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    html,
+    body {
+        overflow: auto;
+    }
+
+    .main {
+        height: auto;
+        flex-direction: column;
+    }
+
+    .preview-area {
+        min-height: 55vh;
+    }
+
+    .control-panel {
+        width: 100%;
+    }
+
 }
 </style>
 </head>
@@ -124,44 +478,220 @@ h1 {
 <body>
 
 <header>
-    <div class="logo">MTRIPS <span>LIVE</span></div>
-</header>
 
-<main>
-
-<h1>Live-Regie</h1>
-
-<div class="preview">
-
-    <video id="screen" autoplay muted playsinline></video>
-
-    <div class="live">LIVE</div>
-
-    <div class="station-logo">
-        MTRIPS LIVE
+    <div class="brand">
+        MTRIPS <span class="red">LIVE</span>
     </div>
 
+    <div class="header-right">
+
+        <div class="live-dot"></div>
+
+        <div class="header-live">
+            LIVE-REGIE
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="main">
+
+    <!-- =========================
+         VORSCHAU
+    ========================== -->
+
+    <div class="preview-area">
+
+        <div class="preview" id="preview">
+
+            <video
+                id="screen"
+                autoplay
+                muted
+                playsinline>
+            </video>
+
+            <div class="live-label">
+                LIVE
+            </div>
+
+            <img
+                id="logo"
+                alt="Senderlogo">
+
+            <div id="message"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         REGIE
+    ========================== -->
+
+    <aside class="control-panel">
+
+        <div class="panel-title">
+            Regie
+        </div>
+
+
+        <!-- =========================
+             ÜBERTRAGUNG
+        ========================== -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Übertragung
+            </div>
+
+            <button onclick="startCapture()">
+                Minecraft / Bildschirm übertragen
+            </button>
+
+            <button
+                class="stop-button"
+                onclick="stopCapture()">
+
+                Übertragung stoppen
+
+            </button>
+
+            <button
+                class="fullscreen-button"
+                onclick="toggleFullscreen()">
+
+                Regie-Vollbild
+
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             LOGO
+        ========================== -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Senderlogo
+            </div>
+
+            <input
+                type="file"
+                id="logoFile"
+                accept="image/*">
+
+            <button onclick="loadLogo()">
+                Logo verwenden
+            </button>
+
+            <button
+                class="secondary-button"
+                onclick="toggleLogo()">
+
+                Logo ein / aus
+
+            </button>
+
+
+            <div class="range-row">
+
+                <div class="range-label">
+
+                    <span>Logo-Größe</span>
+
+                    <span id="sizeValue">
+                        150 px
+                    </span>
+
+                </div>
+
+                <input
+                    type="range"
+                    id="logoSize"
+                    min="40"
+                    max="400"
+                    value="150">
+
+            </div>
+
+
+            <div class="hint">
+
+                Das Logo kannst du direkt mit der Maus
+                über dem Livebild verschieben.
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             NACHRICHT
+        ========================== -->
+
+        <div class="section">
+
+            <div class="section-title">
+                Nachricht
+            </div>
+
+            <input
+                type="text"
+                id="messageInput"
+                maxlength="120"
+                placeholder="Nachricht eingeben...">
+
+            <button onclick="sendMessage()">
+                Nachricht senden
+            </button>
+
+            <button
+                class="secondary-button"
+                onclick="hideMessage()">
+
+                Nachricht sofort entfernen
+
+            </button>
+
+            <div class="hint">
+
+                Die Nachricht bleibt automatisch
+                10 Sekunden im Bild.
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STATUS
+        ========================== -->
+
+        <div class="status" id="status">
+
+            <strong>Status:</strong><br>
+
+            Noch keine Übertragung gestartet.
+
+        </div>
+
+    </aside>
+
 </div>
 
-<div class="controls">
-
-    <button onclick="startCapture()">
-        Minecraft übertragen
-    </button>
-
-    <button class="stop" onclick="stopCapture()">
-        Übertragung stoppen
-    </button>
-
-</div>
-
-<div class="status" id="status">
-    Status: Noch keine Übertragung gestartet.
-</div>
-
-</main>
 
 <script>
+
+/* =========================================================
+   BILDSCHIRMÜBERTRAGUNG
+========================================================= */
 
 let stream = null;
 
@@ -169,50 +699,618 @@ async function startCapture() {
 
     try {
 
+        /*
+         * Firefox/Browser zeigt jetzt die verfügbaren
+         * Bildschirm-/Fensterfreigaben an.
+         */
+
         stream = await navigator.mediaDevices.getDisplayMedia({
+
             video: {
                 frameRate: 30
             },
+
             audio: true
+
         });
+
 
         const video = document.getElementById("screen");
 
         video.srcObject = stream;
 
-        document.getElementById("status").innerText =
-            "Status: MINECRAFT WIRD ÜBERTRAGEN";
 
-        stream.getVideoTracks()[0].addEventListener("ended", () => {
-            stopCapture();
-        });
+        setStatus(
+            "Minecraft / Bildschirm wird übertragen."
+        );
 
-    } catch (error) {
 
-        document.getElementById("status").innerText =
-            "Status: Übertragung abgebrochen.";
+        /*
+         * Falls der Benutzer die Bildschirmfreigabe
+         * über das Browser-Menü beendet.
+         */
+
+        const videoTrack = stream.getVideoTracks()[0];
+
+        if (videoTrack) {
+
+            videoTrack.addEventListener(
+                "ended",
+                stopCapture
+            );
+
+        }
+
+    }
+
+    catch (error) {
 
         console.error(error);
+
+        setStatus(
+            "Bildschirmübertragung wurde abgebrochen."
+        );
+
     }
+
 }
+
+
+/* =========================================================
+   ÜBERTRAGUNG STOPPEN
+========================================================= */
 
 function stopCapture() {
 
     if (stream) {
 
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach(
+            track => track.stop()
+        );
 
         stream = null;
 
     }
 
-    document.getElementById("screen").srcObject = null;
 
-    document.getElementById("status").innerText =
-        "Status: Übertragung gestoppt.";
+    document.getElementById(
+        "screen"
+    ).srcObject = null;
+
+
+    setStatus(
+        "Übertragung gestoppt."
+    );
+
 }
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(text) {
+
+    document.getElementById("status").innerHTML =
+        "<strong>Status:</strong><br>" + text;
+
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+const logo = document.getElementById("logo");
+
+const logoFile = document.getElementById("logoFile");
+
+const logoSize = document.getElementById("logoSize");
+
+const sizeValue = document.getElementById("sizeValue");
+
+
+/*
+ * Logo auswählen und laden
+ */
+
+function loadLogo() {
+
+    const file = logoFile.files[0];
+
+    if (!file) {
+
+        alert("Bitte zuerst ein Logo auswählen.");
+
+        return;
+
+    }
+
+
+    const reader = new FileReader();
+
+
+    reader.onload = function(event) {
+
+        logo.src = event.target.result;
+
+        logo.style.display = "block";
+
+        setStatus(
+            "Senderlogo aktiviert. Du kannst es mit der Maus verschieben."
+        );
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/*
+ * Logo ein-/ausblenden
+ */
+
+function toggleLogo() {
+
+    if (!logo.src) {
+
+        alert("Bitte zuerst ein Logo auswählen.");
+
+        return;
+
+    }
+
+
+    if (logo.style.display === "none") {
+
+        logo.style.display = "block";
+
+    }
+
+    else {
+
+        logo.style.display = "none";
+
+    }
+
+}
+
+
+/*
+ * Logo-Größe
+ */
+
+logoSize.addEventListener(
+    "input",
+    function() {
+
+        const size = this.value;
+
+        logo.style.width = size + "px";
+
+        sizeValue.innerText =
+            size + " px";
+
+    }
+);
+
+
+/* =========================================================
+   LOGO MIT MAUS VERSCHIEBEN
+========================================================= */
+
+let draggingLogo = false;
+
+let dragOffsetX = 0;
+
+let dragOffsetY = 0;
+
+
+/*
+ * Maus drücken
+ */
+
+logo.addEventListener(
+    "mousedown",
+    function(event) {
+
+        event.preventDefault();
+
+        draggingLogo = true;
+
+
+        const logoRect =
+            logo.getBoundingClientRect();
+
+
+        dragOffsetX =
+            event.clientX - logoRect.left;
+
+        dragOffsetY =
+            event.clientY - logoRect.top;
+
+    }
+);
+
+
+/*
+ * Maus bewegen
+ */
+
+document.addEventListener(
+    "mousemove",
+    function(event) {
+
+        if (!draggingLogo) {
+            return;
+        }
+
+
+        const preview =
+            document.getElementById("preview");
+
+
+        const previewRect =
+            preview.getBoundingClientRect();
+
+
+        /*
+         * Neue Position innerhalb der Vorschau
+         */
+
+        let x =
+            event.clientX -
+            previewRect.left -
+            dragOffsetX;
+
+
+        let y =
+            event.clientY -
+            previewRect.top -
+            dragOffsetY;
+
+
+        /*
+         * Logo innerhalb des Bildes halten
+         */
+
+        const maxX =
+            preview.clientWidth -
+            logo.offsetWidth;
+
+
+        const maxY =
+            preview.clientHeight -
+            logo.offsetHeight;
+
+
+        x = Math.max(
+            0,
+            Math.min(x, maxX)
+        );
+
+
+        y = Math.max(
+            0,
+            Math.min(y, maxY)
+        );
+
+
+        logo.style.left =
+            x + "px";
+
+        logo.style.top =
+            y + "px";
+
+    }
+);
+
+
+/*
+ * Maus loslassen
+ */
+
+document.addEventListener(
+    "mouseup",
+    function() {
+
+        draggingLogo = false;
+
+    }
+);
+
+
+/* =========================================================
+   TOUCH / TRACKPAD
+========================================================= */
+
+let touchDragging = false;
+
+let touchOffsetX = 0;
+
+let touchOffsetY = 0;
+
+
+logo.addEventListener(
+    "touchstart",
+    function(event) {
+
+        if (!event.touches.length) {
+            return;
+        }
+
+
+        const touch =
+            event.touches[0];
+
+        const rect =
+            logo.getBoundingClientRect();
+
+
+        touchOffsetX =
+            touch.clientX - rect.left;
+
+        touchOffsetY =
+            touch.clientY - rect.top;
+
+
+        touchDragging = true;
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+document.addEventListener(
+    "touchmove",
+    function(event) {
+
+        if (!touchDragging) {
+            return;
+        }
+
+
+        if (!event.touches.length) {
+            return;
+        }
+
+
+        const touch =
+            event.touches[0];
+
+
+        const preview =
+            document.getElementById("preview");
+
+
+        const previewRect =
+            preview.getBoundingClientRect();
+
+
+        let x =
+            touch.clientX -
+            previewRect.left -
+            touchOffsetX;
+
+
+        let y =
+            touch.clientY -
+            previewRect.top -
+            touchOffsetY;
+
+
+        const maxX =
+            preview.clientWidth -
+            logo.offsetWidth;
+
+
+        const maxY =
+            preview.clientHeight -
+            logo.offsetHeight;
+
+
+        x = Math.max(
+            0,
+            Math.min(x, maxX)
+        );
+
+
+        y = Math.max(
+            0,
+            Math.min(y, maxY)
+        );
+
+
+        logo.style.left =
+            x + "px";
+
+        logo.style.top =
+            y + "px";
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+document.addEventListener(
+    "touchend",
+    function() {
+
+        touchDragging = false;
+
+    }
+);
+
+
+/* =========================================================
+   NACHRICHTEN
+========================================================= */
+
+let messageTimer = null;
+
+
+function sendMessage() {
+
+    const input =
+        document.getElementById(
+            "messageInput"
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text) {
+
+        alert("Bitte zuerst eine Nachricht eingeben.");
+
+        return;
+
+    }
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    /*
+     * Bereits laufende Nachricht abbrechen
+     */
+
+    if (messageTimer) {
+
+        clearTimeout(messageTimer);
+
+    }
+
+
+    /*
+     * Nachricht anzeigen
+     */
+
+    message.innerText = text;
+
+    message.style.display =
+        "block";
+
+
+    setStatus(
+        "Nachricht ist 10 Sekunden LIVE."
+    );
+
+
+    /*
+     * Nach genau 10 Sekunden
+     * automatisch entfernen
+     */
+
+    messageTimer = setTimeout(
+        function() {
+
+            hideMessage();
+
+        },
+        10000
+    );
+
+}
+
+
+/*
+ * Nachricht sofort entfernen
+ */
+
+function hideMessage() {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.style.display =
+        "none";
+
+
+    if (messageTimer) {
+
+        clearTimeout(messageTimer);
+
+        messageTimer = null;
+
+    }
+
+
+    setStatus(
+        "Keine Nachricht eingeblendet."
+    );
+
+}
+
+
+/* =========================================================
+   VOLLBILD
+========================================================= */
+
+async function toggleFullscreen() {
+
+    try {
+
+        if (!document.fullscreenElement) {
+
+            await document.documentElement.requestFullscreen();
+
+        }
+
+        else {
+
+            await document.exitFullscreen();
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =========================================================
+   ENTER = NACHRICHT SENDEN
+========================================================= */
+
+document.getElementById(
+    "messageInput"
+).addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
 
 </script>
 
 </body>
 </html>
+```
