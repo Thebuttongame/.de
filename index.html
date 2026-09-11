@@ -3,38 +3,81 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>A + M ♡</title>
-  <meta name="description" content="Unser kleiner gemütlicher Ort.">
-  <link rel="stylesheet" href="style.css">
+  <title>A + M · Regie</title>
+  <link rel="stylesheet" href="regie.css">
 </head>
 <body>
-  <div class="hearts" aria-hidden="true">♡　♡　♡</div>
+  <main class="shell">
+    <section id="loginView" class="panel login">
+      <div class="logo">A + M <span>♡</span></div>
+      <p class="small">Private Regie</p>
+      <h1>Willkommen zurück</h1>
+      <p class="muted">Melde dich an, um eure Seite zu verwalten.</p>
 
-  <header class="hero">
-    <div class="hero-card">
-      <p class="eyebrow">our little place</p>
-      <h1>A <span>+</span> M</h1>
-      <div class="big-heart">♡</div>
-      <p class="subtitle" id="subtitle">Ein kleiner Ort nur für uns.</p>
-    </div>
-  </header>
-
-  <main>
-    <section class="intro">
-      <p>Schön, dass du hier bist.</p>
-      <h2>Unsere kleinen Momente</h2>
+      <form id="loginForm">
+        <label>E-Mail
+          <input id="email" type="email" autocomplete="username" required>
+        </label>
+        <label>Passwort
+          <input id="password" type="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit">Einloggen</button>
+        <div id="loginError" class="error"></div>
+      </form>
     </section>
 
-    <section id="memories" class="memories">
-      <div class="loading">Lade unsere Erinnerungen …</div>
+    <section id="adminView" class="hidden">
+      <header class="topbar">
+        <div>
+          <div class="logo">A + M <span>♡</span></div>
+          <div class="small">Private Regie</div>
+        </div>
+        <div class="actions">
+          <a href="../" target="_blank">Website ansehen</a>
+          <button id="logoutBtn" class="ghost">Ausloggen</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <h1>Neue Erinnerung</h1>
+        <p class="muted">Foto auswählen, Text schreiben und veröffentlichen.</p>
+
+        <form id="memoryForm">
+          <label>Foto
+            <input id="image" type="file" accept="image/*" required>
+          </label>
+
+          <label>Titel
+            <input id="title" type="text" maxlength="80" placeholder="Unser schöner Moment" required>
+          </label>
+
+          <label>Datum / kleine Zeile
+            <input id="dateText" type="text" maxlength="50" placeholder="Sommer 2026">
+          </label>
+
+          <label>Text
+            <textarea id="text" maxlength="500" rows="5" placeholder="Ein kleiner Text über diesen Moment …" required></textarea>
+          </label>
+
+          <button id="publishBtn" type="submit">Veröffentlichen</button>
+          <div id="formMessage" class="message"></div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Veröffentlichte Erinnerungen</h2>
+            <p class="muted">Hier kannst du Einträge wieder löschen.</p>
+          </div>
+          <button id="reloadBtn" class="ghost">Neu laden</button>
+        </div>
+        <div id="list" class="list"></div>
+      </section>
     </section>
   </main>
 
-  <footer>
-    <span>A + M</span> · unser kleiner Ort
-  </footer>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js"></script>
+  <script src="regie.js"></script>
 </body>
 </html>
