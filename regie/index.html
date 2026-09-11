@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A + M · Regie</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    background: #fff8f6;
+    color: #594642;
+
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: min(700px, calc(100% - 30px));
+    margin: auto;
+    padding: 30px 0 60px;
+}
+
+.header {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.logo {
+    font-family: Georgia, serif;
+    font-size: clamp(50px, 10vw, 80px);
+}
+
+.logo span {
+    color: #cf7e91;
+}
+
+.private {
+    margin-top: 10px;
+
+    color: #a9918b;
+
+    font-size: 11px;
+    letter-spacing: 4px;
+}
+
+.card {
+    background: white;
+
+    border-radius: 24px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 15px 50px rgba(80,55,50,.10);
+}
+
+h1 {
+    font-family: Georgia, serif;
+
+    font-weight: normal;
+
+    text-align: center;
+
+    font-size: 34px;
+}
+
+p {
+    color: #806d67;
+    line-height: 1.6;
+}
+
+label {
+    display: block;
+
+    margin-top: 20px;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+
+    margin-top: 8px;
+
+    padding: 14px;
+
+    border: 1px solid #eaded8;
+
+    border-radius: 12px;
+
+    background: #fffdfb;
+
+    color: #594642;
+
+    font: inherit;
+
+    outline: none;
+}
+
+textarea {
+    min-height: 140px;
+
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+
+    margin-top: 22px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: #cf7e91;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+.logout {
+    background: #f1e4e1;
+    color: #725d57;
+}
+
+.message {
+    text-align: center;
+
+    margin-top: 15px;
+
+    min-height: 20px;
+}
+
+.error {
+    color: #b34f5f;
+}
+
+.success {
+    color: #638b6b;
+}
+
+#admin {
+    display: none;
+}
+
+.back {
+    display: block;
+
+    text-align: center;
+
+    margin-top: 25px;
+
+    color: #a85e70;
+
+    text-decoration: none;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- LOGIN -->
+
+<section id="login">
+
+    <div class="header">
+
+        <div class="logo">
+            A <span>+</span> M ♡
+        </div>
+
+        <div class="private">
+            PRIVATE REGIE
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h1>
+            Eure Regie
+        </h1>
+
+        <p style="text-align:center;">
+            Dieser Bereich ist nur für dich.
+        </p>
+
+
+        <label>
+            Passwort
+        </label>
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Passwort"
+            onkeydown="if(event.key === 'Enter') login()"
+        >
+
+
+        <button onclick="login()">
+            Einloggen
+        </button>
+
+
+        <div
+            id="loginMessage"
+            class="message error"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ADMIN -->
+
+<section id="admin">
+
+    <div class="header">
+
+        <div class="logo">
+            A <span>+</span> M ♡
+        </div>
+
+        <div class="private">
+            PRIVATE REGIE
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h1>
+            Neue Erinnerung
+        </h1>
+
+
+        <label>
+            Bild
+        </label>
+
+        <input
+            id="image"
+            type="file"
+            accept="image/*"
+        >
+
+
+        <label>
+            Titel
+        </label>
+
+        <input
+            id="title"
+            type="text"
+            placeholder="Unser schöner Moment"
+        >
+
+
+        <label>
+            Datum
+        </label>
+
+        <input
+            id="date"
+            type="text"
+            placeholder="September 2026"
+        >
+
+
+        <label>
+            Text
+        </label>
+
+        <textarea
+            id="text"
+            placeholder="Schreib hier eure Erinnerung ..."
+        ></textarea>
+
+
+        <button onclick="saveMemory()">
+            Erinnerung speichern
+        </button>
+
+
+        <div
+            id="saveMessage"
+            class="message success"
+        ></div>
+
+
+        <button
+            class="logout"
+            onclick="logout()"
+        >
+            Ausloggen
+        </button>
+
+
+        <a
+            href="../"
+            class="back"
+        >
+            ← Zur öffentlichen Seite
+        </a>
+
+    </div>
+
+</section>
+
+</div>
+
+
+
+<script>
+
+/*
+========================================
+PASSWORT
+========================================
+*/
+
+const ADMIN_PASSWORD = "AM2026";
+
+
+/*
+========================================
+LOGIN
+========================================
+*/
+
+function login() {
+
+    const password =
+        document.getElementById("password").value;
+
+    const message =
+        document.getElementById("loginMessage");
+
+
+    if (password === ADMIN_PASSWORD) {
+
+        document.getElementById("login").style.display =
+            "none";
+
+        document.getElementById("admin").style.display =
+            "block";
+
+        sessionStorage.setItem(
+            "AM_logged_in",
+            "true"
+        );
+
+        message.textContent = "";
+
+    }
+
+    else {
+
+        message.textContent =
+            "Falsches Passwort.";
+
+    }
+
+}
+
+
+/*
+========================================
+AUSLOGGEN
+========================================
+*/
+
+function logout() {
+
+    sessionStorage.removeItem(
+        "AM_logged_in"
+    );
+
+    document.getElementById("admin").style.display =
+        "none";
+
+    document.getElementById("login").style.display =
+        "block";
+
+    document.getElementById("password").value =
+        "";
+
+}
+
+
+/*
+========================================
+BEIM ÖFFNEN LOGIN PRÜFEN
+========================================
+*/
+
+if (
+    sessionStorage.getItem("AM_logged_in")
+    === "true"
+) {
+
+    document.getElementById("login").style.display =
+        "none";
+
+    document.getElementById("admin").style.display =
+        "block";
+
+}
+
+
+/*
+========================================
+ERINNERUNG
+========================================
+*/
+
+function saveMemory() {
+
+    const image =
+        document.getElementById("image").files[0];
+
+    const title =
+        document.getElementById("title").value.trim();
+
+    const date =
+        document.getElementById("date").value.trim();
+
+    const text =
+        document.getElementById("text").value.trim();
+
+    const message =
+        document.getElementById("saveMessage");
+
+
+    if (!image) {
+
+        message.textContent =
+            "Bitte ein Bild auswählen.";
+
+        return;
+
+    }
+
+
+    if (!title || !text) {
+
+        message.textContent =
+            "Bitte Titel und Text ausfüllen.";
+
+        return;
+
+    }
+
+
+    /*
+    VORLÄUFIG:
+    Speicherung im Browser.
+    */
+
+    const reader = new FileReader();
+
+
+    reader.onload = function(event) {
+
+        const memory = {
+
+            image: event.target.result,
+
+            title: title,
+
+            date: date,
+
+            text: text
+
+        };
+
+
+        localStorage.setItem(
+            "AM_memory",
+            JSON.stringify(memory)
+        );
+
+
+        message.textContent =
+            "Erinnerung gespeichert ♡";
+
+
+        document.getElementById("image").value =
+            "";
+
+        document.getElementById("title").value =
+            "";
+
+        document.getElementById("date").value =
+            "";
+
+        document.getElementById("text").value =
+            "";
+
+    };
+
+
+    reader.readAsDataURL(image);
+
+}
+
+</script>
+
+
+</body>
+</html>
