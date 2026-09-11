@@ -3,755 +3,608 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>A + M ♡</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 * {
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 body {
     margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(circle at top left, #ffe9f1, transparent 35%),
+        radial-gradient(circle at bottom right, #e8dcff, transparent 35%),
+        #fff8fb;
+    color: #403744;
+}
+
+/* LOGIN */
+
+#loginScreen {
     min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #594642;
-
-    background:
-        radial-gradient(circle at 10% 10%, rgba(255,215,225,.8), transparent 30%),
-        radial-gradient(circle at 90% 30%, rgba(255,230,210,.8), transparent 32%),
-        #fff8f5;
-}
-
-/* =========================
-   LOGIN
-========================= */
-
-#lockScreen {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 20px;
-
-    background:
-        radial-gradient(circle at 20% 20%, #f8dce3, transparent 35%),
-        radial-gradient(circle at 80% 75%, #f6e2d3, transparent 35%),
-        #fff8f5;
 }
 
-.lockBox {
-    width: min(420px, 100%);
-    padding: 42px 30px;
-
-    text-align: center;
-
-    background: rgba(255,255,255,.95);
+.loginBox {
+    width: 100%;
+    max-width: 430px;
+    background: rgba(255,255,255,.88);
+    backdrop-filter: blur(15px);
     border-radius: 30px;
-
-    box-shadow:
-        0 25px 80px rgba(80,55,50,.16);
-
-    animation: appear .7s ease;
-}
-
-.lockLogo {
-    font-family: Georgia, serif;
-    font-size: 58px;
-    margin-bottom: 5px;
-}
-
-.lockLogo span {
-    color: #cf7e91;
-}
-
-.lockSmall {
-    color: #a9918b;
-    font-size: 10px;
-    letter-spacing: 4px;
-    margin-bottom: 28px;
-}
-
-.lockBox h1 {
-    margin: 0 0 10px;
-    font-family: Georgia, serif;
-    font-size: 30px;
-    font-weight: normal;
-}
-
-.lockBox p {
-    color: #8b7771;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
-
-.codeInput {
-    width: 100%;
-    padding: 16px;
-
-    border: 1px solid #eaded8;
-    border-radius: 15px;
-
-    background: #fffdfb;
-
+    padding: 40px 30px;
     text-align: center;
-    font-size: 20px;
-    letter-spacing: 3px;
-
-    outline: none;
+    box-shadow: 0 20px 70px rgba(100,70,100,.15);
 }
 
-.codeInput:focus {
-    border-color: #cf7e91;
-}
-
-.enterButton {
-    width: 100%;
-    margin-top: 14px;
-    padding: 16px;
-
-    border: none;
-    border-radius: 15px;
-
-    background: #cf7e91;
-    color: white;
-
-    font-size: 15px;
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-.enterButton:hover {
-    opacity: .9;
-}
-
-.lockError {
-    min-height: 22px;
-    margin-top: 13px;
-
-    color: #b35d6d;
-    font-size: 13px;
-}
-
-/* =========================
-   HAUPTSEITE
-========================= */
-
-#site {
-    display: none;
-}
-
-/* =========================
-   HERO
-========================= */
-
-.hero {
-    min-height: 70vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-    padding: 40px 20px;
-}
-
-.heroContent {
-    animation: appear 1s ease;
-}
-
-.heroSmall {
-    color: #a9918b;
-    font-size: 11px;
-    letter-spacing: 5px;
-    margin-bottom: 28px;
-}
-
-.hero h1 {
-    margin: 0;
-
-    font-family: Georgia, serif;
-    font-weight: normal;
-
-    font-size: clamp(85px, 17vw, 180px);
-    line-height: .8;
-}
-
-.hero h1 span {
-    color: #cf7e91;
-}
-
-.heroHeart {
-    margin-top: 32px;
-
-    font-family: Georgia, serif;
+.loginHeart {
     font-size: 65px;
-
-    color: #cf7e91;
-
-    animation: heartbeat 3s ease-in-out infinite;
+    margin-bottom: 10px;
 }
 
-.heroSubtitle {
-    color: #a9918b;
-    font-size: 17px;
+.loginBox h1 {
+    margin: 0;
+    font-size: 38px;
+    color: #6d5267;
+}
+
+.loginBox p {
+    color: #8c7b88;
+}
+
+#codeInput {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #eadce5;
+    border-radius: 16px;
+    outline: none;
+    text-align: center;
+    font-size: 18px;
     margin-top: 10px;
 }
 
-/* =========================
-   CONTENT
-========================= */
+#codeInput:focus {
+    border-color: #d59ab8;
+}
 
-.content {
-    width: min(1450px, calc(100% - 30px));
+.mainButton {
+    border: none;
+    background: #d89ab7;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+    transition: .2s;
+}
+
+.mainButton:hover {
+    transform: translateY(-2px);
+    background: #c985a5;
+}
+
+.error {
+    color: #c55b76;
+    min-height: 22px;
+}
+
+/* APP */
+
+#app {
+    display: none;
+}
+
+header {
+    padding: 25px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    background: rgba(255,255,255,.7);
+    backdrop-filter: blur(15px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid rgba(180,140,165,.15);
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: 700;
+    color: #694f63;
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.personBadge {
+    padding: 9px 14px;
+    border-radius: 20px;
+    background: #f5e7ef;
+    color: #74576b;
+}
+
+.smallButton {
+    border: none;
+    background: white;
+    border: 1px solid #eadce5;
+    color: #74576b;
+    padding: 9px 13px;
+    border-radius: 13px;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1250px;
     margin: auto;
-    padding-bottom: 80px;
+    padding: 35px 20px 70px;
 }
 
-.layout {
-    display: grid;
+/* HERO */
 
-    grid-template-columns:
-        minmax(0, 1fr)
-        370px;
-
-    gap: 35px;
-}
-
-/* =========================
-   TITEL
-========================= */
-
-.memoriesTitle {
+.hero {
     text-align: center;
-    margin-bottom: 35px;
+    padding: 35px 20px 45px;
 }
 
-.memoriesTitle .small {
-    color: #cf7e91;
-    font-size: 10px;
-    letter-spacing: 3px;
-}
-
-.memoriesTitle h2 {
-    margin: 8px 0;
-
-    font-family: Georgia, serif;
-    font-size: 42px;
-    font-weight: normal;
-}
-
-.memoriesTitle p {
+.hero h1 {
+    font-size: clamp(50px, 9vw, 95px);
     margin: 0;
-    color: #8b7771;
+    color: #694f63;
+    letter-spacing: -4px;
 }
 
-/* =========================
-   POLAROIDS
-========================= */
+.hero p {
+    color: #968591;
+    font-size: 18px;
+}
+
+/* GRID */
+
+.contentGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    gap: 25px;
+}
+
+.card {
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(15px);
+    border-radius: 28px;
+    padding: 25px;
+    box-shadow: 0 15px 45px rgba(90,60,90,.08);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #694f63;
+}
+
+/* UPLOAD */
+
+.uploadArea {
+    border: 2px dashed #e2cbd8;
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 25px;
+    background: #fffafd;
+}
+
+.uploadArea input {
+    display: none;
+}
+
+.uploadLabel {
+    display: inline-block;
+    background: #d89ab7;
+    color: white;
+    padding: 13px 18px;
+    border-radius: 14px;
+    cursor: pointer;
+}
+
+#uploadStatus {
+    color: #9b8793;
+    margin-top: 12px;
+}
+
+/* PHOTOS */
 
 .photoGrid {
     display: grid;
-
-    grid-template-columns:
-        repeat(auto-fill, minmax(230px, 1fr));
-
-    gap: 35px;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 25px;
 }
 
 .polaroid {
     background: white;
-
-    padding: 12px 12px 25px;
-
-    box-shadow:
-        0 15px 35px rgba(70,50,45,.15);
-
-    animation: polaroidAppear .7s ease both;
-
-    transition:
-        transform .3s ease,
-        box-shadow .3s ease;
-}
-
-.polaroid:nth-child(3n + 1) {
-    transform: rotate(-2deg);
-}
-
-.polaroid:nth-child(3n + 2) {
-    transform: rotate(1.5deg);
-}
-
-.polaroid:nth-child(3n) {
-    transform: rotate(-.7deg);
+    padding: 10px 10px 16px;
+    box-shadow: 0 8px 25px rgba(60,40,60,.13);
+    transform: rotate(var(--rotation));
+    transition: .25s;
+    position: relative;
 }
 
 .polaroid:hover {
-    transform:
-        translateY(-8px)
-        rotate(0deg)
-        scale(1.02);
-
-    box-shadow:
-        0 25px 50px rgba(70,50,45,.2);
-
-    z-index: 5;
+    transform: rotate(0deg) translateY(-5px);
 }
 
-.polaroidImage {
+.polaroid img {
     width: 100%;
     aspect-ratio: 1 / 1;
-
-    background: #f4e6e3;
-    overflow: hidden;
-}
-
-.polaroidImage img {
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
     object-fit: cover;
+    display: block;
 }
 
-.placeholderHeart {
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-family: Georgia, serif;
-    font-size: 55px;
-
-    color: #cf7e91;
-}
-
-.polaroidText {
-    padding: 12px 7px 0;
-}
-
-.polaroidText h3 {
-    margin: 0 0 5px;
-
-    font-family: Georgia, serif;
-    font-size: 20px;
-    font-weight: normal;
-}
-
-.polaroidText p {
-    margin: 0;
-
-    color: #806d67;
-
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.polaroidDate {
-    margin-top: 8px;
-
-    color: #b18b83;
-
-    font-size: 10px;
-    letter-spacing: 1px;
-}
-
-/* =========================
-   FOTO HINZUFÜGEN
-========================= */
-
-.addCard {
-    margin-top: 45px;
-
-    padding: 28px;
-
-    background: rgba(255,255,255,.82);
-
-    border: 1px solid #eaded8;
-    border-radius: 24px;
-
-    text-align: center;
-}
-
-.addCard h3 {
-    margin: 0 0 8px;
-
-    font-family: Georgia, serif;
-    font-size: 27px;
-    font-weight: normal;
-}
-
-.addCard p {
-    color: #8b7771;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.addButton {
-    display: inline-block;
-
-    padding: 13px 22px;
-    margin-top: 8px;
-
-    background: #cf7e91;
-    color: white;
-
-    border-radius: 13px;
-
-    cursor: pointer;
-
-    font-weight: bold;
+.photoCaption {
+    padding: 12px 4px 5px;
     font-size: 14px;
+    color: #665865;
 }
 
-.addButton:hover {
-    opacity: .9;
+.photoDate {
+    font-size: 11px;
+    color: #aa9ca7;
 }
 
-#photoInput {
-    display: none;
+.photoActions {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 10px;
 }
 
-/* =========================
-   CHAT
-========================= */
+.reaction {
+    border: 1px solid #eadce5;
+    background: #fff;
+    border-radius: 12px;
+    padding: 5px 8px;
+    cursor: pointer;
+}
 
-.chat {
-    position: sticky;
-    top: 20px;
+.reaction.active {
+    background: #f9e6ef;
+    border-color: #d89ab7;
+}
 
-    height: calc(100vh - 40px);
-    min-height: 520px;
+.deletePhoto {
+    margin-left: auto;
+    border: none;
+    background: #f7edf1;
+    color: #b56d88;
+    border-radius: 10px;
+    padding: 5px 8px;
+    cursor: pointer;
+}
 
+.empty {
+    text-align: center;
+    color: #a3939e;
+    padding: 40px 10px;
+}
+
+/* CHAT */
+
+.chatBox {
     display: flex;
     flex-direction: column;
-
-    background: rgba(255,255,255,.9);
-
-    border: 1px solid #eaded8;
-    border-radius: 28px;
-
-    box-shadow:
-        0 20px 60px rgba(80,55,50,.12);
-
-    overflow: hidden;
-}
-
-.chatHeader {
-    padding: 23px 22px 18px;
-
-    border-bottom: 1px solid #eee2de;
-
-    background: rgba(255,250,248,.95);
-}
-
-.chatHeaderTitle {
-    font-family: Georgia, serif;
-    font-size: 26px;
-}
-
-.chatHeaderSmall {
-    margin-top: 3px;
-
-    color: #a9918b;
-
-    font-size: 11px;
+    height: 650px;
 }
 
 .chatMessages {
     flex: 1;
-
     overflow-y: auto;
-
-    padding: 25px 18px;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 15px;
+    padding: 10px 5px;
 }
 
-/* =========================
-   CHAT BUBBLES
-========================= */
+.message {
+    display: flex;
+    margin: 12px 0;
+}
+
+.message.mine {
+    justify-content: flex-end;
+}
 
 .bubble {
+    max-width: 82%;
+    padding: 12px 15px;
+    border-radius: 20px;
+    background: #f3e8ef;
     position: relative;
-
-    max-width: 85%;
-
-    padding: 12px 16px;
-
-    border-radius:
-        20px 20px 20px 5px;
-
-    background: #f6e5e6;
-
-    color: #67514c;
-
-    font-size: 14px;
-    line-height: 1.5;
-
-    align-self: flex-start;
-
-    animation: bubbleIn .4s ease;
 }
 
-.bubble::after {
-    content: "";
-
-    position: absolute;
-
-    left: 5px;
-    bottom: -5px;
-
-    width: 11px;
-    height: 11px;
-
-    background: #f6e5e6;
-
-    border-radius: 50%;
+.mine .bubble {
+    background: #e8d9ef;
 }
 
-.bubble.mine {
-    align-self: flex-end;
-
-    border-radius:
-        20px 20px 5px 20px;
-
-    background: #f0d4da;
-}
-
-.bubble.mine::after {
-    left: auto;
-    right: 5px;
-
-    background: #f0d4da;
-}
-
-.bubbleName {
+.messageName {
+    font-size: 11px;
+    color: #957e8d;
     margin-bottom: 3px;
-
-    color: #b36e7e;
-
-    font-size: 10px;
-    font-weight: bold;
 }
 
-.bubbleTime {
-    margin-top: 5px;
+.messageText {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
 
-    color: #ae9993;
-
+.messageTime {
     font-size: 9px;
-
-    text-align: right;
+    color: #a595a0;
+    margin-top: 5px;
 }
 
-/* =========================
-   CHAT INPUT
-========================= */
+.deleteMessage {
+    border: none;
+    background: transparent;
+    color: #b99eab;
+    cursor: pointer;
+    font-size: 11px;
+    margin-top: 3px;
+}
 
 .chatInputArea {
-    padding: 15px;
-
-    border-top: 1px solid #eee2de;
-
-    background: rgba(255,250,248,.95);
-}
-
-.chatInputRow {
     display: flex;
     gap: 8px;
+    margin-top: 15px;
 }
 
-.chatInput {
+#chatInput {
     flex: 1;
-    min-width: 0;
-
-    padding: 13px 15px;
-
-    border: 1px solid #eaded8;
-    border-radius: 17px;
-
+    border: 1px solid #eadce5;
+    border-radius: 16px;
+    padding: 13px;
+    resize: none;
     outline: none;
-
-    background: white;
-
-    font: inherit;
-    color: #594642;
+    font-family: inherit;
 }
 
-.chatInput:focus {
-    border-color: #cf7e91;
-}
-
-.chatSend {
-    width: 48px;
-    height: 48px;
-
-    flex-shrink: 0;
-
+#sendMessage {
     border: none;
-    border-radius: 50%;
-
-    background: #cf7e91;
+    background: #d89ab7;
     color: white;
-
-    font-size: 18px;
-
+    border-radius: 16px;
+    padding: 0 18px;
     cursor: pointer;
 }
 
-.chatSend:hover {
-    opacity: .9;
+/* LETTER */
+
+.letterSection {
+    margin-top: 25px;
 }
 
-.chatHint {
-    margin-top: 7px;
-
+.letterPreview {
     text-align: center;
-
-    color: #b09c96;
-
-    font-size: 9px;
 }
 
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    padding: 25px 20px 60px;
-
-    text-align: center;
-
-    color: #a9918b;
-
-    font-size: 12px;
+.envelope {
+    width: 240px;
+    height: 155px;
+    margin: 20px auto;
+    position: relative;
+    cursor: pointer;
+    perspective: 800px;
 }
 
-/* =========================
-   ANIMATIONEN
-========================= */
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.envelopeBack {
+    position: absolute;
+    inset: 0;
+    background: #e6bfd0;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(90,60,90,.15);
 }
 
-@keyframes heartbeat {
-    0%, 100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.08);
-    }
+.envelopePaper {
+    position: absolute;
+    width: 200px;
+    height: 120px;
+    left: 20px;
+    bottom: 15px;
+    background: #fffdf8;
+    border-radius: 5px;
+    padding: 15px;
+    transition: .9s ease;
+    z-index: 2;
+    box-shadow: 0 3px 10px rgba(50,30,50,.1);
 }
 
-@keyframes polaroidAppear {
-    from {
-        opacity: 0;
-        transform: translateY(25px) rotate(0deg);
-    }
-
-    to {
-        opacity: 1;
-    }
+.envelopeFlap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 120px solid transparent;
+    border-right: 120px solid transparent;
+    border-top: 85px solid #d69db7;
+    transform-origin: top center;
+    transition: .8s ease;
+    z-index: 4;
 }
 
-@keyframes bubbleIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px) scale(.96);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+.envelope.open .envelopeFlap {
+    transform: rotateX(180deg);
+    z-index: 1;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+.envelope.open .envelopePaper {
+    transform: translateY(-100px);
+    z-index: 5;
+}
 
-@media (max-width: 950px) {
+.letterEditor {
+    display: none;
+    margin-top: 20px;
+}
 
-    .layout {
+.letterEditor textarea {
+    width: 100%;
+    min-height: 150px;
+    border: 1px solid #eadce5;
+    border-radius: 16px;
+    padding: 15px;
+    resize: vertical;
+    font-family: inherit;
+    outline: none;
+}
+
+.letterParts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.letterPart {
+    background: #fffdf8;
+    border-radius: 18px;
+    padding: 18px;
+}
+
+.letterPart h3 {
+    color: #694f63;
+}
+
+.letterText {
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(45,30,45,.45);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modalBox {
+    background: white;
+    border-radius: 25px;
+    padding: 28px;
+    width: 100%;
+    max-width: 430px;
+    box-shadow: 0 20px 70px rgba(30,20,30,.25);
+}
+
+.modalBox h2 {
+    margin-top: 0;
+    color: #694f63;
+}
+
+.modalBox input,
+.modalBox textarea {
+    width: 100%;
+    border: 1px solid #eadce5;
+    border-radius: 14px;
+    padding: 13px;
+    font-family: inherit;
+    outline: none;
+    margin-top: 8px;
+}
+
+.modalBox textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.modalButtons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+.secondaryButton {
+    border: none;
+    background: #f3e8ef;
+    color: #74576b;
+    padding: 12px 17px;
+    border-radius: 13px;
+    cursor: pointer;
+}
+
+/* IDENTITY */
+
+.identityButtons {
+    display: flex;
+    gap: 15px;
+}
+
+.identityButton {
+    flex: 1;
+    border: 2px solid #eadce5;
+    background: #fffafd;
+    border-radius: 18px;
+    padding: 20px;
+    cursor: pointer;
+    font-size: 22px;
+    color: #694f63;
+}
+
+.identityButton:hover {
+    border-color: #d89ab7;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 900px) {
+    .contentGrid {
         grid-template-columns: 1fr;
     }
 
-    .chat {
-        position: relative;
-        top: auto;
-
-        height: 550px;
-
-        order: 2;
+    .chatBox {
+        height: 500px;
     }
 }
 
-@media (max-width: 600px) {
-
-    .hero {
-        min-height: 65vh;
+@media(max-width: 600px) {
+    header {
+        padding: 18px;
     }
 
-    .content {
-        width: calc(100% - 18px);
+    .logo {
+        font-size: 23px;
+    }
+
+    .hero h1 {
+        letter-spacing: -2px;
+    }
+
+    .container {
+        padding: 20px 12px 50px;
+    }
+
+    .card {
+        padding: 18px;
+        border-radius: 22px;
     }
 
     .photoGrid {
-        grid-template-columns: 1fr 1fr;
-        gap: 18px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 15px;
     }
 
-    .polaroid {
-        padding: 8px 8px 17px;
-    }
-
-    .polaroidText h3 {
-        font-size: 16px;
-    }
-
-    .polaroidText p {
-        font-size: 11px;
-    }
-
-    .memoriesTitle h2 {
-        font-size: 34px;
-    }
-}
-
-@media (max-width: 430px) {
-
-    .photoGrid {
+    .letterParts {
         grid-template-columns: 1fr;
-
-        max-width: 320px;
-
-        margin: auto;
     }
 }
 </style>
@@ -759,796 +612,1514 @@ footer {
 
 <body>
 
-<!-- =====================================================
-     ZUGANG
-===================================================== -->
+<!-- LOGIN -->
 
-<section id="lockScreen">
-
-    <div class="lockBox">
-
-        <div class="lockLogo">
-            A <span>+</span> M ♡
-        </div>
-
-        <div class="lockSmall">
-            OUR LITTLE PLACE
-        </div>
-
-        <h1>
-            Nur für uns
-        </h1>
-
-        <p>
-            Gib unseren kleinen Code ein,
-            um unsere gemeinsame Seite zu öffnen.
-        </p>
+<section id="loginScreen">
+    <div class="loginBox">
+        <div class="loginHeart">♡</div>
+        <h1>A + M</h1>
+        <p>Unsere kleine gemeinsame Welt</p>
 
         <input
             id="codeInput"
-            class="codeInput"
             type="text"
-            inputmode="decimal"
-            placeholder="21.8.26"
+            placeholder="Code eingeben"
             autocomplete="off"
         >
 
-        <button
-            id="enterButton"
-            class="enterButton"
-            type="button"
-        >
-            Öffnen ♡
+        <button class="mainButton" onclick="unlock()">
+            Öffnen
         </button>
 
-        <div
-            id="lockError"
-            class="lockError"
-        ></div>
-
+        <div id="loginError" class="error"></div>
     </div>
-
 </section>
 
 
-<!-- =====================================================
-     HAUPTSEITE
-===================================================== -->
+<!-- APP -->
 
-<div id="site">
+<div id="app">
+
+<header>
+    <div class="logo">A + M ♡</div>
+
+    <div class="headerRight">
+        <span id="personBadge" class="personBadge"></span>
+        <button class="smallButton" onclick="changePerson()">
+            Person ändern
+        </button>
+    </div>
+</header>
+
+<main class="container">
 
     <section class="hero">
-
-        <div class="heroContent">
-
-            <div class="heroSmall">
-                OUR LITTLE PLACE
-            </div>
-
-            <h1>
-                A <span>+</span> M
-            </h1>
-
-            <div class="heroHeart">
-                ♡
-            </div>
-
-            <div class="heroSubtitle">
-                Ein kleiner Ort nur für uns.
-            </div>
-
-        </div>
-
+        <h1>A + M ♡</h1>
+        <p>Ein kleiner Ort nur für uns.</p>
     </section>
 
+    <div class="contentGrid">
 
-    <main class="content">
+        <!-- LINKS -->
 
-        <div class="layout">
+        <section>
 
-            <!-- ================================
-                 ERINNERUNGEN
-            ================================= -->
+            <div class="card">
 
-            <section>
+                <h2>Unsere Erinnerungen</h2>
 
-                <div class="memoriesTitle">
+                <div class="uploadArea">
 
-                    <div class="small">
-                        UNSERE MOMENTE
-                    </div>
-
-                    <h2>
-                        Kleine Erinnerungen
-                    </h2>
-
-                    <p>
-                        Bilder, Gedanken und kleine Momente,
-                        die uns gehören.
-                    </p>
-
-                </div>
-
-
-                <div
-                    id="photoGrid"
-                    class="photoGrid"
-                >
-
-                    <article class="polaroid">
-
-                        <div class="polaroidImage">
-
-                            <div class="placeholderHeart">
-                                ♡
-                            </div>
-
-                        </div>
-
-                        <div class="polaroidText">
-
-                            <h3>
-                                Unser kleiner Ort
-                            </h3>
-
-                            <p>
-                                Hier entstehen später
-                                unsere gemeinsamen Erinnerungen.
-                            </p>
-
-                            <div class="polaroidDate">
-                                A + M
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                </div>
-
-
-                <!-- ============================
-                     FOTO UPLOAD
-                ============================= -->
-
-                <div class="addCard">
-
-                    <h3>
-                        Einen Moment hinzufügen
-                    </h3>
-
-                    <p>
-                        Such ein Bild aus und schreib,
-                        wenn du möchtest, ein paar Worte dazu.
-                    </p>
-
-                    <label
-                        for="photoInput"
-                        class="addButton"
-                    >
-                        + Bild hinzufügen
+                    <label class="uploadLabel" for="photoInput">
+                        + Foto hinzufügen
                     </label>
 
                     <input
                         id="photoInput"
                         type="file"
                         accept="image/*"
+                        onchange="preparePhoto()"
                     >
 
-                </div>
-
-            </section>
-
-
-            <!-- ================================
-                 CHAT
-            ================================= -->
-
-            <aside class="chat">
-
-                <div class="chatHeader">
-
-                    <div class="chatHeaderTitle">
-                        Unsere Gedanken
-                    </div>
-
-                    <div class="chatHeaderSmall">
-                        Nur wir zwei · unser kleiner Chat
+                    <div id="uploadStatus">
+                        Fotos werden online gespeichert.
                     </div>
 
                 </div>
 
+                <div id="photoGrid" class="photoGrid">
+                    <div class="empty">
+                        Noch keine Fotos.
+                    </div>
+                </div>
 
-                <div
-                    id="chatMessages"
-                    class="chatMessages"
-                >
+            </div>
 
-                    <div class="bubble">
 
-                        <div class="bubbleName">
-                            A + M
+            <!-- LETTER -->
+
+            <div class="card letterSection">
+
+                <h2>Unser Brief</h2>
+
+                <div class="letterPreview">
+
+                    <p>
+                        Ein Brief, den wir gemeinsam schreiben können.
+                    </p>
+
+                    <div
+                        id="envelope"
+                        class="envelope"
+                        onclick="openLetter()"
+                    >
+                        <div class="envelopeBack"></div>
+
+                        <div class="envelopePaper">
+                            ♡
                         </div>
 
-                        Willkommen in unserem
-                        kleinen gemeinsamen Ort. ♡
+                        <div class="envelopeFlap"></div>
+                    </div>
 
-                        <div class="bubbleTime">
-                            gerade eben
+                    <button
+                        class="mainButton"
+                        onclick="openLetter()"
+                    >
+                        Brief öffnen
+                    </button>
+
+                </div>
+
+                <div id="letterEditor" class="letterEditor">
+
+                    <div class="letterParts">
+
+                        <div class="letterPart">
+                            <h3>A</h3>
+                            <div id="aLetterText" class="letterText">
+                                Noch nichts geschrieben.
+                            </div>
+                        </div>
+
+                        <div class="letterPart">
+                            <h3>M</h3>
+                            <div id="mLetterText" class="letterText">
+                                Noch nichts geschrieben.
+                            </div>
                         </div>
 
                     </div>
 
+                    <hr style="border:none;border-top:1px solid #eee5ea;margin:25px 0;">
+
+                    <h3 id="ownLetterTitle"></h3>
+
+                    <textarea
+                        id="ownLetterInput"
+                        placeholder="Schreib hier deinen Teil des Briefes..."
+                    ></textarea>
+
+                    <button
+                        class="mainButton"
+                        onclick="saveLetter()"
+                    >
+                        Meinen Teil speichern
+                    </button>
+
+                    <div id="letterStatus"></div>
+
                 </div>
 
+            </div>
+
+        </section>
+
+
+        <!-- CHAT -->
+
+        <aside>
+
+            <div class="card chatBox">
+
+                <h2>Unser Chat</h2>
+
+                <div id="chatMessages" class="chatMessages">
+                    <div class="empty">
+                        Noch keine Nachrichten.
+                    </div>
+                </div>
 
                 <div class="chatInputArea">
 
-                    <div class="chatInputRow">
+                    <textarea
+                        id="chatInput"
+                        rows="1"
+                        placeholder="Schreib etwas..."
+                    ></textarea>
 
-                        <input
-                            id="chatInput"
-                            class="chatInput"
-                            type="text"
-                            maxlength="500"
-                            placeholder="Schreib einen Gedanken …"
-                        >
-
-                        <button
-                            id="chatSend"
-                            class="chatSend"
-                            type="button"
-                            title="Senden"
-                        >
-                            ↑
-                        </button>
-
-                    </div>
-
-                    <div class="chatHint">
-                        Ein kleiner Gedanke für uns ♡
-                    </div>
+                    <button id="sendMessage" onclick="sendMessage()">
+                        Senden
+                    </button>
 
                 </div>
 
-            </aside>
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+</div>
+
+
+<!-- PHOTO MODAL -->
+
+<div id="photoModal" class="modal">
+
+    <div class="modalBox">
+
+        <h2>Foto hinzufügen</h2>
+
+        <p>
+            Du kannst dem Foto einen kleinen Text geben.
+        </p>
+
+        <input
+            id="captionInput"
+            type="text"
+            maxlength="200"
+            placeholder="z. B. Unser schöner Tag ♡"
+        >
+
+        <div class="modalButtons">
+            <button
+                class="secondaryButton"
+                onclick="closePhotoModal()"
+            >
+                Abbrechen
+            </button>
+
+            <button
+                class="mainButton"
+                style="margin-top:0"
+                onclick="uploadPhoto()"
+            >
+                Speichern
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PERSON MODAL -->
+
+<div id="personModal" class="modal">
+
+    <div class="modalBox">
+
+        <h2>Wer bist du?</h2>
+
+        <p>
+            Wähle aus, wer du auf dieser Seite bist.
+        </p>
+
+        <div class="identityButtons">
+
+            <button
+                class="identityButton"
+                onclick="selectPerson('A')"
+            >
+                A
+            </button>
+
+            <button
+                class="identityButton"
+                onclick="selectPerson('M')"
+            >
+                M
+            </button>
 
         </div>
 
-    </main>
-
-
-    <footer>
-        A + M · unser kleiner Ort ♡
-    </footer>
+    </div>
 
 </div>
 
 
 <script>
 
-/* =========================================================
-   ZUGANGSCODE
-========================================================= */
+/* ==========================================
+   SUPABASE
+========================================== */
+
+const SUPABASE_URL =
+    "https://wzqpiizicvjcggkbudgv.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_Se94EEBVwc8HZB9hSKpJDw_0TW6MtzW";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+/* ==========================================
+   EINSTELLUNGEN
+========================================== */
 
 const ACCESS_CODE = "21.8.26";
 
+let currentPerson =
+    localStorage.getItem("AM_person");
 
-/* =========================================================
-   ELEMENTE
-========================================================= */
+let selectedFile = null;
 
-const lockScreen =
-    document.getElementById("lockScreen");
-
-const site =
-    document.getElementById("site");
-
-const codeInput =
-    document.getElementById("codeInput");
-
-const enterButton =
-    document.getElementById("enterButton");
-
-const lockError =
-    document.getElementById("lockError");
+let memories = [];
+let messages = [];
+let reactions = {};
 
 
-/* =========================================================
-   SEITE ÖFFNEN
-========================================================= */
+/* ==========================================
+   LOGIN
+========================================== */
 
 function unlock() {
 
-    const entered =
-        codeInput.value.trim();
+    const code =
+        document.getElementById("codeInput").value.trim();
 
+    const error =
+        document.getElementById("loginError");
 
-    if (entered === ACCESS_CODE) {
+    if (code !== ACCESS_CODE) {
 
-        lockScreen.style.display = "none";
-
-        site.style.display = "block";
-
-        lockError.textContent = "";
-
-        sessionStorage.setItem(
-            "AM_access",
-            "true"
-        );
+        error.textContent =
+            "Der Code stimmt nicht.";
 
         return;
     }
 
+    error.textContent = "";
 
-    lockError.textContent =
-        "Der Code ist falsch. Bitte genau 21.8.26 eingeben.";
+    sessionStorage.setItem(
+        "AM_unlocked",
+        "true"
+    );
 
-    codeInput.value = "";
+    document.getElementById("loginScreen").style.display =
+        "none";
 
-    codeInput.focus();
+    document.getElementById("app").style.display =
+        "block";
+
+    if (!currentPerson) {
+
+        openPersonModal();
+
+    } else {
+
+        updatePersonUI();
+        loadEverything();
+    }
 }
 
 
-/* Button */
-
-enterButton.addEventListener(
-    "click",
-    unlock
-);
-
-
-/* Enter-Taste */
-
-codeInput.addEventListener(
-    "keydown",
-    function(event) {
+document.getElementById("codeInput")
+    .addEventListener("keydown", function(event) {
 
         if (event.key === "Enter") {
             unlock();
         }
 
+    });
+
+
+/* ==========================================
+   AUTOMATISCH EINLOGGEN
+========================================== */
+
+window.addEventListener("load", function() {
+
+    if (
+        sessionStorage.getItem("AM_unlocked")
+        === "true"
+    ) {
+
+        document.getElementById("loginScreen").style.display =
+            "none";
+
+        document.getElementById("app").style.display =
+            "block";
+
+        if (!currentPerson) {
+
+            openPersonModal();
+
+        } else {
+
+            updatePersonUI();
+            loadEverything();
+        }
     }
-);
+
+});
 
 
-/* =========================================================
-   BEREITS EINGELOGGT?
-========================================================= */
+/* ==========================================
+   PERSON
+========================================== */
 
-if (
-    sessionStorage.getItem("AM_access")
-    === "true"
-) {
+function openPersonModal() {
 
-    lockScreen.style.display = "none";
-
-    site.style.display = "block";
+    document.getElementById("personModal").style.display =
+        "flex";
 }
 
 
-/* =========================================================
-   FOTOS
-========================================================= */
+function selectPerson(person) {
 
-const photoInput =
-    document.getElementById("photoInput");
+    currentPerson = person;
 
-const photoGrid =
-    document.getElementById("photoGrid");
+    localStorage.setItem(
+        "AM_person",
+        person
+    );
 
+    document.getElementById("personModal").style.display =
+        "none";
 
-photoInput.addEventListener(
-    "change",
-    function(event) {
+    updatePersonUI();
 
-        const file =
-            event.target.files[0];
-
-
-        if (!file) {
-            return;
-        }
+    loadEverything();
+}
 
 
-        if (!file.type.startsWith("image/")) {
+function changePerson() {
 
-            alert(
-                "Bitte ein Bild auswählen."
-            );
+    openPersonModal();
 
-            return;
-        }
+}
 
 
-        const reader =
-            new FileReader();
+function updatePersonUI() {
+
+    document.getElementById("personBadge")
+        .textContent =
+        "Du bist " + currentPerson;
+
+    document.getElementById("ownLetterTitle")
+        .textContent =
+        "Dein Teil (" + currentPerson + ")";
+
+}
 
 
-        reader.onload =
-            function(e) {
+/* ==========================================
+   ALLES LADEN
+========================================== */
 
-                const article =
-                    document.createElement("article");
+async function loadEverything() {
 
-                article.className =
-                    "polaroid";
+    await loadPhotos();
 
+    await loadMessages();
 
-                article.innerHTML = `
+    await loadLetter();
 
-                    <div class="polaroidImage">
+    setupRealtime();
 
-                        <img
-                            src="${e.target.result}"
-                            alt="Unsere Erinnerung"
-                        >
-
-                    </div>
-
-                    <div class="polaroidText">
-
-                        <h3>
-                            Ein kleiner Moment
-                        </h3>
-
-                        <p>
-                            Ein Bild von uns. ♡
-                        </p>
-
-                        <div class="polaroidDate">
-                            A + M
-                        </div>
-
-                    </div>
-
-                `;
+}
 
 
-                photoGrid.prepend(
-                    article
-                );
+/* ==========================================
+   FOTO VORBEREITEN
+========================================== */
 
+function preparePhoto() {
 
-                savePhotoLocally(
-                    e.target.result
-                );
+    const input =
+        document.getElementById("photoInput");
 
-
-                photoInput.value = "";
-
-            };
-
-
-        reader.readAsDataURL(file);
-
-    }
-);
-
-
-/* =========================================================
-   FOTOS LOKAL SPEICHERN
-========================================================= */
-
-function savePhotoLocally(image) {
-
-    let photos =
-        JSON.parse(
-            localStorage.getItem(
-                "AM_photos"
-            ) || "[]"
-        );
-
-
-    photos.push(image);
-
-
-    if (photos.length > 20) {
-        photos.shift();
+    if (!input.files.length) {
+        return;
     }
 
+    selectedFile =
+        input.files[0];
+
+    document.getElementById("captionInput").value =
+        "";
+
+    document.getElementById("photoModal").style.display =
+        "flex";
+}
+
+
+function closePhotoModal() {
+
+    document.getElementById("photoModal").style.display =
+        "none";
+
+    selectedFile = null;
+
+    document.getElementById("photoInput").value =
+        "";
+}
+
+
+/* ==========================================
+   FOTO HOCHLADEN
+========================================== */
+
+async function uploadPhoto() {
+
+    if (!selectedFile) {
+        return;
+    }
+
+    const status =
+        document.getElementById("uploadStatus");
+
+    const caption =
+        document.getElementById("captionInput").value.trim();
+
+    status.textContent =
+        "Foto wird hochgeladen...";
 
     try {
 
-        localStorage.setItem(
-            "AM_photos",
-            JSON.stringify(photos)
-        );
+        const extension =
+            selectedFile.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+        const fileName =
+            crypto.randomUUID() +
+            "." +
+            extension;
+
+        const storagePath =
+            fileName;
+
+        const upload =
+            await supabaseClient
+                .storage
+                .from("photos")
+                .upload(
+                    storagePath,
+                    selectedFile,
+                    {
+                        cacheControl: "3600",
+                        upsert: false
+                    }
+                );
+
+        if (upload.error) {
+            throw upload.error;
+        }
+
+        const publicUrl =
+            supabaseClient
+                .storage
+                .from("photos")
+                .getPublicUrl(storagePath)
+                .data
+                .publicUrl;
+
+        const insert =
+            await supabaseClient
+                .from("memories")
+                .insert({
+                    image_url: publicUrl,
+                    storage_path: storagePath,
+                    caption: caption,
+                    created_by: currentPerson
+                });
+
+        if (insert.error) {
+            throw insert.error;
+        }
+
+        status.textContent =
+            "Foto gespeichert ♡";
+
+        closePhotoModal();
+
+        await loadPhotos();
 
     } catch(error) {
 
-        console.log(
-            "Lokaler Speicher ist voll."
-        );
+        console.error(error);
 
+        status.textContent =
+            "Fehler: " + error.message;
     }
 
 }
 
 
-/* =========================================================
-   CHAT
-========================================================= */
+/* ==========================================
+   FOTOS LADEN
+========================================== */
 
-const chatInput =
-    document.getElementById("chatInput");
+async function loadPhotos() {
 
-const chatSend =
-    document.getElementById("chatSend");
+    const grid =
+        document.getElementById("photoGrid");
 
-const chatMessages =
-    document.getElementById("chatMessages");
+    const result =
+        await supabaseClient
+            .from("memories")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+    if (result.error) {
+
+        console.error(result.error);
+
+        grid.innerHTML =
+            `<div class="empty">
+                Fotos konnten nicht geladen werden.
+            </div>`;
+
+        return;
+    }
+
+    memories =
+        result.data || [];
+
+    await loadReactions();
+
+    renderPhotos();
+}
 
 
-chatSend.addEventListener(
-    "click",
-    sendMessage
-);
+/* ==========================================
+   REAKTIONEN LADEN
+========================================== */
 
+async function loadReactions() {
 
-chatInput.addEventListener(
-    "keydown",
-    function(event) {
+    const ids =
+        memories.map(
+            memory => memory.id
+        );
 
-        if (event.key === "Enter") {
-            sendMessage();
+    reactions = {};
+
+    if (!ids.length) {
+        return;
+    }
+
+    const result =
+        await supabaseClient
+            .from("reactions")
+            .select("*")
+            .in(
+                "memory_id",
+                ids
+            );
+
+    if (result.error) {
+
+        console.error(result.error);
+
+        return;
+    }
+
+    for (const reaction of result.data) {
+
+        if (!reactions[reaction.memory_id]) {
+
+            reactions[reaction.memory_id] = {};
         }
 
+        if (!reactions[reaction.memory_id][reaction.emoji]) {
+
+            reactions[reaction.memory_id][reaction.emoji] = {
+                count: 0,
+                own: false
+            };
+        }
+
+        reactions[reaction.memory_id][reaction.emoji].count++;
+
+        if (
+            reaction.device_id === getDeviceId()
+        ) {
+
+            reactions[reaction.memory_id][reaction.emoji].own =
+                true;
+        }
     }
-);
+}
 
 
-/* =========================================================
-   NACHRICHT SENDEN
-========================================================= */
+/* ==========================================
+   FOTOS RENDERN
+========================================== */
 
-function sendMessage() {
+function renderPhotos() {
+
+    const grid =
+        document.getElementById("photoGrid");
+
+    if (!memories.length) {
+
+        grid.innerHTML =
+            `<div class="empty">
+                Noch keine Fotos. Vielleicht wird das hier bald voller. ♡
+            </div>`;
+
+        return;
+    }
+
+    grid.innerHTML = "";
+
+    memories.forEach(
+        (memory, index) => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "polaroid";
+
+            const rotations =
+                [-2, 1.5, -1, 2, -.8];
+
+            card.style.setProperty(
+                "--rotation",
+                rotations[index % rotations.length] + "deg"
+            );
+
+            const image =
+                document.createElement("img");
+
+            image.src =
+                memory.image_url;
+
+            image.alt =
+                memory.caption || "Erinnerung";
+
+            card.appendChild(image);
+
+
+            const caption =
+                document.createElement("div");
+
+            caption.className =
+                "photoCaption";
+
+            caption.textContent =
+                memory.caption || "";
+
+            card.appendChild(caption);
+
+
+            const date =
+                document.createElement("div");
+
+            date.className =
+                "photoDate";
+
+            date.textContent =
+                "von " +
+                (memory.created_by || "?") +
+                " · " +
+                formatDate(memory.created_at);
+
+            card.appendChild(date);
+
+
+            const actions =
+                document.createElement("div");
+
+            actions.className =
+                "photoActions";
+
+
+            ["❤️", "😂", "🥹", "✨"].forEach(
+                emoji => {
+
+                    const info =
+                        reactions[memory.id]?.[emoji];
+
+                    const count =
+                        info?.count || 0;
+
+                    const button =
+                        document.createElement("button");
+
+                    button.className =
+                        "reaction" +
+                        (info?.own ? " active" : "");
+
+                    button.textContent =
+                        emoji +
+                        (count ? " " + count : "");
+
+                    button.onclick =
+                        () => toggleReaction(
+                            memory.id,
+                            emoji
+                        );
+
+                    actions.appendChild(button);
+
+                }
+            );
+
+
+            const deleteButton =
+                document.createElement("button");
+
+            deleteButton.className =
+                "deletePhoto";
+
+            deleteButton.textContent =
+                "Löschen";
+
+            deleteButton.onclick =
+                () => deletePhoto(memory);
+
+            actions.appendChild(deleteButton);
+
+            card.appendChild(actions);
+
+            grid.appendChild(card);
+
+        }
+    );
+}
+
+
+/* ==========================================
+   FOTO LÖSCHEN
+========================================== */
+
+async function deletePhoto(memory) {
+
+    const yes =
+        confirm(
+            "Dieses Foto wirklich löschen?"
+        );
+
+    if (!yes) {
+        return;
+    }
+
+    try {
+
+        if (memory.storage_path) {
+
+            const storageResult =
+                await supabaseClient
+                    .storage
+                    .from("photos")
+                    .remove([
+                        memory.storage_path
+                    ]);
+
+            if (storageResult.error) {
+                console.warn(
+                    storageResult.error
+                );
+            }
+        }
+
+        const result =
+            await supabaseClient
+                .from("memories")
+                .delete()
+                .eq(
+                    "id",
+                    memory.id
+                );
+
+        if (result.error) {
+            throw result.error;
+        }
+
+        await loadPhotos();
+
+    } catch(error) {
+
+        alert(
+            "Löschen fehlgeschlagen: " +
+            error.message
+        );
+
+    }
+}
+
+
+/* ==========================================
+   REAKTION UMSCHALTEN
+========================================== */
+
+async function toggleReaction(
+    memoryId,
+    emoji
+) {
+
+    const deviceId =
+        getDeviceId();
+
+    const existing =
+        await supabaseClient
+            .from("reactions")
+            .select("id")
+            .eq(
+                "memory_id",
+                memoryId
+            )
+            .eq(
+                "emoji",
+                emoji
+            )
+            .eq(
+                "device_id",
+                deviceId
+            )
+            .maybeSingle();
+
+    if (existing.error) {
+
+        console.error(existing.error);
+        return;
+    }
+
+    if (existing.data) {
+
+        await supabaseClient
+            .from("reactions")
+            .delete()
+            .eq(
+                "id",
+                existing.data.id
+            );
+
+    } else {
+
+        await supabaseClient
+            .from("reactions")
+            .insert({
+                memory_id: memoryId,
+                emoji: emoji,
+                device_id: deviceId
+            });
+
+    }
+
+    await loadPhotos();
+}
+
+
+/* ==========================================
+   DEVICE ID
+========================================== */
+
+function getDeviceId() {
+
+    let id =
+        localStorage.getItem(
+            "AM_device_id"
+        );
+
+    if (!id) {
+
+        id =
+            crypto.randomUUID();
+
+        localStorage.setItem(
+            "AM_device_id",
+            id
+        );
+    }
+
+    return id;
+}
+
+
+/* ==========================================
+   CHAT LADEN
+========================================== */
+
+async function loadMessages() {
+
+    const result =
+        await supabaseClient
+            .from("messages")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: true
+                }
+            );
+
+    if (result.error) {
+
+        console.error(result.error);
+
+        return;
+    }
+
+    messages =
+        result.data || [];
+
+    renderMessages();
+}
+
+
+/* ==========================================
+   CHAT RENDERN
+========================================== */
+
+function renderMessages() {
+
+    const box =
+        document.getElementById(
+            "chatMessages"
+        );
+
+    if (!messages.length) {
+
+        box.innerHTML =
+            `<div class="empty">
+                Noch keine Nachrichten. ♡
+            </div>`;
+
+        return;
+    }
+
+    box.innerHTML = "";
+
+    messages.forEach(
+        message => {
+
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.className =
+                "message" +
+                (
+                    message.sender === currentPerson
+                    ? " mine"
+                    : ""
+                );
+
+
+            const bubble =
+                document.createElement("div");
+
+            bubble.className =
+                "bubble";
+
+
+            const name =
+                document.createElement("div");
+
+            name.className =
+                "messageName";
+
+            name.textContent =
+                message.sender;
+
+            bubble.appendChild(name);
+
+
+            const text =
+                document.createElement("div");
+
+            text.className =
+                "messageText";
+
+            text.textContent =
+                message.text;
+
+            bubble.appendChild(text);
+
+
+            const time =
+                document.createElement("div");
+
+            time.className =
+                "messageTime";
+
+            time.textContent =
+                formatDate(
+                    message.created_at
+                );
+
+            bubble.appendChild(time);
+
+
+            if (
+                message.sender === currentPerson
+            ) {
+
+                const deleteButton =
+                    document.createElement("button");
+
+                deleteButton.className =
+                    "deleteMessage";
+
+                deleteButton.textContent =
+                    "löschen";
+
+                deleteButton.onclick =
+                    () => deleteMessage(
+                        message.id
+                    );
+
+                bubble.appendChild(
+                    deleteButton
+                );
+            }
+
+
+            wrapper.appendChild(bubble);
+
+            box.appendChild(wrapper);
+
+        }
+    );
+
+    box.scrollTop =
+        box.scrollHeight;
+}
+
+
+/* ==========================================
+   CHAT SENDEN
+========================================== */
+
+async function sendMessage() {
+
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
 
     const text =
-        chatInput.value.trim();
-
+        input.value.trim();
 
     if (!text) {
         return;
     }
 
+    input.disabled = true;
 
-    createBubble(
-        text,
-        "A",
-        true
+    const result =
+        await supabaseClient
+            .from("messages")
+            .insert({
+                sender: currentPerson,
+                text: text
+            });
+
+    input.disabled = false;
+
+    if (result.error) {
+
+        console.error(result.error);
+
+        alert(
+            "Nachricht konnte nicht gesendet werden."
+        );
+
+        return;
+    }
+
+    input.value = "";
+
+    await loadMessages();
+}
+
+
+document.getElementById("chatInput")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                sendMessage();
+            }
+
+        }
     );
 
 
-    saveMessageLocally(
-        text,
-        "A"
+/* ==========================================
+   CHAT NACHRICHT LÖSCHEN
+========================================== */
+
+async function deleteMessage(id) {
+
+    const yes =
+        confirm(
+            "Nachricht wirklich löschen?"
+        );
+
+    if (!yes) {
+        return;
+    }
+
+    const result =
+        await supabaseClient
+            .from("messages")
+            .delete()
+            .eq(
+                "id",
+                id
+            )
+            .eq(
+                "sender",
+                currentPerson
+            );
+
+    if (result.error) {
+
+        console.error(result.error);
+
+        alert(
+            "Nachricht konnte nicht gelöscht werden."
+        );
+
+        return;
+    }
+
+    await loadMessages();
+}
+
+
+/* ==========================================
+   BRIEF
+========================================== */
+
+async function openLetter() {
+
+    const envelope =
+        document.getElementById(
+            "envelope"
+        );
+
+    envelope.classList.add(
+        "open"
     );
 
+    document.getElementById(
+        "letterEditor"
+    ).style.display =
+        "block";
 
-    chatInput.value = "";
+    await loadLetter();
 
-    chatInput.focus();
+    setTimeout(
+        function() {
+
+            document.getElementById(
+                "letterEditor"
+            ).scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        },
+        600
+    );
+}
+
+
+/* ==========================================
+   BRIEF LADEN
+========================================== */
+
+async function loadLetter() {
+
+    const result =
+        await supabaseClient
+            .from("letters")
+            .select("*")
+            .eq(
+                "id",
+                1
+            )
+            .maybeSingle();
+
+    if (result.error) {
+
+        console.error(result.error);
+
+        return;
+    }
+
+    const letter =
+        result.data;
+
+    const aText =
+        document.getElementById(
+            "aLetterText"
+        );
+
+    const mText =
+        document.getElementById(
+            "mLetterText"
+        );
+
+    if (!letter) {
+
+        aText.textContent =
+            "Noch nichts geschrieben.";
+
+        mText.textContent =
+            "Noch nichts geschrieben.";
+
+        document.getElementById(
+            "ownLetterInput"
+        ).value = "";
+
+        return;
+    }
+
+    aText.textContent =
+        letter.a_text ||
+        "Noch nichts geschrieben.";
+
+    mText.textContent =
+        letter.m_text ||
+        "Noch nichts geschrieben.";
+
+    document.getElementById(
+        "ownLetterInput"
+    ).value =
+        currentPerson === "A"
+        ? (letter.a_text || "")
+        : (letter.m_text || "");
+}
+
+
+/* ==========================================
+   BRIEF SPEICHERN
+========================================== */
+
+async function saveLetter() {
+
+    const text =
+        document.getElementById(
+            "ownLetterInput"
+        ).value;
+
+    const updateData =
+        currentPerson === "A"
+        ? {
+            a_text: text
+        }
+        : {
+            m_text: text
+        };
+
+
+    const result =
+        await supabaseClient
+            .from("letters")
+            .upsert(
+                {
+                    id: 1,
+                    ...updateData
+                },
+                {
+                    onConflict: "id"
+                }
+            );
+
+
+    if (result.error) {
+
+        console.error(result.error);
+
+        document.getElementById(
+            "letterStatus"
+        ).textContent =
+            "Fehler beim Speichern.";
+
+        return;
+    }
+
+    document.getElementById(
+        "letterStatus"
+    ).textContent =
+        "Gespeichert ♡";
+
+    await loadLetter();
 
 }
 
 
-/* =========================================================
-   BUBBLE ERSTELLEN
-========================================================= */
+/* ==========================================
+   REALTIME
+========================================== */
 
-function createBubble(
-    text,
-    name,
-    mine
-) {
+let realtimeStarted = false;
 
-    const bubble =
-        document.createElement("div");
+function setupRealtime() {
 
-
-    bubble.className =
-        "bubble";
-
-
-    if (mine) {
-        bubble.classList.add("mine");
+    if (realtimeStarted) {
+        return;
     }
 
+    realtimeStarted = true;
 
-    const time =
-        new Date().toLocaleTimeString(
+
+    supabaseClient
+        .channel("memories-live")
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "memories"
+            },
+            function() {
+                loadPhotos();
+            }
+        )
+        .subscribe();
+
+
+    supabaseClient
+        .channel("messages-live")
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "messages"
+            },
+            function() {
+                loadMessages();
+            }
+        )
+        .subscribe();
+
+
+    supabaseClient
+        .channel("reactions-live")
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "reactions"
+            },
+            function() {
+                loadPhotos();
+            }
+        )
+        .subscribe();
+
+
+    supabaseClient
+        .channel("letters-live")
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "letters"
+            },
+            function() {
+                loadLetter();
+            }
+        )
+        .subscribe();
+
+}
+
+
+/* ==========================================
+   DATUM
+========================================== */
+
+function formatDate(date) {
+
+    if (!date) {
+        return "";
+    }
+
+    return new Date(date)
+        .toLocaleString(
             "de-DE",
             {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
                 hour: "2-digit",
                 minute: "2-digit"
             }
         );
-
-
-    bubble.innerHTML = `
-
-        <div class="bubbleName">
-            ${escapeHTML(name)}
-        </div>
-
-        ${escapeHTML(text)}
-
-        <div class="bubbleTime">
-            ${time}
-        </div>
-
-    `;
-
-
-    chatMessages.appendChild(
-        bubble
-    );
-
-
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight;
-
 }
-
-
-/* =========================================================
-   CHAT SPEICHERN
-========================================================= */
-
-function saveMessageLocally(
-    text,
-    name
-) {
-
-    let messages =
-        JSON.parse(
-            localStorage.getItem(
-                "AM_messages"
-            ) || "[]"
-        );
-
-
-    messages.push({
-
-        text: text,
-
-        name: name,
-
-        time: Date.now()
-
-    });
-
-
-    if (messages.length > 100) {
-        messages.shift();
-    }
-
-
-    localStorage.setItem(
-        "AM_messages",
-        JSON.stringify(messages)
-    );
-
-}
-
-
-/* =========================================================
-   CHAT LADEN
-========================================================= */
-
-function loadMessages() {
-
-    const messages =
-        JSON.parse(
-            localStorage.getItem(
-                "AM_messages"
-            ) || "[]"
-        );
-
-
-    messages.forEach(
-        function(message) {
-
-            createBubble(
-                message.text,
-                message.name,
-                true
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   HTML ESCAPEN
-========================================================= */
-
-function escapeHTML(text) {
-
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/* =========================================================
-   LOKALE FOTOS LADEN
-========================================================= */
-
-function loadPhotos() {
-
-    const photos =
-        JSON.parse(
-            localStorage.getItem(
-                "AM_photos"
-            ) || "[]"
-        );
-
-
-    photos.forEach(
-        function(image) {
-
-            const article =
-                document.createElement("article");
-
-            article.className =
-                "polaroid";
-
-
-            article.innerHTML = `
-
-                <div class="polaroidImage">
-
-                    <img
-                        src="${image}"
-                        alt="Unsere Erinnerung"
-                    >
-
-                </div>
-
-                <div class="polaroidText">
-
-                    <h3>
-                        Ein kleiner Moment
-                    </h3>
-
-                    <p>
-                        ♡
-                    </p>
-
-                    <div class="polaroidDate">
-                        A + M
-                    </div>
-
-                </div>
-
-            `;
-
-
-            photoGrid.prepend(
-                article
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-loadPhotos();
-
-loadMessages();
 
 </script>
 
