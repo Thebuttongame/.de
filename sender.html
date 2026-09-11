@@ -1,1316 +1,470 @@
-```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>MTRIPS LIVE – Regie</title>
-
 <style>
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #060b12;
-    color: white;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-header {
-    height: 64px;
-    width: 100%;
-    background: linear-gradient(90deg, #111827, #182536);
-    border-bottom: 1px solid #334155;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 22px;
-}
-
-.brand {
-    font-size: 25px;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-.brand .red {
-    color: #ef4444;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.live-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #ef4444;
-    box-shadow: 0 0 10px rgba(239, 68, 68, .8);
-}
-
-.header-live {
-    font-size: 14px;
-    font-weight: bold;
-}
-
-/* =========================
-   HAUPTBEREICH
-========================= */
-
-.main {
-    height: calc(100vh - 64px);
-    display: flex;
-}
-
-/* =========================
-   LINKER BEREICH
-========================= */
-
-.preview-area {
-    flex: 1;
-    min-width: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 22px;
-
-    background:
-        radial-gradient(circle at center, #111827 0%, #060b12 70%);
-}
-
-/* 16:9 Vorschau */
-
-.preview {
-    width: 100%;
-    max-width: 1100px;
-    aspect-ratio: 16 / 9;
-
-    background: #000;
-
-    position: relative;
-    overflow: hidden;
-
-    border: 1px solid #334155;
-    border-radius: 8px;
-
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, .55);
-}
-
-/* Minecraft / Bildschirm */
-
-#screen {
-    position: absolute;
-
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-
-    background: #000;
-}
-
-/* =========================
-   LIVE LABEL
-========================= */
-
-.live-label {
-    position: absolute;
-
-    left: 18px;
-    top: 18px;
-
-    background: #dc2626;
-
-    padding: 7px 11px;
-
-    border-radius: 4px;
-
-    font-size: 13px;
-    font-weight: 800;
-
-    letter-spacing: .5px;
-
-    z-index: 20;
-
-    pointer-events: none;
-}
-
-/* =========================
-   LOGO
-========================= */
-
-#logo {
-    position: absolute;
-
-    left: 78%;
-    top: 8%;
-
-    width: 150px;
-
-    height: auto;
-
-    object-fit: contain;
-
-    z-index: 30;
-
-    cursor: grab;
-
-    user-select: none;
-
-    display: none;
-
-    filter: drop-shadow(0 2px 5px rgba(0,0,0,.5));
-}
-
-#logo:active {
-    cursor: grabbing;
-}
-
-/* =========================
-   NACHRICHT
-========================= */
-
-#message {
-    position: absolute;
-
-    left: 50%;
-    bottom: 7%;
-
-    transform: translateX(-50%);
-
-    max-width: 85%;
-
-    background: rgba(0, 0, 0, .82);
-
-    border-left: 5px solid #ef4444;
-
-    padding: 14px 22px;
-
-    font-size: clamp(16px, 2vw, 28px);
-
-    font-weight: 700;
-
-    text-align: center;
-
-    border-radius: 4px;
-
-    z-index: 40;
-
-    display: none;
-
-    pointer-events: none;
-
-    box-shadow: 0 5px 20px rgba(0,0,0,.5);
-}
-
-/* =========================
-   RECHTE REGIE
-========================= */
-
-.control-panel {
-    width: 350px;
-
-    background: #0b111b;
-
-    border-left: 1px solid #334155;
-
-    overflow-y: auto;
-
-    padding: 22px;
-}
-
-/* Überschriften */
-
-.panel-title {
-    font-size: 20px;
-    font-weight: 800;
-
-    margin-bottom: 20px;
-}
-
-.section {
-    border-top: 1px solid #263244;
-
-    padding-top: 20px;
-    margin-top: 20px;
-}
-
-.section-title {
-    font-size: 13px;
-
-    color: #94a3b8;
-
-    font-weight: 700;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 13px;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-button {
-    width: 100%;
-
-    border: 0;
-
-    border-radius: 5px;
-
-    padding: 12px 14px;
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-    color: white;
-
-    background: #2563eb;
-
-    cursor: pointer;
-
-    margin-bottom: 9px;
-
-    transition: .15s ease;
-}
-
-button:hover {
-    background: #1d4ed8;
-}
-
-button:active {
-    transform: scale(.98);
-}
-
-.stop-button {
-    background: #dc2626;
-}
-
-.stop-button:hover {
-    background: #b91c1c;
-}
-
-.secondary-button {
-    background: #334155;
-}
-
-.secondary-button:hover {
-    background: #475569;
-}
-
-/* =========================
-   INPUT
-========================= */
-
-input[type="file"] {
-    width: 100%;
-
-    color: #cbd5e1;
-
-    font-size: 13px;
-
-    margin-bottom: 10px;
-}
-
-input[type="text"] {
-    width: 100%;
-
-    height: 44px;
-
-    border: 1px solid #334155;
-
-    border-radius: 5px;
-
-    outline: none;
-
-    background: #111827;
-
-    color: white;
-
-    padding: 0 12px;
-
-    font-size: 14px;
-
-    margin-bottom: 9px;
-}
-
-input[type="text"]:focus {
-    border-color: #3b82f6;
-}
-
-/* =========================
-   RANGE SLIDER
-========================= */
-
-.range-row {
-    margin-bottom: 17px;
-}
-
-.range-label {
-    display: flex;
-
-    justify-content: space-between;
-
-    margin-bottom: 7px;
-
-    color: #cbd5e1;
-
-    font-size: 13px;
-}
-
-input[type="range"] {
-    width: 100%;
-}
-
-/* =========================
-   STATUS
-========================= */
-
-.status {
-    margin-top: 20px;
-
-    padding: 12px;
-
-    border-radius: 5px;
-
-    background: #111827;
-
-    border: 1px solid #263244;
-
-    color: #94a3b8;
-
-    font-size: 12px;
-
-    line-height: 1.5;
-}
-
-.status strong {
-    color: white;
-}
-
-/* =========================
-   HINWEIS
-========================= */
-
-.hint {
-    margin-top: 10px;
-
-    color: #64748b;
-
-    font-size: 11px;
-
-    line-height: 1.5;
-}
-
-/* =========================
-   VOLLZUSTAND
-========================= */
-
-.fullscreen-button {
-    background: #475569;
-}
-
-/* =========================
-   MOBILE / KLEINERE FENSTER
-========================= */
-
-@media (max-width: 900px) {
-
-    .control-panel {
-        width: 300px;
-    }
-
-    .preview-area {
-        padding: 12px;
-    }
-
-}
-
-@media (max-width: 700px) {
-
-    html,
-    body {
-        overflow: auto;
-    }
-
-    .main {
-        height: auto;
-        flex-direction: column;
-    }
-
-    .preview-area {
-        min-height: 55vh;
-    }
-
-    .control-panel {
-        width: 100%;
-    }
-
-}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#060b12;color:#fff}
+header{height:64px;width:100%;background:linear-gradient(90deg,#111827,#182536);border-bottom:1px solid #334155;display:flex;align-items:center;justify-content:space-between;padding:0 22px}
+.brand{font-size:25px;font-weight:800;letter-spacing:1px}.brand .red{color:#ef4444}
+.header-right{display:flex;align-items:center;gap:10px}.live-dot{width:10px;height:10px;border-radius:50%;background:#ef4444;box-shadow:0 0 10px rgba(239,68,68,.8)}.header-live{font-size:14px;font-weight:bold}
+.main{height:calc(100vh - 64px);display:flex}
+.preview-area{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;padding:22px;background:radial-gradient(circle at center,#111827 0%,#060b12 70%)}
+.preview{width:100%;max-width:1100px;aspect-ratio:16/9;background:#000;position:relative;overflow:hidden;border:1px solid #334155;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.55)}
+#screen{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;background:#000}
+.live-label{position:absolute;left:18px;top:18px;background:#dc2626;padding:7px 11px;border-radius:4px;font-size:13px;font-weight:800;letter-spacing:.5px;z-index:20;pointer-events:none}
+#logo{position:absolute;left:78%;top:8%;width:150px;height:auto;object-fit:contain;z-index:30;cursor:grab;user-select:none;display:none;filter:drop-shadow(0 2px 5px rgba(0,0,0,.5))}
+#logo:active{cursor:grabbing}
+#message{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);max-width:85%;background:rgba(0,0,0,.82);border-left:5px solid #ef4444;padding:14px 22px;font-size:clamp(16px,2vw,28px);font-weight:700;text-align:center;border-radius:4px;z-index:40;display:none;pointer-events:none;box-shadow:0 5px 20px rgba(0,0,0,.5)}
+.control-panel{width:350px;background:#0b111b;border-left:1px solid #334155;overflow-y:auto;padding:22px}
+.panel-title{font-size:20px;font-weight:800;margin-bottom:20px}
+.section{border-top:1px solid #263244;padding-top:20px;margin-top:20px}.section-title{font-size:13px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:13px}
+button{width:100%;border:0;border-radius:5px;padding:12px 14px;font-size:14px;font-weight:700;color:white;background:#2563eb;cursor:pointer;margin-bottom:9px;transition:.15s ease}button:hover{background:#1d4ed8}button:active{transform:scale(.98)}
+.stop-button{background:#dc2626}.stop-button:hover{background:#b91c1c}.secondary-button{background:#334155}.secondary-button:hover{background:#475569}.green-button{background:#16a34a}.green-button:hover{background:#15803d}
+input[type=file]{width:100%;color:#cbd5e1;font-size:13px;margin-bottom:10px}
+input[type=text]{width:100%;height:44px;border:1px solid #334155;border-radius:5px;outline:none;background:#111827;color:white;padding:0 12px;font-size:14px;margin-bottom:9px}input[type=text]:focus{border-color:#3b82f6}
+.range-row{margin-bottom:17px}.range-label{display:flex;justify-content:space-between;margin-bottom:7px;color:#cbd5e1;font-size:13px}input[type=range]{width:100%}
+.status{margin-top:20px;padding:12px;border-radius:5px;background:#111827;border:1px solid #263244;color:#94a3b8;font-size:12px;line-height:1.5}.status strong{color:white}
+.hint{margin-top:10px;color:#64748b;font-size:11px;line-height:1.5}
+.fullscreen-button{background:#475569}
+.badge{display:inline-block;padding:4px 7px;border-radius:999px;background:#334155;color:#cbd5e1;font-size:10px;font-weight:700;margin-bottom:9px}
+@media(max-width:900px){.control-panel{width:300px}.preview-area{padding:12px}}
+@media(max-width:700px){html,body{overflow:auto}.main{height:auto;flex-direction:column}.preview-area{min-height:55vh}.control-panel{width:100%}}
 </style>
 </head>
-
 <body>
-
 <header>
-
-    <div class="brand">
-        MTRIPS <span class="red">LIVE</span>
-    </div>
-
-    <div class="header-right">
-
-        <div class="live-dot"></div>
-
-        <div class="header-live">
-            LIVE-REGIE
-        </div>
-
-    </div>
-
+  <div class="brand">MTRIPS <span class="red">LIVE</span></div>
+  <div class="header-right"><div class="live-dot"></div><div class="header-live">LIVE-REGIE</div></div>
 </header>
 
-
 <div class="main">
+  <div class="preview-area">
+    <div class="preview" id="preview">
+      <video id="screen" autoplay muted playsinline></video>
+      <div class="live-label">LIVE</div>
+      <img id="logo" alt="Senderlogo">
+      <div id="message"></div>
+    </div>
+  </div>
 
-    <!-- =========================
-         VORSCHAU
-    ========================== -->
+  <aside class="control-panel">
+    <div class="panel-title">Regie</div>
 
-    <div class="preview-area">
-
-        <div class="preview" id="preview">
-
-            <video
-                id="screen"
-                autoplay
-                muted
-                playsinline>
-            </video>
-
-            <div class="live-label">
-                LIVE
-            </div>
-
-            <img
-                id="logo"
-                alt="Senderlogo">
-
-            <div id="message"></div>
-
-        </div>
-
+    <div class="section">
+      <div class="section-title">Übertragung</div>
+      <button onclick="openTransmission()" class="green-button">Übertragung öffnen</button>
+      <button onclick="startCapture()">Minecraft / Bildschirm übertragen</button>
+      <button class="stop-button" onclick="stopCapture()">Übertragung stoppen</button>
+      <button class="fullscreen-button" onclick="toggleFullscreen()">Regie-Vollbild</button>
+      <div class="hint">Zuerst „Übertragung öffnen“, danach Minecraft auswählen. Discord teilst du später im Tab „Übertragung“.</div>
     </div>
 
+    <div class="section">
+      <div class="section-title">Senderlogo</div>
+      <input type="file" id="logoFile" accept="image/*">
+      <button onclick="loadLogo()">Logo verwenden</button>
+      <button class="secondary-button" onclick="toggleLogo()">Logo ein / aus</button>
+      <div class="range-row">
+        <div class="range-label"><span>Logo-Größe</span><span id="sizeValue">150 px</span></div>
+        <input type="range" id="logoSize" min="40" max="400" value="150">
+      </div>
+      <div class="hint">Das Logo kannst du direkt mit der Maus über dem Livebild verschieben.</div>
+    </div>
 
-    <!-- =========================
-         REGIE
-    ========================== -->
+    <div class="section">
+      <div class="section-title">Nachricht</div>
+      <input type="text" id="messageInput" maxlength="120" placeholder="Nachricht eingeben...">
+      <button onclick="sendMessage()">Nachricht senden</button>
+      <button class="secondary-button" onclick="hideMessage()">Nachricht sofort entfernen</button>
+      <div class="hint">Die Nachricht bleibt automatisch 10 Sekunden im fertigen Sendebild.</div>
+    </div>
 
-    <aside class="control-panel">
+    <div class="section">
+      <div class="section-title">Übertragung</div>
+      <div class="badge" id="connectionBadge">ÜBERTRAGUNG: WARTET</div>
+      <div class="hint">Die Übertragungsseite bekommt das fertige Sendebild direkt aus dieser Regie. Dafür wird kein externer Streamingdienst benötigt, solange beide Tabs auf demselben PC geöffnet sind.</div>
+    </div>
 
-        <div class="panel-title">
-            Regie
-        </div>
-
-
-        <!-- =========================
-             ÜBERTRAGUNG
-        ========================== -->
-
-        <div class="section">
-
-            <div class="section-title">
-                Übertragung
-            </div>
-
-            <button onclick="startCapture()">
-                Minecraft / Bildschirm übertragen
-            </button>
-
-            <button
-                class="stop-button"
-                onclick="stopCapture()">
-
-                Übertragung stoppen
-
-            </button>
-
-            <button
-                class="fullscreen-button"
-                onclick="toggleFullscreen()">
-
-                Regie-Vollbild
-
-            </button>
-
-        </div>
-
-
-        <!-- =========================
-             LOGO
-        ========================== -->
-
-        <div class="section">
-
-            <div class="section-title">
-                Senderlogo
-            </div>
-
-            <input
-                type="file"
-                id="logoFile"
-                accept="image/*">
-
-            <button onclick="loadLogo()">
-                Logo verwenden
-            </button>
-
-            <button
-                class="secondary-button"
-                onclick="toggleLogo()">
-
-                Logo ein / aus
-
-            </button>
-
-
-            <div class="range-row">
-
-                <div class="range-label">
-
-                    <span>Logo-Größe</span>
-
-                    <span id="sizeValue">
-                        150 px
-                    </span>
-
-                </div>
-
-                <input
-                    type="range"
-                    id="logoSize"
-                    min="40"
-                    max="400"
-                    value="150">
-
-            </div>
-
-
-            <div class="hint">
-
-                Das Logo kannst du direkt mit der Maus
-                über dem Livebild verschieben.
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             NACHRICHT
-        ========================== -->
-
-        <div class="section">
-
-            <div class="section-title">
-                Nachricht
-            </div>
-
-            <input
-                type="text"
-                id="messageInput"
-                maxlength="120"
-                placeholder="Nachricht eingeben...">
-
-            <button onclick="sendMessage()">
-                Nachricht senden
-            </button>
-
-            <button
-                class="secondary-button"
-                onclick="hideMessage()">
-
-                Nachricht sofort entfernen
-
-            </button>
-
-            <div class="hint">
-
-                Die Nachricht bleibt automatisch
-                10 Sekunden im Bild.
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             STATUS
-        ========================== -->
-
-        <div class="status" id="status">
-
-            <strong>Status:</strong><br>
-
-            Noch keine Übertragung gestartet.
-
-        </div>
-
-    </aside>
-
+    <div class="status" id="status"><strong>Status:</strong><br>Noch keine Übertragung gestartet.</div>
+  </aside>
 </div>
 
+<!-- Unsichtbarer Compositor: genau dieses Bild wird an uebertragung.html gesendet. -->
+<canvas id="programCanvas" width="1280" height="720" style="display:none"></canvas>
 
 <script>
-
-/* =========================================================
-   BILDSCHIRMÜBERTRAGUNG
-========================================================= */
+const CHANNEL_NAME = "mtrips-live-regie-v1";
+const channel = new BroadcastChannel(CHANNEL_NAME);
 
 let stream = null;
-
-async function startCapture() {
-
-    try {
-
-        /*
-         * Firefox/Browser zeigt jetzt die verfügbaren
-         * Bildschirm-/Fensterfreigaben an.
-         */
-
-        stream = await navigator.mediaDevices.getDisplayMedia({
-
-            video: {
-                frameRate: 30
-            },
-
-            audio: true
-
-        });
-
-
-        const video = document.getElementById("screen");
-
-        video.srcObject = stream;
-
-
-        setStatus(
-            "Minecraft / Bildschirm wird übertragen."
-        );
-
-
-        /*
-         * Falls der Benutzer die Bildschirmfreigabe
-         * über das Browser-Menü beendet.
-         */
-
-        const videoTrack = stream.getVideoTracks()[0];
-
-        if (videoTrack) {
-
-            videoTrack.addEventListener(
-                "ended",
-                stopCapture
-            );
-
-        }
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        setStatus(
-            "Bildschirmübertragung wurde abgebrochen."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   ÜBERTRAGUNG STOPPEN
-========================================================= */
-
-function stopCapture() {
-
-    if (stream) {
-
-        stream.getTracks().forEach(
-            track => track.stop()
-        );
-
-        stream = null;
-
-    }
-
-
-    document.getElementById(
-        "screen"
-    ).srcObject = null;
-
-
-    setStatus(
-        "Übertragung gestoppt."
-    );
-
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function setStatus(text) {
-
-    document.getElementById("status").innerHTML =
-        "<strong>Status:</strong><br>" + text;
-
-}
-
-
-/* =========================================================
-   LOGO
-========================================================= */
-
-const logo = document.getElementById("logo");
-
-const logoFile = document.getElementById("logoFile");
-
-const logoSize = document.getElementById("logoSize");
-
-const sizeValue = document.getElementById("sizeValue");
-
-
-/*
- * Logo auswählen und laden
- */
-
-function loadLogo() {
-
-    const file = logoFile.files[0];
-
-    if (!file) {
-
-        alert("Bitte zuerst ein Logo auswählen.");
-
-        return;
-
-    }
-
-
-    const reader = new FileReader();
-
-
-    reader.onload = function(event) {
-
-        logo.src = event.target.result;
-
-        logo.style.display = "block";
-
-        setStatus(
-            "Senderlogo aktiviert. Du kannst es mit der Maus verschieben."
-        );
-
-    };
-
-
-    reader.readAsDataURL(file);
-
-}
-
-
-/*
- * Logo ein-/ausblenden
- */
-
-function toggleLogo() {
-
-    if (!logo.src) {
-
-        alert("Bitte zuerst ein Logo auswählen.");
-
-        return;
-
-    }
-
-
-    if (logo.style.display === "none") {
-
-        logo.style.display = "block";
-
-    }
-
-    else {
-
-        logo.style.display = "none";
-
-    }
-
-}
-
-
-/*
- * Logo-Größe
- */
-
-logoSize.addEventListener(
-    "input",
-    function() {
-
-        const size = this.value;
-
-        logo.style.width = size + "px";
-
-        sizeValue.innerText =
-            size + " px";
-
-    }
-);
-
-
-/* =========================================================
-   LOGO MIT MAUS VERSCHIEBEN
-========================================================= */
-
-let draggingLogo = false;
-
-let dragOffsetX = 0;
-
-let dragOffsetY = 0;
-
-
-/*
- * Maus drücken
- */
-
-logo.addEventListener(
-    "mousedown",
-    function(event) {
-
-        event.preventDefault();
-
-        draggingLogo = true;
-
-
-        const logoRect =
-            logo.getBoundingClientRect();
-
-
-        dragOffsetX =
-            event.clientX - logoRect.left;
-
-        dragOffsetY =
-            event.clientY - logoRect.top;
-
-    }
-);
-
-
-/*
- * Maus bewegen
- */
-
-document.addEventListener(
-    "mousemove",
-    function(event) {
-
-        if (!draggingLogo) {
-            return;
-        }
-
-
-        const preview =
-            document.getElementById("preview");
-
-
-        const previewRect =
-            preview.getBoundingClientRect();
-
-
-        /*
-         * Neue Position innerhalb der Vorschau
-         */
-
-        let x =
-            event.clientX -
-            previewRect.left -
-            dragOffsetX;
-
-
-        let y =
-            event.clientY -
-            previewRect.top -
-            dragOffsetY;
-
-
-        /*
-         * Logo innerhalb des Bildes halten
-         */
-
-        const maxX =
-            preview.clientWidth -
-            logo.offsetWidth;
-
-
-        const maxY =
-            preview.clientHeight -
-            logo.offsetHeight;
-
-
-        x = Math.max(
-            0,
-            Math.min(x, maxX)
-        );
-
-
-        y = Math.max(
-            0,
-            Math.min(y, maxY)
-        );
-
-
-        logo.style.left =
-            x + "px";
-
-        logo.style.top =
-            y + "px";
-
-    }
-);
-
-
-/*
- * Maus loslassen
- */
-
-document.addEventListener(
-    "mouseup",
-    function() {
-
-        draggingLogo = false;
-
-    }
-);
-
-
-/* =========================================================
-   TOUCH / TRACKPAD
-========================================================= */
-
-let touchDragging = false;
-
-let touchOffsetX = 0;
-
-let touchOffsetY = 0;
-
-
-logo.addEventListener(
-    "touchstart",
-    function(event) {
-
-        if (!event.touches.length) {
-            return;
-        }
-
-
-        const touch =
-            event.touches[0];
-
-        const rect =
-            logo.getBoundingClientRect();
-
-
-        touchOffsetX =
-            touch.clientX - rect.left;
-
-        touchOffsetY =
-            touch.clientY - rect.top;
-
-
-        touchDragging = true;
-
-    },
-    {
-        passive: true
-    }
-);
-
-
-document.addEventListener(
-    "touchmove",
-    function(event) {
-
-        if (!touchDragging) {
-            return;
-        }
-
-
-        if (!event.touches.length) {
-            return;
-        }
-
-
-        const touch =
-            event.touches[0];
-
-
-        const preview =
-            document.getElementById("preview");
-
-
-        const previewRect =
-            preview.getBoundingClientRect();
-
-
-        let x =
-            touch.clientX -
-            previewRect.left -
-            touchOffsetX;
-
-
-        let y =
-            touch.clientY -
-            previewRect.top -
-            touchOffsetY;
-
-
-        const maxX =
-            preview.clientWidth -
-            logo.offsetWidth;
-
-
-        const maxY =
-            preview.clientHeight -
-            logo.offsetHeight;
-
-
-        x = Math.max(
-            0,
-            Math.min(x, maxX)
-        );
-
-
-        y = Math.max(
-            0,
-            Math.min(y, maxY)
-        );
-
-
-        logo.style.left =
-            x + "px";
-
-        logo.style.top =
-            y + "px";
-
-    },
-    {
-        passive: true
-    }
-);
-
-
-document.addEventListener(
-    "touchend",
-    function() {
-
-        touchDragging = false;
-
-    }
-);
-
-
-/* =========================================================
-   NACHRICHTEN
-========================================================= */
-
+let programStream = null;
+let pc = null;
+let transmissionReady = false;
+let pendingRemoteCandidates = [];
 let messageTimer = null;
 
+const screen = document.getElementById("screen");
+const preview = document.getElementById("preview");
+const logo = document.getElementById("logo");
+const logoFile = document.getElementById("logoFile");
+const logoSize = document.getElementById("logoSize");
+const sizeValue = document.getElementById("sizeValue");
+const messageEl = document.getElementById("message");
+const canvas = document.getElementById("programCanvas");
+const ctx = canvas.getContext("2d");
+
+let logoImage = null;
+let logoVisible = false;
+let logoX = 0.78;
+let logoY = 0.08;
+let logoW = 150;
+let messageText = "";
+let messageVisible = false;
+
+function setStatus(text) {
+  document.getElementById("status").innerHTML = "<strong>Status:</strong><br>" + text;
+}
+
+function setConnection(text, connected=false) {
+  const el = document.getElementById("connectionBadge");
+  el.textContent = text;
+  el.style.background = connected ? "#166534" : "#334155";
+  el.style.color = connected ? "#dcfce7" : "#cbd5e1";
+}
+
+function openTransmission() {
+  const url = new URL("uebertragung.html", location.href).href;
+  window.open(url, "MTRIPS_LIVE_UEBERTRAGUNG", "width=1280,height=760");
+  setStatus("Übertragungsseite geöffnet. Warte auf die Verbindung...");
+}
+
+async function startCapture() {
+  try {
+    stream = await navigator.mediaDevices.getDisplayMedia({
+      video: { frameRate: 30 },
+      audio: true
+    });
+
+    screen.srcObject = stream;
+    await screen.play();
+
+    setStatus("Minecraft / Bildschirm wird übertragen.");
+    channel.postMessage({type:"CAPTURE_READY"});
+
+    if (!programStream) {
+      programStream = canvas.captureStream(30);
+      programStream.getTracks().forEach(track => track.enabled = true);
+    }
+
+    // Audio vom Bildschirm bleibt lokal verfügbar, wird aber nicht in den
+    // Program Canvas gemischt. Das Sendebild ist dadurch stabil und sauber.
+    if (transmissionReady) {
+      await createOffer();
+    }
+
+    const videoTrack = stream.getVideoTracks()[0];
+    if (videoTrack) {
+      videoTrack.addEventListener("ended", stopCapture);
+    }
+  } catch (error) {
+    console.error(error);
+    setStatus("Bildschirmübertragung wurde abgebrochen.");
+  }
+}
+
+function stopCapture() {
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+    stream = null;
+  }
+  screen.srcObject = null;
+  if (pc) {
+    pc.close();
+    pc = null;
+  }
+  setConnection("ÜBERTRAGUNG: WARTET");
+  setStatus("Übertragung gestoppt.");
+}
+
+function drawProgram() {
+  const W = canvas.width, H = canvas.height;
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0,0,W,H);
+
+  if (screen.readyState >= 2 && screen.videoWidth && screen.videoHeight) {
+    const sw = screen.videoWidth, sh = screen.videoHeight;
+    const scale = Math.min(W/sw, H/sh);
+    const dw = sw * scale, dh = sh * scale;
+    const dx = (W-dw)/2, dy = (H-dh)/2;
+    ctx.drawImage(screen, dx, dy, dw, dh);
+  }
+
+  // LIVE-Label
+  ctx.fillStyle = "#dc2626";
+  roundRect(ctx, 24, 24, 78, 36, 5);
+  ctx.fill();
+  ctx.fillStyle = "#fff";
+  ctx.font = "800 17px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("LIVE", 63, 42);
+
+  // Senderlogo
+  if (logoVisible && logoImage && logoImage.complete) {
+    const x = logoX * W;
+    const y = logoY * H;
+    const maxW = logoW;
+    const ratio = logoImage.naturalHeight / Math.max(1, logoImage.naturalWidth);
+    const w = maxW;
+    const h = w * ratio;
+    ctx.drawImage(logoImage, x, y, w, h);
+  }
+
+  // Nachricht
+  if (messageVisible && messageText) {
+    const maxWidth = W * 0.85;
+    const fontSize = Math.max(24, Math.min(38, W * 0.026));
+    ctx.font = "700 " + fontSize + "px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    const paddingX = 28, paddingY = 18;
+    const textW = Math.min(maxWidth - 2*paddingX, ctx.measureText(messageText).width);
+    const boxW = Math.min(maxWidth, textW + 2*paddingX);
+    const boxH = fontSize + 2*paddingY;
+    const boxX = (W-boxW)/2;
+    const boxY = H - boxH - H*0.07;
+
+    ctx.fillStyle = "rgba(0,0,0,.82)";
+    roundRect(ctx, boxX, boxY, boxW, boxH, 5);
+    ctx.fill();
+
+    ctx.fillStyle = "#ef4444";
+    ctx.fillRect(boxX, boxY, 6, boxH);
+
+    ctx.fillStyle = "#fff";
+    ctx.fillText(messageText, W/2, boxY + boxH/2);
+  }
+
+  requestAnimationFrame(drawProgram);
+}
+requestAnimationFrame(drawProgram);
+
+async function ensurePeerConnection() {
+  if (pc) return pc;
+
+  pc = new RTCPeerConnection({
+    iceServers: []
+  });
+
+  pc.onicecandidate = event => {
+    if (event.candidate) {
+      channel.postMessage({type:"ICE_FROM_REGIE", candidate:event.candidate});
+    }
+  };
+
+  pc.onconnectionstatechange = () => {
+    const state = pc ? pc.connectionState : "closed";
+    if (state === "connected") {
+      setConnection("ÜBERTRAGUNG: VERBUNDEN", true);
+      setStatus("Fertiges Sendebild wird an „Übertragung“ gesendet.");
+    } else if (["failed","disconnected","closed"].includes(state)) {
+      setConnection("ÜBERTRAGUNG: " + state.toUpperCase());
+    }
+  };
+
+  if (!programStream) {
+    programStream = canvas.captureStream(30);
+  }
+
+  programStream.getTracks().forEach(track => {
+    pc.addTrack(track, programStream);
+  });
+
+  return pc;
+}
+
+async function createOffer() {
+  if (!transmissionReady || !programStream) return;
+  try {
+    if (pc) {
+      pc.close();
+      pc = null;
+    }
+    const peer = await ensurePeerConnection();
+    const offer = await peer.createOffer();
+    await peer.setLocalDescription(offer);
+    channel.postMessage({type:"OFFER", description:peer.localDescription});
+    setConnection("ÜBERTRAGUNG: VERBINDET...");
+  } catch (e) {
+    console.error(e);
+    setStatus("WebRTC-Verbindung konnte nicht gestartet werden.");
+  }
+}
+
+channel.onmessage = async event => {
+  const data = event.data || {};
+
+  if (data.type === "TRANSMISSION_HELLO") {
+    transmissionReady = true;
+    setConnection("ÜBERTRAGUNG: BEREIT");
+    if (programStream) await createOffer();
+    return;
+  }
+
+  if (data.type === "ANSWER_FROM_TRANSMISSION") {
+    if (!pc) return;
+    try {
+      await pc.setRemoteDescription(data.description);
+      for (const candidate of pendingRemoteCandidates) {
+        await pc.addIceCandidate(candidate);
+      }
+      pendingRemoteCandidates = [];
+    } catch(e) {
+      console.error(e);
+    }
+    return;
+  }
+
+  if (data.type === "ICE_FROM_TRANSMISSION") {
+    if (!pc || !pc.remoteDescription) {
+      pendingRemoteCandidates.push(data.candidate);
+    } else {
+      try { await pc.addIceCandidate(data.candidate); } catch(e) { console.error(e); }
+    }
+    return;
+  }
+
+  if (data.type === "TRANSMISSION_CLOSED") {
+    transmissionReady = false;
+    setConnection("ÜBERTRAGUNG: WARTET");
+  }
+};
+
+function loadLogo() {
+  const file = logoFile.files[0];
+  if (!file) {
+    alert("Bitte zuerst ein Logo auswählen.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = event => {
+    logo.src = event.target.result;
+    logoImage = new Image();
+    logoImage.onload = () => {
+      logoVisible = true;
+      setStatus("Senderlogo aktiviert. Du kannst es mit der Maus verschieben.");
+    };
+    logoImage.src = event.target.result;
+    logo.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+}
+
+function toggleLogo() {
+  if (!logo.src) {
+    alert("Bitte zuerst ein Logo auswählen.");
+    return;
+  }
+  logoVisible = !logoVisible;
+  logo.style.display = logoVisible ? "block" : "none";
+}
+
+logoSize.addEventListener("input", function() {
+  logoW = Number(this.value);
+  logo.style.width = logoW + "px";
+  sizeValue.innerText = logoW + " px";
+});
+
+let draggingLogo = false, dragOffsetX = 0, dragOffsetY = 0;
+
+logo.addEventListener("mousedown", event => {
+  event.preventDefault();
+  draggingLogo = true;
+  const rect = logo.getBoundingClientRect();
+  dragOffsetX = event.clientX - rect.left;
+  dragOffsetY = event.clientY - rect.top;
+});
+
+document.addEventListener("mousemove", event => {
+  if (!draggingLogo) return;
+  const r = preview.getBoundingClientRect();
+  let x = event.clientX - r.left - dragOffsetX;
+  let y = event.clientY - r.top - dragOffsetY;
+  const maxX = preview.clientWidth - logo.offsetWidth;
+  const maxY = preview.clientHeight - logo.offsetHeight;
+  x = Math.max(0, Math.min(x, maxX));
+  y = Math.max(0, Math.min(y, maxY));
+  logo.style.left = x + "px";
+  logo.style.top = y + "px";
+  logoX = x / preview.clientWidth;
+  logoY = y / preview.clientHeight;
+});
+
+document.addEventListener("mouseup", () => draggingLogo = false);
 
 function sendMessage() {
+  const input = document.getElementById("messageInput");
+  const text = input.value.trim();
+  if (!text) {
+    alert("Bitte zuerst eine Nachricht eingeben.");
+    return;
+  }
 
-    const input =
-        document.getElementById(
-            "messageInput"
-        );
+  messageText = text;
+  messageVisible = true;
+  messageEl.innerText = text;
+  messageEl.style.display = "block";
 
+  setStatus("Nachricht ist 10 Sekunden LIVE.");
 
-    const text =
-        input.value.trim();
-
-
-    if (!text) {
-
-        alert("Bitte zuerst eine Nachricht eingeben.");
-
-        return;
-
-    }
-
-
-    const message =
-        document.getElementById(
-            "message"
-        );
-
-
-    /*
-     * Bereits laufende Nachricht abbrechen
-     */
-
-    if (messageTimer) {
-
-        clearTimeout(messageTimer);
-
-    }
-
-
-    /*
-     * Nachricht anzeigen
-     */
-
-    message.innerText = text;
-
-    message.style.display =
-        "block";
-
-
-    setStatus(
-        "Nachricht ist 10 Sekunden LIVE."
-    );
-
-
-    /*
-     * Nach genau 10 Sekunden
-     * automatisch entfernen
-     */
-
-    messageTimer = setTimeout(
-        function() {
-
-            hideMessage();
-
-        },
-        10000
-    );
-
+  if (messageTimer) clearTimeout(messageTimer);
+  messageTimer = setTimeout(hideMessage, 10000);
 }
-
-
-/*
- * Nachricht sofort entfernen
- */
 
 function hideMessage() {
-
-    const message =
-        document.getElementById(
-            "message"
-        );
-
-
-    message.style.display =
-        "none";
-
-
-    if (messageTimer) {
-
-        clearTimeout(messageTimer);
-
-        messageTimer = null;
-
-    }
-
-
-    setStatus(
-        "Keine Nachricht eingeblendet."
-    );
-
+  messageVisible = false;
+  messageEl.style.display = "none";
+  if (messageTimer) {
+    clearTimeout(messageTimer);
+    messageTimer = null;
+  }
+  setStatus("Keine Nachricht eingeblendet.");
 }
 
-
-/* =========================================================
-   VOLLBILD
-========================================================= */
+function roundRect(ctx,x,y,w,h,r) {
+  const rr = Math.min(r,w/2,h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+rr,y);
+  ctx.arcTo(x+w,y,x+w,y+h,rr);
+  ctx.arcTo(x+w,y+h,x,y+h,rr);
+  ctx.arcTo(x,y+h,x,y,rr);
+  ctx.arcTo(x,y,x+w,y,rr);
+  ctx.closePath();
+}
 
 async function toggleFullscreen() {
-
-    try {
-
-        if (!document.fullscreenElement) {
-
-            await document.documentElement.requestFullscreen();
-
-        }
-
-        else {
-
-            await document.exitFullscreen();
-
-        }
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-    }
-
+  try {
+    if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+    else await document.exitFullscreen();
+  } catch(error) { console.error(error); }
 }
 
+document.getElementById("messageInput").addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    sendMessage();
+  }
+});
 
-/* =========================================================
-   ENTER = NACHRICHT SENDEN
-========================================================= */
-
-document.getElementById(
-    "messageInput"
-).addEventListener(
-    "keydown",
-    function(event) {
-
-        if (event.key === "Enter") {
-
-            event.preventDefault();
-
-            sendMessage();
-
-        }
-
-    }
-);
-
+window.addEventListener("beforeunload", () => {
+  channel.postMessage({type:"REGIE_CLOSED"});
+  if (pc) pc.close();
+});
 </script>
-
 </body>
 </html>
-```
