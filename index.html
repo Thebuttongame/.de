@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A + M ♡</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: #fff8f5;
+            color: #594642;
+            font-family: Arial, sans-serif;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 90vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            padding: 30px;
+        }
+
+        .hero-content {
+            animation: appear 1.2s ease;
+        }
+
+        .little {
+            font-size: 12px;
+            letter-spacing: 5px;
+            color: #a9918b;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0;
+
+            font-family: Georgia, serif;
+
+            font-size: clamp(90px, 17vw, 180px);
+
+            line-height: 0.9;
+
+            color: #594642;
+        }
+
+        h1 span {
+            color: #cf7e91;
+        }
+
+        .heart {
+            font-family: Georgia, serif;
+
+            font-size: 65px;
+
+            color: #cf7e91;
+
+            margin: 25px 0 10px;
+
+            animation: heartbeat 3s infinite ease-in-out;
+        }
+
+        .subtitle {
+            color: #a9918b;
+            font-size: 17px;
+        }
+
+
+        /* INTRO */
+
+        .intro {
+            text-align: center;
+
+            padding: 40px 20px 60px;
+        }
+
+        .intro-small {
+            color: #b3687b;
+
+            font-size: 11px;
+
+            letter-spacing: 3px;
+        }
+
+        .intro h2 {
+            font-family: Georgia, serif;
+
+            font-size: clamp(32px, 6vw, 55px);
+
+            margin: 10px 0;
+
+            font-weight: normal;
+        }
+
+
+        /* BILDER */
+
+        .memories {
+
+            width: min(1100px, calc(100% - 30px));
+
+            margin: auto;
+
+            padding-bottom: 100px;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+
+            gap: 30px;
+        }
+
+
+        .memory {
+
+            background: white;
+
+            padding: 14px;
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 15px 45px rgba(80, 55, 50, 0.10);
+
+            transition: 0.3s;
+        }
+
+        .memory:hover {
+
+            transform: translateY(-7px);
+
+            box-shadow:
+                0 25px 60px rgba(80, 55, 50, 0.16);
+        }
+
+
+        .memory-image {
+
+            width: 100%;
+
+            aspect-ratio: 4 / 3;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f4e3e5,
+                    #f8eee5
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            color: #cf7e91;
+
+            font-family: Georgia, serif;
+
+            font-size: 45px;
+
+            overflow: hidden;
+        }
+
+        .memory-image img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+
+        .memory-content {
+
+            padding: 18px 5px 8px;
+        }
+
+        .date {
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            color: #cf7e91;
+        }
+
+        .memory h3 {
+
+            font-family: Georgia, serif;
+
+            font-size: 25px;
+
+            font-weight: normal;
+
+            margin: 8px 0;
+        }
+
+        .memory p {
+
+            color: #806d67;
+
+            line-height: 1.7;
+
+            margin: 0;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+
+            text-align: center;
+
+            padding: 35px 20px 60px;
+
+            color: #a9918b;
+
+            font-size: 13px;
+        }
+
+
+        /* ANIMATION */
+
+        @keyframes heartbeat {
+
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* HANDY */
+
+        @media (max-width: 600px) {
+
+            .hero {
+                min-height: 75vh;
+            }
+
+            .memories {
+                width: calc(100% - 20px);
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =====================
+         START
+    ====================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="little">
+                OUR LITTLE PLACE
+            </div>
+
+            <h1>
+                A <span>+</span> M
+            </h1>
+
+            <div class="heart">
+                ♡
+            </div>
+
+            <div class="subtitle">
+                Ein kleiner Ort nur für uns.
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================
+         ERINNERUNGEN
+    ====================== -->
+
+    <section class="intro">
+
+        <div class="intro-small">
+            SCHÖN, DASS DU HIER BIST
+        </div>
+
+        <h2>
+            Unsere kleinen Momente
+        </h2>
+
+    </section>
+
+
+
+    <section class="memories">
+
+
+        <article class="memory">
+
+            <div class="memory-image">
+                ♡
+            </div>
+
+            <div class="memory-content">
+
+                <div class="date">
+                    UNSERE ERSTE ERINNERUNG
+                </div>
+
+                <h3>
+                    Einfach wir
+                </h3>
+
+                <p>
+                    Hier können später eure gemeinsamen
+                    Erinnerungen stehen.
+                </p>
+
+            </div>
+
+        </article>
+
+
+
+        <article class="memory">
+
+            <div class="memory-image">
+                ♡
+            </div>
+
+            <div class="memory-content">
+
+                <div class="date">
+                    EIN SCHÖNER MOMENT
+                </div>
+
+                <h3>
+                    Für immer gespeichert
+                </h3>
+
+                <p>
+                    Ein kleiner Text über einen Moment,
+                    den ihr nicht vergessen möchtet.
+                </p>
+
+            </div>
+
+        </article>
+
+
+    </section>
+
+
+
+    <footer>
+
+        A + M · unser kleiner Ort ♡
+
+    </footer>
+
+
+</body>
+</html>
