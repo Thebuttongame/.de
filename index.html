@@ -585,78 +585,6 @@ header {
 
 
 /* =========================================
-   SPOTIFY
-========================================= */
-
-.spotifyBox {
-
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 25px;
-
-    align-items: center;
-}
-
-.spotifyText h3 {
-
-    color: #654f60;
-
-    margin-top: 0;
-
-    font-size: 24px;
-}
-
-.spotifyText p {
-
-    color: #9a8994;
-
-    line-height: 1.7;
-}
-
-.spotifyInput {
-
-    width: 100%;
-
-    border: 1px solid #eadce5;
-
-    padding: 13px;
-
-    border-radius: 14px;
-
-    outline: none;
-
-    margin-top: 10px;
-}
-
-.spotifyPlayer {
-
-    width: 100%;
-
-    min-height: 152px;
-
-    border: 0;
-
-    border-radius: 15px;
-
-    margin-top: 10px;
-
-    background: #f4edf2;
-}
-
-.spotifyHint {
-
-    font-size: 12px;
-
-    color: #aa99a4;
-
-    margin-top: 8px;
-}
-
-
-/* =========================================
    FOOTER
 ========================================= */
 
@@ -800,11 +728,6 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    .spotifyBox {
-
-        grid-template-columns: 1fr;
-    }
-
     .memoryGrid {
 
         grid-template-columns:
@@ -914,7 +837,6 @@ footer {
 </div>
 
 
-
 <!-- =========================================
      APP
 ========================================= -->
@@ -941,7 +863,6 @@ footer {
 </header>
 
 
-
 <main class="main">
 
 
@@ -966,7 +887,6 @@ footer {
     </p>
 
 </section>
-
 
 
 <!-- =========================================
@@ -1086,86 +1006,6 @@ footer {
 </section>
 
 
-
-<!-- =========================================
-     SPOTIFY
-========================================= -->
-
-<section class="card">
-
-    <div class="cardTitle">
-
-        <div>
-
-            <h2>
-                🎵 Gemeinsam hören
-            </h2>
-
-            <div class="cardDescription">
-                Einen gemeinsamen Spotify-Song oder eine Playlist
-                hier einfügen.
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="spotifyBox">
-
-        <div class="spotifyText">
-
-            <h3>
-                Unser Soundtrack
-            </h3>
-
-            <p>
-                Fügt hier einen Spotify-Link zu einem Song,
-                Album oder einer Playlist ein.
-            </p>
-
-            <input
-                id="spotifyInput"
-                class="spotifyInput"
-                type="text"
-                placeholder="Spotify-Link einfügen..."
-            >
-
-            <button
-                class="primaryButton"
-                onclick="saveSpotify()">
-
-                Spotify speichern
-
-            </button>
-
-            <div class="spotifyHint">
-
-                Der gespeicherte Link wird für euch beide
-                angezeigt.
-
-            </div>
-
-        </div>
-
-
-        <div>
-
-            <iframe
-                id="spotifyPlayer"
-                class="spotifyPlayer"
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy">
-            </iframe>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
 </main>
 
 
@@ -1177,7 +1017,6 @@ footer {
 
 
 </div>
-
 
 
 <!-- =========================================
@@ -1228,7 +1067,6 @@ footer {
     </div>
 
 </div>
-
 
 
 <script>
@@ -1313,8 +1151,6 @@ function unlock() {
 
     loadMemories();
 
-    loadSpotify();
-
 }
 
 
@@ -1362,9 +1198,7 @@ window.addEventListener(
 
             loadMemories();
 
-            loadSpotify();
-
-        }
+                }
 
     }
 );
@@ -2047,241 +1881,6 @@ setInterval(
     REFRESH_INTERVAL
 );
 
-
-/* =========================================
-   SPOTIFY
-========================================= */
-
-async function saveSpotify() {
-
-    const input =
-        document.getElementById(
-            "spotifyInput"
-        );
-
-    const link =
-        input.value.trim();
-
-
-    if (!link) {
-
-        return;
-
-    }
-
-
-    const spotifyId =
-        extractSpotifyEmbed(
-            link
-        );
-
-
-    if (!spotifyId) {
-
-        alert(
-            "Bitte einen gültigen Spotify-Link einfügen."
-        );
-
-        return;
-    }
-
-
-    const result =
-        await supabaseClient
-            .from("settings")
-            .upsert(
-                {
-                    id: 1,
-                    spotify_link: link
-                },
-                {
-                    onConflict: "id"
-                }
-            );
-
-
-    if (result.error) {
-
-        console.error(
-            result.error
-        );
-
-        alert(
-            "Spotify konnte nicht gespeichert werden."
-        );
-
-        return;
-    }
-
-
-    showSpotify(
-        spotifyId
-    );
-
-}
-
-
-/* =========================================
-   SPOTIFY LADEN
-========================================= */
-
-async function loadSpotify() {
-
-    const result =
-        await supabaseClient
-            .from("settings")
-            .select("*")
-            .eq(
-                "id",
-                1
-            )
-            .maybeSingle();
-
-
-    if (
-        result.error ||
-        !result.data
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        !result.data.spotify_link
-    ) {
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "spotifyInput"
-    ).value =
-        result.data.spotify_link;
-
-
-    const spotifyId =
-        extractSpotifyEmbed(
-            result.data.spotify_link
-        );
-
-
-    if (spotifyId) {
-
-        showSpotify(
-            spotifyId
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   SPOTIFY URL
-========================================= */
-
-function extractSpotifyEmbed(
-    url
-) {
-
-    try {
-
-        const parsed =
-            new URL(url);
-
-
-        /*
-         * Beispiel:
-         *
-         * https://open.spotify.com/track/ABC123
-         */
-
-        const parts =
-            parsed.pathname
-                .split("/")
-                .filter(Boolean);
-
-
-        if (
-            parsed.hostname
-                .includes("spotify.com") &&
-            parts.length >= 2
-        ) {
-
-            const type =
-                parts[0];
-
-            const id =
-                parts[1];
-
-            if (
-                [
-                    "track",
-                    "album",
-                    "playlist",
-                    "artist",
-                    "show",
-                    "episode"
-                ].includes(type)
-            ) {
-
-                return {
-                    type: type,
-                    id: id
-                };
-
-            }
-
-        }
-
-    } catch(error) {
-
-        console.error(
-            error
-        );
-
-    }
-
-
-    return null;
-
-}
-
-
-/* =========================================
-   SPOTIFY PLAYER
-========================================= */
-
-function showSpotify(
-    spotify
-) {
-
-    const player =
-        document.getElementById(
-            "spotifyPlayer"
-        );
-
-
-    player.src =
-        "https://open.spotify.com/embed/"
-        +
-        spotify.type
-        +
-        "/"
-        +
-        spotify.id
-        +
-        "?utm_source=generator";
-
-
-    player.style.display =
-        "block";
-
-}
 
 </script>
 
