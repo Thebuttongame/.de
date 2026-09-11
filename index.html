@@ -3,885 +3,1224 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A + M ♡</title>
+
+<title>Our Little Place ♡</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background:
-        radial-gradient(circle at top left, #ffe9f1, transparent 35%),
-        radial-gradient(circle at bottom right, #e8dcff, transparent 35%),
-        #fff8fb;
-    color: #403744;
+html {
+    scroll-behavior: smooth;
 }
 
-/* LOGIN */
+body {
+    margin: 0;
+    font-family:
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+
+    color: #493d47;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            #ffe6ef 0,
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            #eee5ff 0,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 50% 100%,
+            #fff0d9 0,
+            transparent 35%
+        ),
+        #fffafc;
+}
+
+/* =========================================
+   LOGIN
+========================================= */
 
 #loginScreen {
+
     min-height: 100vh;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     padding: 20px;
 }
 
-.loginBox {
+.loginCard {
+
     width: 100%;
     max-width: 430px;
-    background: rgba(255,255,255,.88);
-    backdrop-filter: blur(15px);
-    border-radius: 30px;
-    padding: 40px 30px;
+
+    padding: 45px 30px;
+
     text-align: center;
-    box-shadow: 0 20px 70px rgba(100,70,100,.15);
+
+    background:
+        rgba(255,255,255,.88);
+
+    backdrop-filter: blur(20px);
+
+    border-radius: 32px;
+
+    box-shadow:
+        0 25px 80px rgba(80,50,70,.15);
 }
 
 .loginHeart {
-    font-size: 65px;
-    margin-bottom: 10px;
+
+    font-size: 70px;
+
+    margin-bottom: 5px;
+
+    color: #d792b2;
 }
 
-.loginBox h1 {
+.loginCard h1 {
+
     margin: 0;
-    font-size: 38px;
-    color: #6d5267;
+
+    font-size: 42px;
+
+    color: #654f60;
 }
 
-.loginBox p {
-    color: #8c7b88;
+.loginCard p {
+
+    margin: 10px 0 25px;
+
+    color: #9a8994;
+
+    line-height: 1.6;
 }
 
 #codeInput {
+
     width: 100%;
+
     padding: 15px;
-    border: 2px solid #eadce5;
+
     border-radius: 16px;
+
+    border: 2px solid #eadce4;
+
+    background: white;
+
     outline: none;
+
     text-align: center;
+
     font-size: 18px;
-    margin-top: 10px;
 }
 
 #codeInput:focus {
-    border-color: #d59ab8;
+
+    border-color: #d79ab7;
 }
 
-.mainButton {
-    border: none;
-    background: #d89ab7;
+.primaryButton {
+
+    border: 0;
+
+    background: #d69ab5;
+
     color: white;
-    padding: 14px 22px;
+
+    padding: 13px 21px;
+
     border-radius: 15px;
+
+    font-size: 15px;
+
     cursor: pointer;
-    font-size: 16px;
-    margin-top: 15px;
+
     transition: .2s;
 }
 
-.mainButton:hover {
+.primaryButton:hover {
+
     transform: translateY(-2px);
-    background: #c985a5;
+
+    background: #c987a6;
 }
 
-.error {
-    color: #c55b76;
-    min-height: 22px;
+.loginButton {
+
+    width: 100%;
+
+    margin-top: 12px;
 }
 
-/* APP */
+.loginError {
+
+    min-height: 25px;
+
+    margin-top: 10px;
+
+    color: #bd617b;
+}
+
+
+/* =========================================
+   APP
+========================================= */
 
 #app {
+
     display: none;
+
+    min-height: 100vh;
 }
 
+
+/* =========================================
+   HEADER
+========================================= */
+
 header {
-    padding: 25px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    background: rgba(255,255,255,.7);
-    backdrop-filter: blur(15px);
+
     position: sticky;
+
     top: 0;
-    z-index: 20;
-    border-bottom: 1px solid rgba(180,140,165,.15);
+
+    z-index: 50;
+
+    padding: 18px 25px;
+
+    background:
+        rgba(255,255,255,.78);
+
+    backdrop-filter: blur(18px);
+
+    border-bottom:
+        1px solid rgba(160,120,145,.12);
+}
+
+.headerInner {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
 }
 
 .logo {
-    font-size: 30px;
+
+    font-size: 25px;
+
     font-weight: 700;
-    color: #694f63;
+
+    color: #654f60;
 }
 
-.headerRight {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.refreshInfo {
+
+    color: #a18e99;
+
+    font-size: 12px;
 }
 
-.personBadge {
-    padding: 9px 14px;
-    border-radius: 20px;
-    background: #f5e7ef;
-    color: #74576b;
-}
 
-.smallButton {
-    border: none;
-    background: white;
-    border: 1px solid #eadce5;
-    color: #74576b;
-    padding: 9px 13px;
-    border-radius: 13px;
-    cursor: pointer;
-}
+/* =========================================
+   MAIN
+========================================= */
 
-.container {
-    max-width: 1250px;
+.main {
+
+    max-width: 1200px;
+
     margin: auto;
-    padding: 35px 20px 70px;
+
+    padding: 30px 18px 70px;
 }
 
-/* HERO */
+
+/* =========================================
+   HERO
+========================================= */
 
 .hero {
+
     text-align: center;
-    padding: 35px 20px 45px;
+
+    padding:
+        45px 20px
+        50px;
+}
+
+.heroSmall {
+
+    font-size: 14px;
+
+    color: #ad96a4;
+
+    margin-bottom: 10px;
 }
 
 .hero h1 {
-    font-size: clamp(50px, 9vw, 95px);
+
     margin: 0;
-    color: #694f63;
+
+    color: #654f60;
+
+    font-size:
+        clamp(45px, 9vw, 90px);
+
     letter-spacing: -4px;
 }
 
 .hero p {
-    color: #968591;
-    font-size: 18px;
+
+    margin-top: 15px;
+
+    color: #998894;
+
+    font-size: 17px;
 }
 
-/* GRID */
 
-.contentGrid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 390px;
-    gap: 25px;
-}
+/* =========================================
+   CARD
+========================================= */
 
 .card {
-    background: rgba(255,255,255,.82);
+
+    background:
+        rgba(255,255,255,.82);
+
     backdrop-filter: blur(15px);
+
     border-radius: 28px;
+
     padding: 25px;
-    box-shadow: 0 15px 45px rgba(90,60,90,.08);
-}
 
-.card h2 {
-    margin-top: 0;
-    color: #694f63;
-}
+    box-shadow:
+        0 15px 50px rgba(80,50,70,.07);
 
-/* UPLOAD */
-
-.uploadArea {
-    border: 2px dashed #e2cbd8;
-    border-radius: 20px;
-    padding: 25px;
-    text-align: center;
     margin-bottom: 25px;
-    background: #fffafd;
 }
 
-.uploadArea input {
-    display: none;
-}
+.cardTitle {
 
-.uploadLabel {
-    display: inline-block;
-    background: #d89ab7;
-    color: white;
-    padding: 13px 18px;
-    border-radius: 14px;
-    cursor: pointer;
-}
-
-#uploadStatus {
-    color: #9b8793;
-    margin-top: 12px;
-}
-
-/* PHOTOS */
-
-.photoGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 25px;
-}
-
-.polaroid {
-    background: white;
-    padding: 10px 10px 16px;
-    box-shadow: 0 8px 25px rgba(60,40,60,.13);
-    transform: rotate(var(--rotation));
-    transition: .25s;
-    position: relative;
-}
-
-.polaroid:hover {
-    transform: rotate(0deg) translateY(-5px);
-}
-
-.polaroid img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    display: block;
-}
-
-.photoCaption {
-    padding: 12px 4px 5px;
-    font-size: 14px;
-    color: #665865;
-}
-
-.photoDate {
-    font-size: 11px;
-    color: #aa9ca7;
-}
-
-.photoActions {
     display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-}
 
-.reaction {
-    border: 1px solid #eadce5;
-    background: #fff;
-    border-radius: 12px;
-    padding: 5px 8px;
-    cursor: pointer;
-}
+    justify-content: space-between;
 
-.reaction.active {
-    background: #f9e6ef;
-    border-color: #d89ab7;
-}
+    align-items: center;
 
-.deletePhoto {
-    margin-left: auto;
-    border: none;
-    background: #f7edf1;
-    color: #b56d88;
-    border-radius: 10px;
-    padding: 5px 8px;
-    cursor: pointer;
-}
-
-.empty {
-    text-align: center;
-    color: #a3939e;
-    padding: 40px 10px;
-}
-
-/* CHAT */
-
-.chatBox {
-    display: flex;
-    flex-direction: column;
-    height: 650px;
-}
-
-.chatMessages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px 5px;
-}
-
-.message {
-    display: flex;
-    margin: 12px 0;
-}
-
-.message.mine {
-    justify-content: flex-end;
-}
-
-.bubble {
-    max-width: 82%;
-    padding: 12px 15px;
-    border-radius: 20px;
-    background: #f3e8ef;
-    position: relative;
-}
-
-.mine .bubble {
-    background: #e8d9ef;
-}
-
-.messageName {
-    font-size: 11px;
-    color: #957e8d;
-    margin-bottom: 3px;
-}
-
-.messageText {
-    white-space: pre-wrap;
-    word-break: break-word;
-}
-
-.messageTime {
-    font-size: 9px;
-    color: #a595a0;
-    margin-top: 5px;
-}
-
-.deleteMessage {
-    border: none;
-    background: transparent;
-    color: #b99eab;
-    cursor: pointer;
-    font-size: 11px;
-    margin-top: 3px;
-}
-
-.chatInputArea {
-    display: flex;
-    gap: 8px;
-    margin-top: 15px;
-}
-
-#chatInput {
-    flex: 1;
-    border: 1px solid #eadce5;
-    border-radius: 16px;
-    padding: 13px;
-    resize: none;
-    outline: none;
-    font-family: inherit;
-}
-
-#sendMessage {
-    border: none;
-    background: #d89ab7;
-    color: white;
-    border-radius: 16px;
-    padding: 0 18px;
-    cursor: pointer;
-}
-
-/* LETTER */
-
-.letterSection {
-    margin-top: 25px;
-}
-
-.letterPreview {
-    text-align: center;
-}
-
-.envelope {
-    width: 240px;
-    height: 155px;
-    margin: 20px auto;
-    position: relative;
-    cursor: pointer;
-    perspective: 800px;
-}
-
-.envelopeBack {
-    position: absolute;
-    inset: 0;
-    background: #e6bfd0;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(90,60,90,.15);
-}
-
-.envelopePaper {
-    position: absolute;
-    width: 200px;
-    height: 120px;
-    left: 20px;
-    bottom: 15px;
-    background: #fffdf8;
-    border-radius: 5px;
-    padding: 15px;
-    transition: .9s ease;
-    z-index: 2;
-    box-shadow: 0 3px 10px rgba(50,30,50,.1);
-}
-
-.envelopeFlap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-left: 120px solid transparent;
-    border-right: 120px solid transparent;
-    border-top: 85px solid #d69db7;
-    transform-origin: top center;
-    transition: .8s ease;
-    z-index: 4;
-}
-
-.envelope.open .envelopeFlap {
-    transform: rotateX(180deg);
-    z-index: 1;
-}
-
-.envelope.open .envelopePaper {
-    transform: translateY(-100px);
-    z-index: 5;
-}
-
-.letterEditor {
-    display: none;
-    margin-top: 20px;
-}
-
-.letterEditor textarea {
-    width: 100%;
-    min-height: 150px;
-    border: 1px solid #eadce5;
-    border-radius: 16px;
-    padding: 15px;
-    resize: vertical;
-    font-family: inherit;
-    outline: none;
-}
-
-.letterParts {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 15px;
+
+    margin-bottom: 20px;
 }
 
-.letterPart {
-    background: #fffdf8;
-    border-radius: 18px;
-    padding: 18px;
+.cardTitle h2 {
+
+    margin: 0;
+
+    color: #654f60;
+
+    font-size: 25px;
 }
 
-.letterPart h3 {
-    color: #694f63;
-}
+.cardDescription {
 
-.letterText {
-    white-space: pre-wrap;
+    color: #9b8994;
+
+    font-size: 14px;
+
     line-height: 1.6;
 }
 
-/* MODAL */
 
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(45,30,45,.45);
-    backdrop-filter: blur(5px);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+/* =========================================
+   UPLOAD BUTTONS
+========================================= */
+
+.uploadButtons {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-top: 20px;
 }
 
-.modalBox {
-    background: white;
-    border-radius: 25px;
-    padding: 28px;
-    width: 100%;
-    max-width: 430px;
-    box-shadow: 0 20px 70px rgba(30,20,30,.25);
-}
+.uploadButton {
 
-.modalBox h2 {
-    margin-top: 0;
-    color: #694f63;
-}
-
-.modalBox input,
-.modalBox textarea {
-    width: 100%;
     border: 1px solid #eadce5;
-    border-radius: 14px;
+
+    background: #fffafd;
+
+    color: #725c6c;
+
+    border-radius: 18px;
+
+    padding: 18px 10px;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+    font-size: 14px;
+}
+
+.uploadButton:hover {
+
+    transform: translateY(-2px);
+
+    background: #fdf0f6;
+
+    border-color: #dca6bd;
+}
+
+.uploadIcon {
+
+    display: block;
+
+    font-size: 28px;
+
+    margin-bottom: 7px;
+}
+
+.hiddenFile {
+
+    display: none;
+}
+
+.uploadStatus {
+
+    min-height: 24px;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    color: #a18e99;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   MEMORY GRID
+========================================= */
+
+.memoryGrid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(210px, 1fr)
+        );
+
+    gap: 25px;
+}
+
+
+/* =========================================
+   MEMORY
+========================================= */
+
+.memory {
+
+    background: white;
+
+    padding: 11px 11px 16px;
+
+    box-shadow:
+        0 10px 28px
+        rgba(70,45,60,.13);
+
+    transform:
+        rotate(var(--rotation));
+
+    transition: .25s;
+
+    position: relative;
+}
+
+.memory:hover {
+
+    transform:
+        rotate(0deg)
+        translateY(-5px);
+
+    box-shadow:
+        0 18px 35px
+        rgba(70,45,60,.17);
+}
+
+.memoryImage {
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+
+    display: block;
+
+    background: #f4edf1;
+}
+
+.memoryInfo {
+
+    padding: 12px 3px 0;
+}
+
+.memoryText {
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    color: #5d505a;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+}
+
+.memoryText.emptyText {
+
+    color: #b0a2ab;
+
+    font-style: italic;
+}
+
+.memoryDate {
+
+    margin-top: 7px;
+
+    font-size: 11px;
+
+    color: #ae9ca7;
+}
+
+.memoryBottom {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 12px;
+
+    gap: 10px;
+}
+
+.deleteButton {
+
+    border: 0;
+
+    background: #f8edf2;
+
+    color: #b86c87;
+
+    border-radius: 10px;
+
+    padding: 7px 9px;
+
+    cursor: pointer;
+
+    font-size: 11px;
+}
+
+.deleteButton:hover {
+
+    background: #f5dfe8;
+}
+
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.empty {
+
+    text-align: center;
+
+    padding: 60px 20px;
+
+    color: #aa99a4;
+}
+
+.emptyHeart {
+
+    font-size: 42px;
+
+    color: #d9a0b8;
+
+    margin-bottom: 10px;
+}
+
+
+/* =========================================
+   SPOTIFY
+========================================= */
+
+.spotifyBox {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 25px;
+
+    align-items: center;
+}
+
+.spotifyText h3 {
+
+    color: #654f60;
+
+    margin-top: 0;
+
+    font-size: 24px;
+}
+
+.spotifyText p {
+
+    color: #9a8994;
+
+    line-height: 1.7;
+}
+
+.spotifyInput {
+
+    width: 100%;
+
+    border: 1px solid #eadce5;
+
     padding: 13px;
-    font-family: inherit;
+
+    border-radius: 14px;
+
     outline: none;
+
+    margin-top: 10px;
+}
+
+.spotifyPlayer {
+
+    width: 100%;
+
+    min-height: 152px;
+
+    border: 0;
+
+    border-radius: 15px;
+
+    margin-top: 10px;
+
+    background: #f4edf2;
+}
+
+.spotifyHint {
+
+    font-size: 12px;
+
+    color: #aa99a4;
+
     margin-top: 8px;
 }
 
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+
+    text-align: center;
+
+    padding: 20px;
+
+    color: #aa99a4;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   MODAL
+========================================= */
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(45,30,45,.45);
+
+    backdrop-filter: blur(5px);
+}
+
+.modalBox {
+
+    width: 100%;
+
+    max-width: 430px;
+
+    background: white;
+
+    border-radius: 25px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 25px 70px
+        rgba(30,20,30,.25);
+}
+
+.modalBox h2 {
+
+    margin-top: 0;
+
+    color: #654f60;
+}
+
+.modalBox p {
+
+    color: #968691;
+
+    line-height: 1.5;
+}
+
 .modalBox textarea {
-    min-height: 110px;
+
+    width: 100%;
+
+    min-height: 120px;
+
     resize: vertical;
+
+    padding: 14px;
+
+    border: 1px solid #eadce5;
+
+    border-radius: 15px;
+
+    outline: none;
+
+    font-family: inherit;
 }
 
 .modalButtons {
+
     display: flex;
-    gap: 8px;
+
     justify-content: flex-end;
+
+    gap: 8px;
+
     margin-top: 15px;
 }
 
-.secondaryButton {
-    border: none;
-    background: #f3e8ef;
-    color: #74576b;
+.cancelButton {
+
+    border: 0;
+
+    background: #f3e9ef;
+
+    color: #755f6e;
+
     padding: 12px 17px;
+
     border-radius: 13px;
+
     cursor: pointer;
 }
 
-/* IDENTITY */
 
-.identityButtons {
-    display: flex;
-    gap: 15px;
+/* =========================================
+   LOADING
+========================================= */
+
+.loading {
+
+    text-align: center;
+
+    padding: 30px;
+
+    color: #a6939f;
 }
 
-.identityButton {
-    flex: 1;
-    border: 2px solid #eadce5;
-    background: #fffafd;
-    border-radius: 18px;
-    padding: 20px;
-    cursor: pointer;
-    font-size: 22px;
-    color: #694f63;
-}
 
-.identityButton:hover {
-    border-color: #d89ab7;
-}
+/* =========================================
+   RESPONSIVE
+========================================= */
 
-/* RESPONSIVE */
+@media(max-width: 750px) {
 
-@media(max-width: 900px) {
-    .contentGrid {
+    .uploadButtons {
+
         grid-template-columns: 1fr;
     }
 
-    .chatBox {
-        height: 500px;
-    }
-}
+    .spotifyBox {
 
-@media(max-width: 600px) {
-    header {
-        padding: 18px;
+        grid-template-columns: 1fr;
     }
 
-    .logo {
-        font-size: 23px;
-    }
+    .memoryGrid {
 
-    .hero h1 {
-        letter-spacing: -2px;
-    }
+        grid-template-columns:
+            repeat(2, minmax(0,1fr));
 
-    .container {
-        padding: 20px 12px 50px;
-    }
-
-    .card {
-        padding: 18px;
-        border-radius: 22px;
-    }
-
-    .photoGrid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 15px;
     }
 
-    .letterParts {
-        grid-template-columns: 1fr;
+    .memory {
+
+        padding: 8px 8px 13px;
+    }
+
+    .main {
+
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .card {
+
+        padding: 18px;
+
+        border-radius: 22px;
+    }
+
+}
+
+@media(max-width: 430px) {
+
+    .memoryGrid {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .hero {
+
+        padding-top: 30px;
+    }
+
+    .hero h1 {
+
+        font-size: 55px;
+    }
+
+    .logo {
+
+        font-size: 20px;
+    }
+
+    .refreshInfo {
+
+        display: none;
     }
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- LOGIN -->
 
-<section id="loginScreen">
-    <div class="loginBox">
-        <div class="loginHeart">♡</div>
+<!-- =========================================
+     LOGIN
+========================================= -->
+
+<div id="loginScreen">
+
+    <div class="loginCard">
+
+        <div class="loginHeart">
+            ♡
+        </div>
+
         <h1>A + M</h1>
-        <p>Unsere kleine gemeinsame Welt</p>
+
+        <p>
+            Unser kleiner gemeinsamer Ort.
+            <br>
+            Erinnerungen, Momente und Dinge,
+            die wir miteinander teilen.
+        </p>
 
         <input
             id="codeInput"
             type="text"
-            placeholder="Code eingeben"
+            placeholder="Code"
             autocomplete="off"
         >
 
-        <button class="mainButton" onclick="unlock()">
+        <button
+            class="primaryButton loginButton"
+            onclick="unlock()"
+        >
             Öffnen
         </button>
 
-        <div id="loginError" class="error"></div>
+        <div
+            id="loginError"
+            class="loginError">
+        </div>
+
     </div>
-</section>
+
+</div>
 
 
-<!-- APP -->
+
+<!-- =========================================
+     APP
+========================================= -->
 
 <div id="app">
 
-<header>
-    <div class="logo">A + M ♡</div>
 
-    <div class="headerRight">
-        <span id="personBadge" class="personBadge"></span>
-        <button class="smallButton" onclick="changePerson()">
-            Person ändern
-        </button>
+<header>
+
+    <div class="headerInner">
+
+        <div class="logo">
+            A + M ♡
+        </div>
+
+        <div
+            id="refreshInfo"
+            class="refreshInfo">
+            Aktualisierung alle 20 Sekunden
+        </div>
+
     </div>
+
 </header>
 
-<main class="container">
 
-    <section class="hero">
-        <h1>A + M ♡</h1>
-        <p>Ein kleiner Ort nur für uns.</p>
-    </section>
 
-    <div class="contentGrid">
+<main class="main">
 
-        <!-- LINKS -->
 
-        <section>
+<!-- =========================================
+     HERO
+========================================= -->
 
-            <div class="card">
+<section class="hero">
 
-                <h2>Unsere Erinnerungen</h2>
+    <div class="heroSmall">
+        OUR LITTLE PLACE
+    </div>
 
-                <div class="uploadArea">
+    <h1>
+        A + M ♡
+    </h1>
 
-                    <label class="uploadLabel" for="photoInput">
-                        + Foto hinzufügen
-                    </label>
+    <p>
+        Egal wie weit wir voneinander entfernt sind.
+        <br>
+        Hier sammeln wir unsere gemeinsamen Momente.
+    </p>
 
-                    <input
-                        id="photoInput"
-                        type="file"
-                        accept="image/*"
-                        onchange="preparePhoto()"
-                    >
+</section>
 
-                    <div id="uploadStatus">
-                        Fotos werden online gespeichert.
-                    </div>
 
-                </div>
 
-                <div id="photoGrid" class="photoGrid">
-                    <div class="empty">
-                        Noch keine Fotos.
-                    </div>
-                </div>
+<!-- =========================================
+     MEMORIES
+========================================= -->
 
+<section class="card">
+
+    <div class="cardTitle">
+
+        <div>
+
+            <h2>
+                Unsere Memories
+            </h2>
+
+            <div class="cardDescription">
+                Fotos und Momente, die wir miteinander teilen.
             </div>
 
-
-            <!-- LETTER -->
-
-            <div class="card letterSection">
-
-                <h2>Unser Brief</h2>
-
-                <div class="letterPreview">
-
-                    <p>
-                        Ein Brief, den wir gemeinsam schreiben können.
-                    </p>
-
-                    <div
-                        id="envelope"
-                        class="envelope"
-                        onclick="openLetter()"
-                    >
-                        <div class="envelopeBack"></div>
-
-                        <div class="envelopePaper">
-                            ♡
-                        </div>
-
-                        <div class="envelopeFlap"></div>
-                    </div>
-
-                    <button
-                        class="mainButton"
-                        onclick="openLetter()"
-                    >
-                        Brief öffnen
-                    </button>
-
-                </div>
-
-                <div id="letterEditor" class="letterEditor">
-
-                    <div class="letterParts">
-
-                        <div class="letterPart">
-                            <h3>A</h3>
-                            <div id="aLetterText" class="letterText">
-                                Noch nichts geschrieben.
-                            </div>
-                        </div>
-
-                        <div class="letterPart">
-                            <h3>M</h3>
-                            <div id="mLetterText" class="letterText">
-                                Noch nichts geschrieben.
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <hr style="border:none;border-top:1px solid #eee5ea;margin:25px 0;">
-
-                    <h3 id="ownLetterTitle"></h3>
-
-                    <textarea
-                        id="ownLetterInput"
-                        placeholder="Schreib hier deinen Teil des Briefes..."
-                    ></textarea>
-
-                    <button
-                        class="mainButton"
-                        onclick="saveLetter()"
-                    >
-                        Meinen Teil speichern
-                    </button>
-
-                    <div id="letterStatus"></div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- CHAT -->
-
-        <aside>
-
-            <div class="card chatBox">
-
-                <h2>Unser Chat</h2>
-
-                <div id="chatMessages" class="chatMessages">
-                    <div class="empty">
-                        Noch keine Nachrichten.
-                    </div>
-                </div>
-
-                <div class="chatInputArea">
-
-                    <textarea
-                        id="chatInput"
-                        rows="1"
-                        placeholder="Schreib etwas..."
-                    ></textarea>
-
-                    <button id="sendMessage" onclick="sendMessage()">
-                        Senden
-                    </button>
-
-                </div>
-
-            </div>
-
-        </aside>
+        </div>
 
     </div>
+
+
+    <div class="uploadButtons">
+
+
+        <!-- KAMERA -->
+
+        <label
+            class="uploadButton"
+            for="cameraInput">
+
+            <span class="uploadIcon">
+                📷
+            </span>
+
+            Kamera
+
+        </label>
+
+        <input
+            id="cameraInput"
+            class="hiddenFile"
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onchange="selectPhoto(this)"
+        >
+
+
+        <!-- GALERIE -->
+
+        <label
+            class="uploadButton"
+            for="galleryInput">
+
+            <span class="uploadIcon">
+                🖼️
+            </span>
+
+            Galerie
+
+        </label>
+
+        <input
+            id="galleryInput"
+            class="hiddenFile"
+            type="file"
+            accept="image/*"
+            onchange="selectPhoto(this)"
+        >
+
+
+        <!-- DATEI -->
+
+        <label
+            class="uploadButton"
+            for="fileInput">
+
+            <span class="uploadIcon">
+                📁
+            </span>
+
+            Datei
+
+        </label>
+
+        <input
+            id="fileInput"
+            class="hiddenFile"
+            type="file"
+            accept="image/*,.pdf,.txt"
+            onchange="selectPhoto(this)"
+        >
+
+    </div>
+
+
+    <div
+        id="uploadStatus"
+        class="uploadStatus">
+    </div>
+
+
+    <div
+        id="memoryGrid"
+        class="memoryGrid">
+
+        <div class="loading">
+            Memories werden geladen...
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     SPOTIFY
+========================================= -->
+
+<section class="card">
+
+    <div class="cardTitle">
+
+        <div>
+
+            <h2>
+                🎵 Gemeinsam hören
+            </h2>
+
+            <div class="cardDescription">
+                Einen gemeinsamen Spotify-Song oder eine Playlist
+                hier einfügen.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="spotifyBox">
+
+        <div class="spotifyText">
+
+            <h3>
+                Unser Soundtrack
+            </h3>
+
+            <p>
+                Fügt hier einen Spotify-Link zu einem Song,
+                Album oder einer Playlist ein.
+            </p>
+
+            <input
+                id="spotifyInput"
+                class="spotifyInput"
+                type="text"
+                placeholder="Spotify-Link einfügen..."
+            >
+
+            <button
+                class="primaryButton"
+                onclick="saveSpotify()">
+
+                Spotify speichern
+
+            </button>
+
+            <div class="spotifyHint">
+
+                Der gespeicherte Link wird für euch beide
+                angezeigt.
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <iframe
+                id="spotifyPlayer"
+                class="spotifyPlayer"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy">
+            </iframe>
+
+        </div>
+
+    </div>
+
+</section>
+
+
 
 </main>
 
+
+<footer>
+
+    A + M · unsere kleine gemeinsame Welt ♡
+
+</footer>
+
+
 </div>
 
 
-<!-- PHOTO MODAL -->
 
-<div id="photoModal" class="modal">
+<!-- =========================================
+     PHOTO MODAL
+========================================= -->
+
+<div
+    id="photoModal"
+    class="modal">
 
     <div class="modalBox">
 
-        <h2>Foto hinzufügen</h2>
+        <h2>
+            Memory hinzufügen
+        </h2>
 
         <p>
-            Du kannst dem Foto einen kleinen Text geben.
+            Möchtest du noch etwas zu diesem Moment
+            schreiben?
         </p>
 
-        <input
-            id="captionInput"
-            type="text"
-            maxlength="200"
-            placeholder="z. B. Unser schöner Tag ♡"
-        >
+        <textarea
+            id="memoryCaption"
+            maxlength="500"
+            placeholder="z. B. Heute musste ich dabei an dich denken ♡">
+        </textarea>
 
         <div class="modalButtons">
+
             <button
-                class="secondaryButton"
-                onclick="closePhotoModal()"
-            >
+                class="cancelButton"
+                onclick="closePhotoModal()">
+
                 Abbrechen
+
             </button>
 
             <button
-                class="mainButton"
-                style="margin-top:0"
-                onclick="uploadPhoto()"
-            >
-                Speichern
-            </button>
-        </div>
+                class="primaryButton"
+                onclick="uploadPhoto()">
 
-    </div>
+                Memory speichern
 
-</div>
-
-
-<!-- PERSON MODAL -->
-
-<div id="personModal" class="modal">
-
-    <div class="modalBox">
-
-        <h2>Wer bist du?</h2>
-
-        <p>
-            Wähle aus, wer du auf dieser Seite bist.
-        </p>
-
-        <div class="identityButtons">
-
-            <button
-                class="identityButton"
-                onclick="selectPerson('A')"
-            >
-                A
-            </button>
-
-            <button
-                class="identityButton"
-                onclick="selectPerson('M')"
-            >
-                M
             </button>
 
         </div>
@@ -889,13 +1228,15 @@ header {
     </div>
 
 </div>
+
 
 
 <script>
 
-/* ==========================================
+
+/* =========================================
    SUPABASE
-========================================== */
+========================================= */
 
 const SUPABASE_URL =
     "https://wzqpiizicvjcggkbudgv.supabase.co";
@@ -910,38 +1251,45 @@ const supabaseClient =
     );
 
 
-/* ==========================================
+/* =========================================
    EINSTELLUNGEN
-========================================== */
+========================================= */
 
-const ACCESS_CODE = "21.8.26";
+const ACCESS_CODE =
+    "21.8.26";
 
-let currentPerson =
-    localStorage.getItem("AM_person");
+const REFRESH_INTERVAL =
+    20000;
 
-let selectedFile = null;
-
-let memories = [];
-let messages = [];
-let reactions = {};
+let selectedFile =
+    null;
 
 
-/* ==========================================
+/* =========================================
    LOGIN
-========================================== */
+========================================= */
 
 function unlock() {
 
-    const code =
-        document.getElementById("codeInput").value.trim();
+    const input =
+        document.getElementById(
+            "codeInput"
+        );
 
     const error =
-        document.getElementById("loginError");
+        document.getElementById(
+            "loginError"
+        );
+
+    const code =
+        input.value.trim();
 
     if (code !== ACCESS_CODE) {
 
         error.textContent =
-            "Der Code stimmt nicht.";
+            "Der Code ist nicht richtig.";
+
+        input.focus();
 
         return;
     }
@@ -953,208 +1301,187 @@ function unlock() {
         "true"
     );
 
-    document.getElementById("loginScreen").style.display =
+    document.getElementById(
+        "loginScreen"
+    ).style.display =
         "none";
 
-    document.getElementById("app").style.display =
+    document.getElementById(
+        "app"
+    ).style.display =
         "block";
 
-    if (!currentPerson) {
+    loadMemories();
 
-        openPersonModal();
+    loadSpotify();
 
-    } else {
-
-        updatePersonUI();
-        loadEverything();
-    }
 }
 
 
-document.getElementById("codeInput")
-    .addEventListener("keydown", function(event) {
+/* ENTER */
+
+document.getElementById(
+    "codeInput"
+).addEventListener(
+    "keydown",
+    function(event) {
 
         if (event.key === "Enter") {
+
             unlock();
+
         }
 
-    });
+    }
+);
 
 
-/* ==========================================
-   AUTOMATISCH EINLOGGEN
-========================================== */
+/* =========================================
+   AUTOMATISCH ÖFFNEN
+========================================= */
 
-window.addEventListener("load", function() {
+window.addEventListener(
+    "load",
+    function() {
+
+        if (
+            sessionStorage.getItem(
+                "AM_unlocked"
+            ) === "true"
+        ) {
+
+            document.getElementById(
+                "loginScreen"
+            ).style.display =
+                "none";
+
+            document.getElementById(
+                "app"
+            ).style.display =
+                "block";
+
+            loadMemories();
+
+            loadSpotify();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   FOTO AUSWÄHLEN
+========================================= */
+
+function selectPhoto(input) {
 
     if (
-        sessionStorage.getItem("AM_unlocked")
-        === "true"
+        !input.files ||
+        !input.files.length
     ) {
 
-        document.getElementById("loginScreen").style.display =
-            "none";
-
-        document.getElementById("app").style.display =
-            "block";
-
-        if (!currentPerson) {
-
-            openPersonModal();
-
-        } else {
-
-            updatePersonUI();
-            loadEverything();
-        }
-    }
-
-});
-
-
-/* ==========================================
-   PERSON
-========================================== */
-
-function openPersonModal() {
-
-    document.getElementById("personModal").style.display =
-        "flex";
-}
-
-
-function selectPerson(person) {
-
-    currentPerson = person;
-
-    localStorage.setItem(
-        "AM_person",
-        person
-    );
-
-    document.getElementById("personModal").style.display =
-        "none";
-
-    updatePersonUI();
-
-    loadEverything();
-}
-
-
-function changePerson() {
-
-    openPersonModal();
-
-}
-
-
-function updatePersonUI() {
-
-    document.getElementById("personBadge")
-        .textContent =
-        "Du bist " + currentPerson;
-
-    document.getElementById("ownLetterTitle")
-        .textContent =
-        "Dein Teil (" + currentPerson + ")";
-
-}
-
-
-/* ==========================================
-   ALLES LADEN
-========================================== */
-
-async function loadEverything() {
-
-    await loadPhotos();
-
-    await loadMessages();
-
-    await loadLetter();
-
-    setupRealtime();
-
-}
-
-
-/* ==========================================
-   FOTO VORBEREITEN
-========================================== */
-
-function preparePhoto() {
-
-    const input =
-        document.getElementById("photoInput");
-
-    if (!input.files.length) {
         return;
     }
 
     selectedFile =
         input.files[0];
 
-    document.getElementById("captionInput").value =
-        "";
+    document.getElementById(
+        "memoryCaption"
+    ).value = "";
 
-    document.getElementById("photoModal").style.display =
+    document.getElementById(
+        "photoModal"
+    ).style.display =
         "flex";
+
 }
 
+
+/* =========================================
+   MODAL SCHLIESSEN
+========================================= */
 
 function closePhotoModal() {
 
-    document.getElementById("photoModal").style.display =
+    document.getElementById(
+        "photoModal"
+    ).style.display =
         "none";
 
-    selectedFile = null;
+    selectedFile =
+        null;
 
-    document.getElementById("photoInput").value =
-        "";
+    document.getElementById(
+        "cameraInput"
+    ).value = "";
+
+    document.getElementById(
+        "galleryInput"
+    ).value = "";
+
+    document.getElementById(
+        "fileInput"
+    ).value = "";
+
 }
 
 
-/* ==========================================
+/* =========================================
    FOTO HOCHLADEN
-========================================== */
+========================================= */
 
 async function uploadPhoto() {
 
     if (!selectedFile) {
+
         return;
     }
 
+
     const status =
-        document.getElementById("uploadStatus");
+        document.getElementById(
+            "uploadStatus"
+        );
 
     const caption =
-        document.getElementById("captionInput").value.trim();
+        document.getElementById(
+            "memoryCaption"
+        ).value.trim();
+
 
     status.textContent =
-        "Foto wird hochgeladen...";
+        "Memory wird hochgeladen...";
+
 
     try {
 
+        /*
+         * Dateiname erzeugen
+         */
+
         const extension =
-            selectedFile.name
-                .split(".")
-                .pop()
-                .toLowerCase();
+            getExtension(
+                selectedFile.name
+            );
 
         const fileName =
-            crypto.randomUUID() +
-            "." +
-            extension;
+            crypto.randomUUID()
+            + "."
+            + extension;
 
-        const storagePath =
-            fileName;
+
+        /*
+         * Datei in Supabase Storage
+         */
 
         const upload =
             await supabaseClient
                 .storage
                 .from("photos")
                 .upload(
-                    storagePath,
+                    fileName,
                     selectedFile,
                     {
                         cacheControl: "3600",
@@ -1162,58 +1489,144 @@ async function uploadPhoto() {
                     }
                 );
 
+
         if (upload.error) {
+
             throw upload.error;
+
         }
+
+
+        /*
+         * Öffentliche URL holen
+         */
 
         const publicUrl =
             supabaseClient
                 .storage
                 .from("photos")
-                .getPublicUrl(storagePath)
+                .getPublicUrl(
+                    fileName
+                )
                 .data
                 .publicUrl;
 
-        const insert =
+
+        /*
+         * Datenbankeintrag
+         */
+
+        const database =
             await supabaseClient
                 .from("memories")
                 .insert({
-                    image_url: publicUrl,
-                    storage_path: storagePath,
-                    caption: caption,
-                    created_by: currentPerson
+
+                    image_url:
+                        publicUrl,
+
+                    storage_path:
+                        fileName,
+
+                    caption:
+                        caption
+
                 });
 
-        if (insert.error) {
-            throw insert.error;
+
+        if (database.error) {
+
+            /*
+             * Wenn Datenbankeintrag
+             * fehlschlägt, Datei wieder
+             * aus Storage löschen.
+             */
+
+            await supabaseClient
+                .storage
+                .from("photos")
+                .remove([
+                    fileName
+                ]);
+
+            throw database.error;
+
         }
 
+
         status.textContent =
-            "Foto gespeichert ♡";
+            "Memory gespeichert ♡";
+
 
         closePhotoModal();
 
-        await loadPhotos();
+
+        await loadMemories();
+
+
+        setTimeout(
+            function() {
+
+                status.textContent = "";
+
+            },
+            3000
+        );
+
 
     } catch(error) {
 
-        console.error(error);
+        console.error(
+            "Upload error:",
+            error
+        );
 
         status.textContent =
-            "Fehler: " + error.message;
+            "Fehler: " +
+            error.message;
+
     }
 
 }
 
 
-/* ==========================================
-   FOTOS LADEN
-========================================== */
+/* =========================================
+   DATEIENDUNG
+========================================= */
 
-async function loadPhotos() {
+function getExtension(
+    filename
+) {
+
+    const parts =
+        filename.split(".");
+
+    if (parts.length < 2) {
+
+        return "jpg";
+    }
+
+    return parts
+        .pop()
+        .toLowerCase()
+        .replace(
+            /[^a-z0-9]/g,
+            ""
+        );
+
+}
+
+
+/* =========================================
+   MEMORIES LADEN
+========================================= */
+
+async function loadMemories() {
 
     const grid =
-        document.getElementById("photoGrid");
+        document.getElementById(
+            "memoryGrid"
+        );
+
 
     const result =
         await supabaseClient
@@ -1226,247 +1639,302 @@ async function loadPhotos() {
                 }
             );
 
+
     if (result.error) {
 
-        console.error(result.error);
-
-        grid.innerHTML =
-            `<div class="empty">
-                Fotos konnten nicht geladen werden.
-            </div>`;
-
-        return;
-    }
-
-    memories =
-        result.data || [];
-
-    await loadReactions();
-
-    renderPhotos();
-}
-
-
-/* ==========================================
-   REAKTIONEN LADEN
-========================================== */
-
-async function loadReactions() {
-
-    const ids =
-        memories.map(
-            memory => memory.id
+        console.error(
+            result.error
         );
 
-    reactions = {};
-
-    if (!ids.length) {
-        return;
-    }
-
-    const result =
-        await supabaseClient
-            .from("reactions")
-            .select("*")
-            .in(
-                "memory_id",
-                ids
-            );
-
-    if (result.error) {
-
-        console.error(result.error);
+        grid.innerHTML = `
+            <div class="empty">
+                <div class="emptyHeart">♡</div>
+                <div>
+                    Memories konnten nicht geladen werden.
+                </div>
+            </div>
+        `;
 
         return;
+
     }
 
-    for (const reaction of result.data) {
 
-        if (!reactions[reaction.memory_id]) {
+    const memories =
+        result.data || [];
 
-            reactions[reaction.memory_id] = {};
-        }
 
-        if (!reactions[reaction.memory_id][reaction.emoji]) {
+    renderMemories(
+        memories
+    );
 
-            reactions[reaction.memory_id][reaction.emoji] = {
-                count: 0,
-                own: false
-            };
-        }
-
-        reactions[reaction.memory_id][reaction.emoji].count++;
-
-        if (
-            reaction.device_id === getDeviceId()
-        ) {
-
-            reactions[reaction.memory_id][reaction.emoji].own =
-                true;
-        }
-    }
 }
 
 
-/* ==========================================
-   FOTOS RENDERN
-========================================== */
+/* =========================================
+   MEMORIES RENDERN
+========================================= */
 
-function renderPhotos() {
+function renderMemories(
+    memories
+) {
 
     const grid =
-        document.getElementById("photoGrid");
+        document.getElementById(
+            "memoryGrid"
+        );
+
 
     if (!memories.length) {
 
-        grid.innerHTML =
-            `<div class="empty">
-                Noch keine Fotos. Vielleicht wird das hier bald voller. ♡
-            </div>`;
+        grid.innerHTML = `
+            <div class="empty">
+                <div class="emptyHeart">♡</div>
+                <div>
+                    Noch keine Memories.
+                </div>
+                <div style="margin-top:7px;font-size:13px;">
+                    Der erste gemeinsame Moment kann hier beginnen.
+                </div>
+            </div>
+        `;
 
         return;
     }
 
+
     grid.innerHTML = "";
 
+
+    const rotations =
+        [
+            "-2deg",
+            "1.5deg",
+            "-1deg",
+            "2deg",
+            "-0.7deg",
+            "1deg"
+        ];
+
+
     memories.forEach(
-        (memory, index) => {
+        function(memory,index) {
+
 
             const card =
-                document.createElement("div");
+                document.createElement(
+                    "article"
+                );
 
             card.className =
-                "polaroid";
+                "memory";
 
-            const rotations =
-                [-2, 1.5, -1, 2, -.8];
 
             card.style.setProperty(
                 "--rotation",
-                rotations[index % rotations.length] + "deg"
+                rotations[
+                    index %
+                    rotations.length
+                ]
             );
 
+
+            /*
+             * Bild
+             */
+
             const image =
-                document.createElement("img");
+                document.createElement(
+                    "img"
+                );
+
+            image.className =
+                "memoryImage";
 
             image.src =
                 memory.image_url;
 
             image.alt =
-                memory.caption || "Erinnerung";
+                "Unser Memory";
 
-            card.appendChild(image);
+            image.loading =
+                "lazy";
 
 
-            const caption =
-                document.createElement("div");
+            card.appendChild(
+                image
+            );
 
-            caption.className =
-                "photoCaption";
 
-            caption.textContent =
-                memory.caption || "";
+            /*
+             * Infos
+             */
 
-            card.appendChild(caption);
+            const info =
+                document.createElement(
+                    "div"
+                );
 
+            info.className =
+                "memoryInfo";
+
+
+            const text =
+                document.createElement(
+                    "div"
+                );
+
+            text.className =
+                "memoryText";
+
+
+            if (
+                memory.caption &&
+                memory.caption.trim()
+            ) {
+
+                text.textContent =
+                    memory.caption;
+
+            } else {
+
+                text.textContent =
+                    "Ein gemeinsamer Moment.";
+
+                text.classList.add(
+                    "emptyText"
+                );
+
+            }
+
+
+            info.appendChild(
+                text
+            );
+
+
+            /*
+             * Datum
+             */
 
             const date =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             date.className =
-                "photoDate";
+                "memoryDate";
 
             date.textContent =
-                "von " +
-                (memory.created_by || "?") +
-                " · " +
-                formatDate(memory.created_at);
+                formatDate(
+                    memory.created_at
+                );
 
-            card.appendChild(date);
-
-
-            const actions =
-                document.createElement("div");
-
-            actions.className =
-                "photoActions";
+            info.appendChild(
+                date
+            );
 
 
-            ["❤️", "😂", "🥹", "✨"].forEach(
-                emoji => {
+            /*
+             * Bottom
+             */
 
-                    const info =
-                        reactions[memory.id]?.[emoji];
+            const bottom =
+                document.createElement(
+                    "div"
+                );
 
-                    const count =
-                        info?.count || 0;
+            bottom.className =
+                "memoryBottom";
 
-                    const button =
-                        document.createElement("button");
 
-                    button.className =
-                        "reaction" +
-                        (info?.own ? " active" : "");
+            const spacer =
+                document.createElement(
+                    "span"
+                );
 
-                    button.textContent =
-                        emoji +
-                        (count ? " " + count : "");
-
-                    button.onclick =
-                        () => toggleReaction(
-                            memory.id,
-                            emoji
-                        );
-
-                    actions.appendChild(button);
-
-                }
+            bottom.appendChild(
+                spacer
             );
 
 
             const deleteButton =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
             deleteButton.className =
-                "deletePhoto";
+                "deleteButton";
 
             deleteButton.textContent =
                 "Löschen";
 
             deleteButton.onclick =
-                () => deletePhoto(memory);
+                function() {
 
-            actions.appendChild(deleteButton);
+                    deleteMemory(
+                        memory
+                    );
 
-            card.appendChild(actions);
+                };
 
-            grid.appendChild(card);
+
+            bottom.appendChild(
+                deleteButton
+            );
+
+
+            info.appendChild(
+                bottom
+            );
+
+
+            card.appendChild(
+                info
+            );
+
+
+            grid.appendChild(
+                card
+            );
 
         }
     );
+
 }
 
 
-/* ==========================================
-   FOTO LÖSCHEN
-========================================== */
+/* =========================================
+   MEMORY LÖSCHEN
+========================================= */
 
-async function deletePhoto(memory) {
+async function deleteMemory(
+    memory
+) {
 
-    const yes =
+    const confirmDelete =
         confirm(
-            "Dieses Foto wirklich löschen?"
+            "Dieses Memory wirklich löschen?"
         );
 
-    if (!yes) {
+
+    if (!confirmDelete) {
+
         return;
     }
 
+
     try {
 
-        if (memory.storage_path) {
+        /*
+         * Storage löschen
+         */
 
-            const storageResult =
+        if (
+            memory.storage_path
+        ) {
+
+            const storage =
                 await supabaseClient
                     .storage
                     .from("photos")
@@ -1474,12 +1942,21 @@ async function deletePhoto(memory) {
                         memory.storage_path
                     ]);
 
-            if (storageResult.error) {
+
+            if (storage.error) {
+
                 console.warn(
-                    storageResult.error
+                    storage.error
                 );
+
             }
+
         }
+
+
+        /*
+         * Datenbank löschen
+         */
 
         const result =
             await supabaseClient
@@ -1490,504 +1967,132 @@ async function deletePhoto(memory) {
                     memory.id
                 );
 
+
         if (result.error) {
+
             throw result.error;
+
         }
 
-        await loadPhotos();
+
+        await loadMemories();
+
 
     } catch(error) {
 
+        console.error(
+            error
+        );
+
         alert(
-            "Löschen fehlgeschlagen: " +
-            error.message
+            "Das Memory konnte nicht gelöscht werden."
         );
 
     }
+
 }
 
 
-/* ==========================================
-   REAKTION UMSCHALTEN
-========================================== */
+/* =========================================
+   DATUM
+========================================= */
 
-async function toggleReaction(
-    memoryId,
-    emoji
+function formatDate(
+    date
 ) {
 
-    const deviceId =
-        getDeviceId();
+    if (!date) {
 
-    const existing =
-        await supabaseClient
-            .from("reactions")
-            .select("id")
-            .eq(
-                "memory_id",
-                memoryId
-            )
-            .eq(
-                "emoji",
-                emoji
-            )
-            .eq(
-                "device_id",
-                deviceId
-            )
-            .maybeSingle();
-
-    if (existing.error) {
-
-        console.error(existing.error);
-        return;
-    }
-
-    if (existing.data) {
-
-        await supabaseClient
-            .from("reactions")
-            .delete()
-            .eq(
-                "id",
-                existing.data.id
-            );
-
-    } else {
-
-        await supabaseClient
-            .from("reactions")
-            .insert({
-                memory_id: memoryId,
-                emoji: emoji,
-                device_id: deviceId
-            });
+        return "";
 
     }
 
-    await loadPhotos();
-}
 
-
-/* ==========================================
-   DEVICE ID
-========================================== */
-
-function getDeviceId() {
-
-    let id =
-        localStorage.getItem(
-            "AM_device_id"
-        );
-
-    if (!id) {
-
-        id =
-            crypto.randomUUID();
-
-        localStorage.setItem(
-            "AM_device_id",
-            id
-        );
-    }
-
-    return id;
-}
-
-
-/* ==========================================
-   CHAT LADEN
-========================================== */
-
-async function loadMessages() {
-
-    const result =
-        await supabaseClient
-            .from("messages")
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending: true
-                }
-            );
-
-    if (result.error) {
-
-        console.error(result.error);
-
-        return;
-    }
-
-    messages =
-        result.data || [];
-
-    renderMessages();
-}
-
-
-/* ==========================================
-   CHAT RENDERN
-========================================== */
-
-function renderMessages() {
-
-    const box =
-        document.getElementById(
-            "chatMessages"
-        );
-
-    if (!messages.length) {
-
-        box.innerHTML =
-            `<div class="empty">
-                Noch keine Nachrichten. ♡
-            </div>`;
-
-        return;
-    }
-
-    box.innerHTML = "";
-
-    messages.forEach(
-        message => {
-
-            const wrapper =
-                document.createElement("div");
-
-            wrapper.className =
-                "message" +
-                (
-                    message.sender === currentPerson
-                    ? " mine"
-                    : ""
-                );
-
-
-            const bubble =
-                document.createElement("div");
-
-            bubble.className =
-                "bubble";
-
-
-            const name =
-                document.createElement("div");
-
-            name.className =
-                "messageName";
-
-            name.textContent =
-                message.sender;
-
-            bubble.appendChild(name);
-
-
-            const text =
-                document.createElement("div");
-
-            text.className =
-                "messageText";
-
-            text.textContent =
-                message.text;
-
-            bubble.appendChild(text);
-
-
-            const time =
-                document.createElement("div");
-
-            time.className =
-                "messageTime";
-
-            time.textContent =
-                formatDate(
-                    message.created_at
-                );
-
-            bubble.appendChild(time);
-
-
-            if (
-                message.sender === currentPerson
-            ) {
-
-                const deleteButton =
-                    document.createElement("button");
-
-                deleteButton.className =
-                    "deleteMessage";
-
-                deleteButton.textContent =
-                    "löschen";
-
-                deleteButton.onclick =
-                    () => deleteMessage(
-                        message.id
-                    );
-
-                bubble.appendChild(
-                    deleteButton
-                );
-            }
-
-
-            wrapper.appendChild(bubble);
-
-            box.appendChild(wrapper);
-
+    return new Date(
+        date
+    ).toLocaleString(
+        "de-DE",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
         }
     );
 
-    box.scrollTop =
-        box.scrollHeight;
 }
 
 
-/* ==========================================
-   CHAT SENDEN
-========================================== */
+/* =========================================
+   AUTOMATISCHE AKTUALISIERUNG
+========================================= */
 
-async function sendMessage() {
+setInterval(
+    async function() {
+
+        if (
+            sessionStorage.getItem(
+                "AM_unlocked"
+            ) !== "true"
+        ) {
+
+            return;
+        }
+
+
+        await loadMemories();
+
+    },
+    REFRESH_INTERVAL
+);
+
+
+/* =========================================
+   SPOTIFY
+========================================= */
+
+async function saveSpotify() {
 
     const input =
         document.getElementById(
-            "chatInput"
+            "spotifyInput"
         );
 
-    const text =
+    const link =
         input.value.trim();
 
-    if (!text) {
+
+    if (!link) {
+
         return;
+
     }
 
-    input.disabled = true;
 
-    const result =
-        await supabaseClient
-            .from("messages")
-            .insert({
-                sender: currentPerson,
-                text: text
-            });
+    const spotifyId =
+        extractSpotifyEmbed(
+            link
+        );
 
-    input.disabled = false;
 
-    if (result.error) {
-
-        console.error(result.error);
+    if (!spotifyId) {
 
         alert(
-            "Nachricht konnte nicht gesendet werden."
+            "Bitte einen gültigen Spotify-Link einfügen."
         );
 
         return;
     }
-
-    input.value = "";
-
-    await loadMessages();
-}
-
-
-document.getElementById("chatInput")
-    .addEventListener(
-        "keydown",
-        function(event) {
-
-            if (
-                event.key === "Enter" &&
-                !event.shiftKey
-            ) {
-
-                event.preventDefault();
-
-                sendMessage();
-            }
-
-        }
-    );
-
-
-/* ==========================================
-   CHAT NACHRICHT LÖSCHEN
-========================================== */
-
-async function deleteMessage(id) {
-
-    const yes =
-        confirm(
-            "Nachricht wirklich löschen?"
-        );
-
-    if (!yes) {
-        return;
-    }
-
-    const result =
-        await supabaseClient
-            .from("messages")
-            .delete()
-            .eq(
-                "id",
-                id
-            )
-            .eq(
-                "sender",
-                currentPerson
-            );
-
-    if (result.error) {
-
-        console.error(result.error);
-
-        alert(
-            "Nachricht konnte nicht gelöscht werden."
-        );
-
-        return;
-    }
-
-    await loadMessages();
-}
-
-
-/* ==========================================
-   BRIEF
-========================================== */
-
-async function openLetter() {
-
-    const envelope =
-        document.getElementById(
-            "envelope"
-        );
-
-    envelope.classList.add(
-        "open"
-    );
-
-    document.getElementById(
-        "letterEditor"
-    ).style.display =
-        "block";
-
-    await loadLetter();
-
-    setTimeout(
-        function() {
-
-            document.getElementById(
-                "letterEditor"
-            ).scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
-        },
-        600
-    );
-}
-
-
-/* ==========================================
-   BRIEF LADEN
-========================================== */
-
-async function loadLetter() {
-
-    const result =
-        await supabaseClient
-            .from("letters")
-            .select("*")
-            .eq(
-                "id",
-                1
-            )
-            .maybeSingle();
-
-    if (result.error) {
-
-        console.error(result.error);
-
-        return;
-    }
-
-    const letter =
-        result.data;
-
-    const aText =
-        document.getElementById(
-            "aLetterText"
-        );
-
-    const mText =
-        document.getElementById(
-            "mLetterText"
-        );
-
-    if (!letter) {
-
-        aText.textContent =
-            "Noch nichts geschrieben.";
-
-        mText.textContent =
-            "Noch nichts geschrieben.";
-
-        document.getElementById(
-            "ownLetterInput"
-        ).value = "";
-
-        return;
-    }
-
-    aText.textContent =
-        letter.a_text ||
-        "Noch nichts geschrieben.";
-
-    mText.textContent =
-        letter.m_text ||
-        "Noch nichts geschrieben.";
-
-    document.getElementById(
-        "ownLetterInput"
-    ).value =
-        currentPerson === "A"
-        ? (letter.a_text || "")
-        : (letter.m_text || "");
-}
-
-
-/* ==========================================
-   BRIEF SPEICHERN
-========================================== */
-
-async function saveLetter() {
-
-    const text =
-        document.getElementById(
-            "ownLetterInput"
-        ).value;
-
-    const updateData =
-        currentPerson === "A"
-        ? {
-            a_text: text
-        }
-        : {
-            m_text: text
-        };
 
 
     const result =
         await supabaseClient
-            .from("letters")
+            .from("settings")
             .upsert(
                 {
                     id: 1,
-                    ...updateData
+                    spotify_link: link
                 },
                 {
                     onConflict: "id"
@@ -1997,128 +2102,185 @@ async function saveLetter() {
 
     if (result.error) {
 
-        console.error(result.error);
+        console.error(
+            result.error
+        );
 
-        document.getElementById(
-            "letterStatus"
-        ).textContent =
-            "Fehler beim Speichern.";
+        alert(
+            "Spotify konnte nicht gespeichert werden."
+        );
 
         return;
     }
+
+
+    showSpotify(
+        spotifyId
+    );
+
+}
+
+
+/* =========================================
+   SPOTIFY LADEN
+========================================= */
+
+async function loadSpotify() {
+
+    const result =
+        await supabaseClient
+            .from("settings")
+            .select("*")
+            .eq(
+                "id",
+                1
+            )
+            .maybeSingle();
+
+
+    if (
+        result.error ||
+        !result.data
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !result.data.spotify_link
+    ) {
+
+        return;
+
+    }
+
 
     document.getElementById(
-        "letterStatus"
-    ).textContent =
-        "Gespeichert ♡";
-
-    await loadLetter();
-
-}
+        "spotifyInput"
+    ).value =
+        result.data.spotify_link;
 
 
-/* ==========================================
-   REALTIME
-========================================== */
-
-let realtimeStarted = false;
-
-function setupRealtime() {
-
-    if (realtimeStarted) {
-        return;
-    }
-
-    realtimeStarted = true;
-
-
-    supabaseClient
-        .channel("memories-live")
-        .on(
-            "postgres_changes",
-            {
-                event: "*",
-                schema: "public",
-                table: "memories"
-            },
-            function() {
-                loadPhotos();
-            }
-        )
-        .subscribe();
-
-
-    supabaseClient
-        .channel("messages-live")
-        .on(
-            "postgres_changes",
-            {
-                event: "*",
-                schema: "public",
-                table: "messages"
-            },
-            function() {
-                loadMessages();
-            }
-        )
-        .subscribe();
-
-
-    supabaseClient
-        .channel("reactions-live")
-        .on(
-            "postgres_changes",
-            {
-                event: "*",
-                schema: "public",
-                table: "reactions"
-            },
-            function() {
-                loadPhotos();
-            }
-        )
-        .subscribe();
-
-
-    supabaseClient
-        .channel("letters-live")
-        .on(
-            "postgres_changes",
-            {
-                event: "*",
-                schema: "public",
-                table: "letters"
-            },
-            function() {
-                loadLetter();
-            }
-        )
-        .subscribe();
-
-}
-
-
-/* ==========================================
-   DATUM
-========================================== */
-
-function formatDate(date) {
-
-    if (!date) {
-        return "";
-    }
-
-    return new Date(date)
-        .toLocaleString(
-            "de-DE",
-            {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit"
-            }
+    const spotifyId =
+        extractSpotifyEmbed(
+            result.data.spotify_link
         );
+
+
+    if (spotifyId) {
+
+        showSpotify(
+            spotifyId
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   SPOTIFY URL
+========================================= */
+
+function extractSpotifyEmbed(
+    url
+) {
+
+    try {
+
+        const parsed =
+            new URL(url);
+
+
+        /*
+         * Beispiel:
+         *
+         * https://open.spotify.com/track/ABC123
+         */
+
+        const parts =
+            parsed.pathname
+                .split("/")
+                .filter(Boolean);
+
+
+        if (
+            parsed.hostname
+                .includes("spotify.com") &&
+            parts.length >= 2
+        ) {
+
+            const type =
+                parts[0];
+
+            const id =
+                parts[1];
+
+            if (
+                [
+                    "track",
+                    "album",
+                    "playlist",
+                    "artist",
+                    "show",
+                    "episode"
+                ].includes(type)
+            ) {
+
+                return {
+                    type: type,
+                    id: id
+                };
+
+            }
+
+        }
+
+    } catch(error) {
+
+        console.error(
+            error
+        );
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================
+   SPOTIFY PLAYER
+========================================= */
+
+function showSpotify(
+    spotify
+) {
+
+    const player =
+        document.getElementById(
+            "spotifyPlayer"
+        );
+
+
+    player.src =
+        "https://open.spotify.com/embed/"
+        +
+        spotify.type
+        +
+        "/"
+        +
+        spotify.id
+        +
+        "?utm_source=generator";
+
+
+    player.style.display =
+        "block";
+
 }
 
 </script>
